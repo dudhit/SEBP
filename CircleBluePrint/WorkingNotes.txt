@@ -1,0 +1,54 @@
+﻿    /*
+    C:\Users\dudhit\AppData\Roaming\SpaceEngineers
+    C:\Users\dudhit\AppData\Roaming\SpaceEngineers\Blueprints
+    C:\Users\dudhit\AppData\Roaming\SpaceEngineers\Blueprints\local
+    bp.sbc
+    */
+
+    // SteamId 76561197976108126
+    // foldername = DisplayName = Subtype
+    //entity id 
+    /*
+143002593092143007
+80458180595881905
+*/
+    //x
+    //y
+    //z
+
+
+    //GridSizeEnum : Small /Large // SmallBlockArmorBlock LargeHeavyBlockArmorBlock LargeBlockArmorBlock
+
+
+    /*
+            StreamReader origFile = new StreamReader(readFile);
+                        while (origFile.Peek() != -1)
+                        {
+                            fileLine = origFile.ReadLine();
+                       
+                        }
+                        sc.Close(TimeSpan.FromMilliseconds(1000));
+                        origFile.Close();
+    */
+
+  
+
+    /*
+         SplashScreen sc = new SplashScreen("./images/saving.png");
+                   sc.Show(true);
+                   string writeFile = newFileNameTxt.Text;
+                   StreamWriter newFile = new StreamWriter(writeFile);
+                   for (int i = 0; i < originalFileAry.Length; i++) { newFile.WriteLine(originalFileAry[i]); }
+                   newFile.Close(); sc.Close(TimeSpan.FromMilliseconds(1000));
+   */
+    /*
+There's a bit of converting that you have to do if you take a raw HSV value into the SE format.
+ X is the percentage of the hue 360, if you take (x * 360) you'll get the Hue value in HSV.
+ Y is the saturation -1 to 1 which translates to -100 to 100 (Y * 100) matching the in game color slider
+ (some graphics programs only do 0 to 100).
+ Z is the value -1 to 1 which translates to -100 to 100 (Z * 100) matching the in game color slider values.
+
+     standard to se =(value/100)*200-100
+
+   se to Standard  =(value+100)/200*100  
+     */

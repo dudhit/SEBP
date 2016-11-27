@@ -5,7 +5,7 @@
         Title="Circle Blueprint Generator" 
                Closing="mainClose" 
     MaxWidth="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenWidthKey}}"
-    MaxHeight="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}" SizeToContent="WidthAndHeight" d:DesignWidth="400" d:DesignHeight="400" MinWidth="400" MinHeight="450" >
+    MaxHeight="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}" SizeToContent="WidthAndHeight" MinWidth="500" MinHeight="450" >
     <StackPanel  >
         <Menu >
             <MenuItem Header="_File">
@@ -13,7 +13,7 @@
                 <MenuItem Header="E_xit"  Click="menuExit" />
             </MenuItem>
             <MenuItem Header="O_ptions">
-                <MenuItem Header="_Reset" Click="ResetToLoaded"/>
+                <MenuItem Header="_Reset" Click="ResetToLoaded" ToolTip="Restores defaults"/>
             </MenuItem>
             <MenuItem Header="_Help"/>
         </Menu>
@@ -45,31 +45,49 @@
                 </StackPanel>
             </TabItem>
             <TabItem x:Name="tab2" Header="Shape Settings" TabIndex="150" >
-                <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
-                    <WrapPanel HorizontalAlignment="Center"  Margin="0,0,0,4" MinHeight="110" MaxHeight="111" >
-                        <GroupBox Header="Shape" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" TabIndex="-1">
+                <StackPanel>
+                    <WrapPanel>
+                        <StackPanel>
+                            <WrapPanel>
+                                <GroupBox Header="Shape" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" TabIndex="-1">
+                                    <StackPanel>
+                                        <RadioButton x:Name="makeCircle" Content="Circle" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="shape1" TabIndex="60" Checked="wantsCircle"/>
+                                        <RadioButton x:Name="makeElipse" Content="Elipse" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="shape1" TabIndex="62" Checked="wantsElipse"/>
+                                    </StackPanel>
+                                </GroupBox>
+                                <GroupBox Header="Dimension" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" TabIndex="-1">
+                                    <StackPanel>
+                                        <RadioButton x:Name="make2D" Content="2D (Planar)" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="dim"  TabIndex="64" Checked="wants2D"/>
+                                        <RadioButton x:Name="make3D" Content="3D (Spheriod)" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="dim" TabIndex="66" Checked="wants3D"/>
+                                    </StackPanel>
+                                </GroupBox>
+                            </WrapPanel>
+                            <WrapPanel>
+                                <GroupBox Header="Fraction" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" TabIndex="-1">
+                                    <StackPanel>
+                                        <RadioButton x:Name="makeQuater" Content="1/4" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="frac"  TabIndex="68" Checked="wantsQuarter"/>
+                                        <RadioButton x:Name="makeSemi" Content="1/2" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="frac" TabIndex="70" Checked="wantsHalf"/>
+                                        <RadioButton x:Name="makeFull" Content="1" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="frac" TabIndex="72" Checked="wantsWhole"/>
+                                    </StackPanel>
+                                </GroupBox>
+                                <GroupBox Header="Density" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" TabIndex="-1">
+                                    <StackPanel>
+                                        <RadioButton x:Name="makeFrame" Content="Frame" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="density"  TabIndex="74" Checked="wantsFrame"/>
+                                        <RadioButton x:Name="makeSolid" Content="Solid" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="density" TabIndex="76" Checked="wantsSolid" />
+                                    </StackPanel>
+                                </GroupBox>
+                            </WrapPanel>
+                        </StackPanel>
+                        <GroupBox Header="Tolerance" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" TabIndex="-1">
                             <StackPanel>
-                                <RadioButton x:Name="makeCircle" Content="Circle" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="shape1" TabIndex="60" Checked="wantsCircle"/>
-                                <RadioButton x:Name="makeElipse" Content="Elipse" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="shape1" TabIndex="62" Checked="wantsElipse"/>
-                            </StackPanel>
-                        </GroupBox>
-                        <GroupBox Header="Dimension" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" TabIndex="-1">
-                            <StackPanel>
-                                <RadioButton x:Name="make2D" Content="2D (Planar)" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="dim"  TabIndex="64" Checked="wants2D"/>
-                                <RadioButton x:Name="make3D" Content="3D (Spheriod)" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="dim" TabIndex="66" Checked="wants3D"/>
-                            </StackPanel>
-                        </GroupBox>
-                        <GroupBox Header="Fraction" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" TabIndex="-1">
-                            <StackPanel>
-                                <RadioButton x:Name="makeQuater" Content="1/4" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="frac"  TabIndex="68" Checked="wantsQuarter"/>
-                                <RadioButton x:Name="makeSemi" Content="1/2" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="frac" TabIndex="70" Checked="wantsHalf"/>
-                                <RadioButton x:Name="makeFull" Content="1" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="frac" TabIndex="72" Checked="wantsWhole"/>
-                            </StackPanel>
-                        </GroupBox>
-                        <GroupBox Header="Density" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" TabIndex="-1">
-                            <StackPanel>
-                                <RadioButton x:Name="makeFrame" Content="Frame" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="density"  TabIndex="74" Checked="wantsFrame"/>
-                                <RadioButton x:Name="makeSolid" Content="Solid" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="density" TabIndex="76" Checked="wantsSolid" />
+                                <StackPanel.ToolTip>
+                                    <TextBlock>The tolerance affects whether blocks are connected or too many blocks are generated, the value of 1 is ideal, especially for a solid density. Tolerances higher than 1 are reccomened for a frame
+                                    </TextBlock>
+                                </StackPanel.ToolTip>
+                                <Label Content="Low Tolerance" TabIndex="-1"/>
+                                <Slider x:Name="lowertoleranceSlide"   Margin="0" TabIndex="77" TickFrequency="0.05" TickPlacement="TopLeft"    IsMoveToPointEnabled="True"  AutoToolTipPlacement="TopLeft"  AutoToolTipPrecision="1"  ValueChanged="tweak" MinWidth="200" SmallChange="0.5" Maximum="100" Minimum="95" Value="95"  />
+                                <Label Content="High Tolerance" TabIndex="-1"/>
+                                <Slider x:Name="uppertoleranceSlide"   Margin="0" TabIndex="78" TickFrequency="0.05" TickPlacement="TopLeft"    IsMoveToPointEnabled="True"  AutoToolTipPlacement="TopLeft"  AutoToolTipPrecision="1"  ValueChanged="tweak" MinWidth="200" SmallChange="0.5" Maximum="105" Minimum="100" Value="105" />
                             </StackPanel>
                         </GroupBox>
                     </WrapPanel>
@@ -78,26 +96,26 @@
                             <WrapPanel  >
                                 <StackPanel>
                                     <Label Content="X" TabIndex="-1"/>
-                                    <TextBox x:Name="radOneTxt" Width="30" TabIndex="78" Text="{Binding Value, ElementName=radOneSlide, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=LostFocus}"  TextChanged="textChanged"/>
+                                    <TextBox x:Name="radOneTxt" Width="30" TabIndex="79" Text="{Binding Value, ElementName=radOneSlide, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=LostFocus}"  TextChanged="textChanged"/>
                                 </StackPanel>
                                 <Slider x:Name="radOneSlide" Minimum="10" Maximum="500" SmallChange="1" LargeChange="10" Margin="10" TabIndex="84" TickFrequency="10" TickPlacement="Both"    IsMoveToPointEnabled="True"  AutoToolTipPlacement="TopLeft"  AutoToolTipPrecision="1"  ValueChanged="roundValue" Orientation="Vertical"  IsDirectionReversed="True" 
-									MinHeight="250" MaxHeight="600"/>
+MinHeight="250" MaxHeight="600"/>
                                 <StackPanel>
                                     <Label x:Name="radTwolbl" Content="Y" TabIndex="-1"/>
                                     <TextBox x:Name="radTwoTxt" Width="30" TabIndex="80" Text="{Binding Value, ElementName=radTwoSlide, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=LostFocus}" TextChanged="textChanged"/>
                                 </StackPanel>
                                 <Slider x:Name="radTwoSlide" Minimum="10" Maximum="500" SmallChange="1" LargeChange="10" Margin="10" TabIndex="86" TickFrequency="10" TickPlacement="Both"  IsMoveToPointEnabled="True"  AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1"  ValueChanged="roundValue" Orientation="Vertical"  IsDirectionReversed="True" 
-									Height="{Binding Height, BindsDirectlyToSource=True, ElementName=radOneSlide, Mode=OneWay, NotifyOnSourceUpdated=True}"
-									MaxHeight="{Binding Height, BindsDirectlyToSource=True, ElementName=radOneSlide, Mode=OneWay, NotifyOnSourceUpdated=True}"
-									MinHeight="{Binding MinHeight, BindsDirectlyToSource=True, ElementName=radOneSlide, Mode=OneWay, NotifyOnSourceUpdated=True}"/>
+Height="{Binding Height, BindsDirectlyToSource=True, ElementName=radOneSlide, Mode=OneWay, NotifyOnSourceUpdated=True}"
+MaxHeight="{Binding Height, BindsDirectlyToSource=True, ElementName=radOneSlide, Mode=OneWay, NotifyOnSourceUpdated=True}"
+MinHeight="{Binding MinHeight, BindsDirectlyToSource=True, ElementName=radOneSlide, Mode=OneWay, NotifyOnSourceUpdated=True}"/>
                                 <StackPanel>
                                     <Label x:Name="radThreelbl" Content="Z" TabIndex="-1"/>
                                     <TextBox x:Name="radThreeTxt" Width="30" TabIndex="82" Text="{Binding Value, ElementName=radThreeSlide, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=LostFocus}" TextChanged="textChanged"/>
                                 </StackPanel>
                                 <Slider x:Name="radThreeSlide" Minimum="10" Maximum="500" SmallChange="1" LargeChange="10" Margin="10" TabIndex="88" TickFrequency="10" TickPlacement="Both"  IsMoveToPointEnabled="True"  AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1"  ValueChanged="roundValue" Orientation="Vertical"  IsDirectionReversed="True" 
-									Height="{Binding Height, BindsDirectlyToSource=True, ElementName=radOneSlide, Mode=OneWay, NotifyOnSourceUpdated=True}"
-									MaxHeight="{Binding Height, BindsDirectlyToSource=True, ElementName=radOneSlide, Mode=OneWay, NotifyOnSourceUpdated=True}"
-									MinHeight="{Binding MinHeight, BindsDirectlyToSource=True, ElementName=radOneSlide, Mode=OneWay, NotifyOnSourceUpdated=True}"/>
+Height="{Binding Height, BindsDirectlyToSource=True, ElementName=radOneSlide, Mode=OneWay, NotifyOnSourceUpdated=True}"
+MaxHeight="{Binding Height, BindsDirectlyToSource=True, ElementName=radOneSlide, Mode=OneWay, NotifyOnSourceUpdated=True}"
+MinHeight="{Binding MinHeight, BindsDirectlyToSource=True, ElementName=radOneSlide, Mode=OneWay, NotifyOnSourceUpdated=True}"/>
 
                             </WrapPanel>
 
@@ -118,6 +136,7 @@
                         </GroupBox>
                     </WrapPanel>
                 </StackPanel>
+
 
 
             </TabItem>
@@ -247,6 +266,7 @@
                     </GroupBox>
                 </WrapPanel>
             </TabItem>
+           
         </TabControl>
     </StackPanel>
 </Window>

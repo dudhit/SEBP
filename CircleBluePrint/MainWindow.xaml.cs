@@ -41,7 +41,8 @@ namespace CircleBluePrint
         private double xRadius;
         private double yRadius;
         private double zRadius;
-        private string shape;
+        private double lowTol;
+        private double highTol;
 
 
         public MainWindow()
@@ -49,13 +50,13 @@ namespace CircleBluePrint
             InitializeComponent();
 
             firstLoad();
-            PathHandler(this,new RoutedEventArgs());
+            PathHandler(this, new RoutedEventArgs());
 
         }
         //run this to reset and on load without a save file
         private void firstLoad()
         {
-           makeCircle.IsChecked = true;
+            makeCircle.IsChecked = true;
             makeFrame.IsChecked = true;
             make2D.IsChecked = true;
             makeQuater.IsChecked = true;
@@ -68,7 +69,7 @@ namespace CircleBluePrint
             radOneSlide.Value = 10;
             radTwoSlide.Value = 10;
             radThreeSlide.Value = 10;
-           
+
         }
         #region file handling
         //save user paths - radio buttons - colours -everything
@@ -107,22 +108,9 @@ namespace CircleBluePrint
 
         private void Find_Path(object sender, RoutedEventArgs e)
         {
-        /*    System.IO.DirectoryInfo dir = new DirectoryInfo(S_E_Home);
-            System.Diagnostics.Trace.WriteLine(dir.Root);
-            foreach (DirectoryInfo d in dir.Root.GetDirectories())
-            { System.Diagnostics.Trace.WriteLine(d); }
-           */
-                      Microsoft.Win32.OpenFileDialog getPath = new Microsoft.Win32.OpenFileDialog();
-                        Nullable<bool> result = getPath.ShowDialog();
 
-                        // Process open file dialog box results
-                        if (result == true)
-                        {
-                            // Open document
-                           S_E_Home = getPath.InitialDirectory;
-                            //https://msdn.microsoft.com/en-us/library/system.io.directoryinfo.aspx
-                        }
-              
+            MessageBox.Show("Feature not implemented", "info", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+
         }
 
 
@@ -200,21 +188,41 @@ namespace CircleBluePrint
         #region plotting
         private void plotShape()
         {
-           
+
             double result;
 
             for (double x = 0; x <= xRadius; x++)
             {
                 for (double y = 0; y <= yRadius; y++)
                 {
-                    System.Diagnostics.Trace.Write("\nx:" + x + " y:" + y + "\n");
-                    result = (Math.Pow(x, 2d) / Math.Pow(xRadius, 2d)) + (Math.Pow(y, 2d) / Math.Pow(yRadius, 2d));
-                    if (result >= .95 && result <= 1.05)
+                    for (double z = 1; z <= zRadius; z++)
                     {
-                        plotData.Add(new MyCube(x, y, result));
+                        System.Diagnostics.Trace.Write("\nx:" + x + " y:" + y + " z:" + z + "\n");
+
+                        result = plotPoint(x, y, z);
+                        //makeFull
+                        //makeQuater
+                        //makeSemi
+                        if (makeSolid.IsChecked == true && result <= highTol)
+                        {
+                            plotData.Add(new MyCube(x, y, z));
+                            //if (makeSemi.IsChecked == true) { }
+                        }
+
+                        if (makeFrame.IsChecked == true && result >= lowTol && result <= highTol)
+                        {
+                            plotData.Add(new MyCube(x, y, z));
+                        }
                     }
                 }
             }
+        }
+
+        private double plotPoint(double x, double y, double z)
+        {
+            double result;
+            return result = (Math.Pow(x, 2d) / Math.Pow(xRadius, 2d)) + (Math.Pow(y, 2d) / Math.Pow(yRadius, 2d)) + (Math.Pow(z, 2d) / Math.Pow(zRadius, 2d));
+
         }
         #endregion
 
@@ -225,27 +233,42 @@ namespace CircleBluePrint
             //check path/ blueprint name/ id
             //ascern radio button settings
             /*
-             switch (shape){
-             case "circle":
-              
-            xRadius = radOneSlide.Value;
-            yRadius = radOneSlide.Value;
-            zRadius = radOneSlide.Value;
-             break;
-             case "elipse":
-            xRadius = radOneSlide.Value;
-            yRadius = radTwoSlide.Value;
-             break;
-             case "": 
-             break;
-              case "":
-             break;
-                zRadius = radThreeSlide.Value;
-             }
+             		1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16	17	18	19	20	21	22	23	24
+TRUE	circle	x	x	x	x	x	x	x	x	x	x	x	x												
+FALSE	elipse													x	x	x	x	x	x	x	x	x	x	x	x
+TRUE	frame	x	x	x	x	x	x							x	x	x	x	x	x						
+FALSE	solid							x	x	x	x	x	x							x	x	x	x	x	x
+	quarter	x			x			x			x			x			x			x			x		
+	semi		x			x			x			x			x			x			x			x	
+	whole			x			x			x			x			x			x			x			x
+TRUE	2d	x	x	x				x	x	x				x	x	x				x	x	x			
+FALSE	3d				x	x	x				x	x	x				x	x	x				x	x	x
+
              */
 
 
             //validate radius values
+            if (makeCircle.IsChecked == true && (make2D.IsChecked == true || make3D.IsChecked == true))
+            {
+                xRadius = radOneSlide.Value;
+                yRadius = radOneSlide.Value;
+                zRadius = radOneSlide.Value;
+            }
+            if (makeElipse.IsChecked == true && make2D.IsChecked == true)
+            {
+                xRadius = radOneSlide.Value;
+                yRadius = radTwoSlide.Value;
+                zRadius = radOneSlide.Value;
+            }
+            if (makeElipse.IsChecked == true && make3D.IsChecked == true)
+            {
+                xRadius = radOneSlide.Value;
+                yRadius = radTwoSlide.Value;
+                zRadius = radThreeSlide.Value;
+            }
+            plotShape();
+
+
         }
 
         #endregion
@@ -262,7 +285,7 @@ namespace CircleBluePrint
             disableControl(radThreeSlide);
             disableControl(radThreeTxt);
             disableControl(radThreelbl);
-            shape = "circle";
+
         }
 
         private void wantsElipse(object sender, RoutedEventArgs e)
@@ -271,18 +294,19 @@ namespace CircleBluePrint
             enableControl(radTwoSlide);
             enableControl(radTwoTxt);
             enableControl(radTwolbl);
-           if (make3D.IsChecked == true)
+            if (make3D.IsChecked == true)
             {
                 enableControl(radThreeSlide);
                 enableControl(radThreeTxt);
                 enableControl(radThreelbl);
             }
-           shape = "elipse";
+
         }
+
         private void wants3D(object sender, RoutedEventArgs e)
         {
             //enable Z controller
-            if (makeElipse.IsChecked==true)
+            if (makeElipse.IsChecked == true)
             {
                 enableControl(radThreeSlide);
                 enableControl(radThreeTxt);
@@ -301,7 +325,7 @@ namespace CircleBluePrint
         private void wantsWhole(object sender, RoutedEventArgs e)
         {
             //adjust formula loop 
-            
+
         }
 
         private void wantsQuarter(object sender, RoutedEventArgs e)
@@ -324,18 +348,41 @@ namespace CircleBluePrint
             //adjust formula loop tolerance
         }
 
-       
+
 
         #region sliders and textboxes
 
-       
+
         private void roundValue(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (sender.GetType() == typeof(Slider))
             {
-             //   System.Diagnostics.Trace.WriteLine(e.NewValue);
+                //   System.Diagnostics.Trace.WriteLine(e.NewValue);
                 Slider s = (Slider)sender as Slider;
                 s.Value = Math.Round(s.Value, 0);
+            }
+        }
+
+        private void tweak(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (sender.GetType() == typeof(Slider))
+            {
+                //   System.Diagnostics.Trace.WriteLine(e.NewValue);
+                Slider s = (Slider)sender as Slider;
+                switch (s.Name)
+                {
+
+                    case "lowertoleranceSlide":
+                        lowTol = Math.Round(s.Value / 100, 3);
+                        break;
+
+                    case "uppertoleranceSlide":
+                        highTol = Math.Round(s.Value / 100, 3);
+                        break;
+
+                }
+                System.Diagnostics.Trace.WriteLine(lowTol);
+                System.Diagnostics.Trace.WriteLine(highTol);
             }
         }
 
@@ -345,8 +392,8 @@ namespace CircleBluePrint
             double num;
             if (sender.GetType() == typeof(TextBox))
             {
-              //  System.Diagnostics.Trace.WriteLine(e.Changes);
-             //   System.Diagnostics.Trace.WriteLine(e.Source);
+                //  System.Diagnostics.Trace.WriteLine(e.Changes);
+                //   System.Diagnostics.Trace.WriteLine(e.Source);
                 TextBox t = (TextBox)sender as TextBox;
                 if (double.TryParse(t.Text, out num))
                 {
@@ -365,14 +412,14 @@ namespace CircleBluePrint
         {
             UIElement x = (UIElement)o as UIElement;
 
-            x.IsEnabled = x.IsEnabled ? false:false ;
+            x.IsEnabled = x.IsEnabled ? false : false;
             x.Visibility = x.IsVisible ? Visibility.Collapsed : Visibility.Collapsed;
         }
         private void enableControl(object o)
         {
             UIElement x = (UIElement)o as UIElement;
 
-            x.IsEnabled = !x.IsEnabled ?  true:true;
+            x.IsEnabled = !x.IsEnabled ? true : true;
             x.Visibility = !x.IsVisible ? Visibility.Visible : Visibility.Visible;
         }
 

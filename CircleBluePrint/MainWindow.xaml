@@ -119,20 +119,8 @@ MinHeight="{Binding MinHeight, BindsDirectlyToSource=True, ElementName=radOneSli
 
                             </WrapPanel>
 
-                        </GroupBox>
-                        <GroupBox Header="Preview"  TabIndex="-1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" >
-                            <Canvas x:Name="previewCanvas" >
-                                <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="10" Stroke="Black" VerticalAlignment="Top" Width="10" Canvas.Left="0" Canvas.Top="0"/>
-                                <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="10" Stroke="Black" VerticalAlignment="Top" Width="10" Canvas.Left="10" Canvas.Top="10"/>
-                                <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="10" Stroke="Black" VerticalAlignment="Top" Width="10" Canvas.Left="20" Canvas.Top="20"/>
-                                <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="10" Stroke="Black" VerticalAlignment="Top" Width="10" Canvas.Left="30" Canvas.Top="30"/>
-                                <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="10" Stroke="Black" VerticalAlignment="Top" Width="10" Canvas.Left="40" Canvas.Top="30"/>
-                                <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="10" Stroke="Black" VerticalAlignment="Top" Width="10" Canvas.Left="50" Canvas.Top="30"/>
-                                <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="10" Stroke="Black" VerticalAlignment="Top" Width="10" Canvas.Left="60" Canvas.Top="40"/>
-                                <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="10" Stroke="Black" VerticalAlignment="Top" Width="10" Canvas.Left="70" Canvas.Top="40"/>
-                                <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="10" Stroke="Black" VerticalAlignment="Top" Width="10" Canvas.Left="80" Canvas.Top="50"/>
-                                <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="10" Stroke="Black" VerticalAlignment="Top" Width="10" Canvas.Left="80" Canvas.Top="60"/>
-                            </Canvas>
+                        </GroupBox> 
+                        <GroupBox Header="Preview" x:Name="viewContainer"  TabIndex="-1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"  >
                         </GroupBox>
                     </WrapPanel>
                 </StackPanel>

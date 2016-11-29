@@ -14,6 +14,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Samples.CustomControls;
+using CircleBluePrint;
+using System.Windows.Media.Media3D;
+using System.Collections.ObjectModel;
 
 namespace CircleBluePrint
 {
@@ -37,7 +40,7 @@ namespace CircleBluePrint
         private string localBP;
 
         //calculation variables
-        private List<MyCube> plotData;
+        private ObservableCollection<Point3D> plotData;
         private double xRadius;
         private double yRadius;
         private double zRadius;
@@ -45,12 +48,19 @@ namespace CircleBluePrint
         private double highTol;
 
 
+        //external view
+        PreviewThreeD previewViewer;
+
         public MainWindow()
         {
             InitializeComponent();
 
             firstLoad();
             PathHandler(this, new RoutedEventArgs());
+            plotData = new ObservableCollection<Point3D>();
+         
+            this.DataContext = plotData;
+            thePoints.ItemsSource = plotData;
 
         }
         //run this to reset and on load without a save file
@@ -90,9 +100,9 @@ namespace CircleBluePrint
                     using (StreamWriter appUserData = new StreamWriter(CONFIG_FILE))
                     {
 
-                        foreach (MyCube c in plotData)
+                        foreach (Point3D p in plotData)
                         {
-                            string tofile = string.Format("{0},{1},{2}", c.X(), c.Y(), c.Z());
+                            string tofile = string.Format("{0},{1},{2}", p.X, p.Y, p.Z);
                             appUserData.WriteLine(tofile);
                         }
                     }

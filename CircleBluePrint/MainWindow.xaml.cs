@@ -17,7 +17,6 @@ using Microsoft.Samples.CustomControls;
 using CircleBluePrint;
 using System.Windows.Media.Media3D;
 using System.Collections.ObjectModel;
-
 namespace CircleBluePrint
 {
     /// <summary>
@@ -68,7 +67,6 @@ namespace CircleBluePrint
         {
             makeCircle.IsChecked = true;
             makeFrame.IsChecked = true;
-            make2D.IsChecked = true;
             makeQuater.IsChecked = true;
             blockNormal.IsChecked = true;
             blockLarge.IsChecked = true;
@@ -118,9 +116,7 @@ namespace CircleBluePrint
 
         private void Find_Path(object sender, RoutedEventArgs e)
         {
-
             MessageBox.Show("Feature not implemented", "info", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
-
         }
 
 
@@ -196,7 +192,7 @@ namespace CircleBluePrint
         #endregion
 
         #region plotting
-        private void plotShape()
+        private void beginPointChecking()
         {
 
             double result;
@@ -205,80 +201,173 @@ namespace CircleBluePrint
             {
                 for (double y = 0; y <= yRadius; y++)
                 {
-                    for (double z = 1; z <= zRadius; z++)
+                    for (double z = 0; z <= zRadius; z++)
                     {
                         System.Diagnostics.Trace.Write("\nx:" + x + " y:" + y + " z:" + z + "\n");
-
-                        result = plotPoint(x, y, z);
-                        //makeFull
-                        //makeQuater
-                        //makeSemi
-                        if (makeSolid.IsChecked == true && result <= highTol)
-                        {
-                            plotData.Add(new MyCube(x, y, z));
-                            //if (makeSemi.IsChecked == true) { }
-                        }
-
-                        if (makeFrame.IsChecked == true && result >= lowTol && result <= highTol)
-                        {
-                            plotData.Add(new MyCube(x, y, z));
-                        }
+                        result = evalPoint3D(x, y, z);
+                        Point3D aPoint = new Point3D(x, y, z);
+                        solidOrFrame(result, aPoint);
                     }
                 }
             }
         }
 
-        private double plotPoint(double x, double y, double z)
+
+
+        private void solidOrFrame(double result, Point3D p)
+        {
+
+
+            if (makeSolid.IsChecked == true && result <= highTol)
+            {
+                doShapePlotting(p);
+            }
+
+            if (makeFrame.IsChecked == true && result >= lowTol && result <= highTol)
+            {
+                doShapePlotting(p);
+            }
+        }
+
+        private Point3D doShapePlotting(Point3D p)
+        {
+            if (makeQuater.IsChecked == true)
+            { ppp(p); }
+            if (makeSemi.IsChecked == true && (makeCircle.IsChecked == true || makeElipse.IsChecked == true))
+            {
+                ppp(p);
+                npp(p);
+            }
+            if (makeSemi.IsChecked == true && (makeSphere.IsChecked == true || makeElipsoid.IsChecked == true))
+            {
+                ppp(p); npp(p); ppn(p);
+                npn(p);
+            }
+            if (makeFull.IsChecked == true && (makeCircle.IsChecked == true || makeElipse.IsChecked == true))
+            {
+                ppp(p); npp(p);
+                pnp(p);
+                nnp(p);
+            }
+            if (makeFull.IsChecked == true && (makeSphere.IsChecked == true || makeElipsoid.IsChecked == true))
+            {
+                ppp(p);
+                npp(p);
+                ppn(p);
+                npn(p);
+                pnp(p);
+                nnp(p);
+                pnn(p);
+                nnn(p);
+            }
+            return p;
+        }
+        #region transformations
+        private void ppp(Point3D p)
+        {
+            if (plotData.Contains(p)) return;
+            plotData.Add(p);
+        }
+
+        private void npp(Point3D p)
+        {
+            ppp(new Point3D(p.X * -1, p.Y, p.Z));
+        }
+        private void pnp(Point3D p)
+        {
+            ppp(new Point3D(p.X, p.Y * -1, p.Z));
+        }
+        private void ppn(Point3D p)
+        {
+            ppp(new Point3D(p.X, p.Y, p.Z * -1));
+        }
+        private void nnp(Point3D p)
+        {
+            ppp(new Point3D(p.X * -1, p.Y * -1, p.Z));
+        }
+        private void pnn(Point3D p)
+        {
+            ppp(new Point3D(p.X, p.Y * -1, p.Z * -1));
+        }
+        private void npn(Point3D p)
+        {
+            ppp(new Point3D(p.X * -1, p.Y, p.Z * -1));
+        }
+        private void nnn(Point3D p)
+        {
+            ppp(new Point3D(p.X * -1, p.Y * -1, p.Z * -1));
+        }
+
+        #endregion
+
+        private double evalPoint3D(double x, double y, double z)
         {
             double result;
-            return result = (Math.Pow(x, 2d) / Math.Pow(xRadius, 2d)) + (Math.Pow(y, 2d) / Math.Pow(yRadius, 2d)) + (Math.Pow(z, 2d) / Math.Pow(zRadius, 2d));
+            if (makeCircle.IsChecked == true || makeElipse.IsChecked == true)
+            {
+                return result = (Math.Pow(x, 2d) / Math.Pow(xRadius, 2d)) + (Math.Pow(y, 2d) / Math.Pow(yRadius, 2d));
+            }
+            else
+            {
+                return result = (Math.Pow(x, 2d) / Math.Pow(xRadius, 2d)) + (Math.Pow(y, 2d) / Math.Pow(yRadius, 2d)) + (Math.Pow(z, 2d) / Math.Pow(zRadius, 2d));
+            }
 
         }
+
         #endregion
 
         #region blueprint settings tab controls
 
         private void startTheCogs(object sender, RoutedEventArgs e)
         {
+            //     if (sender.GetType() == typeof( Button))
+            //     {
             //check path/ blueprint name/ id
-            //ascern radio button settings
-            /*
-             		1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16	17	18	19	20	21	22	23	24
-TRUE	circle	x	x	x	x	x	x	x	x	x	x	x	x												
-FALSE	elipse													x	x	x	x	x	x	x	x	x	x	x	x
-TRUE	frame	x	x	x	x	x	x							x	x	x	x	x	x						
-FALSE	solid							x	x	x	x	x	x							x	x	x	x	x	x
-	quarter	x			x			x			x			x			x			x			x		
-	semi		x			x			x			x			x			x			x			x	
-	whole			x			x			x			x			x			x			x			x
-TRUE	2d	x	x	x				x	x	x				x	x	x				x	x	x			
-FALSE	3d				x	x	x				x	x	x				x	x	x				x	x	x
 
-             */
-
+            //      }
+            //instantiate point list
+            if (plotData != null) { plotData.Clear(); }
 
             //validate radius values
-            if (makeCircle.IsChecked == true && (make2D.IsChecked == true || make3D.IsChecked == true))
+            if (makeCircle.IsChecked == true)
+            {
+                xRadius = radOneSlide.Value;
+                yRadius = radOneSlide.Value;
+                zRadius = 0;
+            }
+            if (makeSphere.IsChecked == true)
             {
                 xRadius = radOneSlide.Value;
                 yRadius = radOneSlide.Value;
                 zRadius = radOneSlide.Value;
             }
-            if (makeElipse.IsChecked == true && make2D.IsChecked == true)
+            if (makeElipse.IsChecked == true)
             {
                 xRadius = radOneSlide.Value;
                 yRadius = radTwoSlide.Value;
-                zRadius = radOneSlide.Value;
+                zRadius = 0;
             }
-            if (makeElipse.IsChecked == true && make3D.IsChecked == true)
+            if (makeElipsoid.IsChecked == true)
             {
                 xRadius = radOneSlide.Value;
                 yRadius = radTwoSlide.Value;
                 zRadius = radThreeSlide.Value;
             }
-            plotShape();
 
+            viewContainer.Content = null;
+            beginPointChecking();
+            List<Point3D> templist =new List<Point3D>();
+          //  foreach(Point3D p in plotData)
+            {templist.Add(new Point3D(1,1,1));}
+             
+            previewViewer = new PreviewThreeD(templist);
+            viewContainer.Content = previewViewer;
 
+            //     if (sender.GetType() != typeof(Button)&&plotData!=null)
+            //     {
+            foreach (Point3D p3d in plotData)
+            { System.Diagnostics.Trace.WriteLine(p3d); }
+            //      }
         }
 
         #endregion
@@ -304,38 +393,29 @@ FALSE	3d				x	x	x				x	x	x				x	x	x				x	x	x
             enableControl(radTwoSlide);
             enableControl(radTwoTxt);
             enableControl(radTwolbl);
-            if (make3D.IsChecked == true)
-            {
-                enableControl(radThreeSlide);
-                enableControl(radThreeTxt);
-                enableControl(radThreelbl);
-            }
-
         }
 
-        private void wants3D(object sender, RoutedEventArgs e)
+
+        private void wantsSphere(object sender, RoutedEventArgs e)
+        {
+            wantsCircle(this, e);
+        }
+
+        private void wantsElipsoid(object sender, RoutedEventArgs e)
         {
             //enable Z controller
-            if (makeElipse.IsChecked == true)
-            {
-                enableControl(radThreeSlide);
-                enableControl(radThreeTxt);
-                enableControl(radThreelbl);
-            }
-        }
 
-        private void wants2D(object sender, RoutedEventArgs e)
-        {
-            //disable z controller
-            disableControl(radThreeSlide);
-            disableControl(radThreeTxt);
-            disableControl(radThreelbl);
+            enableControl(radTwoSlide);
+            enableControl(radTwoTxt);
+            enableControl(radTwolbl);
+            enableControl(radThreeSlide);
+            enableControl(radThreeTxt);
+            enableControl(radThreelbl);
         }
 
         private void wantsWhole(object sender, RoutedEventArgs e)
         {
             //adjust formula loop 
-
         }
 
         private void wantsQuarter(object sender, RoutedEventArgs e)
@@ -423,14 +503,14 @@ FALSE	3d				x	x	x				x	x	x				x	x	x				x	x	x
             UIElement x = (UIElement)o as UIElement;
 
             x.IsEnabled = x.IsEnabled ? false : false;
-            x.Visibility = x.IsVisible ? Visibility.Collapsed : Visibility.Collapsed;
+            //  x.Visibility = x.IsVisible ? Visibility.Collapsed : Visibility.Collapsed;
         }
         private void enableControl(object o)
         {
             UIElement x = (UIElement)o as UIElement;
 
             x.IsEnabled = !x.IsEnabled ? true : true;
-            x.Visibility = !x.IsVisible ? Visibility.Visible : Visibility.Visible;
+            //     x.Visibility = !x.IsVisible ? Visibility.Visible : Visibility.Visible;
         }
 
         #endregion
@@ -504,11 +584,6 @@ FALSE	3d				x	x	x				x	x	x				x	x	x				x	x	x
         {
             mainClose(this, new System.ComponentModel.CancelEventArgs());
         }
-
-
-
-
-
 
 
 

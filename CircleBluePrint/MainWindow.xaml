@@ -5,7 +5,7 @@
         Title="Circle Blueprint Generator" 
                Closing="mainClose" 
     MaxWidth="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenWidthKey}}"
-    MaxHeight="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}" SizeToContent="WidthAndHeight" MinWidth="500" MinHeight="450" >
+    MaxHeight="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}" SizeToContent="WidthAndHeight" MinWidth="500" MinHeight="450"  >
     <StackPanel  >
         <Menu >
             <MenuItem Header="_File">
@@ -21,7 +21,7 @@
                      MaxWidth="{Binding MaxWidth, BindsDirectlyToSource=True, ElementName=window, Mode=TwoWay, NotifyOnSourceUpdated=True}"
                     MaxHeight="{Binding MaxHeight, BindsDirectlyToSource=True, ElementName=window, Mode=TwoWay, NotifyOnSourceUpdated=True}" 
                    MinWidth="{Binding MinWidth, BindsDirectlyToSource=True, ElementName=window, Mode=TwoWay, NotifyOnSourceUpdated=True}" 
-                     MinHeight="{Binding MinHeight, BindsDirectlyToSource=True, ElementName=window, Mode=TwoWay, NotifyOnSourceUpdated=True}" HorizontalAlignment="Left" VerticalAlignment="Top" >
+                     MinHeight="{Binding MinHeight, BindsDirectlyToSource=True, ElementName=window, Mode=TwoWay, NotifyOnSourceUpdated=True}" HorizontalAlignment="Left" VerticalAlignment="Top"  >
             <TabItem x:Name="tab1" Header="BluePrint Settings" TabIndex="50"  >
                 <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" >
                     <Label Content="Location of Space Engineers User data " HorizontalAlignment="Left" Margin="10,2,10,10" VerticalAlignment="Top" TabIndex="-1"/>
@@ -57,12 +57,9 @@
                                     <StackPanel>
                                         <RadioButton x:Name="makeCircle" Content="Circle" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="shape1" TabIndex="60" Checked="wantsCircle"/>
                                         <RadioButton x:Name="makeElipse" Content="Elipse" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="shape1" TabIndex="62" Checked="wantsElipse"/>
-                                    </StackPanel>
-                                </GroupBox>
-                                <GroupBox Header="Dimension" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" TabIndex="-1">
-                                    <StackPanel>
-                                        <RadioButton x:Name="make2D" Content="2D (Planar)" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="dim"  TabIndex="64" Checked="wants2D"/>
-                                        <RadioButton x:Name="make3D" Content="3D (Spheriod)" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="dim" TabIndex="66" Checked="wants3D"/>
+
+                                        <RadioButton x:Name="makeSphere" Content="Sphere" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="shape1"  TabIndex="64" Checked="wantsSphere"/>
+                                        <RadioButton x:Name="makeElipsoid" Content="Elipsoid" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="shape1" TabIndex="66" Checked="wantsElipsoid"/>
                                     </StackPanel>
                                 </GroupBox>
                             </WrapPanel>
@@ -126,6 +123,7 @@ MinHeight="{Binding MinHeight, BindsDirectlyToSource=True, ElementName=radOneSli
                         </GroupBox> 
                         <GroupBox Header="Preview" x:Name="viewContainer"  TabIndex="-1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"  >
                         </GroupBox>
+                       
                     </WrapPanel>
                 </StackPanel>
 

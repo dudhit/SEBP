@@ -53,18 +53,19 @@ namespace CircleBluePrint
         public MainWindow()
         {
             InitializeComponent();
+            if (!File.Exists(CONFIG_FILE)) { FirstLoad(); } else { LoadUserSettings(); }
 
-            firstLoad();
             PathHandler(this, new RoutedEventArgs());
             plotData = new ObservableCollection<Point3D>();
-        
+
             this.DataContext = plotData;
             thePoints.ItemsSource = plotData;
 
         }
         //run this to reset and on load without a save file
-        private void firstLoad()
+        private void FirstLoad()
         {
+
             makeCircle.IsChecked = true;
             makeFrame.IsChecked = true;
             makeQuater.IsChecked = true;
@@ -81,36 +82,160 @@ namespace CircleBluePrint
         }
         #region file handling
         //save user paths - radio buttons - colours -everything
-        private void SaveUser(object sender, RoutedEventArgs e)
+        private void SaveUserSettings(object sender, RoutedEventArgs e)
         {
+
             if (!File.Exists(CONFIG_FILE))
             {
                 try
                 {
                     using (System.IO.File.Create(CONFIG_FILE)) { }
                 }
-                catch (UnauthorizedAccessException UAE) { MessageBox.Show(UAE.Message, "Cannot Save user data", MessageBoxButton.OK, MessageBoxImage.Information); }
+                catch (UnauthorizedAccessException UAE) { MessageBox.Show(UAE.Message, "Cannot Save user data due to missing Access rights", MessageBoxButton.OK, MessageBoxImage.Information); }
             }
-            else
+
+            try
             {
-                try
+                using (StreamWriter appUserData = new StreamWriter(CONFIG_FILE))
                 {
-                    using (StreamWriter appUserData = new StreamWriter(CONFIG_FILE))
-                    {
+                    appUserData.WriteLine(window.Width);
+                    appUserData.WriteLine(window.Height);
+                    appUserData.WriteLine(window.Left);
+                    appUserData.WriteLine(window.Top);
 
-                        foreach (Point3D p in plotData)
-                        {
-                            string tofile = string.Format("{0},{1},{2}", p.X, p.Y, p.Z);
-                            appUserData.WriteLine(tofile);
-                        }
-                    }
+                    //tab1
+                    appUserData.WriteLine(S_E_Home);
+                    appUserData.WriteLine(dataSE_Path.Text);
+                    appUserData.WriteLine(dataSteamId.Text);
+                    appUserData.WriteLine(dataNames.Text);
+                    //tab2
+                    appUserData.WriteLine(makeCircle.IsChecked);
+                    appUserData.WriteLine(makeElipse.IsChecked);
+                    appUserData.WriteLine(makeSphere.IsChecked);
+                    appUserData.WriteLine(makeElipsoid.IsChecked);
+                    appUserData.WriteLine(makeQuater.IsChecked);
+                    appUserData.WriteLine(makeSemi.IsChecked);
+                    appUserData.WriteLine(makeFull.IsChecked);
+                    appUserData.WriteLine(makeFrame.IsChecked);
+                    appUserData.WriteLine(makeSolid.IsChecked);
+                    appUserData.WriteLine(lowertoleranceSlide.Value);
+                    appUserData.WriteLine(uppertoleranceSlide.Value);
+                    appUserData.WriteLine(radOneSlide.Value);
+                    appUserData.WriteLine(radTwoSlide.Value);
+                    appUserData.WriteLine(radThreeSlide.Value);
+                    //tab3                   
+                    appUserData.WriteLine(blockNormal.IsChecked);
+                    appUserData.WriteLine(blockHeavy.IsChecked);
+                    appUserData.WriteLine(blockLarge.IsChecked);
+                    appUserData.WriteLine(blockSmall.IsChecked);
+                    appUserData.WriteLine(colBlack.IsChecked);
+                    appUserData.WriteLine(colBlack1.IsChecked);
+                    appUserData.WriteLine(colBlue.IsChecked);
+                    appUserData.WriteLine(colBlue1.IsChecked);
+                    appUserData.WriteLine(colRed.IsChecked);
+                    appUserData.WriteLine(colRed1.IsChecked);
+                    appUserData.WriteLine(colGreen.IsChecked);
+                    appUserData.WriteLine(colGreen1.IsChecked);
+                    appUserData.WriteLine(colYellow.IsChecked);
+                    appUserData.WriteLine(colYellow1.IsChecked);
+                    appUserData.WriteLine(colWhite.IsChecked);
+                    appUserData.WriteLine(colWhite1.IsChecked);
+                    appUserData.WriteLine(colGrey.IsChecked);
+                    appUserData.WriteLine(colGrey1.IsChecked);
+                    appUserData.WriteLine(colCustom.IsChecked);
+                    appUserData.WriteLine(FillColor.ToString());
+
+                    appUserData.Close();
                 }
-                catch (FileNotFoundException FNF) { MessageBox.Show(FNF.Message, "Saving user data", MessageBoxButton.OK, MessageBoxImage.Information); }
-                catch (UnauthorizedAccessException UAE) { MessageBox.Show(UAE.Message, "Saving user data", MessageBoxButton.OK, MessageBoxImage.Information); }
-                catch (Exception ae) { MessageBox.Show(ae.Message, "Saving user data", MessageBoxButton.OK, MessageBoxImage.Information); }
-
             }
+            catch (FileNotFoundException FNF) { MessageBox.Show(FNF.Message, "Saving user data", MessageBoxButton.OK, MessageBoxImage.Information); }
+            catch (UnauthorizedAccessException UAE) { MessageBox.Show(UAE.Message, "Saving user data", MessageBoxButton.OK, MessageBoxImage.Information); }
+            catch (Exception ae) { MessageBox.Show(ae.Message, "Saving user data", MessageBoxButton.OK, MessageBoxImage.Information); }
 
+
+
+        }
+
+        private void LoadUserSettings()
+        {
+            List<string> settings = new List<string>();
+            try
+            {
+                using (StreamReader appUserData = new StreamReader(CONFIG_FILE))
+                {
+                    while (appUserData.Peek() != -1)
+                    {
+                        settings.Add(appUserData.ReadLine());
+
+                    }
+
+                    appUserData.Close();
+                }
+            }
+            catch (FileNotFoundException FNF) { MessageBox.Show(FNF.Message, "Loading settings", MessageBoxButton.OK, MessageBoxImage.Information); }
+            catch (UnauthorizedAccessException UAE) { MessageBox.Show(UAE.Message, "Loading settings", MessageBoxButton.OK, MessageBoxImage.Information); }
+            catch (Exception ae) { MessageBox.Show(ae.Message, "Loading settings", MessageBoxButton.OK, MessageBoxImage.Information); }
+
+            window.Width = double.Parse(settings[0]);
+            window.Height = double.Parse(settings[1]);
+            window.Left = double.Parse(settings[2]);
+            window.Top = double.Parse(settings[3]);
+
+            //tab1
+            S_E_Home = settings[4];
+            dataSE_Path.Text = settings[5];
+            dataSteamId.Text = settings[6];
+            dataNames.Text = settings[7];
+            //tab2
+            if (settings[8] == "True") makeCircle.IsChecked = true;
+            if (settings[9] == "True") makeElipse.IsChecked = true;
+            if (settings[10] == "True") makeSphere.IsChecked = true;
+            if (settings[11] == "True") makeElipsoid.IsChecked = true;
+            if (settings[12] == "True") makeQuater.IsChecked = true;
+            if (settings[13] == "True") makeSemi.IsChecked = true;
+            if (settings[14] == "True") makeFull.IsChecked = true;
+            if (settings[15] == "True") makeFrame.IsChecked = true;
+            if (settings[16] == "True") makeSolid.IsChecked = true;
+            lowertoleranceSlide.Value = double.Parse(settings[17]);
+            uppertoleranceSlide.Value = double.Parse(settings[18]);
+            radOneSlide.Value = double.Parse(settings[19]);
+            radTwoSlide.Value = double.Parse(settings[20]);
+            radThreeSlide.Value = double.Parse(settings[21]);
+            //tab3                   
+            if (settings[22] == "True") blockNormal.IsChecked = true;
+            if (settings[23] == "True") blockHeavy.IsChecked = true;
+            if (settings[24] == "True") blockLarge.IsChecked = true;
+            if (settings[25] == "True") blockSmall.IsChecked = true;
+            if (settings[26] == "True") colBlack.IsChecked = true;
+            if (settings[27] == "True") colBlack1.IsChecked = true;
+            if (settings[28] == "True") colBlue.IsChecked = true;
+            if (settings[29] == "True") colBlue1.IsChecked = true;
+            if (settings[30] == "True") colRed.IsChecked = true;
+            if (settings[31] == "True") colRed1.IsChecked = true;
+            if (settings[32] == "True") colGreen.IsChecked = true;
+            if (settings[33] == "True") colGreen1.IsChecked = true;
+            if (settings[34] == "True") colYellow.IsChecked = true;
+            if (settings[35] == "True") colYellow1.IsChecked = true;
+            if (settings[36] == "True") colWhite.IsChecked = true;
+            if (settings[37] == "True") colWhite1.IsChecked = true;
+            if (settings[38] == "True") colGrey.IsChecked = true;
+            if (settings[39] == "True") colGrey1.IsChecked = true;
+            if (settings[40] == "True") colCustom.IsChecked = true;
+            FillColor = Color.FromArgb(StripToIndvidualHex(settings[41], 'a'), StripToIndvidualHex(settings[41], 'r'), StripToIndvidualHex(settings[41], 'g'), StripToIndvidualHex(settings[41], 'b'));
+        }
+
+        //give a hexadecimal string and specify r b g to return
+        private byte StripToIndvidualHex(string hexString, char colour)
+        {
+            byte value = 0;
+            if (!(string.IsNullOrWhiteSpace(hexString)) && hexString.Length == 9)
+            {
+                if (char.ToLower(colour) == 'a') { value = Convert.ToByte(hexString.Substring(1, 2), 16); }
+                if (char.ToLower(colour) == 'r') { value = Convert.ToByte(hexString.Substring(3, 2), 16); }
+                if (char.ToLower(colour) == 'g') { value = Convert.ToByte(hexString.Substring(5, 2), 16); }
+                if (char.ToLower(colour) == 'b') { value = Convert.ToByte(hexString.Substring(7, 2), 16); }
+            }
+            return value;
         }
 
 
@@ -123,11 +248,14 @@ namespace CircleBluePrint
         private void PathHandler(object sender, RoutedEventArgs e)
         {
 
-            userApp = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            S_E_Home = "C:\\temp\\test";// userApp + "\\SpaceEngineers";
-            S_E_B_P = S_E_Home + "\\Blueprints";
-            localBP = S_E_B_P + "\\local";
-            dataSE_Path.Text = S_E_Home;
+            userApp = "C:\\temp\\test"; // Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            if (S_E_Home == null)
+            {
+                S_E_Home = userApp + "\\SpaceEngineers";
+                S_E_B_P = S_E_Home + "\\Blueprints";
+                localBP = S_E_B_P + "\\local";
+            }
+                dataSE_Path.Text = S_E_Home;
             dataSE_Path.Width = S_E_Home.Length;
             if (!Directory.Exists(S_E_Home))
             {
@@ -150,49 +278,11 @@ namespace CircleBluePrint
         }
 
 
-        private void ConfigHandler()
-        {
-            List<string> listOfStrings = new List<string>();
-            try
-            {
-                if (File.Exists(CONFIG_FILE))
-                {
-                    using (StreamReader origFile = new StreamReader(CONFIG_FILE))
-                    {
-                        while (origFile.Peek() != -1)
-                        {
-                            listOfStrings.Add(origFile.ReadLine());
-
-                        }
-                        //  origFile.Close();
-
-                    }
-                }
-                foreach (string s in listOfStrings)
-                {
-                    System.Diagnostics.Trace.WriteLine(s);
-                }
-            }
-
-            catch (FileNotFoundException FNFE)
-            {
-                MessageBox.Show(FNFE.Message, "info", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
-
-            }
-
-            catch (UnauthorizedAccessException UAE)
-            {
-                MessageBox.Show(UAE.Message, "info", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
-            }
-
-        }
-
-
 
         #endregion
 
         #region plotting
-        private void beginPointChecking()
+        private void BeginPointChecking()
         {
 
             double result;
@@ -204,9 +294,9 @@ namespace CircleBluePrint
                     for (double z = 0; z <= zRadius; z++)
                     {
                         System.Diagnostics.Trace.Write("\nx:" + x + " y:" + y + " z:" + z + "\n");
-                        result = evalPoint3D(x, y, z);
+                        result = EvalPoint3D(x, y, z);
                         Point3D aPoint = new Point3D(x, y, z);
-                        solidOrFrame(result, aPoint);
+                        SolidOrFrame(result, aPoint);
                     }
                 }
             }
@@ -214,93 +304,92 @@ namespace CircleBluePrint
 
 
 
-        private void solidOrFrame(double result, Point3D p)
+        private void SolidOrFrame(double result, Point3D p)
         {
 
 
             if (makeSolid.IsChecked == true && result <= highTol)
             {
-                doShapePlotting(p);
+                DoShapePlotting(p);
             }
 
             if (makeFrame.IsChecked == true && result >= lowTol && result <= highTol)
             {
-                doShapePlotting(p);
+                DoShapePlotting(p);
             }
         }
 
-        private Point3D doShapePlotting(Point3D p)
+        private void DoShapePlotting(Point3D p)
         {
             if (makeQuater.IsChecked == true)
-            { ppp(p); }
+            { PPP(p); }
             if (makeSemi.IsChecked == true && (makeCircle.IsChecked == true || makeElipse.IsChecked == true))
             {
-                ppp(p);
-                npp(p);
+                PPP(p);
+                NPP(p);
             }
             if (makeSemi.IsChecked == true && (makeSphere.IsChecked == true || makeElipsoid.IsChecked == true))
             {
-                ppp(p); npp(p); ppn(p);
-                npn(p);
+                PPP(p); NPP(p); PPN(p);
+                NPN(p);
             }
             if (makeFull.IsChecked == true && (makeCircle.IsChecked == true || makeElipse.IsChecked == true))
             {
-                ppp(p); npp(p);
-                pnp(p);
-                nnp(p);
+                PPP(p); NPP(p);
+                PNP(p);
+                NNP(p);
             }
             if (makeFull.IsChecked == true && (makeSphere.IsChecked == true || makeElipsoid.IsChecked == true))
             {
-                ppp(p);
-                npp(p);
-                ppn(p);
-                npn(p);
-                pnp(p);
-                nnp(p);
-                pnn(p);
-                nnn(p);
+                PPP(p);
+                NPP(p);
+                PPN(p);
+                NPN(p);
+                PNP(p);
+                NNP(p);
+                PNN(p);
+                NNN(p);
             }
-            return p;
+         //   return p;
         }
         #region transformations
-        private void ppp(Point3D p)
+        private void PPP(Point3D p)
         {
             if (plotData.Contains(p)) return;
             plotData.Add(p);
         }
-
-        private void npp(Point3D p)
+        private void NPP(Point3D p)
         {
-            ppp(new Point3D(p.X * -1, p.Y, p.Z));
+            PPP(new Point3D(p.X * -1, p.Y, p.Z));
         }
-        private void pnp(Point3D p)
+        private void PNP(Point3D p)
         {
-            ppp(new Point3D(p.X, p.Y * -1, p.Z));
+            PPP(new Point3D(p.X, p.Y * -1, p.Z));
         }
-        private void ppn(Point3D p)
+        private void PPN(Point3D p)
         {
-            ppp(new Point3D(p.X, p.Y, p.Z * -1));
+            PPP(new Point3D(p.X, p.Y, p.Z * -1));
         }
-        private void nnp(Point3D p)
+        private void NNP(Point3D p)
         {
-            ppp(new Point3D(p.X * -1, p.Y * -1, p.Z));
+            PPP(new Point3D(p.X * -1, p.Y * -1, p.Z));
         }
-        private void pnn(Point3D p)
+        private void PNN(Point3D p)
         {
-            ppp(new Point3D(p.X, p.Y * -1, p.Z * -1));
+            PPP(new Point3D(p.X, p.Y * -1, p.Z * -1));
         }
-        private void npn(Point3D p)
+        private void NPN(Point3D p)
         {
-            ppp(new Point3D(p.X * -1, p.Y, p.Z * -1));
+            PPP(new Point3D(p.X * -1, p.Y, p.Z * -1));
         }
-        private void nnn(Point3D p)
+        private void NNN(Point3D p)
         {
-            ppp(new Point3D(p.X * -1, p.Y * -1, p.Z * -1));
+            PPP(new Point3D(p.X * -1, p.Y * -1, p.Z * -1));
         }
 
         #endregion
 
-        private double evalPoint3D(double x, double y, double z)
+        private double EvalPoint3D(double x, double y, double z)
         {
             double result;
             if (makeCircle.IsChecked == true || makeElipse.IsChecked == true)
@@ -318,17 +407,20 @@ namespace CircleBluePrint
 
         #region blueprint settings tab controls
 
-        private void startTheCogs(object sender, RoutedEventArgs e)
+        private void StartTheCogs(object sender, RoutedEventArgs e)
         {
-                if (sender.GetType() == typeof( Button))
-                {
-                    Button b = (Button)sender;
-                    if (b.Name == "actionGenerate")
-                    {
-            //check path/ blueprint name/ id
                         MessageBox.Show("the generate button was used","info",MessageBoxButton.OK);
-                    }
-                }
+            if (sender.GetType() == typeof(Button))
+            {
+                Button b = (Button)sender;
+                if (b.Name == "actionGenerate")
+                {  //check path/ blueprint name/ id
+                    string errorMessage = "";
+                    if (string.IsNullOrWhiteSpace(dataSE_Path.Text)) { errorMessage += "You need to specify your Space Engineers save folder\n"; }
+                    if (string.IsNullOrWhiteSpace(dataSteamId.Text)) { errorMessage += "Your blueprint might not work without your Steam Id, test for yourself\n"; }
+                    if (string.IsNullOrWhiteSpace(dataNames.Text)) { errorMessage += "This was your chance to not have a generic name\n like Large Grid 4231 and you blew it\n"; }
+                 
+            }
             //instantiate point list
             if (plotData != null) { plotData.Clear(); }
 
@@ -358,14 +450,14 @@ namespace CircleBluePrint
                 zRadius = radThreeSlide.Value;
             }
 
-            beginPointChecking();
-          
+            BeginPointChecking();
 
-                if (sender.GetType() != typeof(Button)&&plotData!=null)
-                {
-            foreach (Point3D p3d in plotData)
-            { System.Diagnostics.Trace.WriteLine(p3d); }
-                }
+
+            if (sender.GetType() != typeof(Button) && plotData != null)
+            {
+                foreach (Point3D p3d in plotData)
+                { System.Diagnostics.Trace.WriteLine(p3d); }
+            }
         }
 
         #endregion
@@ -373,65 +465,65 @@ namespace CircleBluePrint
         #region shape settings tab controls
 
 
-        private void wantsCircle(object sender, RoutedEventArgs e)
+        private void WantsCircle(object sender, RoutedEventArgs e)
         {
             //disable / hide y and z controllers
-            disableControl(radTwoSlide);
-            disableControl(radTwoTxt);
-            disableControl(radTwolbl);
-            disableControl(radThreeSlide);
-            disableControl(radThreeTxt);
-            disableControl(radThreelbl);
+            DisableControl(radTwoSlide);
+            DisableControl(radTwoTxt);
+            DisableControl(radTwolbl);
+            DisableControl(radThreeSlide);
+            DisableControl(radThreeTxt);
+            DisableControl(radThreelbl);
 
         }
 
-        private void wantsElipse(object sender, RoutedEventArgs e)
+        private void WantsElipse(object sender, RoutedEventArgs e)
         {
             //enable y controllers
-            enableControl(radTwoSlide);
-            enableControl(radTwoTxt);
-            enableControl(radTwolbl);
+            EnableControl(radTwoSlide);
+            EnableControl(radTwoTxt);
+            EnableControl(radTwolbl);
         }
 
 
-        private void wantsSphere(object sender, RoutedEventArgs e)
+        private void WantsSphere(object sender, RoutedEventArgs e)
         {
-            wantsCircle(this, e);
+            WantsCircle(this, e);
         }
 
-        private void wantsElipsoid(object sender, RoutedEventArgs e)
+        private void WantsElipsoid(object sender, RoutedEventArgs e)
         {
             //enable Z controller
 
-            enableControl(radTwoSlide);
-            enableControl(radTwoTxt);
-            enableControl(radTwolbl);
-            enableControl(radThreeSlide);
-            enableControl(radThreeTxt);
-            enableControl(radThreelbl);
+            EnableControl(radTwoSlide);
+            EnableControl(radTwoTxt);
+            EnableControl(radTwolbl);
+            EnableControl(radThreeSlide);
+            EnableControl(radThreeTxt);
+            EnableControl(radThreelbl);
         }
 
-        private void wantsWhole(object sender, RoutedEventArgs e)
+        private void WantsWhole(object sender, RoutedEventArgs e)
         {
             //adjust formula loop 
         }
 
-        private void wantsQuarter(object sender, RoutedEventArgs e)
+        private void WantsQuarter(object sender, RoutedEventArgs e)
         {
             //adjust formula loop 
         }
 
-        private void wantsHalf(object sender, RoutedEventArgs e)
+        private void WantsHalf(object sender, RoutedEventArgs e)
         {
             //adjust formula loop 
         }
 
-        private void wantsSolid(object sender, RoutedEventArgs e)
+        private void WantsSolid(object sender, RoutedEventArgs e)
         {
             //adjust formula loop tolerance
         }
 
-        private void wantsFrame(object sender, RoutedEventArgs e)
+        private void WantsFrame(object sender, RoutedEventArgs e)
         {
             //adjust formula loop tolerance
         }
@@ -441,7 +533,7 @@ namespace CircleBluePrint
         #region sliders and textboxes
 
 
-        private void roundValue(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void RoundValue(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (sender.GetType() == typeof(Slider))
             {
@@ -451,7 +543,7 @@ namespace CircleBluePrint
             }
         }
 
-        private void tweak(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void AdjustTolerance(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (sender.GetType() == typeof(Slider))
             {
@@ -475,7 +567,7 @@ namespace CircleBluePrint
         }
 
 
-        private void textChanged(object sender, TextChangedEventArgs e)
+        private void TextChanged(object sender, TextChangedEventArgs e)
         {
             double num;
             if (sender.GetType() == typeof(TextBox))
@@ -496,19 +588,20 @@ namespace CircleBluePrint
         }
         #endregion
 
-        private void disableControl(object o)
+        private void DisableControl(object o)
         {
             UIElement x = (UIElement)o as UIElement;
 
             x.IsEnabled = x.IsEnabled ? false : false;
-            //  x.Visibility = x.IsVisible ? Visibility.Collapsed : Visibility.Collapsed;
+            x.Visibility = x.IsVisible ? Visibility.Collapsed : Visibility.Collapsed;
         }
-        private void enableControl(object o)
+
+        private void EnableControl(object o)
         {
             UIElement x = (UIElement)o as UIElement;
 
             x.IsEnabled = !x.IsEnabled ? true : true;
-            //     x.Visibility = !x.IsVisible ? Visibility.Visible : Visibility.Visible;
+            x.Visibility = !x.IsVisible ? Visibility.Visible : Visibility.Visible;
         }
 
         #endregion
@@ -563,10 +656,10 @@ namespace CircleBluePrint
 
         private void ResetToLoaded(object sender, RoutedEventArgs e)
         {
-            firstLoad();
+            FirstLoad();
         }
 
-        private void mainClose(object sender, System.ComponentModel.CancelEventArgs e)
+        private void MainClose(object sender, System.ComponentModel.CancelEventArgs e)
         {
             System.Diagnostics.Trace.WriteLine(e.ToString());
             MessageBoxResult goodBye = MessageBox.Show("Do you intend on leaving? ", "exit app", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes, MessageBoxOptions.DefaultDesktopOnly);
@@ -578,29 +671,24 @@ namespace CircleBluePrint
 
 
 
-        private void menuExit(object sender, RoutedEventArgs e)
+        private void MenuExit(object sender, RoutedEventArgs e)
         {
-            mainClose(this, new System.ComponentModel.CancelEventArgs());
+            MainClose(this, new System.ComponentModel.CancelEventArgs());
         }
 
-        private void actionRefreshView(object sender, RoutedEventArgs e)
+        private void ActionRefreshView(object sender, RoutedEventArgs e)
         {
-            startTheCogs(this, e);
-  List<Point3D> templist = new List<Point3D>();
-  viewContainer.Content = null;
-              foreach(Point3D p in plotData)
-            { 
+            StartTheCogs(this, e);
+            List<Point3D> templist = new List<Point3D>();
+            viewContainer.Content = null;
+            foreach (Point3D p in plotData)
+            {
                 templist.Add(p);
-           }
+            }
 
             previewViewer = new PreviewThreeD(templist);
             viewContainer.Content = previewViewer;
         }
-
-
-
-
-
 
 
 

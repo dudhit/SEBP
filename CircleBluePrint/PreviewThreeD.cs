@@ -54,7 +54,7 @@ namespace CircleBluePrint
             this.ClipToBounds = false;
             this.IsHitTestVisible = false;
             this.drawData = plotThis;
-            createScene();
+            CreateScene();
             // ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True"
         }
 
@@ -69,15 +69,15 @@ Finally, add the Viewport3D to the window.
          * specify the size of the Viewport3D by setting its Height and Width properties (inherited from FrameworkElement).
          */
 
-        private void createScene()
+        private void CreateScene()
         {
             groupIt = new Model3DGroup();
             visual = new ModelVisual3D();
 
-            configLight();
-            setCamera();
+            ConfigLight();
+            SetCamera();
 
-            aShape = makeModel();
+            aShape = MakeModel();
             groupIt.Children.Add(aShape);
 
             // groupIt.Children.Add(letThereBe);
@@ -87,7 +87,7 @@ Finally, add the Viewport3D to the window.
             this.Camera = myCam;
         }
 
-        private void setCamera()
+        private void SetCamera()
         {
             myCam = new PerspectiveCamera();
 
@@ -99,7 +99,7 @@ Finally, add the Viewport3D to the window.
 
 
 
-        private void configLight()
+        private void ConfigLight()
         {
             letThereBe = new AmbientLight();
             letThereBe.Color = Colors.Wheat;
@@ -108,13 +108,13 @@ Finally, add the Viewport3D to the window.
             dl.Direction = new Vector3D(-10, -10, 0);
         }
 
-        private GeometryModel3D makeModel()
+        private GeometryModel3D MakeModel()
         {
             GeometryModel3D aCube = new GeometryModel3D();
             //   MeshGeometry3D mesh = new MeshGeometry3D();
             if (drawData != null)
             {
-                aCube.Geometry = makeMesh();
+                aCube.Geometry = MakeMesh();
             }
             DiffuseMaterial dm = new DiffuseMaterial();
             SolidColorBrush scb = new SolidColorBrush();
@@ -132,11 +132,11 @@ Finally, add the Viewport3D to the window.
             return aCube;
         }
 
-        private MeshGeometry3D makeMesh()
+        private MeshGeometry3D MakeMesh()
         {
             MeshGeometry3D mesh = new MeshGeometry3D();
-            Point3D p;Point3D temp =new Point3D();
-            for (int i = 0; i < drawData.Count;i++)
+            Point3D p; Point3D temp = new Point3D();
+            for (int i = 0; i < drawData.Count; i++)
             {
                 p = drawData[i];
                 for (double xV = -0.5; xV <= 0.5; xV++)
@@ -147,9 +147,9 @@ Finally, add the Viewport3D to the window.
                         {
                             //   s = string.Format("{0}, {1},{2}", xV, yV, zV);
                             //  System.Diagnostics.Trace.WriteLine(s);
-                         temp=new Point3D(p.X + xV, p.Y + yV, p.Z + zV);
-                          
-                          /*  if(!mesh.Positions.Contains(temp)){ */
+                            temp = new Point3D(p.X + xV, p.Y + yV, p.Z + zV);
+
+                            /*  if(!mesh.Positions.Contains(temp)){ */
                             mesh.Positions.Add(temp);
                             /*}*/
 
@@ -159,7 +159,7 @@ Finally, add the Viewport3D to the window.
                 int[] joinVertgroups = new int[] { 0, 4, 2, 4, 6, 2, 0, 1, 2, 1, 3, 2, 1, 7, 3, 1, 5, 7, 0, 1, 4, 4, 1, 5, 4, 6, 7, 7, 5, 4, 6, 2, 3, 3, 7, 6 };
                 foreach (int pointRef in joinVertgroups)
                 {
-                    mesh.TriangleIndices.Add(pointRef+(i*8));
+                    mesh.TriangleIndices.Add(pointRef + (i * 8));
                 }
             }
             return mesh;

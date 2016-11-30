@@ -57,7 +57,7 @@ namespace CircleBluePrint
             firstLoad();
             PathHandler(this, new RoutedEventArgs());
             plotData = new ObservableCollection<Point3D>();
-         
+        
             this.DataContext = plotData;
             thePoints.ItemsSource = plotData;
 
@@ -320,11 +320,15 @@ namespace CircleBluePrint
 
         private void startTheCogs(object sender, RoutedEventArgs e)
         {
-            //     if (sender.GetType() == typeof( Button))
-            //     {
+                if (sender.GetType() == typeof( Button))
+                {
+                    Button b = (Button)sender;
+                    if (b.Name == "actionGenerate")
+                    {
             //check path/ blueprint name/ id
-
-            //      }
+                        MessageBox.Show("the generate button was used","info",MessageBoxButton.OK);
+                    }
+                }
             //instantiate point list
             if (plotData != null) { plotData.Clear(); }
 
@@ -354,20 +358,14 @@ namespace CircleBluePrint
                 zRadius = radThreeSlide.Value;
             }
 
-            viewContainer.Content = null;
             beginPointChecking();
-            List<Point3D> templist =new List<Point3D>();
-          //  foreach(Point3D p in plotData)
-            {templist.Add(new Point3D(1,1,1));}
-             
-            previewViewer = new PreviewThreeD(templist);
-            viewContainer.Content = previewViewer;
+          
 
-            //     if (sender.GetType() != typeof(Button)&&plotData!=null)
-            //     {
+                if (sender.GetType() != typeof(Button)&&plotData!=null)
+                {
             foreach (Point3D p3d in plotData)
             { System.Diagnostics.Trace.WriteLine(p3d); }
-            //      }
+                }
         }
 
         #endregion
@@ -585,7 +583,19 @@ namespace CircleBluePrint
             mainClose(this, new System.ComponentModel.CancelEventArgs());
         }
 
+        private void actionRefreshView(object sender, RoutedEventArgs e)
+        {
+            startTheCogs(this, e);
+  List<Point3D> templist = new List<Point3D>();
+  viewContainer.Content = null;
+              foreach(Point3D p in plotData)
+            { 
+                templist.Add(p);
+           }
 
+            previewViewer = new PreviewThreeD(templist);
+            viewContainer.Content = previewViewer;
+        }
 
 
 

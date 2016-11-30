@@ -79,16 +79,20 @@
                                 </GroupBox>
                             </WrapPanel>
                         </StackPanel>
-                        <GroupBox Header="Tolerance" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" TabIndex="-1">
+                        <GroupBox Header="Tolerance" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" TabIndex="-1" BorderBrush="Red"  >
                             <StackPanel>
                                 <StackPanel.ToolTip>
-                                    <TextBlock>The tolerance affects whether blocks are connected or too many blocks are generated, the value of 1 is ideal, especially for a solid density. Tolerances higher than 1 are reccomened for a frame
-                                    </TextBlock>
+                                    <StackPanel>
+                                        <TextBlock>The tolerance affects whether blocks are connected or too many blocks are generated</TextBlock>
+                                        <TextBlock>The value of 100 is ideal, especially for a solid density.</TextBlock>
+                                        <TextBlock>Reducing the low tolerance on a frame will ensure block co-herance.</TextBlock>
+                                        <TextBlock>Adjusting high Tolerances higher may not look as curved.</TextBlock>
+                                    </StackPanel>
                                 </StackPanel.ToolTip>
                                 <Label Content="Low Tolerance" TabIndex="-1"/>
-                                <Slider x:Name="lowertoleranceSlide"   Margin="0" TabIndex="77" TickFrequency="0.05" TickPlacement="TopLeft"    IsMoveToPointEnabled="True"  AutoToolTipPlacement="TopLeft"  AutoToolTipPrecision="1"  ValueChanged="tweak" MinWidth="200" SmallChange="0.5" Maximum="100" Minimum="95" Value="95"  />
+                                <Slider x:Name="lowertoleranceSlide"   Margin="0" TabIndex="77" TickFrequency="0.05" TickPlacement="TopLeft"    IsMoveToPointEnabled="True"  AutoToolTipPlacement="TopLeft"  AutoToolTipPrecision="1"  ValueChanged="tweak" MinWidth="200" SmallChange="0.5" Maximum="100" Minimum="90" Value="95"  />
                                 <Label Content="High Tolerance" TabIndex="-1"/>
-                                <Slider x:Name="uppertoleranceSlide"   Margin="0" TabIndex="78" TickFrequency="0.05" TickPlacement="TopLeft"    IsMoveToPointEnabled="True"  AutoToolTipPlacement="TopLeft"  AutoToolTipPrecision="1"  ValueChanged="tweak" MinWidth="200" SmallChange="0.5" Maximum="105" Minimum="100" Value="105" />
+                                <Slider x:Name="uppertoleranceSlide"   Margin="0" TabIndex="78" TickFrequency="0.05" TickPlacement="TopLeft"    IsMoveToPointEnabled="True"  AutoToolTipPlacement="TopLeft"  AutoToolTipPrecision="1"  ValueChanged="tweak" MinWidth="200" SmallChange="0.5" Maximum="110" Minimum="100" Value="105" />
                             </StackPanel>
                         </GroupBox>
                     </WrapPanel>
@@ -120,8 +124,9 @@ MinHeight="{Binding MinHeight, BindsDirectlyToSource=True, ElementName=radOneSli
 
                             </WrapPanel>
 
-                        </GroupBox> 
-                        <GroupBox Header="Preview" x:Name="viewContainer"  TabIndex="-1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"  >
+                        </GroupBox>
+                        <Button x:Name="refreshPreviewBut" Click="actionRefreshView">show preview</Button>
+                            <GroupBox Header="Preview" x:Name="viewContainer"  TabIndex="-1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"  >
                         </GroupBox>
                        
                     </WrapPanel>

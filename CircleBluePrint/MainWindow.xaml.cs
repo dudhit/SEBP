@@ -50,6 +50,10 @@ namespace CircleBluePrint
         //external view
         PreviewThreeD previewViewer;
 
+
+        //run this to reset and on load without a save file
+        #region main window flow and menu
+
         public MainWindow()
         {
             InitializeComponent();
@@ -60,9 +64,8 @@ namespace CircleBluePrint
 
             this.DataContext = plotData;
             thePoints.ItemsSource = plotData;
-
         }
-        //run this to reset and on load without a save file
+
         private void FirstLoad()
         {
 
@@ -80,6 +83,434 @@ namespace CircleBluePrint
             radThreeSlide.Value = 10;
 
         }
+
+        private void ResetToLoaded(object sender, RoutedEventArgs e)
+        {
+            FirstLoad();
+        }
+
+        private void MainClose(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            System.Diagnostics.Trace.WriteLine(e.ToString());
+            MessageBoxResult goodBye = MessageBox.Show("Do you intend on leaving? ", "exit app", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes, MessageBoxOptions.DefaultDesktopOnly);
+            if (goodBye != MessageBoxResult.Yes)
+            {
+                e.Cancel = true;
+            }
+        }
+
+
+
+        private void MenuExit(object sender, RoutedEventArgs e)
+        {
+            MainClose(this, new System.ComponentModel.CancelEventArgs());
+        }
+
+        private void ErrorCheckPlotData()
+        {
+            foreach (Point3D p3d in plotData)
+            { System.Diagnostics.Trace.WriteLine(p3d); }
+        }
+
+        #endregion
+
+        #region plotting
+
+        private void BeginPointChecking()
+        {
+
+            double result;
+
+            for (double x = 0; x <= xRadius; x++)
+            {
+                for (double y = 0; y <= yRadius; y++)
+                {
+                    for (double z = 0; z <= zRadius; z++)
+                    {
+                        System.Diagnostics.Trace.Write("\nx:" + x + " y:" + y + " z:" + z + "\n");
+                        result = EvalPoint3D(x, y, z);
+                        Point3D aPoint = new Point3D(x, y, z);
+                        SolidOrFrame(result, aPoint);
+                    }
+                }
+            }
+        }
+
+        private double EvalPoint3D(double x, double y, double z)
+        {
+            double result;
+            if (makeCircle.IsChecked == true || makeElipse.IsChecked == true)
+            {
+                return result = (Math.Pow(x, 2d) / Math.Pow(xRadius, 2d)) + (Math.Pow(y, 2d) / Math.Pow(yRadius, 2d));
+            }
+            else
+            {
+                return result = (Math.Pow(x, 2d) / Math.Pow(xRadius, 2d)) + (Math.Pow(y, 2d) / Math.Pow(yRadius, 2d)) + (Math.Pow(z, 2d) / Math.Pow(zRadius, 2d));
+            }
+
+        }
+
+        private void SolidOrFrame(double result, Point3D p)
+        {
+
+
+            if (makeSolid.IsChecked == true && result <= highTol)
+            {
+                DoShapePlotting(p);
+            }
+
+            if (makeFrame.IsChecked == true && result >= lowTol && result <= highTol)
+            {
+                DoShapePlotting(p);
+            }
+        }
+        private void DoShapePlotting(Point3D p)
+        {
+            if (makeQuater.IsChecked == true)
+            { PPP(p); }
+            if (makeSemi.IsChecked == true && (makeCircle.IsChecked == true || makeElipse.IsChecked == true))
+            {
+                PPP(p);
+                NPP(p);
+            }
+            if (makeSemi.IsChecked == true && (makeSphere.IsChecked == true || makeElipsoid.IsChecked == true))
+            {
+                PPP(p); NPP(p); PPN(p);
+                NPN(p);
+            }
+            if (makeFull.IsChecked == true && (makeCircle.IsChecked == true || makeElipse.IsChecked == true))
+            {
+                PPP(p); NPP(p);
+                PNP(p);
+                NNP(p);
+            }
+            if (makeFull.IsChecked == true && (makeSphere.IsChecked == true || makeElipsoid.IsChecked == true))
+            {
+                PPP(p);
+                NPP(p);
+                PPN(p);
+                NPN(p);
+                PNP(p);
+                NNP(p);
+                PNN(p);
+                NNN(p);
+            }
+            //   return p;
+        }
+        #region transformations
+        private void PPP(Point3D p)
+        {
+            if (plotData.Contains(p)) return;
+            plotData.Add(p);
+        }
+        private void NPP(Point3D p)
+        {
+            PPP(new Point3D(p.X * -1, p.Y, p.Z));
+        }
+        private void PNP(Point3D p)
+        {
+            PPP(new Point3D(p.X, p.Y * -1, p.Z));
+        }
+        private void PPN(Point3D p)
+        {
+            PPP(new Point3D(p.X, p.Y, p.Z * -1));
+        }
+        private void NNP(Point3D p)
+        {
+            PPP(new Point3D(p.X * -1, p.Y * -1, p.Z));
+        }
+        private void PNN(Point3D p)
+        {
+            PPP(new Point3D(p.X, p.Y * -1, p.Z * -1));
+        }
+        private void NPN(Point3D p)
+        {
+            PPP(new Point3D(p.X * -1, p.Y, p.Z * -1));
+        }
+        private void NNN(Point3D p)
+        {
+            PPP(new Point3D(p.X * -1, p.Y * -1, p.Z * -1));
+        }
+
+        #endregion
+
+
+
+        #endregion
+
+        #region blueprint settings tab controls
+        private void StartTheCogs(object sender, RoutedEventArgs e)
+        {
+
+            if (sender.GetType() == typeof(Button))
+            {
+                Button b = (Button)sender;
+                if (b.Name == "actionGenerate")
+                {  //check path/ blueprint name/ id
+                    bool proceed = ValidateBPPathAndCustoms();
+                }
+                //instantiate point list
+                SetAxisRadius();
+
+                BeginPointChecking();
+            }
+        }
+
+        private bool ValidateBPPathAndCustoms()
+        {
+            bool proceed = true;
+            string errorMessage = "";
+            if (string.IsNullOrWhiteSpace(dataSE_Path.Text)) { errorMessage += "You need to specify your Space Engineers save folder\n"; proceed = false; }
+            if (string.IsNullOrWhiteSpace(dataSteamId.Text)) { errorMessage += "Your blueprint might not work without your Steam Id, test for yourself\n"; proceed = false; }
+            if (string.IsNullOrWhiteSpace(dataNames.Text)) { errorMessage += "This was your chance to not have a generic name\n like Large Grid 4231 and you blew it\n"; proceed = false; }
+            if (errorMessage != "") { MessageBox.Show(errorMessage, "Critical Data Missing", MessageBoxButton.OK, MessageBoxImage.Exclamation); }
+
+            return proceed;
+        }
+
+
+
+        #endregion
+
+        #region shape settings tab controls
+
+        private void SetAxisRadius()
+        {
+            if (plotData != null) { plotData.Clear(); }
+
+            //validate radius values
+            if (makeCircle.IsChecked == true)
+            {
+                xRadius = radOneSlide.Value;
+                yRadius = radOneSlide.Value;
+                zRadius = 0;
+            }
+            if (makeSphere.IsChecked == true)
+            {
+                xRadius = radOneSlide.Value;
+                yRadius = radOneSlide.Value;
+                zRadius = radOneSlide.Value;
+            }
+            if (makeElipse.IsChecked == true)
+            {
+                xRadius = radOneSlide.Value;
+                yRadius = radTwoSlide.Value;
+                zRadius = 0;
+            }
+            if (makeElipsoid.IsChecked == true)
+            {
+                xRadius = radOneSlide.Value;
+                yRadius = radTwoSlide.Value;
+                zRadius = radThreeSlide.Value;
+            }
+        }
+        private void ActionRefreshView(object sender, RoutedEventArgs e)
+        {
+            StartTheCogs(this, e);
+            List<Point3D> templist = new List<Point3D>();
+            viewContainer.Content = null;
+            foreach (Point3D p in plotData)
+            {
+                templist.Add(p);
+            }
+
+            previewViewer = new PreviewThreeD(templist);
+            viewContainer.Content = previewViewer;
+        }
+
+
+
+
+        private void WantsCircle(object sender, RoutedEventArgs e)
+        {
+            //disable / hide y and z controllers
+            DisableControl(radTwoSlide);
+            DisableControl(radTwoTxt);
+            DisableControl(radTwolbl);
+            DisableControl(radThreeSlide);
+            DisableControl(radThreeTxt);
+            DisableControl(radThreelbl);
+
+        }
+
+        private void WantsElipse(object sender, RoutedEventArgs e)
+        {
+            //enable y controllers
+            EnableControl(radTwoSlide);
+            EnableControl(radTwoTxt);
+            EnableControl(radTwolbl);
+        }
+
+
+        private void WantsSphere(object sender, RoutedEventArgs e)
+        {
+            WantsCircle(this, e);
+        }
+
+        private void WantsElipsoid(object sender, RoutedEventArgs e)
+        {
+            //enable Z controller
+
+            EnableControl(radTwoSlide);
+            EnableControl(radTwoTxt);
+            EnableControl(radTwolbl);
+            EnableControl(radThreeSlide);
+            EnableControl(radThreeTxt);
+            EnableControl(radThreelbl);
+        }
+
+        private void WantsWhole(object sender, RoutedEventArgs e)
+        {
+            //adjust formula loop 
+        }
+
+        private void WantsQuarter(object sender, RoutedEventArgs e)
+        {
+            //adjust formula loop 
+        }
+
+        private void WantsHalf(object sender, RoutedEventArgs e)
+        {
+            //adjust formula loop 
+        }
+
+        private void WantsSolid(object sender, RoutedEventArgs e)
+        {
+            //adjust formula loop tolerance
+        }
+
+        private void WantsFrame(object sender, RoutedEventArgs e)
+        {
+            //adjust formula loop tolerance
+        }
+
+        #region sliders and textboxes
+
+
+        private void RoundValue(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (sender.GetType() == typeof(Slider))
+            {
+                //   System.Diagnostics.Trace.WriteLine(e.NewValue);
+                Slider s = (Slider)sender as Slider;
+                s.Value = Math.Round(s.Value, 0);
+            }
+        }
+
+        private void AdjustTolerance(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (sender.GetType() == typeof(Slider))
+            {
+                //   System.Diagnostics.Trace.WriteLine(e.NewValue);
+                Slider s = (Slider)sender as Slider;
+                switch (s.Name)
+                {
+
+                    case "lowertoleranceSlide":
+                        lowTol = Math.Round(s.Value / 100, 3);
+                        break;
+
+                    case "uppertoleranceSlide":
+                        highTol = Math.Round(s.Value / 100, 3);
+                        break;
+
+                }
+                System.Diagnostics.Trace.WriteLine(lowTol);
+                System.Diagnostics.Trace.WriteLine(highTol);
+            }
+        }
+
+
+        private void TextChanged(object sender, TextChangedEventArgs e)
+        {
+            double num;
+            if (sender.GetType() == typeof(TextBox))
+            {
+                //  System.Diagnostics.Trace.WriteLine(e.Changes);
+                //   System.Diagnostics.Trace.WriteLine(e.Source);
+                TextBox t = (TextBox)sender as TextBox;
+                if (double.TryParse(t.Text, out num))
+                {
+                    if (num >= 10 && num <= 500)
+                    {
+                        t.Text = Math.Round(num, 0).ToString();
+                    }
+                }
+                else { t.Text = "10"; }
+
+            }
+        }
+
+
+
+        private void DisableControl(object o)
+        {
+            UIElement x = (UIElement)o as UIElement;
+
+            x.IsEnabled = x.IsEnabled ? false : false;
+            x.Visibility = x.IsVisible ? Visibility.Collapsed : Visibility.Collapsed;
+        }
+
+        private void EnableControl(object o)
+        {
+            UIElement x = (UIElement)o as UIElement;
+
+            x.IsEnabled = !x.IsEnabled ? true : true;
+            x.Visibility = !x.IsVisible ? Visibility.Visible : Visibility.Visible;
+        }
+
+
+        #endregion
+        #endregion
+
+        #region block settings tab controls
+
+        #region Dependency Property Fields
+
+        public static readonly DependencyProperty FillColorProperty =
+           DependencyProperty.Register
+           ("FillColor", typeof(Color), typeof(MainWindow),
+           new PropertyMetadata(Colors.Black));
+
+
+        public Color FillColor
+        {
+            get
+            {
+                return (Color)GetValue(FillColorProperty);
+            }
+            set
+            {
+                SetValue(FillColorProperty, value);
+            }
+        }
+
+        #endregion
+
+        private void SetFill(object sender, RoutedEventArgs e)
+        {
+
+            //   Shape selectedShape = (Shape)GetValue(SelectedShapeProperty);
+
+            Microsoft.Samples.CustomControls.ColorPickerDialog cPicker
+                = new Microsoft.Samples.CustomControls.ColorPickerDialog();
+            cPicker.StartingColor = FillColor;
+            cPicker.Owner = this;
+
+            bool? dialogResult = cPicker.ShowDialog();
+            if (dialogResult != null && (bool)dialogResult == true)
+            {
+
+                //   if (selectedShape != null)
+                //       selectedShape.Fill = new SolidColorBrush(cPicker.SelectedColor);
+                FillColor = cPicker.SelectedColor;
+
+            }
+        }
+
+        #endregion
+
+
         #region file handling
         //save user paths - radio buttons - colours -everything
         private void SaveUserSettings(object sender, RoutedEventArgs e)
@@ -255,7 +686,7 @@ namespace CircleBluePrint
                 S_E_B_P = S_E_Home + "\\Blueprints";
                 localBP = S_E_B_P + "\\local";
             }
-                dataSE_Path.Text = S_E_Home;
+            dataSE_Path.Text = S_E_Home;
             dataSE_Path.Width = S_E_Home.Length;
             if (!Directory.Exists(S_E_Home))
             {
@@ -280,417 +711,6 @@ namespace CircleBluePrint
 
 
         #endregion
-
-        #region plotting
-        private void BeginPointChecking()
-        {
-
-            double result;
-
-            for (double x = 0; x <= xRadius; x++)
-            {
-                for (double y = 0; y <= yRadius; y++)
-                {
-                    for (double z = 0; z <= zRadius; z++)
-                    {
-                        System.Diagnostics.Trace.Write("\nx:" + x + " y:" + y + " z:" + z + "\n");
-                        result = EvalPoint3D(x, y, z);
-                        Point3D aPoint = new Point3D(x, y, z);
-                        SolidOrFrame(result, aPoint);
-                    }
-                }
-            }
-        }
-
-
-
-        private void SolidOrFrame(double result, Point3D p)
-        {
-
-
-            if (makeSolid.IsChecked == true && result <= highTol)
-            {
-                DoShapePlotting(p);
-            }
-
-            if (makeFrame.IsChecked == true && result >= lowTol && result <= highTol)
-            {
-                DoShapePlotting(p);
-            }
-        }
-
-        private void DoShapePlotting(Point3D p)
-        {
-            if (makeQuater.IsChecked == true)
-            { PPP(p); }
-            if (makeSemi.IsChecked == true && (makeCircle.IsChecked == true || makeElipse.IsChecked == true))
-            {
-                PPP(p);
-                NPP(p);
-            }
-            if (makeSemi.IsChecked == true && (makeSphere.IsChecked == true || makeElipsoid.IsChecked == true))
-            {
-                PPP(p); NPP(p); PPN(p);
-                NPN(p);
-            }
-            if (makeFull.IsChecked == true && (makeCircle.IsChecked == true || makeElipse.IsChecked == true))
-            {
-                PPP(p); NPP(p);
-                PNP(p);
-                NNP(p);
-            }
-            if (makeFull.IsChecked == true && (makeSphere.IsChecked == true || makeElipsoid.IsChecked == true))
-            {
-                PPP(p);
-                NPP(p);
-                PPN(p);
-                NPN(p);
-                PNP(p);
-                NNP(p);
-                PNN(p);
-                NNN(p);
-            }
-         //   return p;
-        }
-        #region transformations
-        private void PPP(Point3D p)
-        {
-            if (plotData.Contains(p)) return;
-            plotData.Add(p);
-        }
-        private void NPP(Point3D p)
-        {
-            PPP(new Point3D(p.X * -1, p.Y, p.Z));
-        }
-        private void PNP(Point3D p)
-        {
-            PPP(new Point3D(p.X, p.Y * -1, p.Z));
-        }
-        private void PPN(Point3D p)
-        {
-            PPP(new Point3D(p.X, p.Y, p.Z * -1));
-        }
-        private void NNP(Point3D p)
-        {
-            PPP(new Point3D(p.X * -1, p.Y * -1, p.Z));
-        }
-        private void PNN(Point3D p)
-        {
-            PPP(new Point3D(p.X, p.Y * -1, p.Z * -1));
-        }
-        private void NPN(Point3D p)
-        {
-            PPP(new Point3D(p.X * -1, p.Y, p.Z * -1));
-        }
-        private void NNN(Point3D p)
-        {
-            PPP(new Point3D(p.X * -1, p.Y * -1, p.Z * -1));
-        }
-
-        #endregion
-
-        private double EvalPoint3D(double x, double y, double z)
-        {
-            double result;
-            if (makeCircle.IsChecked == true || makeElipse.IsChecked == true)
-            {
-                return result = (Math.Pow(x, 2d) / Math.Pow(xRadius, 2d)) + (Math.Pow(y, 2d) / Math.Pow(yRadius, 2d));
-            }
-            else
-            {
-                return result = (Math.Pow(x, 2d) / Math.Pow(xRadius, 2d)) + (Math.Pow(y, 2d) / Math.Pow(yRadius, 2d)) + (Math.Pow(z, 2d) / Math.Pow(zRadius, 2d));
-            }
-
-        }
-
-        #endregion
-
-        #region blueprint settings tab controls
-
-        private void StartTheCogs(object sender, RoutedEventArgs e)
-        {
-                        MessageBox.Show("the generate button was used","info",MessageBoxButton.OK);
-            if (sender.GetType() == typeof(Button))
-            {
-                Button b = (Button)sender;
-                if (b.Name == "actionGenerate")
-                {  //check path/ blueprint name/ id
-                    string errorMessage = "";
-                    if (string.IsNullOrWhiteSpace(dataSE_Path.Text)) { errorMessage += "You need to specify your Space Engineers save folder\n"; }
-                    if (string.IsNullOrWhiteSpace(dataSteamId.Text)) { errorMessage += "Your blueprint might not work without your Steam Id, test for yourself\n"; }
-                    if (string.IsNullOrWhiteSpace(dataNames.Text)) { errorMessage += "This was your chance to not have a generic name\n like Large Grid 4231 and you blew it\n"; }
-                 
-            }
-            //instantiate point list
-            if (plotData != null) { plotData.Clear(); }
-
-            //validate radius values
-            if (makeCircle.IsChecked == true)
-            {
-                xRadius = radOneSlide.Value;
-                yRadius = radOneSlide.Value;
-                zRadius = 0;
-            }
-            if (makeSphere.IsChecked == true)
-            {
-                xRadius = radOneSlide.Value;
-                yRadius = radOneSlide.Value;
-                zRadius = radOneSlide.Value;
-            }
-            if (makeElipse.IsChecked == true)
-            {
-                xRadius = radOneSlide.Value;
-                yRadius = radTwoSlide.Value;
-                zRadius = 0;
-            }
-            if (makeElipsoid.IsChecked == true)
-            {
-                xRadius = radOneSlide.Value;
-                yRadius = radTwoSlide.Value;
-                zRadius = radThreeSlide.Value;
-            }
-
-            BeginPointChecking();
-
-
-            if (sender.GetType() != typeof(Button) && plotData != null)
-            {
-                foreach (Point3D p3d in plotData)
-                { System.Diagnostics.Trace.WriteLine(p3d); }
-            }
-        }
-
-        #endregion
-
-        #region shape settings tab controls
-
-
-        private void WantsCircle(object sender, RoutedEventArgs e)
-        {
-            //disable / hide y and z controllers
-            DisableControl(radTwoSlide);
-            DisableControl(radTwoTxt);
-            DisableControl(radTwolbl);
-            DisableControl(radThreeSlide);
-            DisableControl(radThreeTxt);
-            DisableControl(radThreelbl);
-
-        }
-
-        private void WantsElipse(object sender, RoutedEventArgs e)
-        {
-            //enable y controllers
-            EnableControl(radTwoSlide);
-            EnableControl(radTwoTxt);
-            EnableControl(radTwolbl);
-        }
-
-
-        private void WantsSphere(object sender, RoutedEventArgs e)
-        {
-            WantsCircle(this, e);
-        }
-
-        private void WantsElipsoid(object sender, RoutedEventArgs e)
-        {
-            //enable Z controller
-
-            EnableControl(radTwoSlide);
-            EnableControl(radTwoTxt);
-            EnableControl(radTwolbl);
-            EnableControl(radThreeSlide);
-            EnableControl(radThreeTxt);
-            EnableControl(radThreelbl);
-        }
-
-        private void WantsWhole(object sender, RoutedEventArgs e)
-        {
-            //adjust formula loop 
-        }
-
-        private void WantsQuarter(object sender, RoutedEventArgs e)
-        {
-            //adjust formula loop 
-        }
-
-        private void WantsHalf(object sender, RoutedEventArgs e)
-        {
-            //adjust formula loop 
-        }
-
-        private void WantsSolid(object sender, RoutedEventArgs e)
-        {
-            //adjust formula loop tolerance
-        }
-
-        private void WantsFrame(object sender, RoutedEventArgs e)
-        {
-            //adjust formula loop tolerance
-        }
-
-
-
-        #region sliders and textboxes
-
-
-        private void RoundValue(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (sender.GetType() == typeof(Slider))
-            {
-                //   System.Diagnostics.Trace.WriteLine(e.NewValue);
-                Slider s = (Slider)sender as Slider;
-                s.Value = Math.Round(s.Value, 0);
-            }
-        }
-
-        private void AdjustTolerance(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (sender.GetType() == typeof(Slider))
-            {
-                //   System.Diagnostics.Trace.WriteLine(e.NewValue);
-                Slider s = (Slider)sender as Slider;
-                switch (s.Name)
-                {
-
-                    case "lowertoleranceSlide":
-                        lowTol = Math.Round(s.Value / 100, 3);
-                        break;
-
-                    case "uppertoleranceSlide":
-                        highTol = Math.Round(s.Value / 100, 3);
-                        break;
-
-                }
-                System.Diagnostics.Trace.WriteLine(lowTol);
-                System.Diagnostics.Trace.WriteLine(highTol);
-            }
-        }
-
-
-        private void TextChanged(object sender, TextChangedEventArgs e)
-        {
-            double num;
-            if (sender.GetType() == typeof(TextBox))
-            {
-                //  System.Diagnostics.Trace.WriteLine(e.Changes);
-                //   System.Diagnostics.Trace.WriteLine(e.Source);
-                TextBox t = (TextBox)sender as TextBox;
-                if (double.TryParse(t.Text, out num))
-                {
-                    if (num >= 10 && num <= 500)
-                    {
-                        t.Text = Math.Round(num, 0).ToString();
-                    }
-                }
-                else { t.Text = "10"; }
-
-            }
-        }
-        #endregion
-
-        private void DisableControl(object o)
-        {
-            UIElement x = (UIElement)o as UIElement;
-
-            x.IsEnabled = x.IsEnabled ? false : false;
-            x.Visibility = x.IsVisible ? Visibility.Collapsed : Visibility.Collapsed;
-        }
-
-        private void EnableControl(object o)
-        {
-            UIElement x = (UIElement)o as UIElement;
-
-            x.IsEnabled = !x.IsEnabled ? true : true;
-            x.Visibility = !x.IsVisible ? Visibility.Visible : Visibility.Visible;
-        }
-
-        #endregion
-
-        #region block settings tab controls
-
-        #region Dependency Property Fields
-
-        public static readonly DependencyProperty FillColorProperty =
-           DependencyProperty.Register
-           ("FillColor", typeof(Color), typeof(MainWindow),
-           new PropertyMetadata(Colors.Black));
-
-
-        public Color FillColor
-        {
-            get
-            {
-                return (Color)GetValue(FillColorProperty);
-            }
-            set
-            {
-                SetValue(FillColorProperty, value);
-            }
-        }
-
-        #endregion
-
-        private void SetFill(object sender, RoutedEventArgs e)
-        {
-
-            //   Shape selectedShape = (Shape)GetValue(SelectedShapeProperty);
-
-            Microsoft.Samples.CustomControls.ColorPickerDialog cPicker
-                = new Microsoft.Samples.CustomControls.ColorPickerDialog();
-            cPicker.StartingColor = FillColor;
-            cPicker.Owner = this;
-
-            bool? dialogResult = cPicker.ShowDialog();
-            if (dialogResult != null && (bool)dialogResult == true)
-            {
-
-                //   if (selectedShape != null)
-                //       selectedShape.Fill = new SolidColorBrush(cPicker.SelectedColor);
-                FillColor = cPicker.SelectedColor;
-
-            }
-        }
-
-        #endregion
-
-
-        private void ResetToLoaded(object sender, RoutedEventArgs e)
-        {
-            FirstLoad();
-        }
-
-        private void MainClose(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            System.Diagnostics.Trace.WriteLine(e.ToString());
-            MessageBoxResult goodBye = MessageBox.Show("Do you intend on leaving? ", "exit app", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes, MessageBoxOptions.DefaultDesktopOnly);
-            if (goodBye != MessageBoxResult.Yes)
-            {
-                e.Cancel = true;
-            }
-        }
-
-
-
-        private void MenuExit(object sender, RoutedEventArgs e)
-        {
-            MainClose(this, new System.ComponentModel.CancelEventArgs());
-        }
-
-        private void ActionRefreshView(object sender, RoutedEventArgs e)
-        {
-            StartTheCogs(this, e);
-            List<Point3D> templist = new List<Point3D>();
-            viewContainer.Content = null;
-            foreach (Point3D p in plotData)
-            {
-                templist.Add(p);
-            }
-
-            previewViewer = new PreviewThreeD(templist);
-            viewContainer.Content = previewViewer;
-        }
-
-
 
 
 

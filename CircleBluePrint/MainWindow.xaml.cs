@@ -14,10 +14,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Samples.CustomControls;
-using CircleBluePrint;
+using SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint;
 using System.Windows.Media.Media3D;
 using System.Collections.ObjectModel;
-namespace CircleBluePrint
+using Microsoft.Win32;
+using System.Xml.Serialization;
+using System.Xml;
+using System.Xml.Linq;
+
+namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -37,6 +42,10 @@ namespace CircleBluePrint
         private string S_E_Home;
         private string S_E_B_P;
         private string localBP;
+        private string bpFolder;
+        private string steamUserName;
+        private string steamUserId;
+        private string bpName;
 
         //calculation variables
         private ObservableCollection<Point3D> plotData;
@@ -46,7 +55,12 @@ namespace CircleBluePrint
         private double lowTol;
         private double highTol;
 
-
+        //blocks
+        private float blockColourHue;
+        private float blockColourSaturation;
+        private float blockColourValue;
+        string gridSize;
+        string armourType;
         //external view
         PreviewThreeD previewViewer;
 
@@ -59,7 +73,7 @@ namespace CircleBluePrint
             InitializeComponent();
             if (!File.Exists(CONFIG_FILE)) { FirstLoad(); } else { LoadUserSettings(); }
 
-            PathHandler(this, new RoutedEventArgs());
+            //  PathHandler(this, new RoutedEventArgs());
             plotData = new ObservableCollection<Point3D>();
 
             this.DataContext = plotData;
@@ -81,11 +95,30 @@ namespace CircleBluePrint
             radOneSlide.Value = 10;
             radTwoSlide.Value = 10;
             radThreeSlide.Value = 10;
+            PathHandler();
+            //get steam user name
+            GetSteamUserName();
 
+        }
+
+        private void GetSteamUserName()
+        {
+
+            RegistryKey regKey = Registry.CurrentUser;
+            regKey = regKey.OpenSubKey(@"Software\Valve\Steam");
+
+            if (regKey != null)
+            {
+                steamUserName = regKey.GetValue("LastGameNameUsed").ToString();
+                dataSteamName.Content = steamUserName;
+            }
         }
 
         private void ResetToLoaded(object sender, RoutedEventArgs e)
         {
+            S_E_Home = null;
+            S_E_B_P = null;
+            localBP = null;
             FirstLoad();
         }
 
@@ -242,18 +275,51 @@ namespace CircleBluePrint
         private void StartTheCogs(object sender, RoutedEventArgs e)
         {
 
-            if (sender.GetType() == typeof(Button))
-            {
-                Button b = (Button)sender;
-                if (b.Name == "actionGenerate")
-                {  //check path/ blueprint name/ id
-                    bool proceed = ValidateBPPathAndCustoms();
-                }
-                //instantiate point list
-                SetAxisRadius();
+            //        if (sender.GetType() == typeof(Button))
+            //        {
+            //            Button b = (Button)sender;
+            //            if (b.Name == "actionGenerate")
+            //            {  //check path/ blueprint name/ id
+            /*   if (ValidateBPPathAndCustoms())
+               {
+                   gridSize = (blockLarge.IsChecked == true) ? "Large" : "Small";
+                   switch (gridSize)
+                   {
+                       case "Large":
+                           armourType = (blockNormal.IsChecked == true) ? "LargeBlockArmorBlock" : "LargeHeavyBlockArmorBlock";
+                           break;
 
-                BeginPointChecking();
+                       case "Small":
+                           armourType = (blockNormal.IsChecked == true) ? "SmallBlockArmorBlock" : "SmallHeavyBlockArmorBlock";
+                           break;
+                   }
+               }
+   */
+            steamUserId = dataSteamId.Text;
+            bpName = dataNames.Text;
+            //     }
+            //instantiate point list
+            //   SetAxisRadius();
+
+            //      BeginPointChecking();
+
+            //convert points to cubes
+
+            bpFolder = localBP + "\\" + bpName;
+            try
+            {
+
+                Directory.CreateDirectory(bpFolder);
             }
+            catch (UnauthorizedAccessException UAE)
+            {
+                MessageBox.Show(UAE.Message, "info", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+            }
+            //write to file
+
+            BluePrintToFile();
+
+            //      }
         }
 
         private bool ValidateBPPathAndCustoms()
@@ -272,244 +338,7 @@ namespace CircleBluePrint
 
         #endregion
 
-        #region shape settings tab controls
-
-        private void SetAxisRadius()
-        {
-            if (plotData != null) { plotData.Clear(); }
-
-            //validate radius values
-            if (makeCircle.IsChecked == true)
-            {
-                xRadius = radOneSlide.Value;
-                yRadius = radOneSlide.Value;
-                zRadius = 0;
-            }
-            if (makeSphere.IsChecked == true)
-            {
-                xRadius = radOneSlide.Value;
-                yRadius = radOneSlide.Value;
-                zRadius = radOneSlide.Value;
-            }
-            if (makeElipse.IsChecked == true)
-            {
-                xRadius = radOneSlide.Value;
-                yRadius = radTwoSlide.Value;
-                zRadius = 0;
-            }
-            if (makeElipsoid.IsChecked == true)
-            {
-                xRadius = radOneSlide.Value;
-                yRadius = radTwoSlide.Value;
-                zRadius = radThreeSlide.Value;
-            }
-        }
-        private void ActionRefreshView(object sender, RoutedEventArgs e)
-        {
-            StartTheCogs(this, e);
-            List<Point3D> templist = new List<Point3D>();
-            viewContainer.Content = null;
-            foreach (Point3D p in plotData)
-            {
-                templist.Add(p);
-            }
-
-            previewViewer = new PreviewThreeD(templist);
-            viewContainer.Content = previewViewer;
-        }
-
-
-
-
-        private void WantsCircle(object sender, RoutedEventArgs e)
-        {
-            //disable / hide y and z controllers
-            DisableControl(radTwoSlide);
-            DisableControl(radTwoTxt);
-            DisableControl(radTwolbl);
-            DisableControl(radThreeSlide);
-            DisableControl(radThreeTxt);
-            DisableControl(radThreelbl);
-
-        }
-
-        private void WantsElipse(object sender, RoutedEventArgs e)
-        {
-            //enable y controllers
-            EnableControl(radTwoSlide);
-            EnableControl(radTwoTxt);
-            EnableControl(radTwolbl);
-        }
-
-
-        private void WantsSphere(object sender, RoutedEventArgs e)
-        {
-            WantsCircle(this, e);
-        }
-
-        private void WantsElipsoid(object sender, RoutedEventArgs e)
-        {
-            //enable Z controller
-
-            EnableControl(radTwoSlide);
-            EnableControl(radTwoTxt);
-            EnableControl(radTwolbl);
-            EnableControl(radThreeSlide);
-            EnableControl(radThreeTxt);
-            EnableControl(radThreelbl);
-        }
-
-        private void WantsWhole(object sender, RoutedEventArgs e)
-        {
-            //adjust formula loop 
-        }
-
-        private void WantsQuarter(object sender, RoutedEventArgs e)
-        {
-            //adjust formula loop 
-        }
-
-        private void WantsHalf(object sender, RoutedEventArgs e)
-        {
-            //adjust formula loop 
-        }
-
-        private void WantsSolid(object sender, RoutedEventArgs e)
-        {
-            //adjust formula loop tolerance
-        }
-
-        private void WantsFrame(object sender, RoutedEventArgs e)
-        {
-            //adjust formula loop tolerance
-        }
-
-        #region sliders and textboxes
-
-
-        private void RoundValue(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (sender.GetType() == typeof(Slider))
-            {
-                //   System.Diagnostics.Trace.WriteLine(e.NewValue);
-                Slider s = (Slider)sender as Slider;
-                s.Value = Math.Round(s.Value, 0);
-            }
-        }
-
-        private void AdjustTolerance(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (sender.GetType() == typeof(Slider))
-            {
-                //   System.Diagnostics.Trace.WriteLine(e.NewValue);
-                Slider s = (Slider)sender as Slider;
-                switch (s.Name)
-                {
-
-                    case "lowertoleranceSlide":
-                        lowTol = Math.Round(s.Value / 100, 3);
-                        break;
-
-                    case "uppertoleranceSlide":
-                        highTol = Math.Round(s.Value / 100, 3);
-                        break;
-
-                }
-                System.Diagnostics.Trace.WriteLine(lowTol);
-                System.Diagnostics.Trace.WriteLine(highTol);
-            }
-        }
-
-
-        private void TextChanged(object sender, TextChangedEventArgs e)
-        {
-            double num;
-            if (sender.GetType() == typeof(TextBox))
-            {
-                //  System.Diagnostics.Trace.WriteLine(e.Changes);
-                //   System.Diagnostics.Trace.WriteLine(e.Source);
-                TextBox t = (TextBox)sender as TextBox;
-                if (double.TryParse(t.Text, out num))
-                {
-                    if (num >= 10 && num <= 500)
-                    {
-                        t.Text = Math.Round(num, 0).ToString();
-                    }
-                }
-                else { t.Text = "10"; }
-
-            }
-        }
-
-
-
-        private void DisableControl(object o)
-        {
-            UIElement x = (UIElement)o as UIElement;
-
-            x.IsEnabled = x.IsEnabled ? false : false;
-            x.Visibility = x.IsVisible ? Visibility.Collapsed : Visibility.Collapsed;
-        }
-
-        private void EnableControl(object o)
-        {
-            UIElement x = (UIElement)o as UIElement;
-
-            x.IsEnabled = !x.IsEnabled ? true : true;
-            x.Visibility = !x.IsVisible ? Visibility.Visible : Visibility.Visible;
-        }
-
-
-        #endregion
-        #endregion
-
-        #region block settings tab controls
-
-        #region Dependency Property Fields
-
-        public static readonly DependencyProperty FillColorProperty =
-           DependencyProperty.Register
-           ("FillColor", typeof(Color), typeof(MainWindow),
-           new PropertyMetadata(Colors.Black));
-
-
-        public Color FillColor
-        {
-            get
-            {
-                return (Color)GetValue(FillColorProperty);
-            }
-            set
-            {
-                SetValue(FillColorProperty, value);
-            }
-        }
-
-        #endregion
-
-        private void SetFill(object sender, RoutedEventArgs e)
-        {
-
-            //   Shape selectedShape = (Shape)GetValue(SelectedShapeProperty);
-
-            Microsoft.Samples.CustomControls.ColorPickerDialog cPicker
-                = new Microsoft.Samples.CustomControls.ColorPickerDialog();
-            cPicker.StartingColor = FillColor;
-            cPicker.Owner = this;
-
-            bool? dialogResult = cPicker.ShowDialog();
-            if (dialogResult != null && (bool)dialogResult == true)
-            {
-
-                //   if (selectedShape != null)
-                //       selectedShape.Fill = new SolidColorBrush(cPicker.SelectedColor);
-                FillColor = cPicker.SelectedColor;
-
-            }
-        }
-
-        #endregion
-
+     
 
         #region file handling
         //save user paths - radio buttons - colours -everything
@@ -536,7 +365,6 @@ namespace CircleBluePrint
 
                     //tab1
                     appUserData.WriteLine(S_E_Home);
-                    appUserData.WriteLine(dataSE_Path.Text);
                     appUserData.WriteLine(dataSteamId.Text);
                     appUserData.WriteLine(dataNames.Text);
                     //tab2
@@ -576,6 +404,9 @@ namespace CircleBluePrint
                     appUserData.WriteLine(colCustom.IsChecked);
                     appUserData.WriteLine(FillColor.ToString());
 
+                    // added as i go
+                    appUserData.WriteLine(S_E_B_P);
+                    appUserData.WriteLine(localBP);
                     appUserData.Close();
                 }
             }
@@ -653,7 +484,20 @@ namespace CircleBluePrint
             if (settings[39] == "True") colGrey1.IsChecked = true;
             if (settings[40] == "True") colCustom.IsChecked = true;
             FillColor = Color.FromArgb(StripToIndvidualHex(settings[41], 'a'), StripToIndvidualHex(settings[41], 'r'), StripToIndvidualHex(settings[41], 'g'), StripToIndvidualHex(settings[41], 'b'));
+
+            S_E_B_P = settings[42];
+            localBP = settings[43];
         }
+
+        private void ReloadSettings(object sender, RoutedEventArgs e)
+        {
+            if (!File.Exists(CONFIG_FILE))
+            {
+                MessageBox.Show("There are no setting to load.\n either they have never been saved or the file has been removed.", "info", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+            }
+            else { LoadUserSettings(); }
+        }
+
 
         //give a hexadecimal string and specify r b g to return
         private byte StripToIndvidualHex(string hexString, char colour)
@@ -676,22 +520,27 @@ namespace CircleBluePrint
         }
 
 
-        private void PathHandler(object sender, RoutedEventArgs e)
+        private void PathHandler()
         {
 
             userApp = "C:\\temp\\test"; // Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
             if (S_E_Home == null)
             {
                 S_E_Home = userApp + "\\SpaceEngineers";
-                S_E_B_P = S_E_Home + "\\Blueprints";
+            }
+            if (S_E_B_P == null)
+            { S_E_B_P = S_E_Home + "\\Blueprints"; }
+            if (localBP == null)
+            {
                 localBP = S_E_B_P + "\\local";
             }
             dataSE_Path.Text = S_E_Home;
             dataSE_Path.Width = S_E_Home.Length;
             if (!Directory.Exists(S_E_Home))
             {
-                string message = string.Format("SE folder: {0} \ndoes not exist.\n Do you want to create it?\n\nNote: this is the expected location, If you have moved it select No, and use the browse feature to locate and set it. ", S_E_Home);
-                MessageBoxResult result = MessageBox.Show(message, "error", MessageBoxButton.YesNo, MessageBoxImage.Error, MessageBoxResult.No, MessageBoxOptions.DefaultDesktopOnly);
+                string message = string.Format("Space Engineers save folder: {0} \ndoes not exist.\n Do you want to create it?\n\nNote: this is the expected location, If you have moved it select No, and use the browse feature to locate and set it. ", S_E_Home);
+                MessageBoxResult result = MessageBox.Show(message, "Path location error", MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No, MessageBoxOptions.DefaultDesktopOnly);
                 if (result == MessageBoxResult.Yes)
                 {
                     try
@@ -710,9 +559,55 @@ namespace CircleBluePrint
 
 
 
+        private void BluePrintToFile()
+        {
+            try
+            {
+
+                   bluePrint.Path = bpFolder + "\\bp.sbc";
+            
+                     bluePrint.SteamUserId = steamUserId;
+                    bluePrint.SteamUserName = steamUserName;
+                    bluePrint.BluePrintName = bpName;
+
+                XDocument bluePrint = new BluePrintXml();
+        new XDeclaration("1.0", null, null),
+        new XElement("Definitions", "test")
+        );
+
+                private string XSD = "xsd";
+        private string XSI = "xsi";
+        private XNamespace xmlSchema = "http://www.w3.org/2001/XMLSchema";
+        private XNamespace xmlSchemaI = "http://www.w3.org/2001/XMLSchema-instance";
+        public string Path { get; set; }
+        public string SteamUserName { get; set; }
+        public string SteamUserId { get; set; }
+        public string BluePrintName { get; set; }
+
+   
+        
+        public void BluePrintToFile()
+        {
+            using (StreamWriter sw = new StreamWriter(Path))
+                {
+                    using (StringWriter msw = new MyFileHandler())
+                    {
+                        this.Save(msw);
+                        sw.WriteLine(msw);
+                    }
+                }
+        }
+            
+
+               
+             //   bluePrint.Save(Path);
+            }
+            catch (Exception e) { MessageBox.Show(e.Message); }
+         }
+
         #endregion
 
-
+ 
 
 
     }

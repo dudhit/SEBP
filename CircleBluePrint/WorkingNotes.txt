@@ -1,7 +1,7 @@
 ﻿    /*
-    C:\Users\dudhit\AppData\Roaming\SpaceEngineers
-    C:\Users\dudhit\AppData\Roaming\SpaceEngineers\Blueprints
-    C:\Users\dudhit\AppData\Roaming\SpaceEngineers\Blueprints\local
+    C:\Users\XX\AppData\Roaming\SpaceEngineers
+    C:\Users\XX\AppData\Roaming\SpaceEngineers\Blueprints
+    C:\Users\XX\AppData\Roaming\SpaceEngineers\Blueprints\local
     bp.sbc
     */
 
@@ -20,8 +20,16 @@
     //GridSizeEnum : Small /Large // SmallBlockArmorBlock LargeHeavyBlockArmorBlock LargeBlockArmorBlock
 
 
+-------------------	
 
+If you want to use namespaces, LINQ to XML makes that really easy:
 
+XNamespace ab = "http://whatever-the-url-is";
+XElement tempElement = doc.Descendants(ab + "test").FirstOrDefault();
+
+Look for an xmlns:ab=... section in your document to find out which namespace URI "ab" refers to.
+
+-------------------
   
 
     /*

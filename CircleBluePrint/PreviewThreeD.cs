@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 
-namespace CircleBluePrint
+namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 {
     class PreviewThreeD : Viewport3D, INotifyPropertyChanged
     {

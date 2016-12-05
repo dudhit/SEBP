@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CircleBluePrint
+namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 {
     class MyCube
     {

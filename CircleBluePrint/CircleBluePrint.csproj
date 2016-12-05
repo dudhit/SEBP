@@ -7,7 +7,7 @@
     <ProjectGuid>{2A5CD39F-07F6-4B2F-B684-24ED66F9E940}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CircleBluePrint</RootNamespace>
+    <RootNamespace>SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint</RootNamespace>
     <AssemblyName>CircleBluePrint</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -38,7 +38,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility" />
-    <Reference Include="ColorPicker">
+    <Reference Include="ColorPicker, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\computing\cSharp\ColorPickerCustomControl\ColorPickerLib\bin\Release\ColorPicker.dll</HintPath>
     </Reference>
     <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -66,6 +67,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="TabThree.cs" />
+    <Compile Include="TabTwo.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -74,7 +77,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ICircleCalc.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -86,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MyCube.cs" />
+    <Compile Include="MyFileHandler.cs" />
     <Compile Include="PreviewThreeD.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -118,9 +121,6 @@
     <Resource Include="Templates\bp01.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Templates\bp02.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="WorkingNotes.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -138,6 +138,9 @@
     <Resource Include="images\topRed.png" />
     <Resource Include="images\topWht.png" />
     <Resource Include="images\topYel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Templates\BpBase.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

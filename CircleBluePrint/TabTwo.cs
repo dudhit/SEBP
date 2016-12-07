@@ -46,7 +46,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
         }
         private void ActionRefreshView(object sender, RoutedEventArgs e)
         {
-            StartTheCogs(this, e);
+            SetAxisRadius();
+            BeginPointChecking();
             List<Point3D> templist = new List<Point3D>();
             viewContainer.Content = null;
             foreach (Point3D p in plotData)
@@ -203,7 +204,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
         #endregion
         #endregion
 
-  
+
 
     }
 }

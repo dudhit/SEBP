@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 {
@@ -60,13 +61,6 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
          
             return result;
         }
-        /* 
-         * <MyObjectBuilder_CubeBlock xsi:type="MyObjectBuilder_CubeBlock">
-              <SubtypeName>LargeHeavyBlockArmorBlock</SubtypeName>
-              <Min x="-1" y="0" z="0" />
-              <BuiltBy>144115188075855877</BuiltBy>
-            </MyObjectBuilder_CubeBlock>
-         */
 
     }
 }

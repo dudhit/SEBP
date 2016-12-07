@@ -140,7 +140,12 @@
     <Resource Include="images\topYel.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Templates\BpBase.xml" />
+    <Resource Include="Templates\BpBase.xml">
+      <SubType>Designer</SubType>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\2016-11-24-10-17-53-472.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

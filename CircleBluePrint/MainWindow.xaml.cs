@@ -151,7 +151,9 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 
         private void BeginPointChecking()
         {
-
+            int maxWait = (int)xRadius * (int)yRadius * (int)zRadius;
+            int numProc = System.Environment.ProcessorCount;
+            int range = maxWait / numProc;
             double result;
 
             for (double x = 0; x <= xRadius; x++)
@@ -275,35 +277,30 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
         private void StartTheCogs(object sender, RoutedEventArgs e)
         {
 
-            //        if (sender.GetType() == typeof(Button))
-            //        {
-            //            Button b = (Button)sender;
-            //            if (b.Name == "actionGenerate")
-            //            {  //check path/ blueprint name/ id
-            /*   if (ValidateBPPathAndCustoms())
-               {
-                   gridSize = (blockLarge.IsChecked == true) ? "Large" : "Small";
-                   switch (gridSize)
-                   {
-                       case "Large":
-                           armourType = (blockNormal.IsChecked == true) ? "LargeBlockArmorBlock" : "LargeHeavyBlockArmorBlock";
-                           break;
+                    if (ValidateBPPathAndCustoms())
+            {
+                gridSize = (blockLarge.IsChecked == true) ? "Large" : "Small";
+                switch (gridSize)
+                {
+                    case "Large":
+                        armourType = (blockNormal.IsChecked == true) ? "LargeBlockArmorBlock" : "LargeHeavyBlockArmorBlock";
+                        break;
 
-                       case "Small":
-                           armourType = (blockNormal.IsChecked == true) ? "SmallBlockArmorBlock" : "SmallHeavyBlockArmorBlock";
-                           break;
-                   }
-               }
-   */
+                    case "Small":
+                        armourType = (blockNormal.IsChecked == true) ? "SmallBlockArmorBlock" : "SmallHeavyBlockArmorBlock";
+                        break;
+                }
+            }
+
+
             steamUserId = dataSteamId.Text;
             bpName = dataNames.Text;
-            //     }
+   
             //instantiate point list
-            //   SetAxisRadius();
+            SetAxisRadius();
 
-            //      BeginPointChecking();
+            BeginPointChecking();
 
-            //convert points to cubes
 
             bpFolder = localBP + "\\" + bpName;
             try
@@ -318,7 +315,10 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             //write to file
 
             BluePrintToFile();
-
+            //   SplashScreen ss = new SplashScreen("/images/2016-11-24-10-17-53-472.png");
+            //    ss.Show(false);
+            //   TimeSpan ts = new TimeSpan(0, 0, 30);
+            //    ss.Close(ts);
             //      }
         }
 
@@ -338,7 +338,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 
         #endregion
 
-     
+
 
         #region file handling
         //save user paths - radio buttons - colours -everything
@@ -523,7 +523,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
         private void PathHandler()
         {
 
-            userApp = "C:\\temp\\test"; // Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            userApp =  Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
             if (S_E_Home == null)
             {
@@ -563,52 +563,28 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
         {
             try
             {
+                BluePrintXml bluePrint = new BluePrintXml();
+                bluePrint.Path = bpFolder + "\\bp.sbc";
+                bluePrint.SteamUserId = steamUserId;
+                bluePrint.SteamUserName = steamUserName;
+                bluePrint.BluePrintName = bpName;
+                bluePrint.GridSizeEnum = gridSize;
+                bluePrint.BlockType = armourType;
+                bluePrint.BlockColour = new Point3D(blockColourHue, blockColourSaturation, blockColourValue);
 
-                   bluePrint.Path = bpFolder + "\\bp.sbc";
-            
-                     bluePrint.SteamUserId = steamUserId;
-                    bluePrint.SteamUserName = steamUserName;
-                    bluePrint.BluePrintName = bpName;
+                foreach (Point3D p in plotData) { bluePrint.PopulateGrid = p; }
+                bluePrint.MakeBaseStructure();
 
-                XDocument bluePrint = new BluePrintXml();
-        new XDeclaration("1.0", null, null),
-        new XElement("Definitions", "test")
-        );
 
-                private string XSD = "xsd";
-        private string XSI = "xsi";
-        private XNamespace xmlSchema = "http://www.w3.org/2001/XMLSchema";
-        private XNamespace xmlSchemaI = "http://www.w3.org/2001/XMLSchema-instance";
-        public string Path { get; set; }
-        public string SteamUserName { get; set; }
-        public string SteamUserId { get; set; }
-        public string BluePrintName { get; set; }
-
-   
-        
-        public void BluePrintToFile()
-        {
-            using (StreamWriter sw = new StreamWriter(Path))
-                {
-                    using (StringWriter msw = new MyFileHandler())
-                    {
-                        this.Save(msw);
-                        sw.WriteLine(msw);
-                    }
-                }
-        }
-            
-
-               
-             //   bluePrint.Save(Path);
             }
             catch (Exception e) { MessageBox.Show(e.Message); }
-         }
+        }
 
         #endregion
 
- 
+   
 
+     
 
     }
 }

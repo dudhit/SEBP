@@ -31,7 +31,7 @@
             </Components>
           </ComponentContainer>
           <GridSizeEnum></GridSizeEnum>
-                   <CubeBlocks/>
+          <CubeBlocks/>
           <DisplayName></DisplayName>
           <DestructibleBlocks>true</DestructibleBlocks>
           <IsRespawnGrid>false</IsRespawnGrid>

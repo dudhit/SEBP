@@ -46,6 +46,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
         private string steamUserName;
         private string steamUserId;
         private string bpName;
+        private List<Point3D> tempPointsToParallelise;
 
         //calculation variables
         private ObservableCollection<Point3D> plotData;
@@ -149,38 +150,56 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 
         #region plotting
 
+        /*  int numProc = System.Environment.ProcessorCount;
+            int range = maxWait / numProc;
+         Parallel.For(0,(int)xRadius+1,x=>
+            double result;
+                        result = EvalPoint3D(x, y, z);
+                        Point3D aPoint = new Point3D((double)x, y, z);
+                        SolidOrFrame(result, aPoint);
+         */
+
         private void BeginPointChecking()
         {
+            Object lockMe = new Object();
             int maxWait = (int)xRadius * (int)yRadius * (int)zRadius;
-            int numProc = System.Environment.ProcessorCount;
-            int range = maxWait / numProc;
-            double result;
-
-            for (double x = 0; x <= xRadius; x++)
+            tempPointsToParallelise = new List<Point3D>();
+            Parallel.For((int)xRadius - 3, (int)xRadius + 1, x =>
             {
-                for (double y = 0; y <= yRadius; y++)
-                {
-                    for (double z = 0; z <= zRadius; z++)
-                    {
-                        System.Diagnostics.Trace.Write("\nx:" + x + " y:" + y + " z:" + z + "\n");
-                        result = EvalPoint3D(x, y, z);
-                        Point3D aPoint = new Point3D(x, y, z);
-                        SolidOrFrame(result, aPoint);
-                    }
-                }
+                Parallel.For((int)yRadius - 3, (int)yRadius, y =>
+                  {
+                      Parallel.For((int)zRadius - 3, (int)zRadius, z =>
+                      {
+                          lock (lockMe)
+                          {
+                              System.Diagnostics.Trace.Write("\nx:" + x + " y:" + y + " z:" + z + "\n");
+                              tempPointsToParallelise.Add(new Point3D(x, y, z));
+                          }
+                      });
+
+                  });
+            });
+            foreach (Point3D p in tempPointsToParallelise)
+            {
+                plotData.Add(p);
             }
         }
-
-        private double EvalPoint3D(double x, double y, double z)
+        // Summary:
+        //     Calculates whether values x,y,z fit within the bounds of a circle/elipse/sphere(oid)
+        //     
+        //
+        // Returns:
+        //     double 0-2 for further processing of desired shape
+        private double EvalPoint3D(Point3D point)
         {
             double result;
             if (makeCircle.IsChecked == true || makeElipse.IsChecked == true)
             {
-                return result = (Math.Pow(x, 2d) / Math.Pow(xRadius, 2d)) + (Math.Pow(y, 2d) / Math.Pow(yRadius, 2d));
+                return result = (Math.Pow(point.X, 2d) / Math.Pow(xRadius, 2d)) + (Math.Pow(point.Y, 2d) / Math.Pow(yRadius, 2d));
             }
             else
             {
-                return result = (Math.Pow(x, 2d) / Math.Pow(xRadius, 2d)) + (Math.Pow(y, 2d) / Math.Pow(yRadius, 2d)) + (Math.Pow(z, 2d) / Math.Pow(zRadius, 2d));
+                return result = (Math.Pow(point.X, 2d) / Math.Pow(xRadius, 2d)) + (Math.Pow(point.Y, 2d) / Math.Pow(yRadius, 2d)) + (Math.Pow(point.Z, 2d) / Math.Pow(zRadius, 2d));
             }
 
         }
@@ -277,7 +296,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
         private void StartTheCogs(object sender, RoutedEventArgs e)
         {
 
-                    if (ValidateBPPathAndCustoms())
+            if (ValidateBPPathAndCustoms())
             {
                 gridSize = (blockLarge.IsChecked == true) ? "Large" : "Small";
                 switch (gridSize)
@@ -295,7 +314,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 
             steamUserId = dataSteamId.Text;
             bpName = dataNames.Text;
-   
+
             //instantiate point list
             SetAxisRadius();
 
@@ -523,7 +542,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
         private void PathHandler()
         {
 
-            userApp =  Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            userApp = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
             if (S_E_Home == null)
             {
@@ -582,9 +601,9 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 
         #endregion
 
-   
 
-     
+
+
 
     }
 }

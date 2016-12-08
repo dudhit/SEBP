@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Collection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,12 +12,15 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 {
     public partial class MainWindow : Window
     {
-
+        private string shapeSelected;
+        private bool shapeSettingChanged;
+        int maxWait;
         #region shape settings tab controls
 
         private void SetAxisRadius()
         {
-            if (plotData != null) { plotData.Clear(); }
+
+            if (shapeSettingChanged==true) { PointContainer.Clear(); }
 
             //validate radius values
             if (makeCircle.IsChecked == true)
@@ -42,20 +46,37 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
                 xRadius = radOneSlide.Value;
                 yRadius = radTwoSlide.Value;
                 zRadius = radThreeSlide.Value;
+                
             }
+               if (makeQuater.IsChecked == true)
+                   shapeSelected ="QuaterRing";
+            
+            if (makeSemi.IsChecked == true && (makeCircle.IsChecked == true || makeElipse.IsChecked == true))
+                shapeSelected="SemiRing";
+           
+            if (makeSemi.IsChecked == true && (makeSphere.IsChecked == true || makeElipsoid.IsChecked == true))
+                shapeSelected="HemiSphere";
+         
+            if (makeFull.IsChecked == true && (makeCircle.IsChecked == true || makeElipse.IsChecked == true))
+                shapeSelected="FullRing";
+          
+            if (makeFull.IsChecked == true && (makeSphere.IsChecked == true || makeElipsoid.IsChecked == true))
+                shapeSelected="FullSphere";
+             maxWait = (int)xRadius * (int)yRadius * (int)zRadius;
+
+
         }
         private void ActionRefreshView(object sender, RoutedEventArgs e)
         {
-            SetAxisRadius();
-            BeginPointChecking();
-            List<Point3D> templist = new List<Point3D>();
+            PlottingProcess();
+         //   List<Point3D> templist = new List<Point3D>();
             viewContainer.Content = null;
-            foreach (Point3D p in plotData)
-            {
-                templist.Add(p);
-            }
+        //    foreach (Point3D p in plotData)
+        //    {
+        //        templist.Add(p);
+        //    }
 
-            previewViewer = new PreviewThreeD(templist);
+            previewViewer = new PreviewThreeD( new Point3D(xRadius + 10, yRadius + 10, zRadius + 10));
             viewContainer.Content = previewViewer;
         }
 
@@ -71,7 +92,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             DisableControl(radThreeSlide);
             DisableControl(radThreeTxt);
             DisableControl(radThreelbl);
-
+            shapeSettingChanged = true;
         }
 
         private void WantsElipse(object sender, RoutedEventArgs e)
@@ -80,12 +101,14 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             EnableControl(radTwoSlide);
             EnableControl(radTwoTxt);
             EnableControl(radTwolbl);
+            shapeSettingChanged = true;
         }
 
 
         private void WantsSphere(object sender, RoutedEventArgs e)
         {
             WantsCircle(this, e);
+            shapeSettingChanged = true;
         }
 
         private void WantsElipsoid(object sender, RoutedEventArgs e)
@@ -98,31 +121,32 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             EnableControl(radThreeSlide);
             EnableControl(radThreeTxt);
             EnableControl(radThreelbl);
+            shapeSettingChanged = true;
         }
 
         private void WantsWhole(object sender, RoutedEventArgs e)
         {
-            //adjust formula loop 
+            shapeSettingChanged = true;
         }
 
         private void WantsQuarter(object sender, RoutedEventArgs e)
         {
-            //adjust formula loop 
+            shapeSettingChanged = true;
         }
 
         private void WantsHalf(object sender, RoutedEventArgs e)
         {
-            //adjust formula loop 
+            shapeSettingChanged = true; 
         }
 
         private void WantsSolid(object sender, RoutedEventArgs e)
         {
-            //adjust formula loop tolerance
+            shapeSettingChanged = true;
         }
 
         private void WantsFrame(object sender, RoutedEventArgs e)
         {
-            //adjust formula loop tolerance
+            shapeSettingChanged = true;
         }
 
         #region sliders and textboxes
@@ -135,6 +159,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
                 //   System.Diagnostics.Trace.WriteLine(e.NewValue);
                 Slider s = (Slider)sender as Slider;
                 s.Value = Math.Round(s.Value, 0);
+                shapeSettingChanged = true;
             }
         }
 
@@ -155,9 +180,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
                         highTol = Math.Round(s.Value / 100, 3);
                         break;
 
-                }
-                System.Diagnostics.Trace.WriteLine(lowTol);
-                System.Diagnostics.Trace.WriteLine(highTol);
+                } shapeSettingChanged = true;
+              
             }
         }
 
@@ -178,7 +202,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
                     }
                 }
                 else { t.Text = "10"; }
-
+                shapeSettingChanged = true;
             }
         }
 

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
+using SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Collection;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 {
@@ -21,12 +22,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
         private double viewWidth;
         private double viewHeight;
         private Point3D zoomOut;
-        private List<Point3D> drawData;
-        public Point3D ZoomOut
-        {
-            //  get { return this.viewWidth; }
-            set { this.zoomOut = value; }
-        }
+       // private List<Point3D> drawData;
+
 
         public Double ViewWidth
         {
@@ -47,13 +44,15 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             }
         }
 
-        public PreviewThreeD(List<Point3D> plotThis)
+      //  public PreviewThreeD(List<Point3D> plotThis, Point3D cam)
+                 public PreviewThreeD( Point3D cam)
         {
 
             this.Width = 300; this.Height = 300;
             this.ClipToBounds = false;
             this.IsHitTestVisible = false;
-            this.drawData = plotThis;
+          //  this.drawData = plotThis;
+            this.zoomOut = cam;
             CreateScene();
             // ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True"
         }
@@ -91,7 +90,7 @@ Finally, add the Viewport3D to the window.
         {
             myCam = new PerspectiveCamera();
 
-            myCam.Position = new Point3D(21, 21, 21);
+            myCam.Position = zoomOut;
             myCam.LookDirection = new Vector3D(-.5, -.5, -.5);
             myCam.UpDirection = new Vector3D(0, 0, 1);
             myCam.FieldOfView = 60;
@@ -112,7 +111,8 @@ Finally, add the Viewport3D to the window.
         {
             GeometryModel3D aCube = new GeometryModel3D();
             //   MeshGeometry3D mesh = new MeshGeometry3D();
-            if (drawData != null)
+            if (PointContainer.IsEmpty() == false)
+            //if (drawData != null)
             {
                 aCube.Geometry = MakeMesh();
             }
@@ -136,9 +136,11 @@ Finally, add the Viewport3D to the window.
         {
             MeshGeometry3D mesh = new MeshGeometry3D();
             Point3D p; Point3D temp = new Point3D();
-            for (int i = 0; i < drawData.Count; i++)
+        //   Object o = new Object();
+       //    Parallel.For( 0,  PointContainer.Count(), i=>
+            for(int i=0;i<PointContainer.Count();i++)
             {
-                p = drawData[i];
+                p = PointContainer.Item(i);//drawData[i];
                 for (double xV = -0.5; xV <= 0.5; xV++)
                 {
                     for (double yV = -.5; yV <= .5; yV++)
@@ -148,20 +150,24 @@ Finally, add the Viewport3D to the window.
                             //   s = string.Format("{0}, {1},{2}", xV, yV, zV);
                             //  System.Diagnostics.Trace.WriteLine(s);
                             temp = new Point3D(p.X + xV, p.Y + yV, p.Z + zV);
-
-                            /*  if(!mesh.Positions.Contains(temp)){ */
-                            mesh.Positions.Add(temp);
-                            /*}*/
-
+                      //      lock (o)
+                       //     {
+                                /*  if(!mesh.Positions.Contains(temp)){ */
+                                mesh.Positions.Add(temp);
+                                /*}*/
+                         //   }
                         }
                     }
                 }
                 int[] joinVertgroups = new int[] { 0, 4, 2, 4, 6, 2, 0, 1, 2, 1, 3, 2, 1, 7, 3, 1, 5, 7, 0, 1, 4, 4, 1, 5, 4, 6, 7, 7, 5, 4, 6, 2, 3, 3, 7, 6 };
                 foreach (int pointRef in joinVertgroups)
                 {
-                    mesh.TriangleIndices.Add(pointRef + (i * 8));
+                //    lock (o)
+                 //   {
+                        mesh.TriangleIndices.Add(pointRef + (i * 8));
+                 ///   }
                 }
-            }
+            };//);
             return mesh;
 
         }

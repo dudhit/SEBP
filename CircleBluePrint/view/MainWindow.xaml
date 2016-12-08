@@ -47,10 +47,9 @@
                     <Label Content=  "Name for blueprint" TabIndex="-1"/>
                     <TextBox x:Name="dataNames" TabIndex="30" MinHeight="18" MaxHeight="18" MaxWidth="300" MinWidth="300" HorizontalAlignment="Left" Margin="10,2,10,10"/>
                     <Button x:Name="actionGenerate" Content="Generate Blueprint" Height="40" Margin="30" Click="StartTheCogs" />
-                    <Grid MaxHeight="500">
-                        <ListBox x:Name="thePoints" >
-                        </ListBox>
-                    </Grid>
+                    <ProgressBar MaxHeight="20" MinHeight="20"    MaxWidth="{Binding MaxWidth, BindsDirectlyToSource=True, ElementName=tab1, Mode=TwoWay, NotifyOnSourceUpdated=True}">
+                        
+                    </ProgressBar>
                 </StackPanel>
             </TabItem>
             <TabItem x:Name="tab2" Header="Shape Settings" TabIndex="150" >
@@ -165,84 +164,84 @@ MinHeight="{Binding MinHeight, BindsDirectlyToSource=True, ElementName=radOneSli
                             <WrapPanel Margin="5">
                                 <RadioButton x:Name="colBlack" HorizontalAlignment="Left"  VerticalAlignment="Top" GroupName="custCol" TabIndex="168" Checked="ColourChosen" >
                                     <WrapPanel>
-                                        <Image Source="images/botBlk.png"  Stretch="None" />
+                                        <Image Source="../images/botBlk.png"  Stretch="None" />
                                     </WrapPanel>
                                 </RadioButton>
                                 <RadioButton x:Name="colBlack1" HorizontalAlignment="Left"  VerticalAlignment="Top" GroupName="custCol" TabIndex="170"  Checked="ColourChosen">
                                     <WrapPanel>
-                                        <Image Source="images/topBlk.png"  Stretch="None" />
+                                        <Image Source="../images/topBlk.png"  Stretch="None" />
                                     </WrapPanel>
                                 </RadioButton>
                             </WrapPanel>
                             <WrapPanel Margin="5">
                                 <RadioButton x:Name="colBlue"  HorizontalAlignment="Left"  VerticalAlignment="Top" GroupName="custCol" TabIndex="172"  Checked="ColourChosen">
                                     <WrapPanel>
-                                        <Image Source="images/botBlu.png"  Stretch="None" />
+                                        <Image Source="../images/botBlu.png"  Stretch="None" />
                                     </WrapPanel>
                                 </RadioButton>
                                 <RadioButton x:Name="colBlue1"  HorizontalAlignment="Left"  VerticalAlignment="Top" GroupName="custCol" TabIndex="174" Checked="ColourChosen" >
                                     <WrapPanel>
-                                        <Image Source="images/topBlu.png"  Stretch="None" />
+                                        <Image Source="../images/topBlu.png"  Stretch="None" />
                                     </WrapPanel>
                                 </RadioButton>
                             </WrapPanel>
                             <WrapPanel Margin="5">
                                 <RadioButton x:Name="colRed"  HorizontalAlignment="Left"  VerticalAlignment="Top" GroupName="custCol" TabIndex="176"  Checked="ColourChosen">
                                     <WrapPanel>
-                                        <Image Source="images/botRed.png"  Stretch="None" />
+                                        <Image Source="../images/botRed.png"  Stretch="None" />
                                     </WrapPanel>
                                 </RadioButton>
                                 <RadioButton x:Name="colRed1"  HorizontalAlignment="Left"  VerticalAlignment="Top" GroupName="custCol" TabIndex="178"  Checked="ColourChosen">
                                     <WrapPanel>
-                                        <Image Source="images/topRed.png"  Stretch="None" />
+                                        <Image Source="../images/topRed.png"  Stretch="None" />
                                     </WrapPanel>
                                 </RadioButton>
                             </WrapPanel>
                             <WrapPanel Margin="5">
                                 <RadioButton x:Name="colGreen"  HorizontalAlignment="Left" VerticalAlignment="Top" GroupName="custCol" TabIndex="180" Checked="ColourChosen" >
                                     <WrapPanel>
-                                        <Image Source="images/botGrn.png"  Stretch="None" />
+                                        <Image Source="../images/botGrn.png"  Stretch="None" />
                                     </WrapPanel>
                                 </RadioButton>
                                 <RadioButton x:Name="colGreen1"  HorizontalAlignment="Left"  VerticalAlignment="Top" GroupName="custCol" TabIndex="182" Checked="ColourChosen" >
                                     <WrapPanel>
-                                        <Image Source="images/topGrn.png"  Stretch="None" />
+                                        <Image Source="../images/topGrn.png"  Stretch="None" />
                                     </WrapPanel>
                                 </RadioButton>
                             </WrapPanel>
                             <WrapPanel Margin="5">
                                 <RadioButton x:Name="colYellow"  HorizontalAlignment="Left"  VerticalAlignment="Top" GroupName="custCol" TabIndex="184"  Checked="ColourChosen">
                                     <WrapPanel>
-                                        <Image Source="images/botYel.png"  Stretch="None" />
+                                        <Image Source="../images/botYel.png"  Stretch="None" />
                                     </WrapPanel>
                                 </RadioButton>
                                 <RadioButton x:Name="colYellow1"  HorizontalAlignment="Left"  VerticalAlignment="Top" GroupName="custCol" TabIndex="186" Checked="ColourChosen" >
                                     <WrapPanel>
-                                        <Image Source="images/topYel.png"  Stretch="None" />
+                                        <Image Source="../images/topYel.png"  Stretch="None" />
                                     </WrapPanel>
                                 </RadioButton>
                             </WrapPanel>
                             <WrapPanel Margin="5">
                                 <RadioButton x:Name="colWhite"  HorizontalAlignment="Left"  VerticalAlignment="Top" GroupName="custCol" TabIndex="188"  Checked="ColourChosen">
                                     <WrapPanel>
-                                        <Image Source="images/botWht.png"  Stretch="None" />
+                                        <Image Source="../images/botWht.png"  Stretch="None" />
                                     </WrapPanel>
                                 </RadioButton>
                                 <RadioButton x:Name="colWhite1"  HorizontalAlignment="Left"  VerticalAlignment="Top" GroupName="custCol" TabIndex="190"  Checked="ColourChosen">
                                     <WrapPanel>
-                                        <Image Source="images/topWht.png"  Stretch="None" />
+                                        <Image Source="../images/topWht.png"  Stretch="None" />
                                     </WrapPanel>
                                 </RadioButton>
                             </WrapPanel>
                             <WrapPanel Margin="5">
                                 <RadioButton x:Name="colGrey"  HorizontalAlignment="Left"  VerticalAlignment="Top" GroupName="custCol" TabIndex="192"  Checked="ColourChosen">
                                     <WrapPanel>
-                                        <Image Source="images/botGry.png"  Stretch="None" />
+                                        <Image Source="../images/botGry.png"  Stretch="None" />
                                     </WrapPanel>
                                 </RadioButton>
                                 <RadioButton x:Name="colGrey1"  HorizontalAlignment="Left"  VerticalAlignment="Top" GroupName="custCol" TabIndex="194"  Checked="ColourChosen" >
                                     <WrapPanel>
-                                        <Image Source="images/topGry.png"  Stretch="None" />
+                                        <Image Source="../images/topGry.png"  Stretch="None" />
                                     </WrapPanel>
                                 </RadioButton>
                             </WrapPanel>

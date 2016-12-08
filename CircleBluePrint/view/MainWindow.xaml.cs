@@ -21,6 +21,8 @@ using Microsoft.Win32;
 using System.Xml.Serialization;
 using System.Xml;
 using System.Xml.Linq;
+using SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Collection;
+using System.Threading;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 {
@@ -49,7 +51,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
         private List<Point3D> tempPointsToParallelise;
 
         //calculation variables
-        private ObservableCollection<Point3D> plotData;
+      //  private List<Point3D> plotData;
         private double xRadius;
         private double yRadius;
         private double zRadius;
@@ -75,10 +77,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             if (!File.Exists(CONFIG_FILE)) { FirstLoad(); } else { LoadUserSettings(); }
 
             //  PathHandler(this, new RoutedEventArgs());
-            plotData = new ObservableCollection<Point3D>();
+         //   plotData = new List<Point3D>();
 
-            this.DataContext = plotData;
-            thePoints.ItemsSource = plotData;
         }
 
         private void FirstLoad()
@@ -113,6 +113,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
                 steamUserName = regKey.GetValue("LastGameNameUsed").ToString();
                 dataSteamName.Content = steamUserName;
             }
+            else { dataSteamName.Content = "No Steam Name"; }
         }
 
         private void ResetToLoaded(object sender, RoutedEventArgs e)
@@ -140,50 +141,82 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             MainClose(this, new System.ComponentModel.CancelEventArgs());
         }
 
-        private void ErrorCheckPlotData()
-        {
-            foreach (Point3D p3d in plotData)
-            { System.Diagnostics.Trace.WriteLine(p3d); }
-        }
-
         #endregion
 
         #region plotting
-
-        /*  int numProc = System.Environment.ProcessorCount;
-            int range = maxWait / numProc;
-         Parallel.For(0,(int)xRadius+1,x=>
-            double result;
-                        result = EvalPoint3D(x, y, z);
-                        Point3D aPoint = new Point3D((double)x, y, z);
-                        SolidOrFrame(result, aPoint);
-         */
 
         private void BeginPointChecking()
         {
             Object lockMe = new Object();
             int maxWait = (int)xRadius * (int)yRadius * (int)zRadius;
             tempPointsToParallelise = new List<Point3D>();
-            Parallel.For((int)xRadius - 3, (int)xRadius + 1, x =>
+            MakeAxisPoints();
+            Parallel.For(0, (int)xRadius + 1, x =>
             {
-                Parallel.For((int)yRadius - 3, (int)yRadius, y =>
+                Parallel.For(0, (int)yRadius + 1, y =>
                   {
-                      Parallel.For((int)zRadius - 3, (int)zRadius, z =>
+                      Parallel.For(0, (int)zRadius + 1, z =>
                       {
-                          lock (lockMe)
+                          Point3D tempPoint = new Point3D(x, y, z); if (tempPointsToParallelise.Contains(tempPoint) == false)
                           {
-                              System.Diagnostics.Trace.Write("\nx:" + x + " y:" + y + " z:" + z + "\n");
-                              tempPointsToParallelise.Add(new Point3D(x, y, z));
+                              lock (lockMe)
+                              {
+                                  System.Diagnostics.Trace.Write("\nx:" + x + " y:" + y + " z:" + z + "\n");
+                                  tempPointsToParallelise.Add(tempPoint);
+                                  Thread.Sleep(1);
+
+                              }
                           }
                       });
 
                   });
             });
-            foreach (Point3D p in tempPointsToParallelise)
+        }
+
+        private void MakeAxisPoints()
+        {
+
+            List<Point3D> tempAxisPoints = new List<Point3D>();
+            for (int x = 0; x <= (int)xRadius; x++)
             {
-                plotData.Add(p);
+                ParallelWriteToCollection(tempAxisPoints, x, 0, 0);
+            }
+            for (int y = 0; y <= (int)yRadius; y++)
+            {
+                ParallelWriteToCollection(tempAxisPoints, 0, y, 0);
+            }
+            for (int z = 0; z <= (int)zRadius; z++)
+            {
+                ParallelWriteToCollection(tempAxisPoints, 0, 0, z);
+            }
+            Parallel.ForEach(tempAxisPoints, p => { ParallelWriteToCollection(p); });
+        }
+
+        private static void ParallelWriteToCollection(List<Point3D> tempAxisPoints, double x, Double y, double z)
+        {
+            Object lockMe = new Object();
+            Point3D tempPoint = new Point3D(x, y, z); if (tempAxisPoints.Contains(tempPoint) == false)
+            {
+                lock (lockMe)
+                {
+                    System.Diagnostics.Trace.Write("\nx:" + x + " y:" + y + " z:" + z + "\n");
+                    tempAxisPoints.Add(tempPoint);
+
+                }
             }
         }
+
+        private static void ParallelWriteToCollection(Point3D point)
+        {
+            Object lockMe = new Object();
+
+            lock (lockMe)
+            {
+                PointContainer.Add(point);
+            }
+
+        }
+
         // Summary:
         //     Calculates whether values x,y,z fit within the bounds of a circle/elipse/sphere(oid)
         //     
@@ -208,54 +241,43 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
         {
 
 
-            if (makeSolid.IsChecked == true && result <= highTol)
+            //      if (makeSolid.IsChecked == true && result <= highTol)
+            //      {
+            //          DoShapePlotting(p);
+            //      }
+            //if (makeFrame.IsChecked == true && result >= lowTol && result <= highTol)
+            if (result >= lowTol && result <= highTol)
             {
-                DoShapePlotting(p);
-            }
-
-            if (makeFrame.IsChecked == true && result >= lowTol && result <= highTol)
-            {
-                DoShapePlotting(p);
+                DoShapePlotting(p, shapeSelected);
             }
         }
-        private void DoShapePlotting(Point3D p)
+        private void DoShapePlotting(Point3D p, string shapeChoice)
         {
-            if (makeQuater.IsChecked == true)
-            { PPP(p); }
-            if (makeSemi.IsChecked == true && (makeCircle.IsChecked == true || makeElipse.IsChecked == true))
+            switch (shapeChoice)
             {
-                PPP(p);
-                NPP(p);
-            }
-            if (makeSemi.IsChecked == true && (makeSphere.IsChecked == true || makeElipsoid.IsChecked == true))
-            {
-                PPP(p); NPP(p); PPN(p);
-                NPN(p);
-            }
-            if (makeFull.IsChecked == true && (makeCircle.IsChecked == true || makeElipse.IsChecked == true))
-            {
-                PPP(p); NPP(p);
-                PNP(p);
-                NNP(p);
-            }
-            if (makeFull.IsChecked == true && (makeSphere.IsChecked == true || makeElipsoid.IsChecked == true))
-            {
-                PPP(p);
-                NPP(p);
-                PPN(p);
-                NPN(p);
-                PNP(p);
-                NNP(p);
-                PNN(p);
-                NNN(p);
+                case "QuaterRing":
+                    PPP(p); break;
+                case "SemiRing":
+
+                    PPP(p); NPP(p); break;
+                case "HemiSphere":
+
+                    PPP(p); NPP(p); PPN(p); NPN(p); break;
+                case "FullRing":
+
+                    PPP(p); NPP(p); PNP(p); NNP(p); break;
+                case "FullSphere":
+
+                    PPP(p); NPP(p); PPN(p); NPN(p); PNP(p);
+                    NNP(p); PNN(p); NNN(p); break;
+
             }
             //   return p;
         }
         #region transformations
         private void PPP(Point3D p)
         {
-            if (plotData.Contains(p)) return;
-            plotData.Add(p);
+           PointContainer.Add(p);
         }
         private void NPP(Point3D p)
         {
@@ -315,11 +337,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             steamUserId = dataSteamId.Text;
             bpName = dataNames.Text;
 
-            //instantiate point list
-            SetAxisRadius();
-
-            BeginPointChecking();
-
+            PlottingProcess();
 
             bpFolder = localBP + "\\" + bpName;
             try
@@ -341,12 +359,30 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             //      }
         }
 
+        private void PlottingProcess()
+        {
+            //instantiate point list
+            SetAxisRadius();
+            //get bulk points
+            BeginPointChecking();
+            //evaluate and add to final list
+            FinalisePlotablePoints();
+            //clear first list
+            tempPointsToParallelise = null;
+        }
+
+        private void FinalisePlotablePoints()
+        {
+            foreach (Point3D p in tempPointsToParallelise)
+            { SolidOrFrame(EvalPoint3D(p), p); }
+        }
+
         private bool ValidateBPPathAndCustoms()
         {
             bool proceed = true;
             string errorMessage = "";
             if (string.IsNullOrWhiteSpace(dataSE_Path.Text)) { errorMessage += "You need to specify your Space Engineers save folder\n"; proceed = false; }
-            if (string.IsNullOrWhiteSpace(dataSteamId.Text)) { errorMessage += "Your blueprint might not work without your Steam Id, test for yourself\n"; proceed = false; }
+            if (string.IsNullOrWhiteSpace(dataSteamId.Text)) { errorMessage += "This still works without YOUR Steam Id, but put some number\n"; proceed = false; }
             if (string.IsNullOrWhiteSpace(dataNames.Text)) { errorMessage += "This was your chance to not have a generic name\n like Large Grid 4231 and you blew it\n"; proceed = false; }
             if (errorMessage != "") { MessageBox.Show(errorMessage, "Critical Data Missing", MessageBoxButton.OK, MessageBoxImage.Exclamation); }
 
@@ -591,7 +627,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
                 bluePrint.BlockType = armourType;
                 bluePrint.BlockColour = new Point3D(blockColourHue, blockColourSaturation, blockColourValue);
 
-                foreach (Point3D p in plotData) { bluePrint.PopulateGrid = p; }
+              //  foreach (Point3D p in plotData) { bluePrint.PopulateGrid = p; }
                 bluePrint.MakeBaseStructure();
 
 
@@ -600,6 +636,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
         }
 
         #endregion
+
+    
 
 
 

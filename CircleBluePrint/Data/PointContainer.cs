@@ -7,20 +7,42 @@ using System.Windows.Media.Media3D;
 namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Collection
 {
 
-
-    public static class PointContainer
+    public sealed class PointContainer
     {
+     
+        private PointContainer()
+        {
+          
+        }
+        public static PointContainer Instance { get { return Nested.instance; } }
+        private class Nested
+        {
+            // Explicit static constructor to tell C# compiler
+            // not to mark type as beforefieldinit
+            static Nested()
+            {
+            }
+
+            internal static readonly PointContainer instance = new PointContainer();
+        }
         private static List<Point3D> pointList;
+         private static Object multiThreadLock;
 
         static PointContainer()
         {
-            pointList = new List<Point3D>();
+           pointList = new List<Point3D>();
+            multiThreadLock = new Object();
         }
 
         public static void Add(Point3D p)
         {
             if (pointList.Contains(p) == false)
-                pointList.Add(p);
+            {
+                lock (multiThreadLock)
+                {
+                    pointList.Add(p);
+                }
+            }
         }
 
         public static Point3D Item(int index)

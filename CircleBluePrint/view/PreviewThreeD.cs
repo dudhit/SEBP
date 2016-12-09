@@ -8,13 +8,14 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Collection;
+using System.Windows;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 {
     class PreviewThreeD : Viewport3D, INotifyPropertyChanged
     {
-        private Model3DGroup groupIt;
-        private ModelVisual3D visual;
+        private   Model3DGroup groupIt;
+        private  ModelVisual3D visual;
         private AmbientLight letThereBe;
         private DirectionalLight dl;
         private PerspectiveCamera myCam;
@@ -22,7 +23,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
         private double viewWidth;
         private double viewHeight;
         private Point3D zoomOut;
-       // private List<Point3D> drawData;
+        // private List<Point3D> drawData;
 
 
         public Double ViewWidth
@@ -44,16 +45,18 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             }
         }
 
-      //  public PreviewThreeD(List<Point3D> plotThis, Point3D cam)
-                 public PreviewThreeD( Point3D cam)
+        //  public PreviewThreeD(List<Point3D> plotThis, Point3D cam)
+        public PreviewThreeD(Point3D cam)
         {
 
             this.Width = 300; this.Height = 300;
             this.ClipToBounds = false;
             this.IsHitTestVisible = false;
-          //  this.drawData = plotThis;
+            //  this.drawData = plotThis;
             this.zoomOut = cam;
-            CreateScene();
+
+          
+            // CreateScene();
             // ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True"
         }
 
@@ -68,11 +71,11 @@ Finally, add the Viewport3D to the window.
          * specify the size of the Viewport3D by setting its Height and Width properties (inherited from FrameworkElement).
          */
 
-        private void CreateScene()
+        public void CreateScene()
         {
+         
+  visual = new ModelVisual3D();
             groupIt = new Model3DGroup();
-            visual = new ModelVisual3D();
-
             ConfigLight();
             SetCamera();
 
@@ -82,6 +85,12 @@ Finally, add the Viewport3D to the window.
             // groupIt.Children.Add(letThereBe);
             groupIt.Children.Add(dl);
             visual.Content = groupIt;
+            DisplayScene();
+
+        }
+
+        private void DisplayScene()
+        {
             this.Children.Add(visual);
             this.Camera = myCam;
         }
@@ -116,6 +125,7 @@ Finally, add the Viewport3D to the window.
             {
                 aCube.Geometry = MakeMesh();
             }
+            else { MessageBox.Show("There is nothing to draw", "Logic error", MessageBoxButton.OK, MessageBoxImage.Error); }
             DiffuseMaterial dm = new DiffuseMaterial();
             SolidColorBrush scb = new SolidColorBrush();
             scb.Color = Colors.Red;
@@ -136,9 +146,9 @@ Finally, add the Viewport3D to the window.
         {
             MeshGeometry3D mesh = new MeshGeometry3D();
             Point3D p; Point3D temp = new Point3D();
-        //   Object o = new Object();
-       //    Parallel.For( 0,  PointContainer.Count(), i=>
-            for(int i=0;i<PointContainer.Count();i++)
+            //   Object o = new Object();
+            //    Parallel.For( 0,  PointContainer.Count(), i=>
+            for (int i = 0; i < PointContainer.Count(); i++)
             {
                 p = PointContainer.Item(i);//drawData[i];
                 for (double xV = -0.5; xV <= 0.5; xV++)
@@ -150,22 +160,22 @@ Finally, add the Viewport3D to the window.
                             //   s = string.Format("{0}, {1},{2}", xV, yV, zV);
                             //  System.Diagnostics.Trace.WriteLine(s);
                             temp = new Point3D(p.X + xV, p.Y + yV, p.Z + zV);
-                      //      lock (o)
-                       //     {
-                                /*  if(!mesh.Positions.Contains(temp)){ */
-                                mesh.Positions.Add(temp);
-                                /*}*/
-                         //   }
+                            //      lock (o)
+                            //     {
+                            /*  if(!mesh.Positions.Contains(temp)){ */
+                            mesh.Positions.Add(temp);
+                            /*}*/
+                            //   }
                         }
                     }
                 }
                 int[] joinVertgroups = new int[] { 0, 4, 2, 4, 6, 2, 0, 1, 2, 1, 3, 2, 1, 7, 3, 1, 5, 7, 0, 1, 4, 4, 1, 5, 4, 6, 7, 7, 5, 4, 6, 2, 3, 3, 7, 6 };
                 foreach (int pointRef in joinVertgroups)
                 {
-                //    lock (o)
-                 //   {
-                        mesh.TriangleIndices.Add(pointRef + (i * 8));
-                 ///   }
+                    //    lock (o)
+                    //   {
+                    mesh.TriangleIndices.Add(pointRef + (i * 8));
+                    ///   }
                 }
             };//);
             return mesh;

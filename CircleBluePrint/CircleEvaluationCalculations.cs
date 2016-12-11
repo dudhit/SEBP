@@ -22,7 +22,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
         private string shapeSelected;
         private double lowToleranceEvaluation;
         private double highToleranceEvaluation;
-
+        //setters
         public double RadiusInXPlane { set { this.xRadius = value; this.xIntRadius = Convert.ToInt32(value); } }
         public double RadiusInYPlane { set { this.yRadius = value; this.yIntRadius = Convert.ToInt32(value); } }
         public double RadiusInZPlane { set { this.zRadius = value; this.zIntRadius = Convert.ToInt32(value); } }
@@ -33,82 +33,92 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 
         public void BeginPointChecking()
         {
+
             int xLoop; int yLoop; int zLoop;
             xLoop = (xIntRadius > 0) ? xIntRadius + 1 : xIntRadius;
-            yLoop = (xIntRadius > 0) ? xIntRadius + 1 : xIntRadius;
+            yLoop = (yIntRadius > 0) ? yIntRadius + 1 : yIntRadius;
             zLoop = (zIntRadius > 0) ? zIntRadius + 1 : zIntRadius;
-            //  MakeAxisPoints();
-            Parallel.For(0, xLoop, x =>
+            MakeAxisPoints();
+
+            if (zLoop == 0)
             {
-                Parallel.For(0, yLoop, y =>
-                {
-                    Parallel.For(0, zLoop, z =>
-                    //   for (int z = 0; z <= zLoop; z++)
-                    {
-                        Point3D tempPoint = new Point3D(x, y, z);
+                Process2Axis(xLoop, yLoop);
+            }
+            else
+            {
+                //do x y z
+                Process3Axis(xLoop, yLoop, zLoop);
 
-                        System.Diagnostics.Trace.Write("\nx:" + x + " y:" + y + " z:" + z + "\n");
-                        //  tempPointsToParallelise.Add(tempPoint);
-
-                        SolidOrFrame(EvalPoint3D(tempPoint), tempPoint);
+            }
 
 
-                    });
+        }
+        private void Process2Axis(int xLoop, int yLoop)
+        {
+            Point3D tempPoint;
+            // for (int y = 0; y <= yLoop; y++)
+            Parallel.ForEach(Axis(yLoop), y =>
+            {
+                //for (int x = 0; x < xLoop; x++)
+                Parallel.ForEach(Axis(xLoop), x =>
+              {
+                  tempPoint = new Point3D(x, y, 0);
+                  SolidOrFrame(EvalPoint3D(tempPoint), tempPoint);
+                  string result = string.Format("x:{0}y:{1}z:0", x, y);
+                  System.Diagnostics.Trace.WriteLine(result);
+              });
+            }
+        );
 
-                });
+        }
+        private void Process3Axis(int xLoop, int yLoop, int zLoop)
+        {
+            Point3D tempPoint;
+            Parallel.ForEach(Axis(zLoop), z =>
+            //  foreach(int i in Axis(xLoop))
+            {
+                // for (int y = 0; y <= yLoop; y++)
+                Parallel.ForEach(Axis(yLoop), y =>
+               {
+                   // for (int x = 0; x <= xLoop; x++)
+                   Parallel.ForEach(Axis(xLoop), x =>
+                 {
+                     tempPoint = new Point3D(x, y, z);
+                     SolidOrFrame(EvalPoint3D(tempPoint), tempPoint);
+                     string result = string.Format("x:{0}y:{1}z:{1}", x, y, z);
+                     System.Diagnostics.Trace.WriteLine(result);
+                 });
+               });
             });
+
         }
 
+        public static System.Collections.Generic.IEnumerable<int> Axis(int radius)
+        {
+            for (int i = 0; i < radius; i++)
+            {
+                yield return i;
+            }
+        }
+
+        // Summary:
+        //     Loops through each x,y,z individually to plot axis points
+        //     
         private void MakeAxisPoints()
         {
-
             List<Point3D> tempAxisPoints = new List<Point3D>();
             Parallel.For(0, xIntRadius, x =>
             {
-                ParallelWriteToCollection(new Point3D(x, 0, 0));
+                PointContainer.Add(new Point3D(x, 0, 0));
             });
             Parallel.For(0, yIntRadius, y =>
             {
-                ParallelWriteToCollection(new Point3D(0, y, 0));
+                PointContainer.Add(new Point3D(0, y, 0));
             });
             Parallel.For(0, zIntRadius, z =>
             {
-                ParallelWriteToCollection(new Point3D(0, 0, z));
+                PointContainer.Add(new Point3D(0, 0, z));
             });
-
-
-        }
-
-        //private void MakeAxisPoints2()
-        //{
-
-        //    List<Point3D> tempAxisPoints = new List<Point3D>();
-        //    for (int x = 0; x <= xIntRadius; x++)
-        //    {
-        //        ParallelWriteToCollection(new Point3D(x, 0, 0));
-        //    }
-        //   for(int y =0;y<=yIntRadius; y++)
-        //    {
-        //        ParallelWriteToCollection(new Point3D(0, y, 0));
-        //    }
-        //  for(int z=0;z<=zIntRadius; z++)
-        //    {
-        //        ParallelWriteToCollection(new Point3D(0, 0, z));
-        //    }
-
-
-        //}
-
-
-        private void ParallelWriteToCollection(Point3D point)
-        {
-            //  Object lockMe = new Object();
-
-            //   lock (lockMe)
-            //   {
-            PointContainer.Add(point);
-            //   }
-
         }
 
         // Summary:

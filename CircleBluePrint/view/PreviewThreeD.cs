@@ -14,8 +14,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 {
     class PreviewThreeD : Viewport3D, INotifyPropertyChanged
     {
-        private   Model3DGroup groupIt;
-        private  ModelVisual3D visual;
+        private Model3DGroup groupIt;
+        private ModelVisual3D visual;
         private AmbientLight letThereBe;
         private DirectionalLight dl;
         private PerspectiveCamera myCam;
@@ -55,7 +55,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             //  this.drawData = plotThis;
             this.zoomOut = cam;
 
-          
+
             // CreateScene();
             // ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True"
         }
@@ -73,8 +73,8 @@ Finally, add the Viewport3D to the window.
 
         public void CreateScene()
         {
-         
-  visual = new ModelVisual3D();
+
+            visual = new ModelVisual3D();
             groupIt = new Model3DGroup();
             ConfigLight();
             SetCamera();
@@ -144,45 +144,44 @@ Finally, add the Viewport3D to the window.
 
         private MeshGeometry3D MakeMesh()
         {
+            Object lockable = new Object();
             MeshGeometry3D mesh = new MeshGeometry3D();
-            Point3D p; Point3D temp = new Point3D();
-            //   Object o = new Object();
-            //    Parallel.For( 0,  PointContainer.Count(), i=>
-            for (int i = 0; i < PointContainer.Count(); i++)
+            Point3D p; Point3D temp = new Point3D(); 
+            int[] joinVertgroups = new int[] { 0, 4, 2, 4, 6, 2, 0, 1, 2, 1, 3, 2, 1, 7, 3, 1, 5, 7, 0, 1, 4, 4, 1, 5, 4, 6, 7, 7, 5, 4, 6, 2, 3, 3, 7, 6 };
+           //    Parallel.ForEach(OneCube(), c =>
+          for (int c = 0; c < PointContainer.Count(); c++)
             {
-                p = PointContainer.Item(i);//drawData[i];
+                p = PointContainer.Item(c);
                 for (double xV = -0.5; xV <= 0.5; xV++)
                 {
                     for (double yV = -.5; yV <= .5; yV++)
                     {
                         for (double zV = -.5; zV <= .5; zV++)
                         {
-                            //   s = string.Format("{0}, {1},{2}", xV, yV, zV);
-                            //  System.Diagnostics.Trace.WriteLine(s);
                             temp = new Point3D(p.X + xV, p.Y + yV, p.Z + zV);
-                            //      lock (o)
-                            //     {
-                            /*  if(!mesh.Positions.Contains(temp)){ */
-                            mesh.Positions.Add(temp);
-                            /*}*/
-                            //   }
+                               lock (lockable){  mesh.Positions.Add(temp);                             }
                         }
                     }
                 }
-                int[] joinVertgroups = new int[] { 0, 4, 2, 4, 6, 2, 0, 1, 2, 1, 3, 2, 1, 7, 3, 1, 5, 7, 0, 1, 4, 4, 1, 5, 4, 6, 7, 7, 5, 4, 6, 2, 3, 3, 7, 6 };
+             
                 foreach (int pointRef in joinVertgroups)
                 {
-                    //    lock (o)
-                    //   {
-                    mesh.TriangleIndices.Add(pointRef + (i * 8));
-                    ///   }
+                      lock (lockable){
+                    mesh.TriangleIndices.Add(pointRef + (c * 8));
+                   }
                 }
-            };//);
+            }//);
             return mesh;
 
         }
 
-
+        public static System.Collections.Generic.IEnumerable<int> OneCube()
+        {
+            for (int i = 0; i < PointContainer.Count(); i++)
+            {
+                yield return i;
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         void OnPropertyChanged(String info)

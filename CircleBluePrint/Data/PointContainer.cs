@@ -63,6 +63,15 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Collection
         public static void Clear()
         { pointList.Clear(); }
 
+
+        public System.Collections.Generic.IEnumerable<Point3D> NextPoint
+        {
+            get
+            {
+                yield return Item(1);
+     
+            }
+        }
     }
 
 }

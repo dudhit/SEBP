@@ -1,27 +1,27 @@
 ﻿using SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Collection;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Media3D;
 
-namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
+namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Utility
 {
-    class CircleEvaluationCalculations
+    public class CircleEvaluationCalculations
     {
-
-        private int xIntRadius;
-        private int yIntRadius;
-        private int zIntRadius;
-        private double xRadius;
-        private double yRadius;
-        private double zRadius;
-        private string shapeSelected;
-        private double lowToleranceEvaluation;
-        private double highToleranceEvaluation;
+        public delegate void ProcessingChangedHandler(CircleEvaluationCalculations calcs, ProcessInfoArgs processingstatus);
+        public event ProcessingChangedHandler Processing;
+        private int xIntRadius = -1;
+        private int yIntRadius = -1;
+        private int zIntRadius = -1;
+        private double xRadius = -1;
+        private double yRadius = -1;
+        private double zRadius = -1;
+        private string shapeSelected = null;
+        private double lowToleranceEvaluation = -1;
+        private double highToleranceEvaluation = -1;
         //setters
         public double RadiusInXPlane { set { this.xRadius = value; this.xIntRadius = Convert.ToInt32(value); } }
         public double RadiusInYPlane { set { this.yRadius = value; this.yIntRadius = Convert.ToInt32(value); } }
@@ -33,7 +33,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 
         public void BeginPointChecking()
         {
-
+            if (!ValidateInputs()) return;
             int xLoop; int yLoop; int zLoop;
             xLoop = (xIntRadius > 0) ? xIntRadius + 1 : xIntRadius;
             yLoop = (yIntRadius > 0) ? yIntRadius + 1 : yIntRadius;
@@ -55,25 +55,39 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
         }
         private void Process2Axis(int xLoop, int yLoop)
         {
-            Point3D tempPoint;
+            Object toLock = new Object();
+            Point3D tempPoint; double pointWithinBounds;
             // for (int y = 0; y <= yLoop; y++)
             Parallel.ForEach(Axis(yLoop), y =>
             {
+
                 //for (int x = 0; x < xLoop; x++)
                 Parallel.ForEach(Axis(xLoop), x =>
               {
+                  ProcessInfoArgs processed = new ProcessInfoArgs(x, y, 0);
+                  if (Processing != null)
+                  {
+
+                      Processing(this, processed);
+
+                  }
                   tempPoint = new Point3D(x, y, 0);
-                  SolidOrFrame(EvalPoint3D(tempPoint), tempPoint);
-                  string result = string.Format("x:{0}y:{1}z:0", x, y);
-                  System.Diagnostics.Trace.WriteLine(result);
+                  pointWithinBounds = EvalPoint3D(tempPoint);
+                  if (SolidOrFrame(pointWithinBounds))
+                      DoShapePlotting(tempPoint);
+                  //      string result = string.Format("x:{0}y:{1}z:0", x, y);
+                  //     System.Diagnostics.Trace.WriteLine(result);
               });
+
+
             }
+
         );
 
         }
         private void Process3Axis(int xLoop, int yLoop, int zLoop)
         {
-            Point3D tempPoint;
+            Point3D tempPoint; double pointWithinBounds;
             Parallel.ForEach(Axis(zLoop), z =>
             //  foreach(int i in Axis(xLoop))
             {
@@ -84,7 +98,9 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
                    Parallel.ForEach(Axis(xLoop), x =>
                  {
                      tempPoint = new Point3D(x, y, z);
-                     SolidOrFrame(EvalPoint3D(tempPoint), tempPoint);
+                     pointWithinBounds = EvalPoint3D(tempPoint);
+                     if (SolidOrFrame(pointWithinBounds))
+                         DoShapePlotting(tempPoint);
                      string result = string.Format("x:{0}y:{1}z:{1}", x, y, z);
                      System.Diagnostics.Trace.WriteLine(result);
                  });
@@ -93,7 +109,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 
         }
 
-        public static System.Collections.Generic.IEnumerable<int> Axis(int radius)
+        private static System.Collections.Generic.IEnumerable<int> Axis(int radius)
         {
             for (int i = 0; i < radius; i++)
             {
@@ -142,23 +158,15 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 
         }
 
-        private void SolidOrFrame(double result, Point3D p)
+        private bool SolidOrFrame(double result)
         {
+            bool canPlot;
+            return canPlot = (result >= lowToleranceEvaluation && result <= highToleranceEvaluation) ? true : false;
 
-
-            //      if (makeSolid.IsChecked == true && result <= highTol)
-            //      {
-            //          DoShapePlotting(p);
-            //      }
-            //if (makeFrame.IsChecked == true && result >= lowTol && result <= highTol)
-            if (result >= lowToleranceEvaluation && result <= highToleranceEvaluation)
-            {
-                DoShapePlotting(p, shapeSelected);
-            }
         }
-        private void DoShapePlotting(Point3D p, string shapeChoice)
+        private void DoShapePlotting(Point3D p)
         {
-            switch (shapeChoice)
+            switch (shapeSelected)
             {
                 case "QuaterRing":
                     PPP(p); break;
@@ -217,11 +225,48 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 
         #endregion
 
-
-
+        /* todo add delegate to have this class update a progress bar
+        private void AccessUIThread()
+        {
+            DispatcherOperation op = Dispatcher.BeginInvoke((Action)(() =>
+            {
+          //     .Content = "By BeginInvoke";
+            }));
+        }
+ */
         #endregion
+        private bool ValidateInputs()
+        {
+            bool passFail = true;
+            StringBuilder sb = new StringBuilder();
+            if (xIntRadius == -1)
+            { sb.Append("X radius was not set.\n"); passFail = false; }
+            if (yIntRadius == -1)
+            { sb.Append("Y radius was not set.\n"); passFail = false; }
+            if (zIntRadius == -1)
+            { sb.Append("Z radius was not set.\n"); passFail = false; }
+            if (string.IsNullOrEmpty(shapeSelected) == true)
+            { sb.Append("Appropriate Shape not assigned.\n"); passFail = false; }
+            if (lowToleranceEvaluation == -1)
+            { sb.Append("Low tolerance was not set.\n"); passFail = false; }
+            if (highToleranceEvaluation == -1)
+            { sb.Append("High tolerance was not set.\n"); passFail = false; }
+            sb.Append("Misuse of Class\nEnsure all public properties are set, before calling BeginPointChecking method.");
+
+            if (!passFail) MessageBox.Show(sb.ToString(), "Class useage Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            return passFail;
+        }
 
 
-
+    }
+    public class ProcessInfoArgs : EventArgs
+    {
+        public int x;
+        public int y;
+        public int z;
+        public ProcessInfoArgs(int x, int y, int z)
+        {
+            this.x = x; this.y = y; this.z = z;
+        }
     }
 }

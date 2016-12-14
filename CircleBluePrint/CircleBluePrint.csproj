@@ -89,6 +89,7 @@
     <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="ReachFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Printing" />
@@ -113,8 +114,18 @@
     </ApplicationDefinition>
     <Compile Include="CircleEvaluationCalculations.cs" />
     <Compile Include="Data\PointContainer.cs" />
+    <Compile Include="Data\UserSettings.cs" />
+    <Compile Include="FileTab.cs" />
+    <Compile Include="view\FindSteamID.cs" />
+    <Compile Include="view\ProgressStatus.xaml.cs">
+      <DependentUpon>ProgressStatus.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TabThree.cs" />
     <Compile Include="TabTwo.cs" />
+    <Page Include="view\ProgressStatus.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="view\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -133,7 +144,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="model\MyCube.cs" />
     <Compile Include="MyFileHandler.cs" />
     <Compile Include="view\PreviewThreeD.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -186,6 +196,7 @@
     <Resource Include="images\2016-11-24-10-17-53-472.png" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="model\" />
     <Folder Include="Templates\" />
   </ItemGroup>
   <ItemGroup>

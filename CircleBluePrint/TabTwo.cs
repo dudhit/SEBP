@@ -1,10 +1,4 @@
-﻿using SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Collection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Media3D;
@@ -19,12 +13,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
         #region shape settings tab controls
 
         private void SetAxisRadius()
-        {
-
-            if (shapeSettingChanged == true)
-            {
-                PointContainer.Clear();
-
+        {                  
                 //validate radius values
                 if (makeCircle.IsChecked == true)
                 {
@@ -51,6 +40,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
                     zRadius = radThreeSlide.Value;
 
                 }
+                shapeSelected = null;
                 if (makeQuater.IsChecked == true && (makeCircle.IsChecked == true || makeElipse.IsChecked == true))
                     shapeSelected = "QuaterRing";
                 if (makeQuater.IsChecked == true && (makeSphere.IsChecked == true || makeElipsoid.IsChecked == true))
@@ -68,11 +58,12 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
                 if (makeFull.IsChecked == true && (makeSphere.IsChecked == true || makeElipsoid.IsChecked == true))
                     shapeSelected = "FullSphere";
                 maxWait = (int)xRadius * (int)yRadius * (int)zRadius;
-            }
+            
 
         }
         private void ActionRefreshView(object sender, RoutedEventArgs e)
         {
+            refreshPreviewBut.IsEnabled = false;
             PlottingProcess();
             //   List<Point3D> templist = new List<Point3D>();
             viewContainer.Content = null;
@@ -97,7 +88,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             //}
             //visualisePointsAsWorldCubues.Join();
 
-
+            refreshPreviewBut.IsEnabled = true;
 
         }
 
@@ -160,10 +151,6 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             shapeSettingChanged = true;
         }
 
-        private void WantsSolid(object sender, RoutedEventArgs e)
-        {
-            shapeSettingChanged = true;
-        }
 
         private void WantsFrame(object sender, RoutedEventArgs e)
         {

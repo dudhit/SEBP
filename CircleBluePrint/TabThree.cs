@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -38,22 +33,14 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 
         private void SetFill(object sender, RoutedEventArgs e)
         {
-
-            //   Shape selectedShape = (Shape)GetValue(SelectedShapeProperty);
-
             Microsoft.Samples.CustomControls.ColorPickerDialog cPicker
-                = new Microsoft.Samples.CustomControls.ColorPickerDialog();
+                      = new Microsoft.Samples.CustomControls.ColorPickerDialog();
             cPicker.StartingColor = FillColor;
             cPicker.Owner = this;
-
             bool? dialogResult = cPicker.ShowDialog();
             if (dialogResult != null && (bool)dialogResult == true)
             {
-
-                //   if (selectedShape != null)
-                //       selectedShape.Fill = new SolidColorBrush(cPicker.SelectedColor);
                 FillColor = cPicker.SelectedColor;
-
             }
         }
 
@@ -124,6 +111,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
                     HSV_ColourPickerToBP_Val(h, s, v);
                     break;
                 case "colCustom":
+                    MessageBox.Show(FillColor.ToString(),"custom color processing",MessageBoxButton.OK);
                     break;
 
 
@@ -137,7 +125,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             blockColourHue = h / 360;
             blockColourSaturation = s / 100;
             blockColourValue = v / 100;
-          
+
         }
 
 

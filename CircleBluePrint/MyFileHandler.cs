@@ -1,8 +1,6 @@
 ﻿using SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Collection;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
@@ -10,7 +8,7 @@ using System.Xml.Linq;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 {
-
+    //used to prevent encoding attributes being generated in XML file
     public class MyFileHandler : StringWriter
     {
         public override Encoding Encoding
@@ -27,6 +25,9 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
     [Serializable]
     class BluePrintXml : XDocument
     {
+        //public Delegate Point3D GetPointAtIndex(int i);
+        //public Delegate int GetTotalPoints();
+
         private string XSD = "xsd";
         private string XSI = "xsi";
         private XNamespace xmlSchema = "http://www.w3.org/2001/XMLSchema";
@@ -39,12 +40,12 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
         public string GridSizeEnum { get; set; }
         public string BluePrintName { get; set; }
         private long entityTracked;
-    //    private List<Point3D> GridData { get; set; }
-//public Point3D PopulateGrid { set { GridData.Add(value); } }
+        //    private List<Point3D> GridData { get; set; }
+        //public Point3D PopulateGrid { set { GridData.Add(value); } }
         public BluePrintXml()
         {
             entityTracked = EntityGenerator(18);
-      //      GridData = new List<Point3D>();
+            //      GridData = new List<Point3D>();
         }
 
         public void BluePrintFileHandling()
@@ -159,14 +160,16 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             return setContainer;
         }
 
+
+
         private XElement CubeBlocks()
         {
             Object writeLock = new Object();
             XElement setCubeBlocks = new XElement("CubeBlocks");
             //Parallel.ForEach(PointContainer, p =>
-            Parallel.For(0,PointContainer.Count()+1,i=>
+            Parallel.For(0, PointContainer.Count() + 1, i =>
             {
-                Point3D p =PointContainer.Item(i);
+                Point3D p = PointContainer.Item(i);
                 XElement builder = new XElement("MyObjectBuilder_CubeBlock", new XAttribute(xmlSchemaI + "type", "MyObjectBuilder_CubeBlock"));
                 XElement sub = new XElement("SubtypeName", BlockType);
                 XElement min = new XElement("Min", new XAttribute("x", p.X), new XAttribute("y", p.Y), new XAttribute("z", p.Z));
@@ -174,9 +177,10 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
                 builder.Add(sub);
                 builder.Add(min);
                 builder.Add(colour);
-                lock (writeLock)  {
-                setCubeBlocks.Add(builder);
-            }
+                lock (writeLock)
+                {
+                    setCubeBlocks.Add(builder);
+                }
             });
             return setCubeBlocks;
         }

@@ -1,7 +1,6 @@
 ﻿
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Media.Media3D;
 namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Collection
@@ -25,11 +24,13 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Collection
 
             internal static readonly PointContainer instance = new PointContainer();
         }
-        private static List<Point3D> pointList;
+       private static List<Point3D> pointList;
+      //  private static ConcurrentBag<Point3D> pointList;
          private static Object multiThreadLock;
 
         static PointContainer()
         {
+         //   pointList = new ConcurrentBag<Point3D>();
            pointList = new List<Point3D>();
             multiThreadLock = new Object();
         }

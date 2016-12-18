@@ -115,8 +115,7 @@
 
                             </GroupBox>
                             <Button x:Name="refreshPreviewBut" Click="ActionRefreshView" ToolTip="a basic preview of what your shape will look like" Content="show preview"/>
-                            <GroupBox Header="Preview" x:Name="viewContainer"  TabIndex="-1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"  />
-
+                          
                         </WrapPanel>
                     </StackPanel>
                 </TabItem>
@@ -294,7 +293,7 @@
                         </StackPanel>
                         <Label Content=  "Name for blueprint" TabIndex="-1"/>
                         <TextBox x:Name="dataNames" TabIndex="30" MinHeight="18" MaxHeight="18" MaxWidth="300" MinWidth="300" HorizontalAlignment="Left" Margin="10,2,10,10"/>
-                        <Button x:Name="actionGenerate" Content="Generate Blueprint" Height="40" Margin="30" Click="StartTheCogs" />
+                        <Button x:Name="actionGenerate" Content="Generate Blueprint" Height="40" Margin="30" Click="StartStopCalculating" />
 
 
                     </StackPanel>

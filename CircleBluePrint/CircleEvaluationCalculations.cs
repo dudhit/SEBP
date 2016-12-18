@@ -11,8 +11,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Utility
 {
     public class CircleEvaluationCalculations
     {
-        public delegate void ProcessingChangedHandler(CircleEvaluationCalculations calcs, ProcessInfoArgs processingstatus);
-        public event ProcessingChangedHandler Processing;
+ 
         private int xIntRadius = -1;
         private int yIntRadius = -1;
         private int zIntRadius = -1;
@@ -34,6 +33,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Utility
         public void BeginPointChecking()
         {
             if (!ValidateInputs()) return;
+            
             int xLoop; int yLoop; int zLoop;
             xLoop = (xIntRadius > 0) ? xIntRadius + 1 : xIntRadius;
             yLoop = (yIntRadius > 0) ? yIntRadius + 1 : yIntRadius;
@@ -55,8 +55,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Utility
         }
         private void Process2Axis(int xLoop, int yLoop)
         {
-            Object toLock = new Object();
-            Point3D tempPoint; double pointWithinBounds;
+            //Object toLock = new Object();
+            Point3D tempPoint; 
             // for (int y = 0; y <= yLoop; y++)
             Parallel.ForEach(Axis(yLoop), y =>
             {
@@ -64,19 +64,15 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Utility
                 //for (int x = 0; x < xLoop; x++)
                 Parallel.ForEach(Axis(xLoop), x =>
               {
-                  ProcessInfoArgs processed = new ProcessInfoArgs(x, y, 0);
-                  if (Processing != null)
-                  {
+                  //ProcessInfoArgs processed = new ProcessInfoArgs(x, y, 0);
+                  //if (Processing != null)
+                  //{
 
-                      Processing(this, processed);
+                  //    Processing(this, processed);
 
-                  }
+                  //}
                   tempPoint = new Point3D(x, y, 0);
-                  pointWithinBounds = EvalPoint3D(tempPoint);
-                  if (SolidOrFrame(pointWithinBounds))
-                      DoShapePlotting(tempPoint);
-                  //      string result = string.Format("x:{0}y:{1}z:0", x, y);
-                  //     System.Diagnostics.Trace.WriteLine(result);
+                ProcessNewPoint(tempPoint);
               });
 
 
@@ -85,9 +81,19 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Utility
         );
 
         }
+
+        private double ProcessNewPoint(Point3D tempPoint)
+        {
+            double  pointWithinBounds = EvalPoint3D(tempPoint);
+            if (SolidOrFrame(pointWithinBounds))
+                DoShapePlotting(tempPoint);
+            //string result = string.Format("x:{0}y:{1}z:{2}", tempPoint.X, tempPoint.Y, tempPoint.Z);
+            //System.Diagnostics.Trace.WriteLine(result);
+            return pointWithinBounds;
+        }
         private void Process3Axis(int xLoop, int yLoop, int zLoop)
         {
-            Point3D tempPoint; double pointWithinBounds;
+            Point3D tempPoint;
             Parallel.ForEach(Axis(zLoop), z =>
             //  foreach(int i in Axis(xLoop))
             {
@@ -98,11 +104,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Utility
                    Parallel.ForEach(Axis(xLoop), x =>
                  {
                      tempPoint = new Point3D(x, y, z);
-                     pointWithinBounds = EvalPoint3D(tempPoint);
-                     if (SolidOrFrame(pointWithinBounds))
-                         DoShapePlotting(tempPoint);
-                     string result = string.Format("x:{0}y:{1}z:{1}", x, y, z);
-                     System.Diagnostics.Trace.WriteLine(result);
+                ProcessNewPoint(tempPoint);
                  });
                });
             });
@@ -259,14 +261,5 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Utility
 
 
     }
-    public class ProcessInfoArgs : EventArgs
-    {
-        public int x;
-        public int y;
-        public int z;
-        public ProcessInfoArgs(int x, int y, int z)
-        {
-            this.x = x; this.y = y; this.z = z;
-        }
-    }
+
 }

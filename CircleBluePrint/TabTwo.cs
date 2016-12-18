@@ -1,99 +1,102 @@
-﻿using System;
+﻿using SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.view;
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Media3D;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 {
     public partial class MainWindow : Window
     {
-        private string shapeSelected;
+        private ModelViewer threeDView;
+        // private string shapeSelected;
         private bool shapeSettingChanged;
-        int maxWait;
+        public WorkingArgs shapeSettings;
+        private bool IsGeneratingPreview;
         #region shape settings tab controls
 
         private void SetAxisRadius()
-        {                  
-                //validate radius values
-                if (makeCircle.IsChecked == true)
-                {
-                    xRadius = radOneSlide.Value;
-                    yRadius = radOneSlide.Value;
-                    zRadius = 0;
-                }
-                if (makeSphere.IsChecked == true)
-                {
-                    xRadius = radOneSlide.Value;
-                    yRadius = radOneSlide.Value;
-                    zRadius = radOneSlide.Value;
-                }
-                if (makeElipse.IsChecked == true)
-                {
-                    xRadius = radOneSlide.Value;
-                    yRadius = radTwoSlide.Value;
-                    zRadius = 0;
-                }
-                if (makeElipsoid.IsChecked == true)
-                {
-                    xRadius = radOneSlide.Value;
-                    yRadius = radTwoSlide.Value;
-                    zRadius = radThreeSlide.Value;
+        {
+            double xRadius = 0;
+            double yRadius = 0;
+            double zRadius = 0;
+            //validate radius values
+            if (makeCircle.IsChecked == true)
+            {
+                xRadius = radOneSlide.Value;
+                yRadius = radOneSlide.Value;
+                zRadius = 0;
+            }
+            if (makeSphere.IsChecked == true)
+            {
+                xRadius = radOneSlide.Value;
+                yRadius = radOneSlide.Value;
+                zRadius = radOneSlide.Value;
+            }
+            if (makeElipse.IsChecked == true)
+            {
+                xRadius = radOneSlide.Value;
+                yRadius = radTwoSlide.Value;
+                zRadius = 0;
+            }
+            if (makeElipsoid.IsChecked == true)
+            {
+                xRadius = radOneSlide.Value;
+                yRadius = radTwoSlide.Value;
+                zRadius = radThreeSlide.Value;
 
-                }
-                shapeSelected = null;
-                if (makeQuater.IsChecked == true && (makeCircle.IsChecked == true || makeElipse.IsChecked == true))
-                    shapeSelected = "QuaterRing";
-                if (makeQuater.IsChecked == true && (makeSphere.IsChecked == true || makeElipsoid.IsChecked == true))
-                    shapeSelected = "QuaterSphere";
+            }
+            string shapeSelected = "";
+            if (makeQuater.IsChecked == true && (makeCircle.IsChecked == true || makeElipse.IsChecked == true))
+            { shapeSelected = "QuaterRing"; }
+            if (makeQuater.IsChecked == true && (makeSphere.IsChecked == true || makeElipsoid.IsChecked == true))
+            { shapeSelected = "QuaterSphere"; }
 
-                if (makeSemi.IsChecked == true && (makeCircle.IsChecked == true || makeElipse.IsChecked == true))
-                    shapeSelected = "SemiRing";
+            if (makeSemi.IsChecked == true && (makeCircle.IsChecked == true || makeElipse.IsChecked == true))
+            { shapeSelected = "SemiRing"; }
 
-                if (makeSemi.IsChecked == true && (makeSphere.IsChecked == true || makeElipsoid.IsChecked == true))
-                    shapeSelected = "HemiSphere";
+            if (makeSemi.IsChecked == true && (makeSphere.IsChecked == true || makeElipsoid.IsChecked == true))
+            { shapeSelected = "HemiSphere"; }
 
-                if (makeFull.IsChecked == true && (makeCircle.IsChecked == true || makeElipse.IsChecked == true))
-                    shapeSelected = "FullRing";
+            if (makeFull.IsChecked == true && (makeCircle.IsChecked == true || makeElipse.IsChecked == true))
+            { shapeSelected = "FullRing"; }
 
-                if (makeFull.IsChecked == true && (makeSphere.IsChecked == true || makeElipsoid.IsChecked == true))
-                    shapeSelected = "FullSphere";
-                maxWait = (int)xRadius * (int)yRadius * (int)zRadius;
-            
+            if (makeFull.IsChecked == true && (makeSphere.IsChecked == true || makeElipsoid.IsChecked == true))
+            { shapeSelected = "FullSphere"; }
+
+            shapeSettings = new WorkingArgs(xRadius, yRadius, zRadius, lowTol, highTol, shapeSelected);
 
         }
+
         private void ActionRefreshView(object sender, RoutedEventArgs e)
         {
-            refreshPreviewBut.IsEnabled = false;
-            PlottingProcess();
-            //   List<Point3D> templist = new List<Point3D>();
-            viewContainer.Content = null;
-            //    foreach (Point3D p in plotData)
-            //    {
-            //        templist.Add(p);
-            //    }
+            if (IsGeneratingPreview == false)
+            {
+                refreshPreviewBut.Content = "Cancel preview";
+                IsGeneratingPreview = true;
+                //    PlottingProcess();
+                threeDView = new ModelViewer();
+                // threeDView.Owner = this;
 
-            previewViewer = new PreviewThreeD(new Point3D(xRadius + 10, yRadius + 10, zRadius + 10));
-            viewContainer.Content = previewViewer;
-            previewViewer.CreateScene();
-            //Thread visualisePointsAsWorldCubues = new Thread(new ThreadStart(previewViewer.CreateScene));
-            //visualisePointsAsWorldCubues.Name = "Isolated from UI";
-            //visualisePointsAsWorldCubues.Priority = ThreadPriority.Normal;
-            //try
-            //{
-            //    visualisePointsAsWorldCubues.Start();
-            //}
-            //catch (ThreadStateException te)
-            //{
-            //    System.Diagnostics.Trace.Write(te.ToString());
-            //}
-            //visualisePointsAsWorldCubues.Join();
+                bool? previewResult = threeDView.ShowDialog();
+                if (previewResult != null && (bool)previewResult == true)
+                {
+                  
+                }
+                else
+                {  IsGeneratingPreview = false;
+                    refreshPreviewBut.Content = "show preview"; }
+            }
+            else
+            {
+                //cancel preview
+                refreshPreviewBut.Content = "show preview";
+            }
 
-            refreshPreviewBut.IsEnabled = true;
 
         }
 
 
-
+        #region radio buttons
 
         private void WantsCircle(object sender, RoutedEventArgs e)
         {
@@ -157,6 +160,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             shapeSettingChanged = true;
         }
 
+        #endregion
         #region sliders and textboxes
 
 

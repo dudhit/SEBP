@@ -35,11 +35,9 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 
         //calculation variables
         //  private List<Point3D> plotData;
-        private double xRadius;
-        private double yRadius;
-        private double zRadius;
-        private double lowTol;
-        private double highTol;
+
+     private double lowTol;
+    private double highTol;
 
         //blocks
         private float blockColourHue;
@@ -48,8 +46,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
         string gridSize;
         string armourType;
         //external view
-        PreviewThreeD previewViewer;
-   
+     //   PreviewThreeD previewViewer;
+        ProgressStatus ps;
       
         //run this to reset and on load without a save file
         #region main window flow and menu
@@ -59,7 +57,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             InitializeComponent();
 
             if (!File.Exists(CONFIG_FILE)) { FirstLoad(); } else { LoadUserSettings(); }
-    
+            worker = new BackgroundWorker();
+             ps = new ProgressStatus();
             //  PathHandler(this, new RoutedEventArgs());
             //   plotData = new List<Point3D>();
 
@@ -367,6 +366,9 @@ var myTextBlock = (TextBlock)this.FindName("myTextBlock");
         }
 
         #endregion
+
+       
+
 
    
     

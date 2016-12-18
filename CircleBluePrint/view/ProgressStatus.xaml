@@ -7,7 +7,7 @@
         x:Name="statusWindow"
         >
     <Grid>
-        <ProgressBar x:Name="progressBar" MaxHeight="20" MinHeight="20"    MinWidth="300" MaxWidth="{Binding Width, ElementName=statusWindow}">
+        <ProgressBar x:Name="progressBar" MaxHeight="20" MinHeight="20"    MinWidth="300" MaxWidth="{Binding Width, ElementName=statusWindow}" Maximum="{Binding BarMaximum}" Minimum="{Binding BarMinimum}">
             
  </ProgressBar>
         <Label x:Name="updateLabel"></Label>

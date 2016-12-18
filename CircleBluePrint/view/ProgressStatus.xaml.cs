@@ -1,35 +1,50 @@
-﻿using SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Utility;
-using System;
-using System.Collections.Generic;
+﻿using SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Collection;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 {
     /// <summary>
     /// Interaction logic for ProgressStatus.xaml
     /// </summary>
-    public partial class ProgressStatus : Window
+    public partial class ProgressStatus : Window, INotifyPropertyChanged
     {
+        private bool IsSubscribed;
+        private double barMaximum;
 
-        public void SubscribeToEvaluator(CircleEvaluationCalculations cec)
-        { cec.Processing += new CircleEvaluationCalculations.ProcessingChangedHandler(UpdateMyContorls); }
-
-        public void UpdateMyContorls(CircleEvaluationCalculations cec, ProcessInfoArgs pia)
+        private double barMinimum;
+        public ProgressStatus()
         {
-            updateLabel.Content = string.Format("Handled event x:{0},y:{1},z:{2}", pia.x, pia.y, pia.z);
-            //   System.Diagnostics.Trace.WriteLine(string.Format("Handled event x:{0},y:{1},z:{2}",pia.x,pia.y,pia.z));
+            InitializeComponent();
+            this.DataContext = this;
+     
+        }
+
+        public void SubscribeToPointContainer()
+        {
+            if (!IsSubscribed)
+            {
+                IsSubscribed = true;
+                PointContainer.Processing += new PointContainer.ProcessingChangedHandler(UpdateProgress);
+            }
+        }
+        public  void UpdateProgress(PointContainer pc, ProcessInfoArgs pia)
+        {
+            progressBar.Minimum = pia.numPoints/barMaximum;
+        }
+
+        public double BarMinimum { get { return barMinimum; } set { barMinimum = value; RaisePropertyChanged("BarMinimum"); } }
+        public double BarMaximum { get { return barMaximum; } set { barMaximum = value; RaisePropertyChanged("BarMaximum"); } }
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+     
+       
+
+        private void RaisePropertyChanged(string prop)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(prop));
         }
 
     }

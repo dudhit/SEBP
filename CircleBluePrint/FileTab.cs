@@ -2,6 +2,7 @@
 using SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Utility;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Threading;
 using System.Windows;
@@ -11,11 +12,32 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 {
     public partial class MainWindow : Window
     {
-
+        private bool IsCalculating;
+        BackgroundWorker worker;
         #region blueprint settings tab controls
-        private void StartTheCogs(object sender, RoutedEventArgs e)
+
+        private void StartStopCalculating(object sender, RoutedEventArgs e)
         {
-            actionGenerate.IsEnabled = false;
+            if (!IsCalculating)
+            {
+                actionGenerate.Content = "Cancel Blueprint";
+
+                IsCalculating = true;
+                StartTheCogs();
+            }
+            else
+            {
+                actionGenerate.Content = "Generate Blueprint";
+                IsCalculating = false;
+                if (worker != null) { worker.CancelAsync(); }
+            }
+        }
+
+
+
+        private void StartTheCogs()
+        {
+
             if (ValidateBPPathAndCustoms())
             {
                 gridSize = (blockLarge.IsChecked == true) ? "Large" : "Small";
@@ -43,12 +65,12 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
                     MessageBox.Show(UAE.Message, "info", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
                 }
                 //start the heavy work
-                //  PlottingProcess();
+                PlottingProcess();
                 //write to file
 
                 //    BluePrintToFile();
             }
-            actionGenerate.IsEnabled = true;
+
         }
 
 
@@ -62,32 +84,27 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             //instantiate point list
             SetAxisRadius();
             //get bulk points
-            CircleEvaluationCalculations seperateThread = new CircleEvaluationCalculations();
-            ProgressStatus ps = new ProgressStatus();
-            ps.Show();
-            ps.SubscribeToEvaluator(seperateThread);
-            seperateThread.RadiusInXPlane = xRadius;
-            seperateThread.RadiusInYPlane = yRadius;
-            seperateThread.RadiusInZPlane = zRadius;
-            seperateThread.LowToleranceEvaluation = lowTol;
-            seperateThread.HighToleranceEvaluation = highTol;
-            seperateThread.ShapeSelected = shapeSelected;
-            Thread calculationThread = new Thread(new ThreadStart(seperateThread.BeginPointChecking));
-            calculationThread.Name = "Isolated from UI";
-            calculationThread.Priority = ThreadPriority.Highest;
-            try
-            {
-                calculationThread.Start();
-            }
-            catch (ThreadStateException te)
-            {
-                System.Diagnostics.Trace.Write(te.ToString());
-            }
-            calculationThread.Join();
-            //     calculationThread = null;
-            //     seperateThread = null;
+             ps = new ProgressStatus();
+
+             ps.BarMaximum=(Math.Abs((shapeSettings.xRadius - 1) * (shapeSettings.yRadius - 1) * (shapeSettings.zRadius - 1)));
+
+
+
+            worker.WorkerSupportsCancellation = true;
+            worker.WorkerReportsProgress = true;
+            worker.DoWork += worker_DoWork;
+            worker.ProgressChanged += worker_ProgressChanged;
+            worker.RunWorkerCompleted += worker_RunWorkerCompleted;
+ps.Show();
+
+            //  worker.RunWorkerAsync(10000);//send arguments and kick it off
+            worker.RunWorkerAsync(shapeSettings);
+
+            
+          
+         //   ps.progressBar.Minimum = 100;
             shapeSettingChanged = false;
-            ps.Close();
+        
         }
 
 
@@ -110,8 +127,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
                     appUserData.Close();
 
                     Window tempView = new Window();
-                    tempView.Width = System.Windows.SystemParameters.MaximizedPrimaryScreenWidth/2;
-                    tempView.Height = System.Windows.SystemParameters.MaximizedPrimaryScreenHeight/2;
+                    tempView.Width = System.Windows.SystemParameters.MaximizedPrimaryScreenWidth / 2;
+                    tempView.Height = System.Windows.SystemParameters.MaximizedPrimaryScreenHeight / 2;
 
                     tempView.Title = openFile;
                     System.Windows.Controls.StackPanel sp = new System.Windows.Controls.StackPanel();
@@ -127,8 +144,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 
                     if (tempView.ShowDialog() == false)
                     {
-                                          dataSteamId.Text= lb.SelectedValue.ToString().Trim().Replace("\"", "");
-                                          }
+                        dataSteamId.Text = lb.SelectedValue.ToString().Trim().Replace("\"", "");
+                    }
                 }
             }
             catch (FileNotFoundException FNF) { MessageBox.Show(FNF.Message, "Finding Steam Users", MessageBoxButton.OK, MessageBoxImage.Information); }
@@ -214,6 +231,89 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
         }
         #endregion
 
+        #region background worker
 
+
+   
+        void worker_DoWork(object sender, DoWorkEventArgs e)
+         {
+            WorkingArgs parameters = e.Argument as WorkingArgs;
+            CircleEvaluationCalculations seperateThread = new CircleEvaluationCalculations();
+
+            ps.SubscribeToPointContainer();
+            seperateThread.RadiusInXPlane = parameters.xRadius;
+            seperateThread.RadiusInYPlane = parameters.yRadius;
+            seperateThread.RadiusInZPlane = parameters.zRadius;
+            seperateThread.LowToleranceEvaluation = parameters.lowTol;
+            seperateThread.HighToleranceEvaluation = parameters.highTol;
+            seperateThread.ShapeSelected = parameters.shapeSelected;
+         //   seperateThread.BeginPointChecking();
+            for (int x = 0; x < parameters.xRadius; x++) { 
+                int progressPercentage = Convert.ToInt32(((double)x / parameters.xRadius) * 100);
+                (sender as BackgroundWorker).ReportProgress(progressPercentage, parameters.xRadius);
+             System.Threading.Thread.Sleep(1);
+            }
+            //  
+            //    if (i % 42 == 0)
+            //    {
+            //        result++;
+            //       
+            //    }
+            //    else{
+            //        (sender as BackgroundWorker).ReportProgress(progressPercentage);
+            //   
+
+            //}
+            //   e.Result = result;
+
+        }
+
+        void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+           ps.BarMinimum=  e.ProgressPercentage;
+           /*     if (e.UserState != null)
+                    lbResults.Items.Add(e.UserState);
+         */
+        }
+
+        void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Cancelled)
+            {
+                MessageBox.Show("Canceled", "Calculating", MessageBoxButton.OK);
+                actionGenerate.Content = "Generate Blueprint";
+                IsCalculating = false;
+                ps.Close();
+            }
+            else
+            {
+                //  MessageBox.Show("Numbers between 0 and 10000 divisible by 7: " + e.Result);
+                actionGenerate.Content = "Generate Blueprint";
+                IsCalculating = false;
+             //   MessageBox.Show("Complete", "Calculating", MessageBoxButton.OK);
+                ps.Close();
+            }
+        }
+        #endregion
+    }
+
+    public class WorkingArgs
+    {
+        public double xRadius;
+        public double yRadius;
+        public double zRadius;
+        public double lowTol;
+        public double highTol;
+        public string shapeSelected;
+
+        public WorkingArgs(double x, double y, double z, double low, double high, string shape)
+        {
+            this.xRadius = x;
+            this.yRadius = y;
+            this.zRadius = z;
+            this.lowTol = low;
+            this.highTol = high;
+            this.shapeSelected = shape;
+        }
     }
 }

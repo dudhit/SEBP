@@ -5,11 +5,14 @@ using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Collection;
 using System.Windows;
+using System.Windows.Input;
+using System.Windows.Data;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 {
     class PreviewThreeD : Viewport3D, INotifyPropertyChanged
     {
+        public static bool alreadyRunning;
         private Model3DGroup groupIt;
         private ModelVisual3D visual;
         private AmbientLight letThereBe;
@@ -18,7 +21,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
         private GeometryModel3D aShape;
         private double viewWidth;
         private double viewHeight;
-        private Point3D zoomOut;
+           public Point3D Eye;
         // private List<Point3D> drawData;
 
 
@@ -42,21 +45,37 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
         }
 
         //  public PreviewThreeD(List<Point3D> plotThis, Point3D cam)
-        public PreviewThreeD(Point3D cam)
+        public PreviewThreeD()
         {
-
-            this.Width = 300; this.Height = 300;
-            this.ClipToBounds = false;
+            alreadyRunning = true;
+           // this.Width = 300; this.Height = 300;
+            this.ClipToBounds = true;
             this.IsHitTestVisible = false;
+      //      System.Windows.Controls.WrapPanel wPanel = (System.Windows.Controls.WrapPanel)wPanel as WrapPanel;
+
+        //    Binding myBinding = new Binding("ViewWidth");
+      //     myBinding.Source = wPanel;
+      //     BindingOperations.SetBinding(this.Width, WidthProperty, myBinding);
+            /*
+                 <Viewport3D x:Name="threeDprojection"   
+                    Height="{Binding Height, ElementName=sp, Mode=OneWay}"
+                    Width="{Binding Width, ElementName=sp, Mode=OneWay}" >
+        </Viewport3D>
+             */
+            /*    this.AddHandler(Window.MouseLeftButtonDownEvent,new  MouseButtonEventHandler(lMouseDown));
+                this.AddHandler(Window.MouseLeftButtonUpEvent, new MouseButtonEventHandler(lMouseUp));
+                this.AddHandler(Window.MouseRightButtonDownEvent, new MouseButtonEventHandler(rMouseDown));
+                this.AddHandler(Window.MouseRightButtonUpEvent, new MouseButtonEventHandler(rMouseUp));
+                this.AddHandler(Window.MouseMoveEvent, new MouseEventHandler(mouseTrack));*/
+                //this.btnTest.Click+=new RoutedEventHandler(btnTest_Click);
             //  this.drawData = plotThis;
-            this.zoomOut = cam;
-
-
+        
             // CreateScene();
             // ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True"
         }
 
 
+        #region scene/model setup
         /*To render the scene, add models and lights to a Model3DGroup,
          * then set the Model3DGroup as the Content of a ModelVisual3D.
          * Add the ModelVisual3D to the Children collection of the Viewport3D.
@@ -66,7 +85,6 @@ Finally, add the Viewport3D to the window.
          * When the Viewport3D is included as the content of a layout element like Canvas,
          * specify the size of the Viewport3D by setting its Height and Width properties (inherited from FrameworkElement).
          */
-
         public void CreateScene()
         {
 
@@ -95,8 +113,8 @@ Finally, add the Viewport3D to the window.
         {
             myCam = new PerspectiveCamera();
 
-            myCam.Position = zoomOut;
-            myCam.LookDirection = new Vector3D(-.5, -.5, -.5);
+            myCam.Position = Eye;
+            myCam.LookDirection = new Vector3D(Eye.X * -1, Eye.Y * -1, Eye.Z * -1);
             myCam.UpDirection = new Vector3D(0, 0, 1);
             myCam.FieldOfView = 60;
         }
@@ -178,7 +196,8 @@ Finally, add the Viewport3D to the window.
                 yield return i;
             }
         }
-
+        #endregion
+        # region generic event handler
         public event PropertyChangedEventHandler PropertyChanged;
         void OnPropertyChanged(String info)
         {
@@ -188,5 +207,6 @@ Finally, add the Viewport3D to the window.
                 handler(this, new PropertyChangedEventArgs(info));
             }
         }
-    }
+        #endregion
+   }
 }

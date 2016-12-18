@@ -117,11 +117,18 @@
     <Compile Include="Data\UserSettings.cs" />
     <Compile Include="FileTab.cs" />
     <Compile Include="view\FindSteamID.cs" />
+    <Compile Include="view\ModelViewer.xaml.cs">
+      <DependentUpon>ModelViewer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="view\ProgressStatus.xaml.cs">
       <DependentUpon>ProgressStatus.xaml</DependentUpon>
     </Compile>
     <Compile Include="TabThree.cs" />
     <Compile Include="TabTwo.cs" />
+    <Page Include="view\ModelViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="view\ProgressStatus.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

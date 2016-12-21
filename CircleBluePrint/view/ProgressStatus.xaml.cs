@@ -17,8 +17,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
         {
             InitializeComponent();
             this.DataContext = this;
-     
-        }
+             }
 
         //public void SubscribeToPointContainer()
         //{

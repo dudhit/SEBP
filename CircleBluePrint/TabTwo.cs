@@ -1,5 +1,6 @@
 ﻿using SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.view;
 using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -7,11 +8,9 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 {
     public partial class MainWindow : Window
     {
-        private ModelViewer threeDView;
+     
         // private string shapeSelected;
-        private bool shapeSettingChanged;
-        public WorkingArgs shapeSettings;
-        private bool IsGeneratingPreview;
+   
         #region shape settings tab controls
 
         private void SetAxisRadius()
@@ -69,25 +68,28 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 
         private void ActionRefreshView(object sender, RoutedEventArgs e)
         {
-            if (IsGeneratingPreview == false)
+            if (!IsGeneratingPreview)
             {
-                refreshPreviewBut.Content = "Cancel preview";
+             //   refreshPreviewBut.Content = "Cancel preview";
+                refreshPreviewBut.Content = "Disabled Feature";
                 IsGeneratingPreview = true;
-                //    PlottingProcess();
-                threeDView = new ModelViewer();
-                // threeDView.Owner = this;
+             //   StartStopCalculating(sender, e);
+             //       
+            // threeDView = new ModelViewer();
+           //   threeDView.Owner = this;
 
-                bool? previewResult = threeDView.ShowDialog();
-                if (previewResult != null && (bool)previewResult == true)
-                {
+                //bool? previewResult = threeDView.ShowDialog();
+                //if (previewResult != null && (bool)previewResult == true)
+                //{
                   
-                }
-                else
-                {  IsGeneratingPreview = false;
-                    refreshPreviewBut.Content = "show preview"; }
+                //}
+                //else
+                //{  IsGeneratingPreview = false;
+                //    refreshPreviewBut.Content = "show preview"; }
             }
             else
             {
+                IsGeneratingPreview = false;
                 //cancel preview
                 refreshPreviewBut.Content = "show preview";
             }
@@ -208,7 +210,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
                 TextBox t = (TextBox)sender as TextBox;
                 if (double.TryParse(t.Text, out num))
                 {
-                    if (num >= 10 && num <= 500)
+                    if (num >= 10 && num <= 100)
                     {
                         t.Text = Math.Round(num, 0).ToString();
                     }
@@ -240,7 +242,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
         #endregion
         #endregion
 
-
+      
 
     }
 }

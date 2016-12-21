@@ -11,7 +11,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Utility
 {
     public class CircleEvaluationCalculations
     {
- 
+
         private int xIntRadius = -1;
         private int yIntRadius = -1;
         private int zIntRadius = -1;
@@ -33,7 +33,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Utility
         public void BeginPointChecking()
         {
             if (!ValidateInputs()) return;
-            
+
             int xLoop; int yLoop; int zLoop;
             xLoop = (xIntRadius > 0) ? xIntRadius + 1 : xIntRadius;
             yLoop = (yIntRadius > 0) ? yIntRadius + 1 : yIntRadius;
@@ -48,49 +48,33 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Utility
             {
                 //do x y z
                 Process3Axis(xLoop, yLoop, zLoop);
-
             }
-
-
         }
+
         private void Process2Axis(int xLoop, int yLoop)
         {
-            //Object toLock = new Object();
-            Point3D tempPoint; 
-            // for (int y = 0; y <= yLoop; y++)
+            Point3D tempPoint;
             Parallel.ForEach(Axis(yLoop), y =>
             {
-
-                //for (int x = 0; x < xLoop; x++)
                 Parallel.ForEach(Axis(xLoop), x =>
               {
-                  //ProcessInfoArgs processed = new ProcessInfoArgs(x, y, 0);
-                  //if (Processing != null)
-                  //{
-
-                  //    Processing(this, processed);
-
-                  //}
                   tempPoint = new Point3D(x, y, 0);
-                ProcessNewPoint(tempPoint);
+                  ProcessNewPoint(tempPoint);
               });
-
-
             }
-
         );
-
         }
 
         private double ProcessNewPoint(Point3D tempPoint)
         {
-            double  pointWithinBounds = EvalPoint3D(tempPoint);
+            double pointWithinBounds = EvalPoint3D(tempPoint);
             if (SolidOrFrame(pointWithinBounds))
                 DoShapePlotting(tempPoint);
             //string result = string.Format("x:{0}y:{1}z:{2}", tempPoint.X, tempPoint.Y, tempPoint.Z);
             //System.Diagnostics.Trace.WriteLine(result);
             return pointWithinBounds;
         }
+  
         private void Process3Axis(int xLoop, int yLoop, int zLoop)
         {
             Point3D tempPoint;
@@ -104,7 +88,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Utility
                    Parallel.ForEach(Axis(xLoop), x =>
                  {
                      tempPoint = new Point3D(x, y, z);
-                ProcessNewPoint(tempPoint);
+                     ProcessNewPoint(tempPoint);
                  });
                });
             });
@@ -166,6 +150,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Utility
             return canPlot = (result >= lowToleranceEvaluation && result <= highToleranceEvaluation) ? true : false;
 
         }
+
         private void DoShapePlotting(Point3D p)
         {
             switch (shapeSelected)
@@ -227,15 +212,6 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Utility
 
         #endregion
 
-        /* todo add delegate to have this class update a progress bar
-        private void AccessUIThread()
-        {
-            DispatcherOperation op = Dispatcher.BeginInvoke((Action)(() =>
-            {
-          //     .Content = "By BeginInvoke";
-            }));
-        }
- */
         #endregion
         private bool ValidateInputs()
         {

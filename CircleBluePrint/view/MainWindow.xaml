@@ -9,9 +9,9 @@
         Title="Circle Blueprint Generator" 
                Closing="MainClose" 
     MaxWidth="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenWidthKey}}"
-    MaxHeight="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}" SizeToContent="WidthAndHeight" MinWidth="500" MinHeight="450"  >
-    <Grid  >
-        <Menu >
+    MaxHeight="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}" SizeToContent="WidthAndHeight" MinWidth="500" MinHeight="850"   >
+    <StackPanel  >
+        <Menu    >
             <MenuItem Header="_File">
                 <MenuItem Header="Re_load User Settings"  Click="ReloadSettings" ToolTip="Remembers location of blueprints, shape and Steam ID"/>
                 <MenuItem Header="Sa_ve User Settings"  Click="SaveUserSettings" ToolTip="Remembers location of blueprints, shape and Steam ID"/>
@@ -24,11 +24,8 @@
         </Menu>
         <StackPanel   >
             <TabControl x:Name="tabCtrl" TabIndex="1" 
-				MaxWidth="{Binding MaxWidth, BindsDirectlyToSource=True, ElementName=window, Mode=TwoWay, NotifyOnSourceUpdated=True}"
-				MaxHeight="{Binding MaxHeight, BindsDirectlyToSource=True, ElementName=window, Mode=TwoWay, NotifyOnSourceUpdated=True}" 
-				MinWidth="{Binding MinWidth, BindsDirectlyToSource=True, ElementName=window, Mode=TwoWay, NotifyOnSourceUpdated=True}" 
-				MinHeight="{Binding MinHeight, BindsDirectlyToSource=True, ElementName=window, Mode=TwoWay, NotifyOnSourceUpdated=True}" HorizontalAlignment="Left" VerticalAlignment="Top"  >
-                <TabItem x:Name="tab2" Header="Shape Settings" TabIndex="150"  >
+				 HorizontalAlignment="Left" VerticalAlignment="Top"   >
+                <TabItem x:Name="tab2" Header="Shape Settings" TabIndex="150"   >
                     <StackPanel>
                         <WrapPanel>
                             <GroupBox Header="Shape" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" TabIndex="-1">
@@ -77,6 +74,8 @@
                                     <Slider x:Name="uppertoleranceSlide"   Margin="0" TabIndex="78" TickFrequency="0.05" TickPlacement="TopLeft"    IsMoveToPointEnabled="True"  AutoToolTipPlacement="TopLeft"  AutoToolTipPrecision="1"  ValueChanged="AdjustTolerance" MinWidth="200" SmallChange="0.5" Maximum="110" Minimum="100" Value="105" />
                                 </StackPanel>
                             </GroupBox>
+                            <Button x:Name="refreshPreviewBut" Click="ActionRefreshView" ToolTip="a basic preview of what your shape will look like" Content="show preview" Visibility="Collapsed"/>
+
                         </WrapPanel>
                         <WrapPanel>
                             <GroupBox x:Name="axisGrp" Header="Radius"  TabIndex="-1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"   >
@@ -92,35 +91,51 @@
                                         <Label Content="X" TabIndex="-1"/>
                                         <TextBox x:Name="radOneTxt" Width="30" TabIndex="79" Text="{Binding Value, ElementName=radOneSlide, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=LostFocus}"  TextChanged="TextChanged"/>
                                     </StackPanel>
-                                    <Slider x:Name="radOneSlide" Minimum="10" Maximum="500" SmallChange="1" LargeChange="10" Margin="10" TabIndex="84" TickFrequency="10" TickPlacement="Both"    IsMoveToPointEnabled="True"  AutoToolTipPlacement="TopLeft"  AutoToolTipPrecision="1"  ValueChanged="RoundValue" Orientation="Vertical"  IsDirectionReversed="True" 
-										MinHeight="250" MaxHeight="600"/>
+                                    <Slider x:Name="radOneSlide"
+                                            Minimum="10" Maximum="100"
+                                            SmallChange="1" LargeChange="10"
+                                            Margin="10" TabIndex="84"
+                                            TickFrequency="10" TickPlacement="Both"   
+                                            IsMoveToPointEnabled="True"  AutoToolTipPlacement="TopLeft" 
+                                            AutoToolTipPrecision="1"  ValueChanged="RoundValue"
+                                            Orientation="Vertical"  IsDirectionReversed="True" 
+                                            MinHeight="20"	  MaxHeight="1000"  Height="500" />
                                     <StackPanel>
                                         <Label x:Name="radTwolbl" Content="Y" TabIndex="-1"/>
                                         <TextBox x:Name="radTwoTxt" Width="30" TabIndex="80" Text="{Binding Value, ElementName=radTwoSlide, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=LostFocus}" TextChanged="TextChanged"/>
                                     </StackPanel>
-                                    <Slider x:Name="radTwoSlide" Minimum="10" Maximum="500" SmallChange="1" LargeChange="10" Margin="10" TabIndex="86" TickFrequency="10" TickPlacement="Both"  IsMoveToPointEnabled="True"  AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1"  ValueChanged="RoundValue" Orientation="Vertical"  IsDirectionReversed="True" 
-										Height="{Binding Height, BindsDirectlyToSource=True, ElementName=radOneSlide, Mode=OneWay, NotifyOnSourceUpdated=True}"
-										MaxHeight="{Binding Height, BindsDirectlyToSource=True, ElementName=radOneSlide, Mode=OneWay, NotifyOnSourceUpdated=True}"
-										MinHeight="{Binding MinHeight, BindsDirectlyToSource=True, ElementName=radOneSlide, Mode=OneWay, NotifyOnSourceUpdated=True}"/>
+                                    <Slider x:Name="radTwoSlide"
+                                            Minimum="10" Maximum="100"
+                                            SmallChange="1" LargeChange="10"
+                                            Margin="10" TabIndex="86"
+                                            TickFrequency="10" TickPlacement="Both"
+                                            IsMoveToPointEnabled="True"  AutoToolTipPlacement="TopLeft"
+                                            AutoToolTipPrecision="1"  ValueChanged="RoundValue"
+                                            Orientation="Vertical"  IsDirectionReversed="True" 
+                                            MinHeight="20"	  MaxHeight="1000"  Height="500" />
                                     <StackPanel>
                                         <Label x:Name="radThreelbl" Content="Z" TabIndex="-1"/>
                                         <TextBox x:Name="radThreeTxt" Width="30" TabIndex="82" Text="{Binding Value, ElementName=radThreeSlide, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=LostFocus}" TextChanged="TextChanged"/>
                                     </StackPanel>
-                                    <Slider x:Name="radThreeSlide" Minimum="10" Maximum="500" SmallChange="1" LargeChange="10" Margin="10" TabIndex="88" TickFrequency="10" TickPlacement="Both"  IsMoveToPointEnabled="True"  AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1"  ValueChanged="RoundValue" Orientation="Vertical"  IsDirectionReversed="True" 
-										Height="{Binding Height, BindsDirectlyToSource=True, ElementName=radOneSlide, Mode=OneWay, NotifyOnSourceUpdated=True}"
-										MaxHeight="{Binding Height, BindsDirectlyToSource=True, ElementName=radOneSlide, Mode=OneWay, NotifyOnSourceUpdated=True}"
-										MinHeight="{Binding MinHeight, BindsDirectlyToSource=True, ElementName=radOneSlide, Mode=OneWay, NotifyOnSourceUpdated=True}"/>
-
+                                    <Slider x:Name="radThreeSlide" 
+                                            Minimum="10" Maximum="100"
+                                            SmallChange="1" LargeChange="10"
+                                            Margin="10" TabIndex="88"
+                                            TickFrequency="10" TickPlacement="Both" 
+                                            IsMoveToPointEnabled="True"  AutoToolTipPlacement="TopLeft" 
+                                            AutoToolTipPrecision="1"  ValueChanged="RoundValue"
+                                            Orientation="Vertical"  IsDirectionReversed="True" 
+                                            MinHeight="20"	  MaxHeight="1000" Height="500"  />
                                 </WrapPanel>
 
                             </GroupBox>
-                            <Button x:Name="refreshPreviewBut" Click="ActionRefreshView" ToolTip="a basic preview of what your shape will look like" Content="show preview"/>
-                          
+
                         </WrapPanel>
                     </StackPanel>
                 </TabItem>
-                <TabItem x:Name="tab3" Header="Block Settings" TabIndex="200" >
+                <TabItem x:Name="tab3" Header="Block Settings" TabIndex="200"   >
                     <WrapPanel HorizontalAlignment="Left" VerticalAlignment="Top" >
+
                         <GroupBox Header="Block Type" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" TabIndex="-1">
                             <StackPanel>
                                 <StackPanel.ToolTip>
@@ -145,6 +160,7 @@
                             </StackPanel>
                         </GroupBox>
                         <GroupBox Header="Colour" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" TabIndex="-1">
+
                             <StackPanel>
                                 <StackPanel.Background>
                                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -256,11 +272,11 @@
                         </GroupBox>
                     </WrapPanel>
                 </TabItem>
-                <TabItem x:Name="tab1" Header="BluePrint Settings" TabIndex="50"   >
+                <TabItem x:Name="tab1" Header="BluePrint Settings" TabIndex="50"     >
                     <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" >
                         <Label Content="Location of Space Engineers User data " HorizontalAlignment="Left" Margin="10,2,10,10" VerticalAlignment="Top" TabIndex="-1"/>
                         <WrapPanel >
-                            <TextBox x:Name="dataSE_Path" HorizontalAlignment="Left" Height="23" Margin="10,2,10,10"  Text="" VerticalAlignment="Top"   TabIndex="9" MinWidth="30" MinHeight="18" MaxHeight="18" MaxWidth="{Binding Width, BindsDirectlyToSource=True, ElementName=tab1, IsAsync=True, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBox x:Name="dataSE_Path" HorizontalAlignment="Left" Height="23" Margin="10,2,10,10"  Text="" VerticalAlignment="Top"   TabIndex="9" MinWidth="30" MinHeight="18" MaxWidth="{Binding ActualWidth, BindsDirectlyToSource=True, ElementName=window, Mode=OneWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True}" MaxHeight="18" >
                                 <TextBox.ToolTip>
                                     <StackPanel>
                                         <Label Content=  "drive:\Users\(userName)\AppData\Roaming\SpaceEngineers"/>
@@ -269,7 +285,7 @@
                                     </StackPanel>
                                 </TextBox.ToolTip>
                             </TextBox>
-                            <Button x:Name="actioAutofolder"  HorizontalAlignment="Left" Margin="10,2,0,10" VerticalAlignment="Top" Click="AutoPopulateSaveLocation" TabIndex="10" ToolTip="Use this to auto locate where Space Engineers saves your local content">AutoFind</Button>
+                            <Button x:Name="actionAutofolder"  HorizontalAlignment="Left" Margin="10,2,0,10" VerticalAlignment="Top" Click="AutoPopulateSaveLocation" TabIndex="10" ToolTip="Use this to auto locate where Space Engineers saves your local content">AutoFind</Button>
                             <Button x:Name="actioManualfolder"  HorizontalAlignment="Left" Margin="10,2,10,10" VerticalAlignment="Top" Click="Find_Path" TabIndex="11" Content="Browse other" >
                                 <Button.ToolTip >
                                     <StackPanel>
@@ -293,15 +309,12 @@
                         </StackPanel>
                         <Label Content=  "Name for blueprint" TabIndex="-1"/>
                         <TextBox x:Name="dataNames" TabIndex="30" MinHeight="18" MaxHeight="18" MaxWidth="300" MinWidth="300" HorizontalAlignment="Left" Margin="10,2,10,10"/>
-                        <Button x:Name="actionGenerate" Content="Generate Blueprint" Height="40" Margin="30" Click="StartStopCalculating" />
-
+                        <Button x:Name="actionGenerate" Content="Generate Blueprint" Height="40" Margin="30,30,30,15" Click="StartStopCalculating" />
+                        <ProgressBar x:Name="progressBarOne" IsIndeterminate="True" LargeChange="20" SmallChange="5" Height="20" Margin="30,15,30,30" IsTabStop="False" Visibility="Collapsed" Foreground="#FF68FF00" />
 
                     </StackPanel>
                 </TabItem>
-
             </TabControl>
         </StackPanel>
-        <StatusBar x:Name="statusBar" Height="20" Width="498" VerticalAlignment="Bottom" />
-
-    </Grid>
+    </StackPanel>
 </Window>

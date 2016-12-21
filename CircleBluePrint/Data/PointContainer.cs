@@ -6,8 +6,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Collection
 
     public sealed class PointContainer
     {
-        public  delegate void ProcessingChangedHandler(PointContainer pointContainer, ProcessInfoArgs processingstatus);
-        public static event ProcessingChangedHandler Processing;
+     //   public  delegate void ProcessingChangedHandler(PointContainer pointContainer, ProcessInfoArgs processingstatus);
+    //    public static event ProcessingChangedHandler Processing;
         private PointContainer()
         {
           
@@ -24,7 +24,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Collection
             internal static readonly PointContainer instance = new PointContainer();
         }
        private static List<Point3D> pointList;
-       private static ProcessInfoArgs piArgs;
+ //      private static ProcessInfoArgs piArgs;
       //  private static ConcurrentBag<Point3D> pointList;
          private static Object multiThreadLock;
 
@@ -33,7 +33,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Collection
          //   pointList = new ConcurrentBag<Point3D>();
            pointList = new List<Point3D>();
             multiThreadLock = new Object();
-             piArgs = new ProcessInfoArgs(0);
+   //          piArgs = new ProcessInfoArgs(0);
         }
 
         public static void Add(Point3D p)
@@ -44,12 +44,12 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Collection
                 {
                     pointList.Add(p);
                 }
-                System.Diagnostics.Trace.WriteLine(Count());
-                if (Processing != null)
-                {
-                    piArgs.numPoints = pointList.Count;
-                    Processing(Instance, piArgs);
-                }
+        //        System.Diagnostics.Trace.WriteLine(Count());
+                //if (Processing != null)
+                //{
+                //    piArgs.numPoints = pointList.Count;
+                //    Processing(Instance, piArgs);
+                //}
             }
         }
 
@@ -70,11 +70,11 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Collection
         }
         public static void Clear()
         { pointList.Clear();
-        if (Processing != null)
-        {
-            piArgs.numPoints=pointList.Count;
-            Processing(Instance, piArgs);
-        }
+        //if (Processing != null)
+        //{
+        //    piArgs.numPoints=pointList.Count;
+        //    Processing(Instance, piArgs);
+        //}
         }
 
 
@@ -87,14 +87,14 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Collection
             }
         }
     }
-    public class ProcessInfoArgs : EventArgs
-    {
-      //  public  int NumPoints { get; set; }
-        public  int numPoints;
-      public  ProcessInfoArgs(int count)
-        {
-            this.numPoints = count;
-        }
+    //public class ProcessInfoArgs : EventArgs
+    //{
+    //  //  public  int NumPoints { get; set; }
+    //    public  int numPoints;
+    //  public  ProcessInfoArgs(int count)
+    //    {
+    //        this.numPoints = count;
+    //    }
  
-    }
+    //}
 }

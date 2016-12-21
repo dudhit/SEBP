@@ -4,7 +4,7 @@
         Title="ProgressStatus" Height="60" Width="300" WindowStartupLocation="CenterScreen"
         MaxWidth="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenWidthKey}}"
          MinWidth="300" MaxHeight="60" MinHeight="60"
-        x:Name="statusWindow"
+        x:Name="statusWindow" Closing="OnClosing" 
         >
     <Grid>
         <ProgressBar x:Name="progressBar" MaxHeight="20" MinHeight="20"    MinWidth="300" MaxWidth="{Binding Width, ElementName=statusWindow}" Maximum="{Binding BarMaximum}" Minimum="{Binding BarMinimum}">

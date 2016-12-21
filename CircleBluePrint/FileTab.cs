@@ -12,8 +12,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 {
     public partial class MainWindow : Window
     {
-        private bool IsCalculating;
-        BackgroundWorker worker;
+       
         #region blueprint settings tab controls
 
         private void StartStopCalculating(object sender, RoutedEventArgs e)
@@ -21,21 +20,20 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             if (!IsCalculating)
             {
                 actionGenerate.Content = "Cancel Blueprint";
-
+                progressBarOne.Visibility = Visibility.Visible;
                 IsCalculating = true;
-                StartTheCogs();
+                if (StartTheCogs()) { PlottingProcess(); }
             }
             else
             {
                 actionGenerate.Content = "Generate Blueprint";
+                progressBarOne.Visibility = Visibility.Collapsed;
                 IsCalculating = false;
                 if (worker != null) { worker.CancelAsync(); }
             }
         }
 
-
-
-        private void StartTheCogs()
+        private bool StartTheCogs()
         {
 
             if (ValidateBPPathAndCustoms())
@@ -65,12 +63,10 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
                     MessageBox.Show(UAE.Message, "info", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
                 }
                 //start the heavy work
-                PlottingProcess();
-                //write to file
-
-                //    BluePrintToFile();
+             
+                return true;
             }
-
+            return false;
         }
 
 
@@ -84,10 +80,10 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             //instantiate point list
             SetAxisRadius();
             //get bulk points
-             ps = new ProgressStatus();
+   //     ps = new ProgressStatus();
 
-             ps.BarMaximum=(Math.Abs((shapeSettings.xRadius - 1) * (shapeSettings.yRadius - 1) * (shapeSettings.zRadius - 1)));
-
+    //       ps.BarMaximum=(Math.Abs((shapeSettings.xRadius - 1) * (shapeSettings.yRadius - 1) * (shapeSettings.zRadius - 1)));
+   //     ps.BarMinimum = 0;
 
 
             worker.WorkerSupportsCancellation = true;
@@ -95,14 +91,14 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             worker.DoWork += worker_DoWork;
             worker.ProgressChanged += worker_ProgressChanged;
             worker.RunWorkerCompleted += worker_RunWorkerCompleted;
-ps.Show();
+//ps.Show();
 
             //  worker.RunWorkerAsync(10000);//send arguments and kick it off
-            worker.RunWorkerAsync(shapeSettings);
+       //     worker.RunWorkerAsync(shapeSettings);
 
             
           
-         //   ps.progressBar.Minimum = 100;
+      //   ps.progressBar.Minimum = 100;
             shapeSettingChanged = false;
         
         }
@@ -240,25 +236,23 @@ ps.Show();
             WorkingArgs parameters = e.Argument as WorkingArgs;
             CircleEvaluationCalculations seperateThread = new CircleEvaluationCalculations();
 
-            ps.SubscribeToPointContainer();
+     //  ps.SubscribeToPointContainer();
             seperateThread.RadiusInXPlane = parameters.xRadius;
             seperateThread.RadiusInYPlane = parameters.yRadius;
             seperateThread.RadiusInZPlane = parameters.zRadius;
             seperateThread.LowToleranceEvaluation = parameters.lowTol;
             seperateThread.HighToleranceEvaluation = parameters.highTol;
             seperateThread.ShapeSelected = parameters.shapeSelected;
-         //   seperateThread.BeginPointChecking();
-            for (int x = 0; x < parameters.xRadius; x++) { 
-                int progressPercentage = Convert.ToInt32(((double)x / parameters.xRadius) * 100);
-                (sender as BackgroundWorker).ReportProgress(progressPercentage, parameters.xRadius);
-             System.Threading.Thread.Sleep(1);
-            }
+        seperateThread.BeginPointChecking();
+            //for (int x = 0; x < parameters.xRadius; x++) { 
+            //    int progressPercentage = Convert.ToInt32((x / parameters.xRadius) * 100);
+            //    (sender as BackgroundWorker).ReportProgress(progressPercentage);
+            // System.Threading.Thread.Sleep(1);
+            //}
             //  
-            //    if (i % 42 == 0)
-            //    {
+            // 
             //        result++;
-            //       
-            //    }
+            // 
             //    else{
             //        (sender as BackgroundWorker).ReportProgress(progressPercentage);
             //   
@@ -270,7 +264,7 @@ ps.Show();
 
         void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-           ps.BarMinimum=  e.ProgressPercentage;
+       //    ps.BarMinimum=  e.ProgressPercentage;
            /*     if (e.UserState != null)
                     lbResults.Items.Add(e.UserState);
          */
@@ -281,17 +275,24 @@ ps.Show();
             if (e.Cancelled)
             {
                 MessageBox.Show("Canceled", "Calculating", MessageBoxButton.OK);
-                actionGenerate.Content = "Generate Blueprint";
-                IsCalculating = false;
-                ps.Close();
+            //    actionGenerate.Content = "Generate Blueprint";
+            //    progressBarOne.Visibility = Visibility.Collapsed;
+           //     IsCalculating = false;
+             //   ps.Close();
             }
             else
             {
                 //  MessageBox.Show("Numbers between 0 and 10000 divisible by 7: " + e.Result);
                 actionGenerate.Content = "Generate Blueprint";
+                progressBarOne.Visibility = Visibility.Collapsed;
                 IsCalculating = false;
              //   MessageBox.Show("Complete", "Calculating", MessageBoxButton.OK);
-                ps.Close();
+                     //write to file
+
+                 BluePrintToFile(); 
+           //     System.Diagnostics.Trace.WriteLine (ps.WindowState.ToString()) ;
+          //      ps.Close();
+         //       ps = null;
             }
         }
         #endregion

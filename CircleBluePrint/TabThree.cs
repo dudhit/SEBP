@@ -9,28 +9,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 
         #region block settings tab controls
 
-        #region Dependency Property Fields
-
-        public static readonly DependencyProperty FillColorProperty =
-           DependencyProperty.Register
-           ("FillColor", typeof(Color), typeof(MainWindow),
-           new PropertyMetadata(Colors.Black));
-
-
-        public Color FillColor
-        {
-            get
-            {
-                return (Color)GetValue(FillColorProperty);
-            }
-            set
-            {
-                SetValue(FillColorProperty, value);
-            }
-        }
-
-        #endregion
-
+    
         private void SetFill(object sender, RoutedEventArgs e)
         {
             Microsoft.Samples.CustomControls.ColorPickerDialog cPicker

@@ -167,8 +167,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             Object writeLock = new Object();
             XElement setCubeBlocks = new XElement("CubeBlocks");
             //Parallel.ForEach(PointContainer, p =>
-            Parallel.For(0, PointContainer.Count() + 1, i =>
-            {
+       //     Parallel.For(0, PointContainer.Count() + 1, i =>
+        for (int i=0;i<PointContainer.Count();i++)    {
                 Point3D p = PointContainer.Item(i);
                 XElement builder = new XElement("MyObjectBuilder_CubeBlock", new XAttribute(xmlSchemaI + "type", "MyObjectBuilder_CubeBlock"));
                 XElement sub = new XElement("SubtypeName", BlockType);
@@ -177,11 +177,11 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
                 builder.Add(sub);
                 builder.Add(min);
                 builder.Add(colour);
-                lock (writeLock)
-                {
+           //     lock (writeLock)
+            //    {
                     setCubeBlocks.Add(builder);
-                }
-            });
+           //     }
+            }//);
             return setCubeBlocks;
         }
 

@@ -21,33 +21,15 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
     {
         //path --folder -- file variables
 
-        private string userApp;
-        private const string CONFIG_FILE = "config.ini";
-        private string S_E_Home;
-        private string S_E_B_P;
-        private string localBP;
-        private string bpFolder;
-        private string steamUserName;
-        private string steamUserId;
-        private string steamPath;
-        private string bpName;
+      
         //   private List<Point3D> tempPointsToParallelise;
 
         //calculation variables
         //  private List<Point3D> plotData;
 
-     private double lowTol;
-    private double highTol;
-
         //blocks
-        private float blockColourHue;
-        private float blockColourSaturation;
-        private float blockColourValue;
-        string gridSize;
-        string armourType;
         //external view
      //   PreviewThreeD previewViewer;
-        ProgressStatus ps;
       
         //run this to reset and on load without a save file
         #region main window flow and menu
@@ -55,10 +37,10 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
         public MainWindow()
         {
             InitializeComponent();
-
+            this.DataContext = this;
             if (!File.Exists(CONFIG_FILE)) { FirstLoad(); } else { LoadUserSettings(); }
             worker = new BackgroundWorker();
-             ps = new ProgressStatus();
+             //ps = new ProgressStatus();
             //  PathHandler(this, new RoutedEventArgs());
             //   plotData = new List<Point3D>();
 
@@ -83,6 +65,12 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             window.Width = 500;
             window.Left = 20;
             window.Top = 20;
+    //        sliderMinHeight =250;
+     //       sliderMaxHeight = 600;
+     //       sliderHeight = 100;
+     //       RaisePropertyChanged("SliderMinHeight");
+     //       RaisePropertyChanged("SliderMaxHeight");
+     //       RaisePropertyChanged("SliderHeight");
             ///FillColor = "";
          //   PathHandler();
             //get steam user name and install path
@@ -124,8 +112,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             if (goodBye != MessageBoxResult.Yes)
             {
                 e.Cancel = true;
-            }
-        }
+                         } 
+                }
 
 
 

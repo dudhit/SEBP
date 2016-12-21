@@ -1,0 +1,9 @@
+﻿<Window x:Class="SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.view.ModelViewer"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="previewWindow"
+        Title="Preview grid" Height="300" Width="300" MouseLeftButtonDown="lMouseDown" MouseLeftButtonUp="lMouseUp" MouseRightButtonUp="rMouseUp" MouseRightButtonDown="rMouseDown" MouseMove="mouseTrack">
+    <WrapPanel x:Name="wPanel"   Height="{Binding Height, ElementName=window, Mode=OneWay}"
+                    Width="{Binding Width, ElementName=window, Mode=OneWay}" >
+    
+    </WrapPanel>
+</Window>

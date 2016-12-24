@@ -10,7 +10,7 @@ using System.Windows.Data;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 {
-    class PreviewThreeD : Viewport3D, INotifyPropertyChanged
+    class PreviewThreeD : Viewport3D, INotifyPropertyChanged, IDisposable
     {
         public static bool alreadyRunning;
         private Model3DGroup groupIt;

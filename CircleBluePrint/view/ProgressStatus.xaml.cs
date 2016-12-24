@@ -1,4 +1,5 @@
 ﻿using SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Collection;
+using System;
 using System.ComponentModel;
 using System.Windows;
 
@@ -7,9 +8,9 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
     /// <summary>
     /// Interaction logic for ProgressStatus.xaml
     /// </summary>
-    public partial class ProgressStatus : Window, INotifyPropertyChanged
+    public partial class ProgressStatus : Window, INotifyPropertyChanged, IDisposable
     {
-        private bool IsSubscribed;
+       // private bool IsSubscribed;
         private double barMaximum;
 
         private double barMinimum;
@@ -48,7 +49,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
         private void OnClosing(object sender, CancelEventArgs e)
         {
             //PointContainer.Processing -= new PointContainer.ProcessingChangedHandler(UpdateProgress);
-            IsSubscribed = false;
+            //IsSubscribed = false;
             barMinimum = 0;
         }
 

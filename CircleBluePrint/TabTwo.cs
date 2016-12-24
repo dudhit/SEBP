@@ -6,7 +6,7 @@ using System.Windows.Controls;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IDisposable
     {
      
         // private string shapeSelected;
@@ -31,13 +31,13 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
                 yRadius = radOneSlide.Value;
                 zRadius = radOneSlide.Value;
             }
-            if (makeElipse.IsChecked == true)
+            if (makeellipse.IsChecked == true)
             {
                 xRadius = radOneSlide.Value;
                 yRadius = radTwoSlide.Value;
                 zRadius = 0;
             }
-            if (makeElipsoid.IsChecked == true)
+            if (makeellipsoid.IsChecked == true)
             {
                 xRadius = radOneSlide.Value;
                 yRadius = radTwoSlide.Value;
@@ -45,25 +45,25 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 
             }
             string shapeSelected = "";
-            if (makeQuater.IsChecked == true && (makeCircle.IsChecked == true || makeElipse.IsChecked == true))
+            if (makeQuater.IsChecked == true && (makeCircle.IsChecked == true || makeellipse.IsChecked == true))
             { shapeSelected = "QuaterRing"; }
-            if (makeQuater.IsChecked == true && (makeSphere.IsChecked == true || makeElipsoid.IsChecked == true))
+            if (makeQuater.IsChecked == true && (makeSphere.IsChecked == true || makeellipsoid.IsChecked == true))
             { shapeSelected = "QuaterSphere"; }
 
-            if (makeSemi.IsChecked == true && (makeCircle.IsChecked == true || makeElipse.IsChecked == true))
+            if (makeSemi.IsChecked == true && (makeCircle.IsChecked == true || makeellipse.IsChecked == true))
             { shapeSelected = "SemiRing"; }
 
-            if (makeSemi.IsChecked == true && (makeSphere.IsChecked == true || makeElipsoid.IsChecked == true))
+            if (makeSemi.IsChecked == true && (makeSphere.IsChecked == true || makeellipsoid.IsChecked == true))
             { shapeSelected = "HemiSphere"; }
 
-            if (makeFull.IsChecked == true && (makeCircle.IsChecked == true || makeElipse.IsChecked == true))
+            if (makeFull.IsChecked == true && (makeCircle.IsChecked == true || makeellipse.IsChecked == true))
             { shapeSelected = "FullRing"; }
 
-            if (makeFull.IsChecked == true && (makeSphere.IsChecked == true || makeElipsoid.IsChecked == true))
+            if (makeFull.IsChecked == true && (makeSphere.IsChecked == true || makeellipsoid.IsChecked == true))
             { shapeSelected = "FullSphere"; }
 
             shapeSettings = new WorkingArgs(xRadius, yRadius, zRadius, lowTol, highTol, shapeSelected);
-
+            shapeSettingChanged = false;
         }
 
         private void ActionRefreshView(object sender, RoutedEventArgs e)
@@ -112,12 +112,15 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             shapeSettingChanged = true;
         }
 
-        private void WantsElipse(object sender, RoutedEventArgs e)
+        private void Wantsellipse(object sender, RoutedEventArgs e)
         {
             //enable y controllers
             EnableControl(radTwoSlide);
             EnableControl(radTwoTxt);
-            EnableControl(radTwolbl);
+            EnableControl(radTwolbl); 
+			DisableControl(radThreeSlide);
+            DisableControl(radThreeTxt);
+            DisableControl(radThreelbl);
             shapeSettingChanged = true;
         }
 
@@ -128,7 +131,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             shapeSettingChanged = true;
         }
 
-        private void WantsElipsoid(object sender, RoutedEventArgs e)
+        private void Wantsellipsoid(object sender, RoutedEventArgs e)
         {
             //enable Z controller
 

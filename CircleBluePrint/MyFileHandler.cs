@@ -9,7 +9,7 @@ using System.Xml.Linq;
 namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 {
     //used to prevent encoding attributes being generated in XML file
-    public class MyFileHandler : StringWriter
+    public class MyFileHandler : StringWriter, IDisposable
     {
         public override Encoding Encoding
         {
@@ -30,7 +30,10 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 
         private string XSD = "xsd";
         private string XSI = "xsi";
+
+        [NonSerialized]
         private XNamespace xmlSchema = "http://www.w3.org/2001/XMLSchema";
+        [NonSerialized]
         private XNamespace xmlSchemaI = "http://www.w3.org/2001/XMLSchema-instance";
         public string Path { get; set; }
         public string SteamUserName { get; set; }

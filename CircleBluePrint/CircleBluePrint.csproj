@@ -79,6 +79,7 @@
     <Prefer32Bit>true</Prefer32Bit>
     <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
     <RunCodeAnalysis>true</RunCodeAnalysis>
+    <DocumentationFile>bin\x64\Release\CircleBluePrint.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.App</StartupObject>
@@ -90,7 +91,7 @@
     <TargetZone>Custom</TargetZone>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>true</GenerateManifests>
+    <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>18299A9A52F80BE2CF9053A09CA5EC97B33A0760</ManifestCertificateThumbprint>

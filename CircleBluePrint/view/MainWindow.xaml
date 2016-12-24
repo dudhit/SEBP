@@ -13,8 +13,8 @@
     <StackPanel  >
         <Menu    >
             <MenuItem Header="_File">
-                <MenuItem Header="Re_load User Settings"  Click="ReloadSettings" ToolTip="Remembers location of blueprints, shape and Steam ID"/>
-                <MenuItem Header="Sa_ve User Settings"  Click="SaveUserSettings" ToolTip="Remembers location of blueprints, shape and Steam ID"/>
+                <MenuItem Header="Re_load User Settings"  Click="ReloadSettings" ToolTip="Remembers location of blueprints, shape and Steam ID" IsEnabled="False"/>
+                <MenuItem Header="Sa_ve User Settings"  Click="SaveUserSettings" ToolTip="Remembers location of blueprints, shape and Steam ID" IsEnabled="False"/>
                 <MenuItem Header="E_xit"  Click="MenuExit" />
             </MenuItem>
             <MenuItem Header="O_ptions">
@@ -32,16 +32,16 @@
                                 <StackPanel>
                                     <StackPanel.ToolTip>
                                         <StackPanel>
-                                            <TextBlock><Run Text="Flat circle or elipse."/></TextBlock>
+                                            <TextBlock><Run Text="Flat circle or ellipse."/></TextBlock>
                                             <TextBlock><Run Text="Sphere or elisiod."/></TextBlock>
                                             <TextBlock><Run Text="Flat shapes calculate faster."/></TextBlock>
                                         </StackPanel>
                                     </StackPanel.ToolTip>
                                     <RadioButton x:Name="makeCircle" Content="Circle" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="shape1" TabIndex="60" Checked="WantsCircle"/>
-                                    <RadioButton x:Name="makeElipse" Content="Elipse" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="shape1" TabIndex="62" Checked="WantsElipse"/>
+                                    <RadioButton x:Name="makeellipse" Content="ellipse" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="shape1" TabIndex="62" Checked="Wantsellipse"/>
 
                                     <RadioButton x:Name="makeSphere" Content="Sphere" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="shape1"  TabIndex="64" Checked="WantsSphere"/>
-                                    <RadioButton x:Name="makeElipsoid" Content="Elipsoid" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="shape1" TabIndex="66" Checked="WantsElipsoid"/>
+                                    <RadioButton x:Name="makeellipsoid" Content="ellipsoid" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="shape1" TabIndex="66" Checked="Wantsellipsoid"/>
                                 </StackPanel>
                             </GroupBox>
                             <GroupBox Header="Fraction" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" TabIndex="-1">
@@ -63,9 +63,9 @@
                                         <StackPanel>
                                             <TextBlock><Run Text="The tolerance affects whether blocks are connected or too many blocks are generated"/></TextBlock>
                                             <TextBlock><Run Text="The ideal value for both is 100, but only as your shape gets bigger."/></TextBlock>
-                                            <TextBlock><Run Text="Reducing the low tolerance on a frame will ensure block co-herance."/></TextBlock>
+                                            <TextBlock><Run Text="Reducing the low tolerance on a frame will ensure block connection."/></TextBlock>
                                             <TextBlock><Run Text="Adjusting high Tolerances higher may not look as curved."/></TextBlock>
-                                            <TextBlock><Run Text="Suggest full ranges away from 100 for small shapes under 100 radius."/></TextBlock>
+                                            <TextBlock><Run Text="Suggest minimum low and maximum high ranges for small shapes under 100 radius."/></TextBlock>
                                         </StackPanel>
                                     </StackPanel.ToolTip>
                                     <Label Content="Low Tolerance" TabIndex="-1"/>
@@ -144,8 +144,8 @@
                                     </StackPanel>
                                 </StackPanel.ToolTip>
 
-                                <RadioButton x:Name="blockNormal" Content="Normal" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="armour"  TabIndex="160"/>
-                                <RadioButton x:Name="blockHeavy" Content="Armoured" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="armour" TabIndex="162" />
+                                <RadioButton x:Name="blockNormal" Content="Normal" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="armour"  TabIndex="160" Checked="BlockChanged"/>
+                                <RadioButton x:Name="blockHeavy" Content="Armoured" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="armour" TabIndex="162"  Checked="BlockChanged"/>
                             </StackPanel>
                         </GroupBox>
                         <GroupBox Header="Grid" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" TabIndex="-1">
@@ -155,8 +155,8 @@
                                         <TextBlock><Run Text="Choose the grid size for your blueprint."/></TextBlock>
                                     </StackPanel>
                                 </StackPanel.ToolTip>
-                                <RadioButton x:Name="blockLarge" Content="Large" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="grid1" TabIndex="164"/>
-                                <RadioButton x:Name="blockSmall" Content="Small" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="grid1" TabIndex="166" />
+                                <RadioButton x:Name="blockLarge" Content="Large" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="grid1" TabIndex="164" Checked="BlockChanged"/>
+                                <RadioButton x:Name="blockSmall" Content="Small" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="grid1" TabIndex="166"  Checked="BlockChanged"/>
                             </StackPanel>
                         </GroupBox>
                         <GroupBox Header="Colour" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" TabIndex="-1">

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.view
 {
-    class FindSteamID
+    class FindSteamID:IDisposable
     {
     }
 }

@@ -9,7 +9,7 @@ using System.Windows.Media.Media3D;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Utility
 {
-    public class CircleEvaluationCalculations
+    public class CircleEvaluationCalculations:IDisposable
     {
 
         private int xIntRadius = -1;
@@ -124,7 +124,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Utility
         }
 
         // Summary:
-        //     Calculates whether values x,y,z fit within the bounds of a circle/elipse/sphere(oid)
+        //     Calculates whether values x,y,z fit within the bounds of a circle/ellipse/sphere(oid)
         //     
         //
         // Returns:

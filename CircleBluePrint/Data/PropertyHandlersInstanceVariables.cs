@@ -15,7 +15,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
         #region controls
         [NonSerialized]
         public WorkingArgs shapeSettings;
-        bool disposed = false;
+
      //   ProgressStatus ps;
      //   private ModelViewer threeDView;
         #region tab1

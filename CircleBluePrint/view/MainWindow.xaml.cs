@@ -359,36 +359,33 @@ var myTextBlock = (TextBlock)this.FindName("myTextBlock");
 
 
 
+     #region disposal
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~MainWindow()
+        {
+            Dispose(false);
+        }
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposed)
-                return;
-
             if (disposing)
             {
-                // Free any other managed objects here.
-                //
+                // free managed resources  
+                //if (Encoding != null)
+                //{
+                //    Encoding.Dispose();
+                //    Encoding = null;
+                //}
             }
 
-            // Free any unmanaged objects here.
-            //
-            disposed = true;
-            base.Dispose(disposing);
         }
-
-   
-
-        //public void Dispose()
-        //{
-        //    Dispose(true);
-        //    GC.SuppressFinalize(this);
-        //    return ;
-        //}
-   //     ~MainWindow()
-   //{
-   //   Dispose(false);
-   //}
+        #endregion
     }
 
 }

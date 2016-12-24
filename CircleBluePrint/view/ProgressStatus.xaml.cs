@@ -52,6 +52,32 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             //IsSubscribed = false;
             barMinimum = 0;
         }
+             #region disposal
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~ProgressStatus()
+        {
+            Dispose(false);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                //// free managed resources  
+                //if (Encoding != null)
+                //{
+                //    Encoding.Dispose();
+                //    Encoding = null;
+                //}
+            }
+
+        }
+        #endregion
     }
 }

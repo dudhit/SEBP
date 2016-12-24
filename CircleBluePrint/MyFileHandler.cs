@@ -11,6 +11,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
     //used to prevent encoding attributes being generated in XML file
     public class MyFileHandler : StringWriter, IDisposable
     {
+        bool disposed = false;
         public override Encoding Encoding
         {
             get
@@ -18,12 +19,35 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
                 return null;
             }
         }
+        #region disposal
 
+        ~MyFileHandler()
+        {
+
+            Dispose(false);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposed)
+                return;
+
+            if (disposing)
+            {
+                disposed = true;
+
+      // Call the base class implementation.
+      base.Dispose(disposing);
+                }
+            
+
+        }
+        #endregion
 
     }
 
     [Serializable]
-    class BluePrintXml : XDocument
+    class BluePrintXml : XDocument, IDisposable
     {
         //public Delegate Point3D GetPointAtIndex(int i);
         //public Delegate int GetTotalPoints();
@@ -98,6 +122,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             // { e.Add ( new XElement("ShipBlueprint",new XAttribute("xms:type","MyObjectBuilder_ShipBlueprintDefinition"))); }
             BluePrintFileHandling();
         }
+
         private XElement makeCubeGrid()
         {
             XElement setGrid = new XElement("CubeGrid");
@@ -163,15 +188,14 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             return setContainer;
         }
 
-
-
         private XElement CubeBlocks()
         {
             Object writeLock = new Object();
             XElement setCubeBlocks = new XElement("CubeBlocks");
             //Parallel.ForEach(PointContainer, p =>
-       //     Parallel.For(0, PointContainer.Count() + 1, i =>
-        for (int i=0;i<PointContainer.Count();i++)    {
+            //     Parallel.For(0, PointContainer.Count() + 1, i =>
+            for (int i = 0; i < PointContainer.Count(); i++)
+            {
                 Point3D p = PointContainer.Item(i);
                 XElement builder = new XElement("MyObjectBuilder_CubeBlock", new XAttribute(xmlSchemaI + "type", "MyObjectBuilder_CubeBlock"));
                 XElement sub = new XElement("SubtypeName", BlockType);
@@ -180,10 +204,10 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
                 builder.Add(sub);
                 builder.Add(min);
                 builder.Add(colour);
-           //     lock (writeLock)
-            //    {
-                    setCubeBlocks.Add(builder);
-           //     }
+                //     lock (writeLock)
+                //    {
+                setCubeBlocks.Add(builder);
+                //     }
             }//);
             return setCubeBlocks;
         }
@@ -198,6 +222,35 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             }
             return long.Parse(joinArray);
         }
+
+        #region disposal
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~BluePrintXml()
+        {
+            Dispose(false);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // free managed resources  
+                //if (Encoding != null)
+                //{
+                //    Encoding.Dispose();
+                //    Encoding = null;
+                //}
+            }
+
+        }
+        #endregion
+
     }
 
     /*

@@ -128,7 +128,33 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Data
 
         #endregion
 
+             #region disposal
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~UserSettings()
+        {
+            Dispose(false);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                //// free managed resources  
+                //if (Encoding != null)
+                //{
+                //    Encoding.Dispose();
+                //    Encoding = null;
+                //}
+            }
+
+        }
+        #endregion
    
   
     }

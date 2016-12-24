@@ -213,6 +213,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Utility
         #endregion
 
         #endregion
+
         private bool ValidateInputs()
         {
             bool passFail = true;
@@ -235,7 +236,33 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Utility
             return passFail;
         }
 
+             #region disposal
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~CircleEvaluationCalculations()
+        {
+            Dispose(false);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // free managed resources  
+                //if (Encoding != null)
+                //{
+                //    Encoding.Dispose();
+                //    Encoding = null;
+                //}
+            }
+
+        }
+        #endregion
     }
 
 }

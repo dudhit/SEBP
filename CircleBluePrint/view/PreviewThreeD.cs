@@ -208,5 +208,32 @@ Finally, add the Viewport3D to the window.
             }
         }
         #endregion
-   }
+       #region disposal
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~PreviewThreeD()
+        {
+            Dispose(false);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                //// free managed resources  
+                //if (Encoding != null)
+                //{
+                //    Encoding.Dispose();
+                //    Encoding = null;
+                //}
+            }
+
+        }
+        #endregion
+    }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Media.Media3D;
-namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Collection
+namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.Collection
 {
 
     public sealed class PointContainer

@@ -11,7 +11,7 @@ using System.Windows;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("SoloProjects")]
-[assembly: AssemblyProduct("SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint")]
+[assembly: AssemblyProduct("SoloProjects.Dudhit.SpaceEngineers.SEBP")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

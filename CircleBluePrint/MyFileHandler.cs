@@ -1,4 +1,4 @@
-﻿using SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Collection;
+﻿using SoloProjects.Dudhit.SpaceEngineers.SEBP.Collection;
 using System;
 using System.IO;
 using System.Text;
@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 using System.Xml.Linq;
 
-namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
+namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 {
     //used to prevent encoding attributes being generated in XML file
     public class MyFileHandler : StringWriter, IDisposable

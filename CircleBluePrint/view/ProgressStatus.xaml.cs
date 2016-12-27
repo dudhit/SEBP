@@ -1,9 +1,9 @@
-﻿using SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Collection;
+﻿using SoloProjects.Dudhit.SpaceEngineers.SEBP.Collection;
 using System;
 using System.ComponentModel;
 using System.Windows;
 
-namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
+namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 {
     /// <summary>
     /// Interaction logic for ProgressStatus.xaml

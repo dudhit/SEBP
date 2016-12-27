@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
    mc:Ignorable="d" x:Name="window"
-    x:Class="SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.MainWindow"
+    x:Class="SoloProjects.Dudhit.SpaceEngineers.SEBP.MainWindow"
         Title="Circle Blueprint Generator" 
                Closing="MainClose" 
     MaxWidth="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenWidthKey}}"

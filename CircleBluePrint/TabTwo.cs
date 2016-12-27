@@ -1,10 +1,10 @@
-﻿using SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.view;
+﻿using SoloProjects.Dudhit.SpaceEngineers.SEBP.view;
 using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
+namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 {
     public partial class MainWindow : Window, IDisposable
     {

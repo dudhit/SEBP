@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
-namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Data
+namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.Data
 {
     /*
      credits to Paul Welter

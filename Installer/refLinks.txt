@@ -1,0 +1,13 @@
+﻿find .net installed
+https://msdn.microsoft.com/en-us/library/hh925568(v=vs.110).aspx#net_d
+
+upgrade tips
+
+
+    Small updates mean small changes to one or a few files where the change doesn't warrant changing the product version (major.minor.build) or product ID GUID.
+
+    Note that you always have to change the Package GUID when you create a new .msi file that is different from the previous ones in any respect. The Installer keeps track of your installed programs and finds them when the user wants to change or remove the installation using these GUIDs. Using the same GUID for different packages will confuse the Installer.
+
+    Minor upgrades denote changes where the product version will already change. Modify the Version attribute of the Product tag. The product will remain the same, so you don't need to change the Product GUID but, of course, get a new Package GUID.
+
+    Major upgrades denote significant changes like going from one full version to another. Change everything: Version attribute, Product and Package GUIDs.

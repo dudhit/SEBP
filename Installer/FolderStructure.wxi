@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Include>
+  <Directory Id="TARGETDIR" Name="SourceDir">
+   <Directory Id='SoloDud' Name='SoloDud'>
+    <Directory Id="INSTALLDIR" Name="SE_Blueprinter"/>
+	    </Directory>
+    <Directory Id="ProgramMenuFolder">
+           <Directory Id="SEBPShort" Name="Space Engineers Blueprinter "/>
+        </Directory>
+  </Directory>
+</Include>

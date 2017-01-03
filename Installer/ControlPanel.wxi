@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Include>
+  <Property Id="ARPCOMMENTS" Value="Dudhit Solo" />
+  <Property Id="ARPCONTACT" Value="Dudhit" />
+  <Property Id="ARPPRODUCTICON" Value="MainIcon.ico" />
+  <Property Id="ARPHELPLINK" Value="https://github.com/dudhit/SEBP/wiki" />
+  <Property Id="ARPREADME" Value="https://github.com/dudhit/SEBP" />
+  <Property Id="ARPURLINFOABOUT" Value="null" />
+  <Property Id="ARPURLUPDATEINFO" Value="https://github.com/dudhit/SEBP/archive/Binaries.zip" />
+  <Property Id="ARPAUTHORIZEDCDFPREFIX" Value="URL of the update channel for the application" />
+  <Property Id="ARPSIZE" Value="430" />
+
+  
+  <!--<Property Id='ARPNOMODIFY" Value="0″ />"
+  <Property Id="ARPNOREPAIR" Value="0″ />"
+  <Property Id="ARPNOREMOVE" Value="0″ />"
+  <Property Id="ARPSYSTEMCOMPONENT" Value="0" />-->
+ 
+  
+
+ <!--Set up ARPINSTALLLOCATION property--> 
+  <CustomAction Id="SetARPINSTALLLOCATION" Property="ARPINSTALLLOCATION" Value="[INSTALLDIR]" />
+
+   <!--Sequences--> 
+  <InstallExecuteSequence>
+    <Custom Action="SetARPINSTALLLOCATION" After="InstallValidate"></Custom>
+  </InstallExecuteSequence>
+</Include>

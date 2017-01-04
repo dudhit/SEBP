@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
-  <Icon Id="uninst.ico" SourceFile="E:\lifeDocs\My Games\c_Sharp\SE\CircleBluePrint\CircleBluePrint\images\SEBP.ico"/>
-  <Icon Id="MainIcon.ico" SourceFile="E:\lifeDocs\My Games\c_Sharp\SE\CircleBluePrint\CircleBluePrint\images\SEBP.ico"/>
+  <Icon Id="uninst.ico" SourceFile="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\images\SEBP.ico"/>
+  <Icon Id="MainIcon.ico" SourceFile="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\images\SEBP.ico"/>
 
 </Include>

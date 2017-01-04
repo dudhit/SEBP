@@ -27,6 +27,10 @@
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
+    <WixExtension Include="WixNetFxExtension">
+      <HintPath>$(WixExtDir)\WixNetFxExtension.dll</HintPath>
+      <Name>WixNetFxExtension</Name>
+    </WixExtension>
     <WixExtension Include="WixVSExtension">
       <HintPath>$(WixExtDir)\WixVSExtension.dll</HintPath>
       <Name>WixVSExtension</Name>
@@ -43,6 +47,12 @@
       <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
       <Name>WixUIExtension</Name>
     </WixExtension>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ControlPanel.wxi" />
+    <Content Include="FolderStructure.wxi" />
+    <Content Include="Icons.wxi" />
+    <None Include="refLinks.txt" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--

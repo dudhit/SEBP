@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
+namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 {
     public partial class MainWindow : Window, IDisposable
     {

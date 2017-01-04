@@ -7,8 +7,8 @@
     <ProjectGuid>{2A5CD39F-07F6-4B2F-B684-24ED66F9E940}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SoloProjects.Dudhit.SpaceEngineers.SEBP</RootNamespace>
-    <AssemblyName>SEBP</AssemblyName>
+    <RootNamespace>SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint</RootNamespace>
+    <AssemblyName>CircleBluePrint</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -55,7 +55,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup />
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Debug\</OutputPath>
@@ -77,11 +79,10 @@
     <Prefer32Bit>true</Prefer32Bit>
     <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>bin\x64\Release\CircleBluePrint.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>SoloProjects.Dudhit.SpaceEngineers.SEBP.App</StartupObject>
+    <StartupObject>SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.App</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>false</SignManifests>
@@ -102,14 +103,14 @@
     <ApplicationIcon>SEBP.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup />
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>antiTamperKey.pfx</AssemblyOriginatorKeyFile>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility" />
+    <Reference Include="ColorPicker, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\computing\cSharp\ColorPickerCustomControl\ColorPickerLib\bin\Release\ColorPicker.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="ReachFramework" />
     <Reference Include="System" />
@@ -196,8 +197,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="antiTamperKey.pfx" />
     <None Include="app.manifest" />
+    <None Include="CircleBluePrint_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -208,7 +209,23 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="WorkingNotes.txt" />
+    <None Include="WorkingNotes.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\botBlk.png" />
+    <Resource Include="images\botBlu.png" />
+    <Resource Include="images\botGrn.png" />
+    <Resource Include="images\botGry.png" />
+    <Resource Include="images\botRed.png" />
+    <Resource Include="images\botWht.png" />
+    <Resource Include="images\botYel.png" />
+    <Resource Include="images\topBlk.png" />
+    <Resource Include="images\topBlu.png" />
+    <Resource Include="images\topGrn.png" />
+    <Resource Include="images\topGry.png" />
+    <Resource Include="images\topRed.png" />
+    <Resource Include="images\topWht.png" />
+    <Resource Include="images\topYel.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="model\" />

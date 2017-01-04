@@ -3,10 +3,10 @@ using System.IO;
 using System.Windows;
 using System.Windows.Media.Media3D;
 using Microsoft.Win32;
-using SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Data;
+using SoloProjects.Dudhit.SpaceEngineers.SEBP.Data;
 using System.ComponentModel;
 
-namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
+namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

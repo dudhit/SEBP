@@ -1,57 +1,129 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="770EA2E4-B8DA-4C53-BBC5-38963E1D6368" Name="SEBP Installer" Language="1033" Version="1.0.0.0" Manufacturer="Dudhit Solo" UpgradeCode="1731563C-9D07-4A11-9161-7FE70A19E57E">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
+  <?define SkuName ="SEBP"?>
+  <?define ProductVersion="1.0.0" ?>
+  <?define UpgradeCode="{D263E0D6-AC42-411D-A4CE-88BF3C87FDFF}"?>
+  <?define Manufacturer="Dudhit Solo"?>
+  <?define ProductCode="{5C32A3BD-3BA3-43AF-951F-1077E84B00DC}"?>
+  <?define PackageCode="*"?>
 
-    <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" Manufacturer="Dudhit Solo" Description="Curved shape generator of Space Engineers blueprint files"  Platform="x64" />
+  <Product Id="$(var.ProductCode)"
+           Name="SEBP"
+           Language="1033"
+		   Codepage='1252'
+           Version="$(var.ProductVersion)"
+           Manufacturer="$(var.Manufacturer)"
+           UpgradeCode="$(var.UpgradeCode)">
 
-    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
-    <MediaTemplate />
+    <Package Id="$(var.PackageCode)"
+	Keywords='Installer'
+             InstallerVersion="200"
+			 Languages='1033'
+             Compressed="yes"
+             InstallScope="perMachine"
+             Manufacturer="$(var.Manufacturer)"
+             Description="Curved shape generator of Space Engineers blueprint files Version: $(var.ProductVersion)"
+             Platform="x64" />
 
-    <Directory Id="TARGETDIR" Name="SourceDir">
-      <Directory Id="AppDataFolder">
-        <Directory Id="SEBPMain" Name="SEBP"/>
-      </Directory>
-      <Directory Id="ProgramMenuFolder">
-        <Directory Id="games" Name="Games">
-          <Directory Id="SEBPShort" Name="Space Engineers Blueprint "/>
-        </Directory>
-      </Directory>
-    </Directory>
+			     <PropertyRef Id="NETFRAMEWORK45"/>
+    <Condition Message='This setup requires the .NET Framework 4.5 or higher.'>
+      <![CDATA[Installed OR NETFRAMEWORK45]]>
+    </Condition>
+    
+    <?include ControlPanel.wxi ?>
+    <Media Id="1" Cabinet="$(var.SkuName).cab" EmbedCab="yes"/>
+    <?include FolderStructure.wxi ?> 
 
 
-    <DirectoryRef Id="SEBPMain">
-      <Component Id="Put-ID-Here" Guid="CEE4E05E-4636-4144-B509-04AB65908163">
-        <File Id="Put-File-here" Source="full-path-here" KeyPath="yes" Checksum="yes"/>
+
+    <DirectoryRef Id="INSTALLDIR">
+      <Component Id="CircleBluePrintExe" Guid="{C3A7F55E-4709-40D0-9894-524FB81E1562}">
+        <File Id="CircleBluePrintExe" Name="SEBP" Source="E:\lifeDocs\My Games\c_Sharp\SE\CircleBluePrint\CircleBluePrint\bin\x64\Debug\SEBP.exe" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
       </Component>
-    </DirectoryRef>
+	    <Component Id="ColorPickerDll" Guid="{96B92ECD-BE70-41CB-B522-7BC2675A7754}">
+        <File Id="ColorPickerDll" Name="ColorPicker" Source="E:\lifeDocs\My Games\c_Sharp\SE\CircleBluePrint\CircleBluePrint\bin\x64\Debug\ColorPicker.dll" Checksum="yes"  DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
+      </Component>
 
-     <DirectoryRef Id="SEBPShort">
-      <Component Id="ApplicationShortcut" Guid="A94480D0-48A9-497E-AFF1-B304D203EBED">
-        <Shortcut Id="ApplicationStartMenuShortcut"
+          </DirectoryRef>
+
+    <DirectoryRef Id="SEBPShort">
+      <Component Id="ApplicationShortcut" Guid="{8B71CD5F-50F1-4ACE-ACEC-53CD52460817}"  >
+        <Shortcut Id="ApplicationStartMenuShortcut" 
                   Name="SE Blueprinter"
                   Description="Make a blueprint of a curved shape"
-                  Target="[SEBPMain]/put-file-name-here"
-                  WorkingDirectory="[SEBPMain]"
-                  Icon="Mainicon.ico"
+                  Target="[INSTALLDIR]/CircleBluePrintExe"
+                  WorkingDirectory="INSTALLDIR"
+                  Icon="MainIcon.ico"  
                   />
-        <RemoveFolder Id="removeFolder" On="uninstall"/>
+        <RemoveFolder Id="SEBPShort" On="uninstall"/>
+		    <RegistryValue Root='HKCU' Key='Software\[Manufacturer]\[ProductName]' Type='string' Value='' KeyPath='yes' />
+         
       </Component>
-       <Component Id="RemoveAppShortcut" Guid="1CA07E8E-A3BF-45D3-8DBE-45E915C053B2">
-         <Shortcut Id="UninstallShortcut"
-  Name="Uninstall SEBP"
-  Description=
+      <Component Id="RemoveAppShortcut" Guid="{4A58C09D-5A3F-46B2-A00F-7C2DBFDD2D04}" >
+        <RegistryValue Root='HKCU' Key='Software\[Manufacturer]\[ProductName]' Type='string' Value='' KeyPath='yes' />
+        <Shortcut Id="UninstallShortcut"
+ Name="Uninstall SEBP"
+ Description=
 "Uninstalls the SEPB app"
-  Target="[System64Folder]msiexec.exe"
-  Arguments="/x [ProductCode]"  Icon="uninst.ico"/>
+ Target="[System64Folder]msiexec.exe"
+ Arguments="/x [ProductCode]"  Icon="uninst.ico"/>
 
-       </Component>
+      </Component>
     </DirectoryRef>
 
-    <Icon Id="uninst.ico" SourceFile="myIcon.ico"/>
-    <Icon Id="Mainicon.ico" SourceFile="myIcon.ico"/>
+    <Feature Id="MainTree" Title="Space Engineers Blueprinter" Description="Full Package" 
 
+         ConfigurableDirectory="INSTALLDIR">
+		 <Feature Id="Files" Title="Space Engineers Blueprinter" Description="Full Package"  Level="1">
+      <ComponentRef Id="CircleBluePrintExe"/>
+      <ComponentRef Id="ColorPickerDll"/>
+      <ComponentRef Id="ApplicationShortcut"/>
+      <ComponentRef Id="RemoveAppShortcut"/>
+    </Feature>
+	  </Feature>
+	  
+    <UIRef Id="WixUI_InstallDir" />
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
+	    <UIRef Id="WixUI_ErrorProgressText" />
+    <?include Icons.wxi ?>
+    <Upgrade Id="$(var.UpgradeCode)">
 
- <UIRef Id="WixUI_InstallDir" />
+      <UpgradeVersion Minimum="$(var.ProductVersion)"
+
+                      IncludeMinimum="no"
+
+                      OnlyDetect="yes"
+
+                      Language="1033"
+
+                      Property="NEWPRODUCTFOUND" />
+
+      <UpgradeVersion
+
+                      IncludeMinimum="yes"
+
+                      Maximum="1.0.0"
+
+                      IncludeMaximum="no"
+
+                      Language="1033"
+
+                      Property="UPGRADEFOUND" />
+
+    </Upgrade>
+
+    <!--Prevent downgrading-->
+    <CustomAction Id="PreventDowngrading"  Error="Newer version of [ProductName] already installed."/>
+    <InstallExecuteSequence>
+      <Custom Action="PreventDowngrading"
+               After="FindRelatedProducts">NEWPRODUCTFOUND</Custom>
+      <RemoveExistingProducts After="InstallFinalize"/>
+    </InstallExecuteSequence>
+    <InstallUISequence>
+      <Custom Action="PreventDowngrading"
+               After="FindRelatedProducts">NEWPRODUCTFOUND</Custom>
+    </InstallUISequence>
   </Product>
 
 

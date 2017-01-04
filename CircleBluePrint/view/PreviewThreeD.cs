@@ -3,12 +3,12 @@ using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
-using SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Collection;
+using SoloProjects.Dudhit.SpaceEngineers.SEBP.Collection;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Data;
 
-namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
+namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 {
     class PreviewThreeD : Viewport3D, INotifyPropertyChanged, IDisposable
     {

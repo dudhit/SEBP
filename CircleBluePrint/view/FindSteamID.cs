@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.view
+namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.view
 {
     class FindSteamID:IDisposable
     {

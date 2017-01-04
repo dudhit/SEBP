@@ -1,4 +1,4 @@
-﻿using SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.view;
+﻿using SoloProjects.Dudhit.SpaceEngineers.SEBP.view;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
-namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
+namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 {
     public partial class MainWindow : Window, INotifyPropertyChanged,IDisposable
     {

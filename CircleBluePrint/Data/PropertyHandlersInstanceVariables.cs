@@ -10,14 +10,17 @@ using System.Windows.Media;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 {
-    public partial class MainWindow : Window, INotifyPropertyChanged
+    public partial class MainWindow : Window, INotifyPropertyChanged,IDisposable
     {
         #region controls
+        [NonSerialized]
         public WorkingArgs shapeSettings;
+
      //   ProgressStatus ps;
      //   private ModelViewer threeDView;
         #region tab1
         private bool IsCalculating;
+        [NonSerialized]
         BackgroundWorker worker;
         private string userApp;
         private const string CONFIG_FILE = "config.ini";
@@ -32,6 +35,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
         #endregion
         #region tab2
         private bool shapeSettingChanged;
+        private bool blockSettingChanged;
         private bool IsGeneratingPreview;
         private double lowTol;
         private double highTol;
@@ -80,5 +84,9 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
         }
 
+
+
+
+        
     }
 }

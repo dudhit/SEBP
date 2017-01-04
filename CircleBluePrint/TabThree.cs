@@ -1,15 +1,16 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IDisposable
     {
 
         #region block settings tab controls
 
-    
+
         private void SetFill(object sender, RoutedEventArgs e)
         {
             Microsoft.Samples.CustomControls.ColorPickerDialog cPicker
@@ -90,13 +91,10 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
                     HSV_ColourPickerToBP_Val(h, s, v);
                     break;
                 case "colCustom":
-                    MessageBox.Show(FillColor.ToString(),"custom color processing",MessageBoxButton.OK);
+                    MessageBox.Show(FillColor.ToString(), "custom color processing", MessageBoxButton.OK);
                     break;
-
-
-
-
             }
+        
         }
 
         private void HSV_ColourPickerToBP_Val(float h, float s, float v)
@@ -107,6 +105,10 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 
         }
 
+        private void BlockChanged(object sender, RoutedEventArgs e)
+        {
+            blockSettingChanged = true;
+        }
 
 
         #endregion

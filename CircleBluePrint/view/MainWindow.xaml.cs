@@ -16,8 +16,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
     // an app to create a circular blueprint for space engineers
     // requires location of user saves folder:
 
-    [SerializableAttribute]
-    public partial class MainWindow : Window
+
+    public partial class MainWindow : Window, IDisposable
     {
         //path --folder -- file variables
 
@@ -76,7 +76,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             //get steam user name and install path
             GetSteamData();
             shapeSettingChanged = true;
-        
+            blockSettingChanged = true;
       
             
         }
@@ -166,9 +166,9 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
                     us.Add(radTwoSlide.Name, radTwoSlide.Value.ToString());
                     us.Add(radThreeSlide.Name, radThreeSlide.Value.ToString());
                     us.Add(makeCircle.Name, makeCircle.IsChecked.ToString());
-                    us.Add(makeElipse.Name, makeElipse.IsChecked.ToString());
+                    us.Add(makeellipse.Name, makeellipse.IsChecked.ToString());
                     us.Add(makeSphere.Name, makeSphere.IsChecked.ToString());
-                    us.Add(makeElipsoid.Name, makeElipsoid.IsChecked.ToString());
+                    us.Add(makeellipsoid.Name, makeellipsoid.IsChecked.ToString());
                     us.Add(makeQuater.Name, makeQuater.IsChecked.ToString());
                     us.Add(makeSemi.Name, makeSemi.IsChecked.ToString());
                     us.Add(makeFull.Name, makeFull.IsChecked.ToString());
@@ -205,7 +205,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
       //              {
       //                  appUserData.WriteLine(kvp);
       //              }
-                    appUserData.Close();
+                 //   appUserData.Close();
                 }
             }
             catch (FileNotFoundException FNF) { MessageBox.Show(FNF.Message, "Saving user data", MessageBoxButton.OK, MessageBoxImage.Information); }
@@ -245,7 +245,7 @@ var myTextBlock = (TextBlock)this.FindName("myTextBlock");
                         appUserData.ReadLine();
                     }
 
-                    appUserData.Close();
+                //    appUserData.Close();
                 }
             }
             catch (FileNotFoundException FNF) { MessageBox.Show(FNF.Message, "Loading settings", MessageBoxButton.OK, MessageBoxImage.Information); }
@@ -264,9 +264,9 @@ var myTextBlock = (TextBlock)this.FindName("myTextBlock");
             dataNames.Text = settings[7];
             //tab2
             if (settings[8] == "True") makeCircle.IsChecked = true;
-            if (settings[9] == "True") makeElipse.IsChecked = true;
+            if (settings[9] == "True") makeellipse.IsChecked = true;
             if (settings[10] == "True") makeSphere.IsChecked = true;
-            if (settings[11] == "True") makeElipsoid.IsChecked = true;
+            if (settings[11] == "True") makeellipsoid.IsChecked = true;
             if (settings[12] == "True") makeQuater.IsChecked = true;
             if (settings[13] == "True") makeSemi.IsChecked = true;
             if (settings[14] == "True") makeFull.IsChecked = true;
@@ -351,25 +351,41 @@ var myTextBlock = (TextBlock)this.FindName("myTextBlock");
 
             }
             catch (Exception e) { MessageBox.Show(e.Message); }
+            MessageBox.Show("Blueprint Saved", "info", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+         
         }
 
         #endregion
 
-       
 
 
-   
-    
+     #region disposal
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
+        ~MainWindow()
+        {
+            Dispose(false);
+        }
 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // free managed resources  
+                //if (Encoding != null)
+                //{
+                //    Encoding.Dispose();
+                //    Encoding = null;
+                //}
+            }
 
-
-
-
-
-
-
+        }
+        #endregion
     }
 
 }

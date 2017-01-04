@@ -6,7 +6,36 @@ using System.Threading.Tasks;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.view
 {
-    class FindSteamID
+    class FindSteamID:IDisposable
     {
+     
+
+             #region disposal
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~FindSteamID()
+        {
+            Dispose(false);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // free managed resources  
+                //if (Encoding != null)
+                //{
+                //    Encoding.Dispose();
+                //    Encoding = null;
+                //}
+            }
+
+        }
+        #endregion
     }
 }

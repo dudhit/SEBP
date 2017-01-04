@@ -4,69 +4,83 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Runtime.Serialization;
 using System.Threading;
 using System.Windows;
 using System.Windows.Documents;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IDisposable
     {
-       
+
         #region blueprint settings tab controls
 
         private void StartStopCalculating(object sender, RoutedEventArgs e)
         {
             if (!IsCalculating)
             {
-                actionGenerate.Content = "Cancel Blueprint";
-                progressBarOne.Visibility = Visibility.Visible;
-                IsCalculating = true;
-                if (StartTheCogs()) { PlottingProcess(); }
+                if (ValidateBPPathAndCustoms()) // if (blockSettingChanged||shapeSettingChanged)
+                {
+
+                    StartTheCogs();
+                    if (blockSettingChanged && !shapeSettingChanged) { ConfigBlueprintBlocks(); BluePrintToFile(); }
+                    else
+                    {
+                        if (shapeSettingChanged)
+                        {
+                            SetAxisRadius();
+                            actionGenerate.Content = "Cancel Blueprint";
+                            progressBarOne.Visibility = Visibility.Visible;
+                            IsCalculating = true;
+                            PlottingProcess();
+                        }
+                    }
+
+
+                }
             }
             else
             {
                 actionGenerate.Content = "Generate Blueprint";
                 progressBarOne.Visibility = Visibility.Collapsed;
                 IsCalculating = false;
-                if (worker != null) { worker.CancelAsync(); }
+                if (worker.IsBusy) { worker.CancelAsync(); }
             }
         }
 
-        private bool StartTheCogs()
+        private void StartTheCogs()
         {
 
-            if (ValidateBPPathAndCustoms())
+            steamUserId = dataSteamId.Text;
+            bpName = dataNames.Text;
+            PathHandler();
+
+            bpFolder = localBP + "\\" + bpName;
+            try
             {
-                gridSize = (blockLarge.IsChecked == true) ? "Large" : "Small";
-                switch (gridSize)
-                {
-                    case "Large":
-                        armourType = (blockNormal.IsChecked == true) ? "LargeBlockArmorBlock" : "LargeHeavyBlockArmorBlock";
-                        break;
-
-                    case "Small":
-                        armourType = (blockNormal.IsChecked == true) ? "SmallBlockArmorBlock" : "SmallHeavyBlockArmorBlock";
-                        break;
-                }
-                steamUserId = dataSteamId.Text;
-                bpName = dataNames.Text;
-                PathHandler();
-
-                bpFolder = localBP + "\\" + bpName;
-                try
-                {
-                    Directory.CreateDirectory(bpFolder);
-                }
-                catch (UnauthorizedAccessException UAE)
-                {
-                    MessageBox.Show(UAE.Message, "info", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
-                }
-                //start the heavy work
-             
-                return true;
+                Directory.CreateDirectory(bpFolder);
             }
-            return false;
+            catch (UnauthorizedAccessException UAE)
+            {
+                MessageBox.Show(UAE.Message, "info", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+            }
+        }
+
+        private void ConfigBlueprintBlocks()
+        {
+            gridSize = (blockLarge.IsChecked == true) ? "Large" : "Small";
+            switch (gridSize)
+            {
+                case "Large":
+                    armourType = (blockNormal.IsChecked == true) ? "LargeBlockArmorBlock" : "LargeHeavyBlockArmorBlock";
+                    break;
+
+                case "Small":
+                    armourType = (blockNormal.IsChecked == true) ? "SmallBlockArmorBlock" : "SmallHeavyBlockArmorBlock";
+                    break;
+            }
+            blockSettingChanged = false;
         }
 
 
@@ -74,16 +88,17 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 
         private void PlottingProcess()
         {
-            if (shapeSettingChanged == false) return;
+
+
             PointContainer.Clear();
 
             //instantiate point list
-            SetAxisRadius();
-            //get bulk points
-   //     ps = new ProgressStatus();
 
-    //       ps.BarMaximum=(Math.Abs((shapeSettings.xRadius - 1) * (shapeSettings.yRadius - 1) * (shapeSettings.zRadius - 1)));
-   //     ps.BarMinimum = 0;
+            //get bulk points
+            //     ps = new ProgressStatus();
+
+            //       ps.BarMaximum=(Math.Abs((shapeSettings.xRadius - 1) * (shapeSettings.yRadius - 1) * (shapeSettings.zRadius - 1)));
+            //     ps.BarMinimum = 0;
 
 
             worker.WorkerSupportsCancellation = true;
@@ -91,16 +106,16 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             worker.DoWork += worker_DoWork;
             worker.ProgressChanged += worker_ProgressChanged;
             worker.RunWorkerCompleted += worker_RunWorkerCompleted;
-//ps.Show();
+            //ps.Show();
 
             //  worker.RunWorkerAsync(10000);//send arguments and kick it off
-       //     worker.RunWorkerAsync(shapeSettings);
+            worker.RunWorkerAsync(shapeSettings);
 
-            
-          
-      //   ps.progressBar.Minimum = 100;
-            shapeSettingChanged = false;
-        
+
+
+            //   ps.progressBar.Minimum = 100;
+
+
         }
 
 
@@ -119,9 +134,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
                     {
                         fileContents.Add(appUserData.ReadLine());
                     }
-
-                    appUserData.Close();
-
+  }
+             
                     Window tempView = new Window();
                     tempView.Width = System.Windows.SystemParameters.MaximizedPrimaryScreenWidth / 2;
                     tempView.Height = System.Windows.SystemParameters.MaximizedPrimaryScreenHeight / 2;
@@ -142,7 +156,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
                     {
                         dataSteamId.Text = lb.SelectedValue.ToString().Trim().Replace("\"", "");
                     }
-                }
+              
             }
             catch (FileNotFoundException FNF) { MessageBox.Show(FNF.Message, "Finding Steam Users", MessageBoxButton.OK, MessageBoxImage.Information); }
             catch (UnauthorizedAccessException UAE) { MessageBox.Show(UAE.Message, "Finding Steam Users", MessageBoxButton.OK, MessageBoxImage.Information); }
@@ -230,20 +244,20 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
         #region background worker
 
 
-   
+
         void worker_DoWork(object sender, DoWorkEventArgs e)
-         {
+        {
             WorkingArgs parameters = e.Argument as WorkingArgs;
             CircleEvaluationCalculations seperateThread = new CircleEvaluationCalculations();
 
-     //  ps.SubscribeToPointContainer();
+            //  ps.SubscribeToPointContainer();
             seperateThread.RadiusInXPlane = parameters.xRadius;
             seperateThread.RadiusInYPlane = parameters.yRadius;
             seperateThread.RadiusInZPlane = parameters.zRadius;
             seperateThread.LowToleranceEvaluation = parameters.lowTol;
             seperateThread.HighToleranceEvaluation = parameters.highTol;
             seperateThread.ShapeSelected = parameters.shapeSelected;
-        seperateThread.BeginPointChecking();
+            seperateThread.BeginPointChecking();
             //for (int x = 0; x < parameters.xRadius; x++) { 
             //    int progressPercentage = Convert.ToInt32((x / parameters.xRadius) * 100);
             //    (sender as BackgroundWorker).ReportProgress(progressPercentage);
@@ -258,16 +272,16 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             //   
 
             //}
-            //   e.Result = result;
+            e.Result = string.Format("blocks calculated:{0}", PointContainer.Count());
 
         }
 
         void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-       //    ps.BarMinimum=  e.ProgressPercentage;
-           /*     if (e.UserState != null)
-                    lbResults.Items.Add(e.UserState);
-         */
+            //    ps.BarMinimum=  e.ProgressPercentage;
+            /*     if (e.UserState != null)
+                     lbResults.Items.Add(e.UserState);
+          */
         }
 
         void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -275,24 +289,25 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
             if (e.Cancelled)
             {
                 MessageBox.Show("Canceled", "Calculating", MessageBoxButton.OK);
-            //    actionGenerate.Content = "Generate Blueprint";
-            //    progressBarOne.Visibility = Visibility.Collapsed;
-           //     IsCalculating = false;
-             //   ps.Close();
+                //    actionGenerate.Content = "Generate Blueprint";
+                //    progressBarOne.Visibility = Visibility.Collapsed;
+                //     IsCalculating = false;
+                //   ps.Close();
+
             }
             else
             {
-                //  MessageBox.Show("Numbers between 0 and 10000 divisible by 7: " + e.Result);
+                MessageBox.Show(e.Result.ToString(), "Complete", MessageBoxButton.OK);
                 actionGenerate.Content = "Generate Blueprint";
                 progressBarOne.Visibility = Visibility.Collapsed;
                 IsCalculating = false;
-             //   MessageBox.Show("Complete", "Calculating", MessageBoxButton.OK);
-                     //write to file
+                //   MessageBox.Show("Complete", "Calculating", MessageBoxButton.OK);
+                //write to file
 
-                 BluePrintToFile(); 
-           //     System.Diagnostics.Trace.WriteLine (ps.WindowState.ToString()) ;
-          //      ps.Close();
-         //       ps = null;
+                BluePrintToFile();
+                //     System.Diagnostics.Trace.WriteLine (ps.WindowState.ToString()) ;
+                //      ps.Close();
+                //       ps = null;
             }
         }
         #endregion

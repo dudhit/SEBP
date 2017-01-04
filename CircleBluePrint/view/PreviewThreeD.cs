@@ -10,7 +10,7 @@ using System.Windows.Data;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint
 {
-    class PreviewThreeD : Viewport3D, INotifyPropertyChanged
+    class PreviewThreeD : Viewport3D, INotifyPropertyChanged, IDisposable
     {
         public static bool alreadyRunning;
         private Model3DGroup groupIt;
@@ -208,5 +208,32 @@ Finally, add the Viewport3D to the window.
             }
         }
         #endregion
-   }
+       #region disposal
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~PreviewThreeD()
+        {
+            Dispose(false);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                //// free managed resources  
+                //if (Encoding != null)
+                //{
+                //    Encoding.Dispose();
+                //    Encoding = null;
+                //}
+            }
+
+        }
+        #endregion
+    }
 }

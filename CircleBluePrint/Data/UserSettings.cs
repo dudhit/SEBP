@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Data
@@ -8,11 +10,12 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Data
      credits to Paul Welter
      * https://weblogs.asp.net/pwelter34/444961
      */
-    [XmlRoot("User Settings")]
-
-    public class UserSettings<TKey, TValue> : Dictionary<TKey, TValue>, IXmlSerializable, IEnumerable
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2229:ImplementSerializationConstructors"), XmlRoot("User Settings")]
+    [Serializable]
+    public class UserSettings<TKey, TValue> : Dictionary<TKey, TValue>, IXmlSerializable, IEnumerable, IDisposable
     {
 
+     
         #region IXmlSerializable Members
 
         public System.Xml.Schema.XmlSchema GetSchema()
@@ -125,7 +128,33 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Data
 
         #endregion
 
+             #region disposal
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~UserSettings()
+        {
+            Dispose(false);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                //// free managed resources  
+                //if (Encoding != null)
+                //{
+                //    Encoding.Dispose();
+                //    Encoding = null;
+                //}
+            }
+
+        }
+        #endregion
    
   
     }

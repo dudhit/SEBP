@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="770EA2E4-B8DA-4C53-BBC5-38963E1D6368" Name="SEBP Installer" Language="1033" Version="1.0.0.0" Manufacturer="Dudhit Solo" UpgradeCode="1731563C-9D07-4A11-9161-7FE70A19E57E">
+
+    <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" Manufacturer="Dudhit Solo" Description="Curved shape generator of Space Engineers blueprint files"  Platform="x64" />
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="AppDataFolder">
+        <Directory Id="SEBPMain" Name="SEBP"/>
+      </Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="games" Name="Games">
+          <Directory Id="SEBPShort" Name="Space Engineers Blueprint "/>
+        </Directory>
+      </Directory>
+    </Directory>
+
+
+    <DirectoryRef Id="SEBPMain">
+      <Component Id="Put-ID-Here" Guid="CEE4E05E-4636-4144-B509-04AB65908163">
+        <File Id="Put-File-here" Source="full-path-here" KeyPath="yes" Checksum="yes"/>
+      </Component>
+    </DirectoryRef>
+
+     <DirectoryRef Id="SEBPShort">
+      <Component Id="ApplicationShortcut" Guid="A94480D0-48A9-497E-AFF1-B304D203EBED">
+        <Shortcut Id="ApplicationStartMenuShortcut"
+                  Name="SE Blueprinter"
+                  Description="Make a blueprint of a curved shape"
+                  Target="[SEBPMain]/put-file-name-here"
+                  WorkingDirectory="[SEBPMain]"
+                  Icon="Mainicon.ico"
+                  />
+        <RemoveFolder Id="removeFolder" On="uninstall"/>
+      </Component>
+       <Component Id="RemoveAppShortcut" Guid="1CA07E8E-A3BF-45D3-8DBE-45E915C053B2">
+         <Shortcut Id="UninstallShortcut"
+  Name="Uninstall SEBP"
+  Description=
+"Uninstalls the SEPB app"
+  Target="[System64Folder]msiexec.exe"
+  Arguments="/x [ProductCode]"  Icon="uninst.ico"/>
+
+       </Component>
+    </DirectoryRef>
+
+    <Icon Id="uninst.ico" SourceFile="myIcon.ico"/>
+    <Icon Id="Mainicon.ico" SourceFile="myIcon.ico"/>
+
+
+ <UIRef Id="WixUI_InstallDir" />
+  </Product>
+
+
+</Wix>

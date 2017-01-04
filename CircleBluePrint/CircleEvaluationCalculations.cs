@@ -9,7 +9,7 @@ using System.Windows.Media.Media3D;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Utility
 {
-    public class CircleEvaluationCalculations
+    public class CircleEvaluationCalculations:IDisposable
     {
 
         private int xIntRadius = -1;
@@ -124,7 +124,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Utility
         }
 
         // Summary:
-        //     Calculates whether values x,y,z fit within the bounds of a circle/elipse/sphere(oid)
+        //     Calculates whether values x,y,z fit within the bounds of a circle/ellipse/sphere(oid)
         //     
         //
         // Returns:
@@ -213,6 +213,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Utility
         #endregion
 
         #endregion
+
         private bool ValidateInputs()
         {
             bool passFail = true;
@@ -235,7 +236,33 @@ namespace SoloProjects.Dudhit.SpaceEngineers.CircleBluePrint.Utility
             return passFail;
         }
 
+             #region disposal
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~CircleEvaluationCalculations()
+        {
+            Dispose(false);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // free managed resources  
+                //if (Encoding != null)
+                //{
+                //    Encoding.Dispose();
+                //    Encoding = null;
+                //}
+            }
+
+        }
+        #endregion
     }
 
 }

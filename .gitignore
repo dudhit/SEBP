@@ -275,6 +275,7 @@ __pycache__/
 # tools/
 
 #resources
-.png
-.jpg
-.jpeg
+*.png
+*.jpg
+*.jpeg
+*.bmp

@@ -9,7 +9,7 @@
                Closing="MainClose" 
     MaxWidth="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenWidthKey}}"
     MaxHeight="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}" SizeToContent="WidthAndHeight" MinWidth="500" MinHeight="850"   >
-        <!--     xmlns:CustomControls="clr-namespace:Microsoft.Samples.CustomControls;assembly=ColorPicker"-->
+    <!--     xmlns:CustomControls="clr-namespace:Microsoft.Samples.CustomControls;assembly=ColorPicker"-->
     <StackPanel  >
         <Menu    >
             <MenuItem Header="_File">
@@ -169,10 +169,10 @@
                                     </LinearGradientBrush>
                                 </StackPanel.Background>
                                 <WrapPanel Margin="5">
-                                    <RadioButton x:Name="colBlack" HorizontalAlignment="Left"  VerticalAlignment="Top" GroupName="custCol" TabIndex="168" Checked="ColourChosen" >
+                                    <RadioButton x:Name="colBlack"    GroupName="custCol" TabIndex="168" Checked="ColourChosen" >
                                         <WrapPanel>
                                             <Rectangle Width="36" Height="27" Fill="#FF404040"></Rectangle>
-                                                                                   </WrapPanel>
+                                        </WrapPanel>
                                     </RadioButton>
                                     <RadioButton x:Name="colBlack1" HorizontalAlignment="Left"  VerticalAlignment="Top" GroupName="custCol" TabIndex="170"  Checked="ColourChosen">
                                         <WrapPanel>

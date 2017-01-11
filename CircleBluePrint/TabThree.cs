@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
+
 namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 {
     public partial class MainWindow : Window, IDisposable
@@ -95,7 +96,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
                     break;
                 case "colCustom":
                     MessageBox.Show("This Feature not yet implemented", "Under Construction", MessageBoxButton.OK);
-                   
+                    Microsoft.Samples.CustomControls.HsvColor hsv = Microsoft.Samples.CustomControls.ColorUtilities.ConvertRgbToHsv(1, 1, 1);
                     break;
             }
         

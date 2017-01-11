@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
+
 namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 {
     public partial class MainWindow : Window, IDisposable
@@ -13,22 +14,25 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
         private void SetFill(object sender, RoutedEventArgs e)
         {
-            Microsoft.Samples.CustomControls.ColorPickerDialog cPicker
-                      = new Microsoft.Samples.CustomControls.ColorPickerDialog();
-            cPicker.StartingColor = FillColor;
-            cPicker.Owner = this;
-            bool? dialogResult = cPicker.ShowDialog();
-            if (dialogResult != null && (bool)dialogResult == true)
-            {
-                FillColor = cPicker.SelectedColor;
-            }
-        }
 
+         
+            //Microsoft.Samples.CustomControls.ColorPickerDialog cPicker
+            //          = new Microsoft.Samples.CustomControls.ColorPickerDialog();
+            //cPicker.StartingColor = FillColor;
+            //cPicker.Owner = this;
+            //bool? dialogResult = cPicker.ShowDialog();
+            //if (dialogResult != null && (bool)dialogResult == true)
+            //{
+            //    FillColor = cPicker.SelectedColor;
+            //}
+        }
+        
         private void ColourChosen(object sender, RoutedEventArgs e)
         {
             if (sender.GetType() != typeof(RadioButton)) return;
             RadioButton rb = (RadioButton)sender;
-            System.Diagnostics.Trace.WriteLine(0);
+            System.Diagnostics.Trace.WriteLine(rb.Name);
+            BlockChanged(this, e);
             float h; float s; float v;
             switch (rb.Name)
             {
@@ -91,7 +95,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
                     HSV_ColourPickerToBP_Val(h, s, v);
                     break;
                 case "colCustom":
-                    MessageBox.Show(FillColor.ToString(), "custom color processing", MessageBoxButton.OK);
+                    MessageBox.Show("This Feature not yet implemented", "Under Construction", MessageBoxButton.OK);
+                    Microsoft.Samples.CustomControls.HsvColor hsv = Microsoft.Samples.CustomControls.ColorUtilities.ConvertRgbToHsv(1, 1, 1);
                     break;
             }
         

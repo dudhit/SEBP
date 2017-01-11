@@ -1,23 +1,18 @@
 ﻿    /*
-    C:\Users\XX\AppData\Roaming\SpaceEngineers
-    C:\Users\XX\AppData\Roaming\SpaceEngineers\Blueprints
-    C:\Users\XX\AppData\Roaming\SpaceEngineers\Blueprints\local
-    bp.sbc
-    */
-
-    // SteamId 76561197976108126
-    // foldername = DisplayName = Subtype
-    //entity id 
-    /*
-143002593092143007
-80458180595881905
-*/
-    //x
-    //y
-    //z
-
-
-    //GridSizeEnum : Small /Large // SmallBlockArmorBlock LargeHeavyBlockArmorBlock LargeBlockArmorBlock
+botBlk 64 64 64 #FF404040 colBlack
+botBlu 10 109 191 #FF0A6DBF colBlue
+botGrn 68 128 68 #FF448044 colGreen
+botGry 191 191 191 #FFBFBFBF colGrey
+botRed 204 10 10 #FFCC0A0A colRed
+botWht 255 255 255 #FFFFFFFF colWhite
+botYel 255 197 38 #FFFFC526 colYellow
+topBlk 13 13 13 #FF0D0D0D colBlack1
+topBlu 28 90 140 #FF1C5A8C colBlue1
+topGrn 52 76 52 #FF344C34 colGreen1
+topGry 140 140 140 #FF8C8C8C colGrey1
+topRed 153 31 31 #FF991F1F colRed1
+topWht 242 242 242 #FFF2F2F2 colWhite1
+topYel 207 168 62 #FFCFA83E colYellow1
 
 
 -------------------	

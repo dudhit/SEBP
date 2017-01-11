@@ -39,10 +39,10 @@
 
     <DirectoryRef Id="INSTALLDIR">
       <Component Id="CircleBluePrintExe" Guid="{C3A7F55E-4709-40D0-9894-524FB81E1562}">
-        <File Id="CircleBluePrintExe" Name="SEBP" Source="E:\lifeDocs\My Games\c_Sharp\SE\CircleBluePrint\CircleBluePrint\bin\x64\Debug\SEBP.exe" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
+        <File Id="CircleBluePrintExe" Name="SEBP" Source="..\CircleBluePrint\bin\x64\Debug\SEBP.exe" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
       </Component>
 	    <Component Id="ColorPickerDll" Guid="{96B92ECD-BE70-41CB-B522-7BC2675A7754}">
-        <File Id="ColorPickerDll" Name="ColorPicker" Source="E:\lifeDocs\My Games\c_Sharp\SE\CircleBluePrint\CircleBluePrint\bin\x64\Debug\ColorPicker.dll" Checksum="yes"  DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
+        <File Id="ColorPickerDll" Name="ColorPicker" Source="E:\lifeDocs\computing\cSharp\ColorPickerCustomControl\ColorPickerLib\bin\Release\ColorPicker.dll" Checksum="yes"  DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
       </Component>
 
           </DirectoryRef>

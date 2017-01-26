@@ -279,3 +279,4 @@ __pycache__/
 *.jpg
 *.jpeg
 *.bmp
+*.uml

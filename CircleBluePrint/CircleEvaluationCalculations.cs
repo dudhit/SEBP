@@ -46,7 +46,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.Utility
             }
             else
             {
-                //do x y z
+                //do BlockChangeEventArgs y z
                 Process3Axis(xLoop, yLoop, zLoop);
             }
         }
@@ -70,7 +70,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.Utility
             double pointWithinBounds = EvalPoint3D(tempPoint);
             if (SolidOrFrame(pointWithinBounds))
                 DoShapePlotting(tempPoint);
-            //string result = string.Format("x:{0}y:{1}z:{2}", tempPoint.X, tempPoint.Y, tempPoint.Z);
+            //string result = string.Format("BlockChangeEventArgs:{0}y:{1}z:{2}", tempPoint.X, tempPoint.Y, tempPoint.Z);
             //System.Diagnostics.Trace.WriteLine(result);
             return pointWithinBounds;
         }
@@ -84,7 +84,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.Utility
                 // for (int y = 0; y <= yLoop; y++)
                 Parallel.ForEach(Axis(yLoop), y =>
                {
-                   // for (int x = 0; x <= xLoop; x++)
+                   // for (int BlockChangeEventArgs = 0; BlockChangeEventArgs <= xLoop; BlockChangeEventArgs++)
                    Parallel.ForEach(Axis(xLoop), x =>
                  {
                      tempPoint = new Point3D(x, y, z);
@@ -104,7 +104,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.Utility
         }
 
         // Summary:
-        //     Loops through each x,y,z individually to plot axis points
+        //     Loops through each BlockChangeEventArgs,y,z individually to plot axis points
         //     
         private void MakeAxisPoints()
         {
@@ -124,7 +124,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.Utility
         }
 
         // Summary:
-        //     Calculates whether values x,y,z fit within the bounds of a circle/ellipse/sphere(oid)
+        //     Calculates whether values BlockChangeEventArgs,y,z fit within the bounds of a circle/ellipse/sphere(oid)
         //     
         //
         // Returns:
@@ -264,5 +264,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.Utility
         }
         #endregion
     }
+
+
 
 }

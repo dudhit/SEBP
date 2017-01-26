@@ -155,9 +155,9 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
         private XElement Positioning()
         {
             XElement locations = new XElement("PositionAndOrientation");
-            XElement pos = new XElement("Position", new XAttribute("x", "0"), new XAttribute("y", "0"), new XAttribute("z", "0"));
-            XElement fwd = new XElement("Forward", new XAttribute("x", "0"), new XAttribute("y", "0"), new XAttribute("z", "-1"));
-            XElement up = new XElement("Up", new XAttribute("x", "0"), new XAttribute("y", "1"), new XAttribute("z", "0"));
+            XElement pos = new XElement("Position", new XAttribute("BlockChangeEventArgs", "0"), new XAttribute("y", "0"), new XAttribute("z", "0"));
+            XElement fwd = new XElement("Forward", new XAttribute("BlockChangeEventArgs", "0"), new XAttribute("y", "0"), new XAttribute("z", "-1"));
+            XElement up = new XElement("Up", new XAttribute("BlockChangeEventArgs", "0"), new XAttribute("y", "1"), new XAttribute("z", "0"));
             XElement ori = new XElement("Orientation");
             locations.Add(pos);
             locations.Add(fwd);
@@ -199,8 +199,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
                 Point3D p = PointContainer.Item(i);
                 XElement builder = new XElement("MyObjectBuilder_CubeBlock", new XAttribute(xmlSchemaI + "type", "MyObjectBuilder_CubeBlock"));
                 XElement sub = new XElement("SubtypeName", BlockType);
-                XElement min = new XElement("Min", new XAttribute("x", p.X), new XAttribute("y", p.Y), new XAttribute("z", p.Z));
-                XElement colour = new XElement("ColorMaskHSV", new XAttribute("x", BlockColour.X), new XAttribute("y", BlockColour.Y), new XAttribute("z", BlockColour.Z));
+                XElement min = new XElement("Min", new XAttribute("BlockChangeEventArgs", p.X), new XAttribute("y", p.Y), new XAttribute("z", p.Z));
+                XElement colour = new XElement("ColorMaskHSV", new XAttribute("BlockChangeEventArgs", BlockColour.X), new XAttribute("y", BlockColour.Y), new XAttribute("z", BlockColour.Z));
                 builder.Add(sub);
                 builder.Add(min);
                 builder.Add(colour);

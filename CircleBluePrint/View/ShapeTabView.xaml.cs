@@ -100,15 +100,15 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
         private void NotifyShapeChanged()
         {
         shapeSelected = fraction+shape;
-        ShapeChangeEventArgs sce = new ShapeChangeEventArgs(shapeSelected, xRadius, yRadius, zRadius);
-         OnShapeChangeEvent(sce);
+        //ShapeChangeEventArgs sce = new ShapeChangeEventArgs(shapeSelected, xRadius, yRadius, zRadius);
+        // OnShapeChangeEvent(sce);
         }
 
-        private void OnShapeChangeEvent(ShapeChangeEventArgs sce)
-        {
-            ShapeChangeHandler handler = ShapeChangedEvent;
-            if (handler != null) handler(this, sce);
-        }
+        //private void OnShapeChangeEvent(ShapeChangeEventArgs sce)
+        //{
+        //    ShapeChangeHandler handler = ShapeChangedEvent;
+        //    if (handler != null) handler(this, sce);
+        //}
 
         #region sliders and textboxes
         private void ImplementTextSliderComboSubscriptions()
@@ -166,9 +166,9 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
             zAxisCombo.SliderChangedEvent -= new TextSliderCombo.AxisChangeHandler(UpdateAxisValue);
         }
         #region events
-        public delegate void ShapeChangeHandler(object sender, ShapeChangeEventArgs shapeArgs);
-        // an instance of the delegate
-        public event ShapeChangeHandler ShapeChangedEvent;
+        //public delegate void ShapeChangeHandler(object sender, ShapeChangeEventArgs shapeArgs);
+        //// an instance of the delegate
+        //public event ShapeChangeHandler ShapeChangedEvent;
 
 
         #endregion

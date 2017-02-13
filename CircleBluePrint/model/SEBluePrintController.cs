@@ -11,15 +11,14 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
         public string SteamPath { get; private set; }
         public string SteamUserName { get; private set; }
         public string SteamUserId { get; private set; }
-        private BlockChangeEventArgs blockData;
-        private ShapeChangeEventArgs shapeData;
-        private FileChangeEventArgs fileData;
+        //private BlockChangeEventArgs blockData;
+        //private ShapeChangeEventArgs shapeData;
+        //private FileChangeEventArgs fileData;
         //private StartCalculatingArgs validData;
         private BackgroundWorker worker;
-        private bool haveBlockData;
-        private bool haveShapeData;
-        private bool haveFileData;
-        private bool isWorking;
+        //private bool haveBlockData;
+        //private bool haveShapeData;
+        //private bool haveFileData;
 
         public SEBluePrintController()
         {
@@ -29,10 +28,9 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
         private void Reset2()
         {
-            haveBlockData = false;
-            haveShapeData = false;
-            haveFileData = false;
-            isWorking = false;
+            //haveBlockData = false;
+            //haveShapeData = false;
+            //haveFileData = false;
         }
 
         public void SubscribeToOthers()
@@ -61,34 +59,34 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
             }
         }
 
-        public void UpdateFileData(FileChangeEventArgs data)
-        {
-            this.fileData = data;
-            haveFileData = true;
-            //validate data
-            string errorMessage = "";
+        //public void UpdateFileData(FileChangeEventArgs data)
+        //{
+        //    //this.fileData = data;
+        //    ////haveFileData = true;
+        //    ////validate data
+        //    //string errorMessage = "";
          
-            if (string.IsNullOrWhiteSpace(fileData.pathToSEfolder)) { errorMessage += "The blueprint requires the location of the Space Engineers save folder\n"; haveFileData = false; }
-            if (string.IsNullOrWhiteSpace(fileData.steamName)) { errorMessage += "The blueprint requires a user name\n"; haveFileData = false; }
-            if (string.IsNullOrWhiteSpace(fileData.steamId)) { errorMessage += "The blueprint requires a user steam id or something like it\n"; haveFileData = false; }
-            if (string.IsNullOrWhiteSpace(fileData.bluePrintName)) { errorMessage += "This was your chance to not have a generic name\n like Large Grid 4231 and you blew it\n"; haveFileData = false; }
-            if (!haveFileData) { MessageBox.Show(errorMessage, "Critical Data Missing", MessageBoxButton.OK, MessageBoxImage.Exclamation); }
+        //    //if (string.IsNullOrWhiteSpace(fileData.pathToSEfolder)) { errorMessage += "The blueprint requires the location of the Space Engineers save folder\n"; haveFileData = false; }
+        //    //if (string.IsNullOrWhiteSpace(fileData.steamName)) { errorMessage += "The blueprint requires a user name\n"; haveFileData = false; }
+        //    //if (string.IsNullOrWhiteSpace(fileData.steamId)) { errorMessage += "The blueprint requires a user steam id or something like it\n"; haveFileData = false; }
+        //    //if (string.IsNullOrWhiteSpace(fileData.bluePrintName)) { errorMessage += "This was your chance to not have a generic name\n like Large Grid 4231 and you blew it\n"; haveFileData = false; }
+        //    ////if (!haveFileData) { MessageBox.Show(errorMessage, "Critical Data Missing", MessageBoxButton.OK, MessageBoxImage.Exclamation); }
      
-        }
+        //}
 
-        public void UpdateShapeData(ShapeChangeEventArgs data)
-        {
-            this.shapeData = data;
-            //validate data
-            haveShapeData = true;
-        }
+        //public void UpdateShapeData(ShapeChangeEventArgs data)
+        //{
+        //    this.shapeData = data;
+        //    //validate data
+        //    //haveShapeData = true;
+        //}
 
-        public void UpdateBlockData(BlockChangeEventArgs data)
-        {
-            this.blockData = data;
-            //validate data
-            haveBlockData = true;
-        }
+        //public void UpdateBlockData(BlockChangeEventArgs data)
+        //{
+        //    this.blockData = data;
+        //    //validate data
+        //    //haveBlockData = true;
+        //}
 
         //public void UpdateValidation(StartCalculatingArgs data)
         //{
@@ -305,7 +303,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
             if (settings[38] == "True") colGrey.IsChecked = true;
             if (settings[39] == "True") colGrey1.IsChecked = true;
             if (settings[40] == "True") colCustom.IsChecked = true;
-            FillColor = Color.FromArgb(StripToIndvidualHex(settings[41], 'a'), StripToIndvidualHex(settings[41], 'r'), StripToIndvidualHex(settings[41], 'g'), StripToIndvidualHex(settings[41], 'b'));
+            FillColor = Color.FromArgb(StripHexWordToHexByte(settings[41], 'a'), StripHexWordToHexByte(settings[41], 'r'), StripHexWordToHexByte(settings[41], 'g'), StripHexWordToHexByte(settings[41], 'b'));
 
             S_E_B_P = settings[42];
             localBP = settings[43];*/

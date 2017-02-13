@@ -1,0 +1,12 @@
+﻿<Window x:Class="SoloProjects.Dudhit.SpaceEngineers.SEBP.View.Shell"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:prism="http://www.codeplex.com/prism"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="Circle Blueprint Generator (for Space Engineers)"
+        MaxWidth="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenWidthKey}}"
+        MaxHeight="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}"
+        SizeToContent="WidthAndHeight" Closing="MainClose">
+    <DockPanel>
+        <ItemsControl x:Name="MenuRegion" prism:RegionManager.RegionName="MenuRegion" DockPanel.Dock="Top"></ItemsControl>
+        <ItemsControl x:Name="TabControlRegion" prism:RegionManager.RegionName="TabControlRegion" DockPanel.Dock="Top"></ItemsControl>
+    </DockPanel>
+</Window>

@@ -17,13 +17,13 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     {
 
         #region main window flow and menu
-        private bool IsWorking;
+        //private bool IsWorking;
         public MainWindow()
         {
             this.DataContext = this;
             InitializeComponent();
             // subscribe to 3 tab events
-            SubscribeToTabEvents();
+            //SubscribeToTabEvents();
             actionGenerate.IsEnabled = false;
             //   if (!File.Exists(CONFIG_FILE)) { FirstLoad(); } else { LoadUserSettings(); }
 
@@ -65,28 +65,28 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
         }
 
 
-        private void SubscribeToTabEvents()
-        {
-            viewFileTab.FileChangedEvent += new View.FileTabView.FileChangeHandler(SetFileData);
-            viewShapeTab.ShapeChangedEvent += new View.ShapeTabView.ShapeChangeHandler(SetShapeData);
-            viewBlockTab.BlockChangedEvent += new View.BlockTabView.BlockChangeHandler(SetBlockData);
-            //   viewBlockTab
-        }
+        //private void SubscribeToTabEvents()
+        //{
+        //    viewFileTab.FileChangedEvent += new View.FileTabView.FileChangeHandler(SetFileData);
+        //    viewShapeTab.ShapeChangedEvent += new View.ShapeTabView.ShapeChangeHandler(SetShapeData);
+        //    viewBlockTab.BlockChangedEvent += new View.BlockTabView.BlockChangeHandler(SetBlockData);
+        //    //   viewBlockTab
+        //}
 
-        private void SetFileData(object sender, FileChangeEventArgs fcea)
-        {
-            if (((App)Application.Current).controller != null) ((App)Application.Current).controller.UpdateFileData(fcea);
-        }
+        //private void SetFileData(object sender, FileChangeEventArgs fcea)
+        //{
+        //    if (((App)Application.Current).controller != null) ((App)Application.Current).controller.UpdateFileData(fcea);
+        //}
 
-        private void SetShapeData(object sender, ShapeChangeEventArgs scea)
-        {
-            if (((App)Application.Current).controller != null) ((App)Application.Current).controller.UpdateShapeData(scea);
-        }
+        //private void SetShapeData(object sender, ShapeChangeEventArgs scea)
+        //{
+        //    if (((App)Application.Current).controller != null) ((App)Application.Current).controller.UpdateShapeData(scea);
+        //}
 
-        private void SetBlockData(object sender, BlockChangeEventArgs bcea)
-        {
-            if (((App)Application.Current).controller != null) ((App)Application.Current).controller.UpdateBlockData(bcea);
-        }
+        //private void SetBlockData(object sender, BlockChangeEventArgs bcea)
+        //{
+        //    if (((App)Application.Current).controller != null) ((App)Application.Current).controller.UpdateBlockData(bcea);
+        //}
 
         private void MainClose(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -99,10 +99,10 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
             else
             {
                 //unsubscribe to tabs
-                if (((App)Application.Current).controller != null) ((App)Application.Current).controller.UnSubscribeFromOthers();
-                viewFileTab.FileChangedEvent -= new View.FileTabView.FileChangeHandler(SetFileData);
-                viewShapeTab.ShapeChangedEvent -= new View.ShapeTabView.ShapeChangeHandler(SetShapeData);
-                viewBlockTab.BlockChangedEvent -= new View.BlockTabView.BlockChangeHandler(SetBlockData);
+                //if (((App)Application.Current).controller != null) ((App)Application.Current).controller.UnSubscribeFromOthers();
+                //viewFileTab.FileChangedEvent -= new View.FileTabView.FileChangeHandler(SetFileData);
+                //viewShapeTab.ShapeChangedEvent -= new View.ShapeTabView.ShapeChangeHandler(SetShapeData);
+                //viewBlockTab.BlockChangedEvent -= new View.BlockTabView.BlockChangeHandler(SetBlockData);
             }
         }
 
@@ -173,30 +173,30 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
         private void StartStopCalculating(object sender, RoutedEventArgs e)
         {
-            if (!IsWorking)
-            {
-                actionGenerate.Content = "Cancel Blueprint";
-                progressBarOne.Visibility = Visibility.Visible;
-                //start working
-            }
-            else
-            {
-                actionGenerate.Content = "Generate Blueprint";
-                progressBarOne.Visibility = Visibility.Hidden;
+            //if (!IsWorking)
+            //{
+            //    actionGenerate.Content = "Cancel Blueprint";
+            //    progressBarOne.Visibility = Visibility.Visible;
+            //    //start working
+            //}
+            //else
+            //{
+            //    actionGenerate.Content = "Generate Blueprint";
+            //    progressBarOne.Visibility = Visibility.Hidden;
 
-                //stop working    if (worker.IsBusy) { worker.CancelAsync(); }
-            }
+            //    //stop working    if (worker.IsBusy) { worker.CancelAsync(); }
+            //}
         }
 
         private void ControllerSubscribe(object sender, RoutedEventArgs e)
         {
-            if (((App)Application.Current).controller != null) ((App)Application.Current).controller.SubscribeToOthers();
+            //if (((App)Application.Current).controller != null) ((App)Application.Current).controller.SubscribeToOthers();
         }
 
         #region events
-        public delegate void MainViewChangeHandler(object sender, MainViewChangeEventArgs mvArgs);
+        //public delegate void MainViewChangeHandler(object sender, MainViewChangeEventArgs mvArgs);
         // an instance of the delegate
-        public event MainViewChangeHandler MainViewChangeEvent;
+        //public event MainViewChangeHandler MainViewChangeEvent;
 
 
         #endregion

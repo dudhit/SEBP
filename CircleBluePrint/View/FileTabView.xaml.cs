@@ -1,7 +1,7 @@
-﻿using System;
+﻿using SoloProjects.Dudhit.SpaceEngineers.SEBP.ViewModel;
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using SoloProjects.Dudhit.SpaceEngineers.SEBP.EventArguments;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
 {
@@ -15,10 +15,14 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
         public string SteamName;
         public string SteamUserId;
         private string blueprintName;
-        private int doNotNotify;
         public FileTabView()
         {
             InitializeComponent();
+        }
+
+        public FileTabView(IFileTabViewModel vm) : this()
+        {
+          this.DataContext=vm;
             dataSE_Path.IsEnabled = false;
             Reset();
         }
@@ -62,7 +66,10 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
         private void UpdateSavePath()
         {
             string errorMessage = "";
-            if (!StringHasValue()) { errorMessage += "The blueprint requires the location of the Space Engineers save folder\n"; }
+            if(!StringHasValue(saveRootLocation))
+            {
+              errorMessage += "The blueprint requires the location of the Space Engineers save folder\n";
+            }
             else
             {
                 dataSE_Path.MinWidth = saveRootLocation.Length * 2;
@@ -84,21 +91,21 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
         {
             // call find steamid class
 
-            ((App)Application.Current).controller.GetSteamId();
-            SteamUserId = ((App)Application.Current).controller.SteamUserId;
-            SteamName = ((App)Application.Current).controller.SteamUserName;
+            //((App)Application.Current).controller.GetSteamId();
+            //SteamUserId = ((App)Application.Current).controller.SteamUserId;
+            //SteamName = ((App)Application.Current).controller.SteamUserName;
          
-            dataSteamId.Text = SteamUserId;
-            dataSteamName.Text = SteamName;
+            //dataSteamId.Text = SteamUserId;
+            //dataSteamName.Text = SteamName;
           
         }
 
 
 
         #region events
-        public delegate void FileChangeHandler(object sender, FileChangeEventArgs fileArgs);
-        // an instance of the delegate
-        public event FileChangeHandler FileChangedEvent;
+        //public delegate void FileChangeHandler(object sender, FileChangeEventArgs fileArgs);
+        //// an instance of the delegate
+        //public event FileChangeHandler FileChangedEvent;
 
         #endregion
 
@@ -120,17 +127,17 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
                         blueprintName = dataNames.Text;
                         break;
                 }
-                FileChangeEventArgs fce = new FileChangeEventArgs(saveRootLocation, SteamName, SteamUserId, blueprintName);
-                OnFileChangeEvent(fce);
+                //FileChangeEventArgs fce = new FileChangeEventArgs(saveRootLocation, SteamName, SteamUserId, blueprintName);
+                //OnFileChangeEvent(fce);
 
             }
         }
 
-        private void OnFileChangeEvent(FileChangeEventArgs fce)
-        {
-            FileChangeHandler handler = FileChangedEvent;
-            if (handler != null) handler(this, fce);
-        }
+        //private void OnFileChangeEvent(FileChangeEventArgs fce)
+        //{
+        //    FileChangeHandler handler = FileChangedEvent;
+        //    if (handler != null) handler(this, fce);
+        //}
 
 
     }

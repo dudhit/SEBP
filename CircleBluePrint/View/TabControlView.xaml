@@ -13,7 +13,7 @@
             <ItemsControl x:Name="ShapeTab2" prism:RegionManager.RegionName="BlockTabRegion"></ItemsControl>
         </TabItem>
         <TabItem x:Name="fileTab" Header="BluePrint Settings" TabIndex="50" >
-            <ItemsControl x:Name="ShapeTab3" prism:RegionManager.RegionName="FileTabRegion"></ItemsControl>
+            <!--<ItemsControl x:Name="ShapeTab3" prism:RegionManager.RegionName="FileTabRegion"></ItemsControl>-->
         </TabItem>
        
     </TabControl>

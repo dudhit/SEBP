@@ -22,7 +22,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
 
     public BlockTabView(IBlockTabViewModel vm):this()
     {
-   //   InitializeComponent();
+
       this.DataContext=vm;
     }
 

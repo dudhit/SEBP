@@ -2,8 +2,13 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:prism="http://www.codeplex.com/prism"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:prism="http://prismlibrary.com/"
         mc:Ignorable="d">
+    <UserControl.Resources>
+        <DataTemplate x:Key="ColourBoxTemplate">
+            <ItemsControl prism:RegionManager.RegionName="ColourSelectionView"/>
+                  </DataTemplate>
+    </UserControl.Resources>
     <DockPanel>
         <WrapPanel DockPanel.Dock="top" HorizontalAlignment="Center">
 
@@ -37,75 +42,37 @@
             <StackPanel>
                 <StackPanel.Background>
                     <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-                        <GradientStop Color="#FFAABBC8" Offset="1" />
-                        <GradientStop Color="#FF80BB80" />
+                        <GradientStop Color="#FFAABBC8" />
+                        <GradientStop Color="#FF80BB80" Offset="1" />
                     </LinearGradientBrush>
                 </StackPanel.Background>
                 <WrapPanel Margin="5">
-
-                    <ItemsControl x:Name="ColourPicker11" prism:RegionManager.RegionName="ColorCheckBox"></ItemsControl>
-                    <ItemsControl x:Name="ColourPicker1" prism:RegionManager.RegionName="ColorCheckBox"></ItemsControl>
-                    <ItemsControl x:Name="ColourPicker2" prism:RegionManager.RegionName="ColorCheckBox"></ItemsControl>
-                    <ItemsControl x:Name="ColourPicker3" prism:RegionManager.RegionName="ColorCheckBox"></ItemsControl>
-                    <ItemsControl x:Name="ColourPicker4" prism:RegionManager.RegionName="ColorCheckBox"></ItemsControl>
-                    <ItemsControl x:Name="ColourPicker5" prism:RegionManager.RegionName="ColorCheckBox"></ItemsControl>
-                    <ItemsControl x:Name="ColourPicker6" prism:RegionManager.RegionName="ColorCheckBox"></ItemsControl>
-                    <ItemsControl x:Name="ColourPicker7" prism:RegionManager.RegionName="ColorCheckBox"></ItemsControl>
-                    <ItemsControl x:Name="ColourPicker8" prism:RegionManager.RegionName="ColorCheckBox"></ItemsControl>
-                    <ItemsControl x:Name="ColourPicker9" prism:RegionManager.RegionName="ColorCheckBox"></ItemsControl>
-                    <ItemsControl x:Name="ColourPicker10" prism:RegionManager.RegionName="ColorCheckBox"></ItemsControl>
-                </WrapPanel>
-                <WrapPanel Margin="5">
-                    <ItemsControl ItemsSource="{Binding ColourPicker2}"></ItemsControl>
-                </WrapPanel>
-                <WrapPanel Margin="5">
-                    <ItemsControl ItemsSource="{Binding ColourPicker3}"></ItemsControl>
-                </WrapPanel>
-                <WrapPanel Margin="5">
-                    <ItemsControl ItemsSource="{Binding ColourPicker4}"></ItemsControl>
+                    <ItemsControl ItemsSource="{Binding ColoursRed}" ItemTemplate="{StaticResource ColourBoxTemplate}">
+                    </ItemsControl>
+                    <ItemsControl ItemsSource="{Binding ColoursBlue}" ItemTemplate="{StaticResource ColourBoxTemplate}">
+                    </ItemsControl>
+                    <ItemsControl ItemsSource="{Binding ColoursGreen}" ItemTemplate="{StaticResource ColourBoxTemplate}">
+                    </ItemsControl>
+                    <ItemsControl ItemsSource="{Binding ColoursYellow}" ItemTemplate="{StaticResource ColourBoxTemplate}">
+                    </ItemsControl>
+                    <ItemsControl ItemsSource="{Binding ColoursBlack}" ItemTemplate="{StaticResource ColourBoxTemplate}">
+                    </ItemsControl>
+                    <ItemsControl ItemsSource="{Binding ColoursWhite}" ItemTemplate="{StaticResource ColourBoxTemplate}">
+                    </ItemsControl>
+                    <ItemsControl ItemsSource="{Binding ColoursGrey}" ItemTemplate="{StaticResource ColourBoxTemplate}">
+                    </ItemsControl>
                 </WrapPanel>
                 <WrapPanel Margin="93,5,125,5">
-                    <ItemsControl ItemsSource="{Binding ColourPicker5}"></ItemsControl>
+                    <ItemsControl ItemsSource="{Binding ColoursUser}" ItemTemplate="{StaticResource ColourBoxTemplate}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
                     <Button Command="{Binding SetFill}" Margin="5,1,1,1">Make Custom Colour</Button>
                 </WrapPanel>
             </StackPanel>
         </GroupBox>
     </DockPanel>
 </UserControl>
-<!--
-            
-                    <colSample:ColourSampleSelection x:Name="colBlack1" BoxColour="#FF0D0D0D" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="100" />
-                    <colSample:ColourSampleSelection x:Name="colBlue1" BoxColour="#FF1C5A8C" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="110" />
-                    <colSample:ColourSampleSelection x:Name="colRed1" BoxColour="#FF991F1F" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="120" />
-                    <colSample:ColourSampleSelection x:Name="colGreen1" BoxColour="#FF344C34" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="130" />
-                    <colSample:ColourSampleSelection x:Name="colYellow1" BoxColour="#FFCFA83E" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="140" />
-                    <colSample:ColourSampleSelection x:Name="colWhite1" BoxColour="#FFF2F2F2" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="150" />
-                    <colSample:ColourSampleSelection x:Name="colGrey1" BoxColour="#FF8C8C8C" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="160" />
-          
-                    <colSample:ColourSampleSelection x:Name="colBlack" BoxColour="#FF404040" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="170"  />
-                    <colSample:ColourSampleSelection x:Name="colBlue" BoxColour="#FF0A6DBF" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="180"  />
-                    <colSample:ColourSampleSelection x:Name="colRed" BoxColour="#FFCC0A0A" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="190"  />
-                    <colSample:ColourSampleSelection x:Name="colGreen" BoxColour="#FF448044" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="200"  />
-                    <colSample:ColourSampleSelection x:Name="colYellow" BoxColour="#FFFFC526" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="210"  />
-                    <colSample:ColourSampleSelection x:Name="colWhite" BoxColour="#FFFFFFFF" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="220"  />
-                    <colSample:ColourSampleSelection x:Name="colGrey" BoxColour="#FFBFBFBF" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="203"  />
-           
-                    <colSample:ColourSampleSelection x:Name="colBlack2" BoxColour="#FF595151" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="240"  />
-                    <colSample:ColourSampleSelection x:Name="colBlue2" BoxColour="#FF417199" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="250"  />
-                    <colSample:ColourSampleSelection x:Name="colRed2" BoxColour="#FF9E4343" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="260"  />
-                    <colSample:ColourSampleSelection x:Name="colGreen2" BoxColour="#FF507750" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="270"  />
-                    <colSample:ColourSampleSelection x:Name="colYellow2" BoxColour="#FFBAA059" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="280"  />
-                    <colSample:ColourSampleSelection x:Name="colWhite2" BoxColour="#FFCCB7B7" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="290"  />
-                    <colSample:ColourSampleSelection x:Name="colGrey2" BoxColour="#FF998E8E" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="300"  />
-                
-                                   <colSample:ColourSampleSelection x:Name="colBlack3" BoxColour="#FF3F3E3E" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="310" />
-                    <colSample:ColourSampleSelection x:Name="colBlue3" BoxColour="#FF45535E" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="320" />
-                    <colSample:ColourSampleSelection x:Name="colRed3" BoxColour="#FF991F1F" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="330" />
-                    <colSample:ColourSampleSelection x:Name="colGreen3" BoxColour="#FF455E45" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="340" />
-                    <colSample:ColourSampleSelection x:Name="colYellow3" BoxColour="#FFA08D58" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="350" />
-                    <colSample:ColourSampleSelection x:Name="colWhite3" BoxColour="#FFB2AEAE" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="360" />
-                    <colSample:ColourSampleSelection x:Name="colGrey3" BoxColour="#FF7F7F7F" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="370" />
-               
-                    <colSample:ColourSampleSelection x:Name="colCustom" BoxColour="{Binding FillColour}" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="400" />
-             
-    -->

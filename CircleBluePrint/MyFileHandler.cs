@@ -253,17 +253,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
     }
 
-    /*
-      
-        XNamespace ns1 = "http://example.com/ns1";
-           string prefix = "pf1";
-           string localName = "foo";
-           XElement el = new XElement(ns1 + localName, new XAttribute(XNamespace.Xmlns + prefix, ns1));
-           Console.WriteLine(el);
-         
-     ouput:
-<pf1:foo xmlns:pf1="http://example.com/ns1" />
-     */
+
 
 
 }

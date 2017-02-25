@@ -177,17 +177,17 @@
     <Compile Include="Data\PointContainer.cs" />
     <Compile Include="Data\UserSettings.cs" />
     <Compile Include="EventHandlers\ChangeEventArgs.cs" />
-    <Compile Include="FileTab.cs" />
-    <Compile Include="Model\BlockModel.cs" />
+    <Compile Include="Model\BlockTabModel.cs" />
     <Compile Include="Model\BlueprintData.cs" />
     <Compile Include="Model\ColourSelectionModel.cs" />
     <Compile Include="Model\SEBluePrintController.cs" />
+    <Compile Include="ViewModelInterfaces\IBlockTabViewModel.cs" />
     <Compile Include="ViewModelInterfaces\IColourSelectionViewModel.cs" />
     <Compile Include="ViewModelInterfaces\IFileTabViewModel.cs" />
+    <Compile Include="ViewModelInterfaces\IShapeTabViewModel.cs" />
     <Compile Include="ViewModel\BlockTabViewModel.cs" />
     <Compile Include="ViewModel\ColourSelectionViewModel.cs" />
     <Compile Include="ViewModel\FileTabViewModel.cs" />
-    <Compile Include="ViewModelInterfaces\IViewModels.cs" />
     <Compile Include="ViewModel\MenuViewModel.cs" />
     <Compile Include="ViewModel\ShapeTabViewModel.cs" />
     <Compile Include="ViewModel\TabControlViewModel.cs" />
@@ -219,8 +219,8 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ColourSelectionView.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\FileTabView.xaml">
       <SubType>Designer</SubType>

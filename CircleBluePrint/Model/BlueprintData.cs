@@ -1,71 +1,139 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Media3D;
+﻿using System.Windows.Media.Media3D;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.Model
 {
-  class BlueprintData//:IBlockModel,IFileModel,IShapeModel
+ public interface IBlueprintData
   {
-/*
-    public string PathToSeFolder
+
+     string PathToSeFolder
     {
       get;
       set;
     }
-    public string SteamName
+     string SteamName
     {
       get;
       set;
     }
-    public string SteamId
+     string SteamId
     {
       get;
       set;
     }
-    public string BlueprintName
+     string BlueprintName
     {
       get;
       set;
     }
-    public Point3D ColourAsHSV
+     Point3D ColourAsHSV
     {
       get;
       set;
     }
-    public string BlockSize
+     string BlockSize
     {
       get;
       set;
     }
-    public string BlockType
+     string BlockType
     {
       get;
       set;
     }
-    public string Shape
+     string Shape
     {
       get;
       set;
     }
-    public double RadiusX
+     double RadiusX
     {
       get;
       set;
     }
-    public double RadiusY
+     double RadiusY
     {
       get;
       set;
     }
-    public double RadiusZ
+     double RadiusZ
     {
       get;
       set;
     }
- */
+
   
   }
+
+ public class BlueprintData : IBlueprintData
+ {
+   #region IBlueprintData Members
+
+   public string PathToSeFolder
+   {
+     get;
+     set;
+   }
+
+   public string SteamName
+   {
+     get;
+     set;
+   }
+
+   public string SteamId
+   {
+     get;
+     set;
+   }
+
+   public string BlueprintName
+   {
+     get;
+     set;
+   }
+
+   public Point3D ColourAsHSV
+   {
+     get;
+     set;
+   }
+
+   public string BlockSize
+   {
+     get;
+     set;
+   }
+
+   public string BlockType
+   {
+     get;
+     set;
+   }
+
+   public string Shape
+   {
+     get;
+     set;
+   }
+
+   public double RadiusX
+   {
+     get;
+     set;
+   }
+
+   public double RadiusY
+   {
+     get;
+     set;
+   }
+
+   public double RadiusZ
+   {
+     get;
+     set;
+   }
+
+   #endregion
+ }
 }

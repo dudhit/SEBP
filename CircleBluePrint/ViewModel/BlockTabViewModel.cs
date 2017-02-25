@@ -4,193 +4,106 @@ using System.Windows.Media.Media3D;
 using Prism.Mvvm;
 using Prism.Commands;
 using System.Windows.Input;
-using System.Collections.Generic;
-using SoloProjects.Dudhit.SpaceEngineers.SEBP.View;
-using System.Windows.Controls;
+using SoloProjects.Dudhit.Utilites;
+using System.ComponentModel;
 using System.Collections.ObjectModel;
+using System.Windows.Data;
+using System;
+using Microsoft.Practices.Unity;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.ViewModel
 {
-  class BlockTabViewModel : BindableBase, IBlockTabViewModel
+  public class BlockTabViewModel : BindableBase, IBlockTabViewModel
   {
     private SoloProjects.Dudhit.UserInterfaces.CrudeColorPicker.CrudePicker ccp;
-    private BlockModel model;
+    private IBlockTabModel model;
+    private ColourSelectionViewModel colselVM;
+    private bool armourIsNormal;
+    private bool sizeIsLarge;
+    private bool customColourIsSelected;
+    private string selectedColour;
     private string gridSize;
     private string armourType;
-    private string selectedColour;
-    private Point3D hsv;
-    private bool sizeLarge;
-    private bool armourNormal;
-    private ObservableCollection<ColourSelectionViewModel> boxVMs;
-    private ObservableCollection<ColourSelectionModel> boxModels;
+    #region IBlockTabViewModel Members
+
+
+    public IBlockTabModel Model
+    {
+      get
+      {
+        return this.model;
+      }
+      set
+      {
+        if(SetProperty(ref this.model, value))
+        {
+          gridSize=model.BlockSize;
+          armourType=model.BlockType;
+          FillColour=ColourConverters.ConvertHsvToRgb(model.ColourAsHSV.X, model.ColourAsHSV.Y, model.ColourAsHSV.Z);
+          BlockChangeModelToView();
+        }
+      }
+    }
+
+    public bool ArmourNormal
+    {
+      get
+      {
+        return armourIsNormal;
+      }
+      set
+      {
+        if(SetProperty(ref armourIsNormal, value))
+        {
+          BlockChangeBoolToModel();
+        }
+
+      }
+    }
+
+    public bool SizeLarge
+    {
+      get
+      {
+        return sizeIsLarge;
+      }
+      set
+      {
+        if(SetProperty(ref sizeIsLarge, value))
+        {
+          BlockChangeBoolToModel();
+        }
+      }
+    }
+
+    #endregion
     public Color FillColour
     {
       get;
       set;
     }
 
-    #region model properties
-    public Point3D ColourAsHSV
+    #region constructors
+    public BlockTabViewModel(IBlockTabModel model)
     {
-      get
-      {
-        return model.ColourAsHSV;
-      }
-      set
-      {
-        model.ColourAsHSV=value;
-      }
-    }
-
-    public string BlockSize
-    {
-      get
-      {
-        return model.BlockSize;
-      }
-      set
-      {
-        model.BlockSize= value;
-      }
-    }
-
-    public string BlockType
-    {
-      get
-      {
-        return model.BlockType;
-      }
-      set
-      {
-        model.BlockType= value;
-      }
+      this.model=model;
+      this.SetFill = new DelegateCommand<object>(
+     this.SetFillColour, this.CanSetFillColour);
+      selectedColour="#FFAABBCC";
+      customColourIsSelected=false;
+      BlockChangeModelToView();
+      TempLoad();
     }
     #endregion
-    #region view properties commands
-    public bool ArmourNormal
-    {
-      get
-      {
-        return armourNormal;
-      }
-      set
-      {
-        SetProperty(ref armourNormal, value);
-        NotifyBlockChange();
-        System.Diagnostics.Trace.WriteLine(BlockType);
-      }
 
-    }
-    public bool SizeLarge
-    {
-      get
-      {
-        return sizeLarge;
-      }
-      set
-      {
-        SetProperty(ref sizeLarge, value);
-        // this.OnPropertyChanged(() => this.BlockType);
-        NotifyBlockChange();
-        System.Diagnostics.Trace.WriteLine(BlockSize);
-      }
-    }
-
+    #region Actions
 
     public ICommand SetFill
     {
       get;
       private set;
     }
-    private bool CanSetFillColour(object arg)
-    {
-      return SizeLarge;
-    }
 
-
-    private ColourSelectionModel CheckboxModel(string name, string colour, int tab)
-    {
-      //string[] names = new string[] { "colBlack1", "colBlue1", "colRed1", "colGreen1", "colYellow1", "colWhite1", "colGrey1" };
-      //string[] colours = new string[] { "#FF0D0D0D", "#FF1C5A8C", "#FF991F1F", "#FF344C34", "#FFCFA83E", "#FFF2F2F2", "#FF8C8C8C" };
-     
-
-      ColourSelectionModel checkboxModel = new ColourSelectionModel();
-      checkboxModel.BoxColour=colour;
-      checkboxModel.BoxHeight=27;
-      checkboxModel.BoxWidth=36;
-      checkboxModel.ColourTabIndex=tab;
-      checkboxModel.GroupName="custCol";
-      checkboxModel.Name=name;
-
-      return checkboxModel;
-    }
-    /*     
-<colSample:ColourSampleSelection BoxColour="#FF0D0D0D" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="100" x:Name="colBlack1" />
-<colSample:ColourSampleSelection BoxColour="#FF1C5A8C" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="110" x:Name="colBlue1" />
-<colSample:ColourSampleSelection BoxColour="#FF991F1F" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="120" x:Name="colRed1" />
-<colSample:ColourSampleSelection BoxColour="#FF344C34" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="130" x:Name="colGreen1" />
-<colSample:ColourSampleSelection BoxColour="#FFCFA83E" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="140" x:Name="colYellow1"/>
-<colSample:ColourSampleSelection BoxColour="#FFF2F2F2" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="150" x:Name="colWhite1" />
-<colSample:ColourSampleSelection BoxColour="#FF8C8C8C" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="160" x:Name="colGrey1" />
-                                                                                                                                                  />
-<colSample:ColourSampleSelection BoxColour="#FF404040" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="170" x:Name="colBlack"  />
-<colSample:ColourSampleSelection BoxColour="#FF0A6DBF" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="180" x:Name="colBlue"  />
-<colSample:ColourSampleSelection BoxColour="#FFCC0A0A" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="190" x:Name="colRed"  />
-<colSample:ColourSampleSelection BoxColour="#FF448044" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="200" x:Name="colGreen"  />
-<colSample:ColourSampleSelection BoxColour="#FFFFC526" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="210" x:Name="colYellow" />
-<colSample:ColourSampleSelection BoxColour="#FFFFFFFF" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="220" x:Name="colWhite"  />
-<colSample:ColourSampleSelection BoxColour="#FFBFBFBF" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="203" x:Name="colGrey"  />
-                                                                                                                                                  />
-<colSample:ColourSampleSelection BoxColour="#FF595151" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="240" x:Name="colBlack>2" />
-<colSample:ColourSampleSelection BoxColour="#FF417199" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="250" x:Name="colBlue2"  />
-<colSample:ColourSampleSelection BoxColour="#FF9E4343" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="260" x:Name="colRed2"  />
-<colSample:ColourSampleSelection BoxColour="#FF507750" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="270" x:Name="colGreen2"  />
-<colSample:ColourSampleSelection BoxColour="#FFBAA059" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="280" x:Name="colYellow2"  />
-<colSample:ColourSampleSelection BoxColour="#FFCCB7B7" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="290" x:Name="colWhite2"  />
-<colSample:ColourSampleSelection BoxColour="#FF998E8E" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="300" x:Name="colGrey2"  />
-                                                                                                                                                  />
-<colSample:ColourSampleSelection BoxColour="#FF3F3E3E" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="310" x:Name="colBlack3" />
-<colSample:ColourSampleSelection BoxColour="#FF45535E" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="320" x:Name="colBlue3" />
-<colSample:ColourSampleSelection BoxColour="#FF991F1F" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="330" x:Name="colRed3" />
-<colSample:ColourSampleSelection BoxColour="#FF455E45" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="340" x:Name="colGreen3" />
-<colSample:ColourSampleSelection BoxColour="#FFA08D58" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="350" x:Name="colYellow3" />
-<colSample:ColourSampleSelection BoxColour="#FFB2AEAE" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="360" x:Name="colWhite3" />
-<colSample:ColourSampleSelection BoxColour="#FF7F7F7F" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="370" x:Name="colGrey3" />
-           
-                 <colSample:ColourSampleSelection x:Name="colCustom" BoxColour="#FFAAAAAA" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="400" />
-           
-  */
-    #endregion
-    public BlockTabViewModel(BlockModel model)
-    {
-      this.model=model;
-      FillColour = Color.FromArgb(255, 255, 0, 0);
-      armourNormal= true;
-      sizeLarge = true;
-      // colGrey1.IsChecked = true;
-      this.SetFill = new DelegateCommand<object>(
-                                       this.SetFillColour, this.CanSetFillColour);
-    }
-
-    private void NotifyBlockChange()
-    {
-      gridSize = (sizeLarge == true) ? "Large" : "Small";
-      switch(gridSize)
-      {
-        case "Large":
-          armourType     = (armourNormal == true) ? "LargeBlockArmorBlock" : "LargeHeavyBlockArmorBlock";
-          break;
-
-        case "Small":
-          armourType = (armourNormal == true) ? "SmallBlockArmorBlock" : "SmallHeavyBlockArmorBlock";
-          break;
-
-      }
-      BlockSize=gridSize;
-      BlockType=armourType;
-      //BlockChangeEventArgs bcea = new BlockChangeEventArgs(hsv, gridSize, armourType);
-      //OnBlockChangeEvent(bcea);
-    }
     private void SetFillColour(object arg)
     {
 
@@ -205,22 +118,281 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.ViewModel
       }
       ccp.Close();
     }
+
+    private bool CanSetFillColour(object arg)
+    {
+      return customColourIsSelected;
+    }
+
+    private void BlockChangeBoolToModel()
+    {
+      gridSize = (sizeIsLarge == true) ? "Large" : "Small";
+      switch(gridSize)
+      {
+        case "Large":
+          armourType     = (armourIsNormal == true) ? "LargeBlockArmorBlock" : "LargeHeavyBlockArmorBlock";
+          break;
+
+        case "Small":
+          armourType = (armourIsNormal == true) ? "SmallBlockArmorBlock" : "SmallHeavyBlockArmorBlock";
+          break;
+
+      }
+      model.BlockType=armourType;
+      model.BlockSize=gridSize;
+    }
+
+    private void BlockChangeModelToView()
+    {
+      SizeLarge=(gridSize=="Large")?true:false;
+      ArmourNormal=(armourType=="SmallBlockArmorBlock"||armourType=="LargeBlockArmorBlock")?true:false;
+
+    }
     public void UpdateColourValue(string colour)
     {
+
       //   System.Diagnostics.Trace.WriteLine(x.hexColour);
       //check if alpha not 255// ff and adjust accordingly
       FillColour = (Color)SoloProjects.Dudhit.Utilites.ColourConverters.MakeAColourFromString(colour);
-      //if(FillColour.A != 255)
-      //  FillColour.A = 255;
+      //if(FillColour.A != 255)     FillColour= new Color();
       //convert to HSV 
-      Point3D temp;
-      hsv = SoloProjects.Dudhit.Utilites.ColourConverters.ConvertRgbToHsv(FillColour.R, FillColour.G, FillColour.B);
-      temp = SoloProjects.Dudhit.Utilites.ColourConverters.ConvertStandardHSVtoSEFormat((float)hsv.X, (float)hsv.Y, (float)hsv.Z);
-      hsv = SoloProjects.Dudhit.Utilites.ColourConverters.ConvertSEFormatHSVtoBluePrintFormat((float)temp.X, (float)temp.Y, (float)temp.Z);
+      Point3D firstConversion;
+      Point3D secondConversion;
+      firstConversion = SoloProjects.Dudhit.Utilites.ColourConverters.ConvertRgbToHsv(FillColour.R, FillColour.G, FillColour.B);
+      secondConversion = SoloProjects.Dudhit.Utilites.ColourConverters.ConvertStandardHSVtoSEFormat((float)firstConversion.X, (float)firstConversion.Y, (float)firstConversion.Z);
+      model.ColourAsHSV   = SoloProjects.Dudhit.Utilites.ColourConverters.ConvertSEFormatHSVtoBluePrintFormat((float)secondConversion.X, (float)secondConversion.Y, (float)secondConversion.Z);
 
     }
 
 
 
+    #endregion
+    #region colour selection
+    public ICollectionView ColoursRed
+    {
+      get;
+      set;
+    }
+    public ICollectionView ColoursBlue
+    {
+      get;
+      set;
+    }
+    public ICollectionView ColoursGreen
+    {
+      get;
+      set;
+    }
+    public ICollectionView ColoursYellow
+    {
+      get;
+      set;
+    }
+    public ICollectionView ColoursBlack
+    {
+      get;
+      set;
+    }
+    public ICollectionView ColoursWhite
+    {
+      get;
+      set;
+    }
+    public ICollectionView ColoursGrey
+    {
+      get;
+      set;
+    }
+    public ICollectionView ColoursUser
+    {
+      get;
+      set;
+    }
+
+    private void TempLoad()
+    {
+      ObservableCollection<IColourSelectionViewModel> customReds =new ObservableCollection<IColourSelectionViewModel>();
+      //ObservableCollection<ColourSelectionViewModel> customBlues =new ObservableCollection<ColourSelectionViewModel>();
+      //ObservableCollection<ColourSelectionViewModel> customGreens =new ObservableCollection<ColourSelectionViewModel>();
+      //ObservableCollection<ColourSelectionViewModel> customBlacks =new ObservableCollection<ColourSelectionViewModel>();
+      //ObservableCollection<ColourSelectionViewModel> customWhites =new ObservableCollection<ColourSelectionViewModel>();
+      //ObservableCollection<ColourSelectionViewModel> customGreys =new ObservableCollection<ColourSelectionViewModel>();
+      //ObservableCollection<ColourSelectionViewModel> customYellows =new ObservableCollection<ColourSelectionViewModel>();
+      ObservableCollection<ColourSelectionViewModel> customUser =new ObservableCollection<ColourSelectionViewModel>();
+      double boxWidth=36, boxHeight=27;
+      bool selected=false;
+      string grouping="customColour";
+
+/*
+      #region blues
+      customBlues.Add(new ColourSelectionViewModel(new ColourSelectionModel
+ {
+   BoxHeight=boxHeight, BoxWidth=boxWidth, IsChecked=selected, GroupName=grouping, Name= "colBlue", BoxColour=   "#FF0A6DBF"
+ },""));
+      customBlues.Add(new ColourSelectionViewModel(new ColourSelectionModel
+ {
+   BoxHeight=boxHeight, BoxWidth=boxWidth, IsChecked=selected, GroupName=grouping, Name= "colBlue1", BoxColour=  "#FF1C5A8C"
+ },""));
+      customBlues.Add(new ColourSelectionViewModel(new ColourSelectionModel
+ {
+   BoxHeight=boxHeight, BoxWidth=boxWidth, IsChecked=selected, GroupName=grouping, Name= "colBlue2", BoxColour=   "#FF417199"
+ },""));
+      customBlues.Add(new ColourSelectionViewModel(new ColourSelectionModel
+{
+  BoxHeight=boxHeight, BoxWidth=boxWidth, IsChecked=selected, GroupName=grouping, Name= "colBlue3", BoxColour=    "#FF45535E"
+},""));
+
+      ColoursBlue =new ListCollectionView(customBlues);
+      #endregion
+      #region blacks
+      customBlacks.Add(new ColourSelectionViewModel(new ColourSelectionModel
+{
+  BoxHeight=boxHeight, BoxWidth=boxWidth, IsChecked=selected, GroupName=grouping, Name= "colBlack", BoxColour=   "#FF404040"
+},""));
+      customBlacks.Add(new ColourSelectionViewModel(new ColourSelectionModel
+      {
+        BoxHeight=boxHeight, BoxWidth=boxWidth, IsChecked=selected, GroupName=grouping, Name="colBlack1", BoxColour="#FF0D0D0D"
+      }, ""));
+      customBlacks.Add(new ColourSelectionViewModel(new ColourSelectionModel
+{
+  BoxHeight=boxHeight, BoxWidth=boxWidth, IsChecked=selected, GroupName=grouping, Name= "colBlack2", BoxColour=   "#FF595151"
+}, ""));
+      customBlacks.Add(new ColourSelectionViewModel(new ColourSelectionModel
+{
+  BoxHeight=boxHeight, BoxWidth=boxWidth, IsChecked=selected, GroupName=grouping, Name= "colBlack3", BoxColour=    "#FF3F3E3E"
+}, ""));
+
+      ColoursBlack =new ListCollectionView(customBlacks);
+      #endregion
+      #region greens
+      customGreens.Add(new ColourSelectionViewModel(new ColourSelectionModel
+  {
+    BoxHeight=boxHeight, BoxWidth=boxWidth, IsChecked=selected, GroupName=grouping, Name= "colGreen", BoxColour=   "#FF448044"
+  }, ""));
+      customGreens.Add(new ColourSelectionViewModel(new ColourSelectionModel
+ {
+   BoxHeight=boxHeight, BoxWidth=boxWidth, IsChecked=selected, GroupName=grouping, Name= "colGreen1", BoxColour=   "#FF344C34"
+ }, ""));
+      customGreens.Add(new ColourSelectionViewModel(new ColourSelectionModel
+{
+  BoxHeight=boxHeight, BoxWidth=boxWidth, IsChecked=selected, GroupName=grouping, Name= "colGreen2", BoxColour=     "#FF507750"
+}, ""));
+      customGreens.Add(new ColourSelectionViewModel(new ColourSelectionModel
+       {
+         BoxHeight=boxHeight, BoxWidth=boxWidth, IsChecked=selected, GroupName=grouping, Name= "colGreen3", BoxColour=    "#FF455E45"
+       }, ""));
+
+      ColoursGreen =new ListCollectionView(customGreens);
+      #endregion
+  */  
+      #region reds
+      customReds.Add(new ColourSelectionViewModel(new ColourSelectionModel
+{
+  BoxHeight=boxHeight, BoxWidth=boxWidth, IsChecked=selected, GroupName=grouping, Name= "colRed", BoxColour=   "#FFCC0A0A"
+}));
+      customReds.Add(new ColourSelectionViewModel(new ColourSelectionModel
+{
+  BoxHeight=boxHeight, BoxWidth=boxWidth, IsChecked=selected, GroupName=grouping, Name= "colRed1", BoxColour=   "#FF991F1F"
+}));
+      customReds.Add(new ColourSelectionViewModel(new ColourSelectionModel
+{
+  BoxHeight=boxHeight, BoxWidth=boxWidth, IsChecked=selected, GroupName=grouping, Name= "colRed2", BoxColour=    "#FF9E4343"
+}));
+      customReds.Add(new ColourSelectionViewModel(new ColourSelectionModel
+{
+  BoxHeight=boxHeight, BoxWidth=boxWidth, IsChecked=selected, GroupName=grouping, Name= "colRed3", BoxColour=     "#FF991F1F"
+}));
+
+
+      ColoursRed =new ListCollectionView(customReds);
+      #endregion
+    #region whites
+    /*    customWhites.Add(new ColourSelectionViewModel(new ColourSelectionModel
+ {
+   BoxHeight=boxHeight, BoxWidth=boxWidth, IsChecked=selected, GroupName=grouping, Name= "colWhite", BoxColour=    "#FFFFFFFF"
+ }, ""));
+      customWhites.Add(new ColourSelectionViewModel(new ColourSelectionModel
+{
+  BoxHeight=boxHeight, BoxWidth=boxWidth, IsChecked=selected, GroupName=grouping, Name="colWhite1", BoxColour=   "#FFF2F2F2"
+}, ""));
+      customWhites.Add(new ColourSelectionViewModel(new ColourSelectionModel
+{
+  BoxHeight=boxHeight, BoxWidth=boxWidth, IsChecked=selected, GroupName=grouping, Name= "colWhite2", BoxColour=    "#FFCCB7B7"
+}, ""));
+      customWhites.Add(new ColourSelectionViewModel(new ColourSelectionModel
+      {
+        BoxHeight=boxHeight, BoxWidth=boxWidth, IsChecked=selected, GroupName=grouping, Name= "colWhite3", BoxColour=    "#FFB2AEAE"
+      }, ""));
+
+      ColoursWhite =new ListCollectionView(customWhites);
+      #endregion
+      #region greys
+      customGreys.Add(new ColourSelectionViewModel(new ColourSelectionModel
+{
+  BoxHeight=boxHeight, BoxWidth=boxWidth, IsChecked=selected, GroupName=grouping, Name= "colGrey", BoxColour=   "#FFBFBFBF"
+}, ""));
+      customGreys.Add(new ColourSelectionViewModel(new ColourSelectionModel
+{
+  BoxHeight=boxHeight, BoxWidth=boxWidth, IsChecked=selected, GroupName=grouping, Name= "colGrey1", BoxColour=   "#FF8C8C8C"
+}, ""));
+      customGreys.Add(new ColourSelectionViewModel(new ColourSelectionModel
+{
+  BoxHeight=boxHeight, BoxWidth=boxWidth, IsChecked=selected, GroupName=grouping, Name= "colGrey2", BoxColour=    "#FF998E8E"
+}, ""));
+      customGreys.Add(new ColourSelectionViewModel(new ColourSelectionModel
+      {
+        BoxHeight=boxHeight, BoxWidth=boxWidth, IsChecked=selected, GroupName=grouping, Name= "colGrey3", BoxColour=    "#FF7F7F7F"
+      }, ""));
+
+      ColoursGrey =new ListCollectionView(customGreys);
+      #endregion
+      #region yellows
+      customYellows.Add(new ColourSelectionViewModel(new ColourSelectionModel
+ {
+   BoxHeight=boxHeight, BoxWidth=boxWidth, IsChecked=selected, GroupName=grouping, Name= "colYellow", BoxColour=   "#FFFFC526"
+ }, ""));
+      customYellows.Add(new ColourSelectionViewModel(new ColourSelectionModel
+{
+  BoxHeight=boxHeight, BoxWidth=boxWidth, IsChecked=selected, GroupName=grouping, Name= "colYellow1", BoxColour=  "#FFCFA83E"
+}, ""));
+      customYellows.Add(new ColourSelectionViewModel(new ColourSelectionModel
+{
+  BoxHeight=boxHeight, BoxWidth=boxWidth, IsChecked=selected, GroupName=grouping, Name= "colYellow2", BoxColour=    "#FFBAA059"
+}, ""));
+      customYellows.Add(new ColourSelectionViewModel(new ColourSelectionModel
+      {
+        BoxHeight=boxHeight, BoxWidth=boxWidth, IsChecked=selected, GroupName=grouping, Name= "colYellow3", BoxColour=    "#FFA08D58"
+      }, ""));
+
+      ColoursYellow =new ListCollectionView(customYellows);
+ */ 
+      #endregion
+
+      customUser.Add(new ColourSelectionViewModel(new ColourSelectionModel
+     {
+       BoxHeight=boxHeight, BoxWidth=boxWidth, IsChecked=selected, GroupName=grouping, Name=  "colCustom", BoxColour= "#FFAAAAAA"
+     }));
+      ColoursUser =new ListCollectionView(customUser);
+
+      ColoursRed.CurrentChanged+=ChangeColourObject;
+      //ColoursBlue.CurrentChanged+=ChangeColourObject;
+      //ColoursGreen.CurrentChanged+=ChangeColourObject;
+      //ColoursYellow.CurrentChanged+=ChangeColourObject;
+      //ColoursBlack.CurrentChanged+=ChangeColourObject;
+      //ColoursWhite.CurrentChanged+=ChangeColourObject;
+      //ColoursGrey.CurrentChanged+=ChangeColourObject;
+      ColoursUser.CurrentChanged+=ChangeColourObject;
+    }
+    private void ChangeColourObject(object sender, EventArgs e)
+    {
+      ICollectionView coll =(ICollectionView)sender;
+      if(coll!=null)
+      {
+        this.colselVM = coll.CurrentItem as ColourSelectionViewModel;
+        System.Diagnostics.Trace.WriteLine("collection changed");
+      }
+    }
+
+    #endregion
   }
 }

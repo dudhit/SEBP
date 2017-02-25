@@ -18,12 +18,13 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
     public void Initialize()
     {
-       regionViewRegistry.RegisterViewWithRegion("MenuRegion", typeof(Menu));
-       regionViewRegistry.RegisterViewWithRegion("TabControlRegion", typeof(TabControl));
-       regionViewRegistry.RegisterViewWithRegion("ShapeTabRegion", typeof(ShapeTabView));
-       regionViewRegistry.RegisterViewWithRegion("BlockTabRegion", typeof(BlockTabView));
-       regionViewRegistry.RegisterViewWithRegion("ColorCheckBox", typeof(ColourSelectionView));
-       regionViewRegistry.RegisterViewWithRegion("FileTabRegion", typeof(FileTabView));
+      regionViewRegistry.RegisterViewWithRegion("MenuRegion", typeof(Menu));
+      regionViewRegistry.RegisterViewWithRegion("TabControlRegion", typeof(TabControl));
+      regionViewRegistry.RegisterViewWithRegion("ShapeTabRegion", typeof(ShapeTabView));
+      regionViewRegistry.RegisterViewWithRegion("ColourSelectionView", typeof(ColourSelectionView));
+      regionViewRegistry.RegisterViewWithRegion("BlockTabRegion", typeof(BlockTabView));
+
+
     }
 
     #endregion
@@ -33,6 +34,5 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     }
   }
 
-  /*
-   */
+
 }

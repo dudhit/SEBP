@@ -1,11 +1,49 @@
 ﻿
+using Prism.Modularity;
 namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.Model
 {
-  public class ColourSelectionModel 
+  public interface IColourSelectionModel
   {
+     string Name
+    {
+      get;
+      set;
+    }
+     int ColourTabIndex
+    {
+      get;
+      set;
+    }
+     string GroupName
+    {
+      get;
+      set;
+    }
+     bool IsChecked
+    {
+      get;
+      set;
+    }
+     string BoxColour
+    {
+      get;
+      set;
+    }
+     double BoxHeight
+    {
+      get;
+      set;
+    }
+     double BoxWidth
+    {
+      get;
+      set;
+    }
+  }
 
-    // <colSample:ColourSampleSelection x:Name="colBlack1" BoxColour="#FF0D0D0D" BoxWidth="36" BoxHeight="27" GroupName="custCol" ColourTabIndex="100" />
-    public string Name
+  public class ColourSelectionModel :IColourSelectionModel
+  {
+ public string Name
     {
       get;
       set;
@@ -40,5 +78,20 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.Model
       get;
       set;
     }
-}
+
+    //#region IModule Members
+
+    //public void Initialize()
+    //{
+    //  Name=string.Empty;
+    //  BoxHeight=10;
+    //  BoxWidth=10;
+    //  BoxColour="#FFFFFFFF";
+    //  IsChecked=false;
+    //  GroupName=string.Empty;
+    //  ColourTabIndex=-1;
+    //}
+
+    //#endregion
+  }
 }

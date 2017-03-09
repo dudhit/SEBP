@@ -14,8 +14,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
   /* interfaces that it needs to Register are IServiceLocator, IModuleManager, IRegionManager, IModuleInitializer, IEventAggregator*/
   class Bootstrapper : UnityBootstrapper
   {
-    private BlockTabModel blockData =new BlockTabModel();
-    private IBlueprintData blueprintData =new BlueprintData();
+    //private BlockTabModel blockData =new BlockTabModel();
+    //private IBlueprintData blueprintData =new BlueprintData();
     
     protected override DependencyObject CreateShell()
     {
@@ -27,10 +27,10 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       base.InitializeShell();
 
       IUnityContainer container =ServiceLocator.Current.GetInstance<IUnityContainer>();
-      container.RegisterInstance<IBlueprintData>(blueprintData);
-      container.RegisterInstance<IBlockTabModel>(blockData);
+      //container.RegisterInstance<IBlueprintData>(blueprintData);
+      //container.RegisterInstance<IBlockTabModel>(blockData);
       //container.RegisterInstance(typeof(IBlockTabModel), "Logging", blockData);
-      container.RegisterType<IBlockTabViewModel, BlockTabViewModel>();
+   //   container.RegisterType<IBlockTabViewModel, BlockTabViewModel>();
 
   
 

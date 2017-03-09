@@ -334,6 +334,10 @@
       <Project>{d8bc3b08-c67f-4acc-b08f-ebb21258e7d3}</Project>
       <Name>CrudeColorPicker</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\UserControls\RadButtonWithRectangle\RadButtonWithRectangle\RadButtonWithRectangle.csproj">
+      <Project>{753c5d74-8e37-452a-ace9-d0b54505a1b8}</Project>
+      <Name>RadButtonWithRectangle</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\UserControls\TextSliderCombo\TextSliderCombo.csproj">
       <Project>{daee5610-a37f-46e4-8716-d639f7898e3b}</Project>
       <Name>TextSliderCombo</Name>

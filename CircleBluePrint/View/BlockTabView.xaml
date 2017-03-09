@@ -4,11 +4,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:prism="http://prismlibrary.com/"
         mc:Ignorable="d">
-    <UserControl.Resources>
-        <DataTemplate x:Key="ColourBoxTemplate">
-            <ItemsControl prism:RegionManager.RegionName="ColourSelectionView"/>
-                  </DataTemplate>
-    </UserControl.Resources>
+ 
+           
+            
     <DockPanel>
         <WrapPanel DockPanel.Dock="top" HorizontalAlignment="Center">
 
@@ -47,29 +45,10 @@
                     </LinearGradientBrush>
                 </StackPanel.Background>
                 <WrapPanel Margin="5">
-                    <ItemsControl ItemsSource="{Binding ColoursRed}" ItemTemplate="{StaticResource ColourBoxTemplate}">
-                    </ItemsControl>
-                    <ItemsControl ItemsSource="{Binding ColoursBlue}" ItemTemplate="{StaticResource ColourBoxTemplate}">
-                    </ItemsControl>
-                    <ItemsControl ItemsSource="{Binding ColoursGreen}" ItemTemplate="{StaticResource ColourBoxTemplate}">
-                    </ItemsControl>
-                    <ItemsControl ItemsSource="{Binding ColoursYellow}" ItemTemplate="{StaticResource ColourBoxTemplate}">
-                    </ItemsControl>
-                    <ItemsControl ItemsSource="{Binding ColoursBlack}" ItemTemplate="{StaticResource ColourBoxTemplate}">
-                    </ItemsControl>
-                    <ItemsControl ItemsSource="{Binding ColoursWhite}" ItemTemplate="{StaticResource ColourBoxTemplate}">
-                    </ItemsControl>
-                    <ItemsControl ItemsSource="{Binding ColoursGrey}" ItemTemplate="{StaticResource ColourBoxTemplate}">
-                    </ItemsControl>
+                    <ItemsControl prism:RegionManager.RegionName="ColourChoiceView"/>
                 </WrapPanel>
                 <WrapPanel Margin="93,5,125,5">
-                    <ItemsControl ItemsSource="{Binding ColoursUser}" ItemTemplate="{StaticResource ColourBoxTemplate}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
+                  
                     <Button Command="{Binding SetFill}" Margin="5,1,1,1">Make Custom Colour</Button>
                 </WrapPanel>
             </StackPanel>

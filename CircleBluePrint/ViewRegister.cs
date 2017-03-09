@@ -1,6 +1,7 @@
 ﻿using Prism.Modularity;
 using Prism.Regions;
 using SoloProjects.Dudhit.SpaceEngineers.SEBP.View;
+using SoloProjects.Dudhit.UI.RadButtonWithRectangle;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,10 +20,10 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     public void Initialize()
     {
       regionViewRegistry.RegisterViewWithRegion("MenuRegion", typeof(Menu));
-      regionViewRegistry.RegisterViewWithRegion("TabControlRegion", typeof(TabControl));
-      regionViewRegistry.RegisterViewWithRegion("ShapeTabRegion", typeof(ShapeTabView));
-      regionViewRegistry.RegisterViewWithRegion("ColourSelectionView", typeof(ColourSelectionView));
-      regionViewRegistry.RegisterViewWithRegion("BlockTabRegion", typeof(BlockTabView));
+     regionViewRegistry.RegisterViewWithRegion("TabControlRegion", typeof(TabControl));
+      //regionViewRegistry.RegisterViewWithRegion("ShapeTabRegion", typeof(ShapeTabView));
+     regionViewRegistry.RegisterViewWithRegion("ColourChoiceView", typeof(ColourChoiceView));
+     regionViewRegistry.RegisterViewWithRegion("BlockTabRegion", typeof(BlockTabView));
 
 
     }

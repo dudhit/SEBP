@@ -5,36 +5,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
    mc:Ignorable="d" x:Name="window"
     x:Class="SoloProjects.Dudhit.SpaceEngineers.SEBP.MainWindow"
-    xmlns:shapeTab="clr-namespace:SoloProjects.Dudhit.SpaceEngineers.SEBP.View"
-    xmlns:fileTab="clr-namespace:SoloProjects.Dudhit.SpaceEngineers.SEBP.View"
-        xmlns:blockTab="clr-namespace:SoloProjects.Dudhit.SpaceEngineers.SEBP.View"
         Title="Circle Blueprint Generator (for Space Engineers)" 
                Closing="MainClose" Loaded="ControllerSubscribe"
     MaxWidth="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenWidthKey}}"
     MaxHeight="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}" SizeToContent="WidthAndHeight"    >
     <DockPanel >
-        <Menu DockPanel.Dock="Top"   >
-            <MenuItem Header="_File">
-                <MenuItem Header="Re_load User Settings"  Click="ReloadSettings" ToolTip="Remembers location of blueprints, shape and Steam ID" IsEnabled="False"/>
-                <MenuItem Header="Sa_ve User Settings"  Click="SaveUserSettings" ToolTip="Remembers location of blueprints, shape and Steam ID" IsEnabled="False"/>
-                <MenuItem Header="E_xit"  Click="MenuExit" />
-            </MenuItem>
-            <MenuItem Header="O_ptions">
-                <MenuItem Header="_Reset" Click="ResetToLoaded" ToolTip="Restores defaults"/>
-            </MenuItem>
-            <MenuItem Header="_Help"/>
-        </Menu>
-        <TabControl x:Name="tabCtrl"  DockPanel.Dock="top" TabIndex="1">
-            <TabItem x:Name="shapeTab" Header="Shape Settings" TabIndex="150"  GotFocus="ResizeToContents" >
-                <shapeTab:ShapeTabView x:Name="viewShapeTab"/>
-            </TabItem>
-            <TabItem x:Name="blockTab" Header="Block Settings" TabIndex="200"  GotFocus="ResizeToContents"  >
-                <blockTab:BlockTabView x:Name="viewBlockTab"/>
-            </TabItem>
-            <TabItem x:Name="fileTab" Header="BluePrint Settings" TabIndex="50" GotFocus="ResizeToContents"   >
-                <fileTab:FileTabView x:Name="viewFileTab"/>
-            </TabItem>
-        </TabControl> 
+       
+      
        <ProgressBar x:Name="progressBarOne" IsIndeterminate="True" LargeChange="20" SmallChange="1" Height="20" Margin="30,15,30,30" IsTabStop="False" Visibility="Hidden" Foreground="Red"  DockPanel.Dock="Top"/>
 
         <Button x:Name="actionGenerate" Content="Generate Blueprint" Height="40" Margin="30,30,30,15" Click="StartStopCalculating" DockPanel.Dock="Bottom" ></Button>

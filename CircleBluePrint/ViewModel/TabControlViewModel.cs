@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.ViewModel
 {
-  class TabControlViewModel:Prism.Mvvm.BindableBase 
+  public class TabControlViewModel : Prism.Mvvm.BindableBase 
   {
+    public TabControlViewModel() { this.DataContext=this(); }
   }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.ViewModel
 {
-  class ShapeTabViewModel
+  public class ShapeTabViewModel
   {
   }
 }

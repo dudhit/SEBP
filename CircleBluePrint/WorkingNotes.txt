@@ -1,23 +1,37 @@
 ﻿    /*
-
-	actual ingame HSV values conveted to rgb and standard hsv
-					|	ingame hsv			|		|	standard HSV	|			
-name	|	ingame sample location	|	H	|	S	|	V	|	RGB-Hex	|	H	|	S	|	V
-colBlack2	|	botBlk	|	0	|	-81	|	-30	|	#595151	|	0	|	9.5	|	35
-colBlue2	|	botBlu	|	207	|	15	|	20	|	#417199	|	207	|	57.5	|	60
-colGreen2	|	botGrn	|	120	|	-33	|	-5	|	#507750	|	120	|	33.5	|	47.5
-colGrey2	|	botGry	|	0	|	-85	|	20	|	#998E8E	|	0	|	7.5	|	60
-colRed2	|	botRed	|	0	|	15	|	25	|	#9E4343	|	0	|	57.5	|	62.5
-colWhite2	|	botWht	|	0	|	-80	|	60	|	#CCB7B7	|	0	|	10	|	80
-colYellow2	|	botYel	|	44	|	5	|	46	|	#BAA059	|	44	|	52.5	|	73
-colBlack3	|	topBlk	|	0	|	-96	|	-50	|	#3F3E3E	|	0	|	2	|	25
-colBlue3	|	topBlu	|	207	|	0	|	0	|	#45535E	|	207	|	50	|	50
-colGreen3	|	topGrn	|	120	|	-48	|	-25	|	#455E45	|	120	|	26	|	37.5
-colGrey3	|	topGry	|	0	|	-100	|	0	|	#7F7F7F	|	0	|	0	|	50
-colRed3	|	topRed	|	0	|	0	|	5	|	#844242	|	0	|	50	|	52.5
-colWhite3	|	topWht	|	0	|	-95	|	40	|	#B2AEAE	|	0	|	2.5	|	70
-colYellow3	|	topYel	|	44	|	-10	|	26	|	#A08D58	|	44	|	45	|	63
-
+	actual ingame HSV values conveted to rgb and standard hsv	|		|		|		|		|		|		|		|	
+						|		|		ingame hsv				|		|					|		|		standard HSV		|		|	
+name			|		ingame sample location		|		H		|		S		|		V		|		RGB-Hex		|		H		|		S		|		V
+colBlack2		|		botBlk		|	0	|	-81	|	-30	|		#595151		|	0	|	9.5	|	35
+colBlue2		|		botBlu		|	207	|	15	|	20	|		#417199		|	207	|	57.5	|	60
+colGreen2		|		botGrn		|	120	|	-33	|	-5	|		#507750		|	120	|	33.5	|	47.5
+colGrey2		|		botGry		|	0	|	-85	|	20	|		#998E8E		|	0	|	7.5	|	60
+colRed2			|		botRed		|	0	|	15	|	25	|		#9E4343		|	0	|	57.5	|	62.5
+colWhite2		|		botWht		|	0	|	-80	|	60	|		#CCB7B7		|	0	|	10	|	80
+colYellow2		|		botYel		|	44	|	5	|	46	|		#BAA059		|	44	|	52.5	|	73
+colBlack3		|		topBlk		|	0	|	-96	|	-50	|		#3F3E3E		|	0	|	2	|	25
+colBlue3		|		topBlu		|	207	|	0	|	0	|		#45535E		|	207	|	50	|	50
+colGreen3		|		topGrn		|	120	|	-48	|	-25	|		#455E45		|	120	|	26	|	37.5
+colGrey3		|		topGry		|	0	|	-100	|	0	|		#7F7F7F		|	0	|	0	|	50
+colRed3			|		topRed		|	0	|	0	|	5	|		#844242		|	0	|	50	|	52.5
+colWhite3		|		topWht		|	0	|	-95	|	40	|		#B2AEAE		|	0	|	2.5	|	70
+colYellow3		|		topYel		|	44	|	-10	|	26	|		#A08D58		|	44	|	45	|	63
+	|		|		|		|		|		|		|		|	
+	|		|		|		|		|		|		|		|	
+red	|		|	0	|	90	|	60	|	#FFCC0A0A	|	0	|	95	|	80
+wht	|		|	0	|	-100	|	100	|	#FFFFFFFF	|	0	|	0	|	100
+blk/gry	|		|	0	|	-100	|	-50	|	#FF404040	|	0	|	0	|	25
+Pale red	|		|	0	|	58	|	20	|	#FF991F1F	|	0	|	79	|	60
+Pale blue	|		|	206	|	60	|	8	|	#FF1C5A8C	|	206	|	80	|	54
+off yellow	|		|	43	|	40	|	62	|	#FFCFA83E	|	43	|	70	|	81
+blue	|		|	207	|	88	|	48	|	#FF0A6DBF	|	207	|	94	|	74
+off green	|		|	120	|	-8	|	0	|	#FF448044	|	120	|	46	|	50
+Lt grey	|		|	0	|	-100	|	48	|	#FFBFBFBF	|	0	|	0	|	74
+blk	|		|	0	|	-100	|	-90	|	#FF0D0D0D	|	0	|	0	|	5
+drk grn	|		|	120	|	-38	|	-42	|	#FF344C34	|	120	|	31	|	29
+yellow	|		|	43	|	70	|	100	|	#FFFFC526	|	43	|	85	|	100
+Not quite white	|		|	0	|	-100	|	88	|	#FFF2F2F2	|	0	|	0	|	94
+grey	|		|	0	|	-100	|	8	|	#FF8C8C8C	|	0	|	0	|	54
 
 
 -------------------	

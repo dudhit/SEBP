@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:colSample="clr-namespace:SoloProjects.Dudhit.UserInterfaces;assembly=ColourSampleSelection"
-             mc:Ignorable="d" Unloaded="UnSubscribe" >
+             mc:Ignorable="d" >
     <DockPanel >
         <WrapPanel DockPanel.Dock="top" HorizontalAlignment="Center"  >
 

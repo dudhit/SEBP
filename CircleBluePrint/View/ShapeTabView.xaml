@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                      xmlns:customSlider="clr-namespace:SoloProjects.Dudhit.UserInterfaces;assembly=TextSliderCombo"
-             mc:Ignorable="d" Unloaded="Unloading">
+             mc:Ignorable="d">
     <DockPanel  >
         <WrapPanel DockPanel.Dock="Top" HorizontalAlignment="Center">
             <GroupBox Header="Shape"  Margin="10"  TabIndex="-1"  Padding="5">

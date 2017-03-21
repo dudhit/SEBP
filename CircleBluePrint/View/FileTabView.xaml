@@ -21,7 +21,7 @@
                             </Button.ToolTip>
                         </Button>
                     </WrapPanel>
-                    <TextBox x:Name="dataSE_Path" HorizontalAlignment="Left" Height="23" Margin="10,2,10,10"  Text="" VerticalAlignment="Top"   TabIndex="9" MinWidth="30" MinHeight="18" MaxWidth="1000" MaxHeight="18" TextChanged="TextBoxChanged" >
+                    <TextBox x:Name="dataSE_Path" HorizontalAlignment="Left" Height="23" Margin="10,2,10,10"  Text="" VerticalAlignment="Top"   TabIndex="9" MinWidth="30" MinHeight="18" MaxWidth="1000" MaxHeight="18"  >
                         <TextBox.ToolTip>
                             <StackPanel>
                                 <Label Content=  "drive:\Users\(userName)\AppData\Roaming\SpaceEngineers"/>
@@ -36,13 +36,13 @@
                 <StackPanel>
                     <Button x:Name="actionOpenSteamConfig" Click="SnoopForSteamID" Margin="10,2,10,10">Find your Steam details</Button>
                     <Label Content="Steam Name:" TabIndex="-1" Margin="10,2,10,10"/>
-                    <TextBox x:Name="dataSteamName" TabIndex="200" MaxWidth="200" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="200" MinHeight="18" MaxHeight="18" Margin="10,2,10,10" TextChanged="TextBoxChanged" />
+                    <TextBox x:Name="dataSteamName" TabIndex="200" MaxWidth="200" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="200" MinHeight="18" MaxHeight="18" Margin="10,2,10,10"  />
                     <Label Content=  "Steam ID" TabIndex="-1" ToolTip="The blueprint needs a unique identifying number. Your descretion if you use your actual ID" Margin="10,2,10,10"/>
-                    <TextBox x:Name="dataSteamId" TabIndex="20" MaxWidth="200" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="200" MinHeight="18" MaxHeight="18" Margin="10,2,10,10" TextChanged="TextBoxChanged"/>
+                    <TextBox x:Name="dataSteamId" TabIndex="20" MaxWidth="200" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="200" MinHeight="18" MaxHeight="18" Margin="10,2,10,10" />
                 </StackPanel>
             </GroupBox>
             <Label Content=  "Name for blueprint" TabIndex="-1" Margin="10,2,10,10"/>
-            <TextBox x:Name="dataNames" TabIndex="30" MinHeight="18" MaxHeight="18" MaxWidth="300" MinWidth="300" HorizontalAlignment="Left" Margin="10,2,10,10" TextChanged="TextBoxChanged"/>
+            <TextBox x:Name="dataNames" TabIndex="30" MinHeight="18" MaxHeight="18" MaxWidth="300" MinWidth="300" HorizontalAlignment="Left" Margin="10,2,10,10" />
         
           
         </StackPanel>

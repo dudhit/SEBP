@@ -144,7 +144,6 @@
     <Compile Include="DataValidator.cs" />
     <Compile Include="Data\PointContainer.cs" />
     <Compile Include="Data\UserSettings.cs" />
-    <Compile Include="EventHandlers\ChangeEventArgs.cs" />
     <Compile Include="FileTab.cs" />
     <Compile Include="model\BlueprintModel.cs" />
     <Compile Include="model\CheckStartArguments.cs" />
@@ -223,6 +222,7 @@
     <None Include="WorkingNotes.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="EventHandlers\" />
     <Folder Include="Templates\" />
   </ItemGroup>
   <ItemGroup>

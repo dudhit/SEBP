@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using SoloProjects.Dudhit.UserInterfaces;
-using SoloProjects.Dudhit.SpaceEngineers.SEBP.EventArguments;
+//using SoloProjects.Dudhit.SpaceEngineers.SEBP.EventArguments;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
 {
@@ -37,7 +37,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
             shape = "Circle";
             yRadius = xRadius;
             zRadius = xRadius;
-            NotifyShapeChanged();
+            //NotifyShapeChanged();
         }
 
         private void WantsEllipse(object sender, RoutedEventArgs e)
@@ -48,7 +48,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
                         shape = "Ellipse";
             yAxisCombo.TextValue = xRadius.ToString();
                         zRadius = xRadius;
-            NotifyShapeChanged();
+            //NotifyShapeChanged();
         }
 
         private void WantsSphere(object sender, RoutedEventArgs e)
@@ -59,7 +59,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
             shape = "Sphere";
                         yRadius = xRadius;
             zRadius = xRadius;
-            NotifyShapeChanged();
+            //NotifyShapeChanged();
         }
 
         private void WantsEllipsoid(object sender, RoutedEventArgs e)
@@ -70,25 +70,25 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
             shape = "Ellipsoid";
             yAxisCombo.TextValue = xRadius.ToString();
             zAxisCombo.TextValue = xRadius.ToString();
-            NotifyShapeChanged();
+            //NotifyShapeChanged();
         }
 
         private void WantsQuarter(object sender, RoutedEventArgs e)
         {
             fraction = "Quarter";
-            NotifyShapeChanged();
+            //NotifyShapeChanged();
         }
 
         private void WantsHalf(object sender, RoutedEventArgs e)
         {
             fraction = "Semi";
-            NotifyShapeChanged();
+            //NotifyShapeChanged();
         }
 
         private void WantsWhole(object sender, RoutedEventArgs e)
         {
             fraction = "Full";
-            NotifyShapeChanged();
+            //NotifyShapeChanged();
         }
 
         #endregion
@@ -97,18 +97,18 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
 
         }
 
-        private void NotifyShapeChanged()
-        {
-        shapeSelected = fraction+shape;
-        ShapeChangeEventArgs sce = new ShapeChangeEventArgs(shapeSelected, xRadius, yRadius, zRadius);
-         OnShapeChangeEvent(sce);
-        }
+        //private void NotifyShapeChanged()
+        //{
+        //shapeSelected = fraction+shape;
+        //ShapeChangeEventArgs sce = new ShapeChangeEventArgs(shapeSelected, xRadius, yRadius, zRadius);
+        // OnShapeChangeEvent(sce);
+        //}
 
-        private void OnShapeChangeEvent(ShapeChangeEventArgs sce)
-        {
-            ShapeChangeHandler handler = ShapeChangedEvent;
-            if (handler != null) handler(this, sce);
-        }
+        //private void OnShapeChangeEvent(ShapeChangeEventArgs sce)
+        //{
+        //    ShapeChangeHandler handler = ShapeChangedEvent;
+        //    if (handler != null) handler(this, sce);
+        //}
 
         #region sliders and textboxes
         private void ImplementTextSliderComboSubscriptions()
@@ -135,7 +135,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
                         zRadius = tsComboArgs.axisValue;
                         break;
                 }
-                NotifyShapeChanged();
+                //NotifyShapeChanged();
             }
 
         }
@@ -159,16 +159,16 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
 
         #endregion
 
-        private void Unloading(object sender, RoutedEventArgs e)
-        {
-            xAxisCombo.SliderChangedEvent -= new TextSliderCombo.AxisChangeHandler(UpdateAxisValue);
-            yAxisCombo.SliderChangedEvent -= new TextSliderCombo.AxisChangeHandler(UpdateAxisValue);
-            zAxisCombo.SliderChangedEvent -= new TextSliderCombo.AxisChangeHandler(UpdateAxisValue);
-        }
+        //private void Unloading(object sender, RoutedEventArgs e)
+        //{
+        //    xAxisCombo.SliderChangedEvent -= new TextSliderCombo.AxisChangeHandler(UpdateAxisValue);
+        //    yAxisCombo.SliderChangedEvent -= new TextSliderCombo.AxisChangeHandler(UpdateAxisValue);
+        //    zAxisCombo.SliderChangedEvent -= new TextSliderCombo.AxisChangeHandler(UpdateAxisValue);
+        //}
         #region events
-        public delegate void ShapeChangeHandler(object sender, ShapeChangeEventArgs shapeArgs);
-        // an instance of the delegate
-        public event ShapeChangeHandler ShapeChangedEvent;
+        //public delegate void ShapeChangeHandler(object sender, ShapeChangeEventArgs shapeArgs);
+        //// an instance of the delegate
+        //public event ShapeChangeHandler ShapeChangedEvent;
 
 
         #endregion

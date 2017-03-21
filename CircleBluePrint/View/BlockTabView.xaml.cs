@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 using SoloProjects.Dudhit.UserInterfaces.EventArguments;
-using SoloProjects.Dudhit.SpaceEngineers.SEBP.EventArguments;
+//using SoloProjects.Dudhit.SpaceEngineers.SEBP.EventArguments;
 using SoloProjects.Dudhit.UserInterfaces;
 using System.Windows.Media.Media3D;
 
@@ -26,7 +26,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
             fillColour = Color.FromArgb(255, 255, 0, 0);
             blockNormal.IsChecked = true;
             blockLarge.IsChecked = true;
-            ImplementColourSubscritptions();
+            //ImplementColourSubscritptions();
             colGrey1.IsChecked = true;
         }
 
@@ -39,7 +39,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
         private void SetFill(object sender, RoutedEventArgs e)
         {
             colCustom.IsChecked = false;
-            Color tempCol = SoloProjects.Dudhit.Utilites.ColourConverters.MakeAColour(colCustom.BoxColour);
+            Color tempCol = SoloProjects.Dudhit.Utilites.ColourConverters.MakeAColourFromString(colCustom.BoxColour);
             ccp = new SoloProjects.Dudhit.UserInterfaces.CrudeColorPicker.CrudePicker(tempCol);
 
             bool? dialogResult = ccp.ShowDialog();
@@ -53,41 +53,41 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
         }
 
 
-        private void ImplementColourSubscritptions()
-        {
-            colRed.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colRed1.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colRed2.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colRed3.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colGrey.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colGreen.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colBlack.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colGrey1.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colGrey2.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colGrey3.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colWhite.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colBlack1.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colBlack2.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colBlack3.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colGreen1.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colGreen2.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colGreen3.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colWhite1.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colWhite2.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colWhite3.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colYellow.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colYellow1.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colYellow2.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colYellow3.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colCustom.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-        }
+        //private void ImplementColourSubscritptions()
+        //{
+        //    colRed.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colRed1.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colRed2.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colRed3.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colGrey.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colGreen.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colBlack.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colGrey1.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colGrey2.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colGrey3.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colWhite.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colBlack1.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colBlack2.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colBlack3.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colGreen1.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colGreen2.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colGreen3.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colWhite1.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colWhite2.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colWhite3.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colYellow.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colYellow1.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colYellow2.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colYellow3.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colCustom.ColourChangedEvent += new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //}
 
 
         public void UpdateColValue(object sender, ColourBoxEventArgs x)
         {
          //   System.Diagnostics.Trace.WriteLine(x.hexColour);
             //check if alpha not 255// ff and adjust accordingly
-            FillColour = (Color)SoloProjects.Dudhit.Utilites.ColourConverters.MakeAColour(x.hexColour);
+          FillColour = (Color)SoloProjects.Dudhit.Utilites.ColourConverters.MakeAColourFromString(x.hexColour);
             if (FillColour.A != 255) fillColour.A = 255;
             //convert to HSV 
             Point3D temp;
@@ -110,57 +110,57 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
                     armourType = (blockNormal.IsChecked == true) ? "SmallBlockArmorBlock" : "SmallHeavyBlockArmorBlock";
                     break;
             }  
-            BlockChangeEventArgs bcea = new BlockChangeEventArgs(hsv, gridSize, armourType);
-            OnBlockChangeEvent(bcea);
+            //BlockChangeEventArgs bcea = new BlockChangeEventArgs(hsv, gridSize, armourType);
+            //OnBlockChangeEvent(bcea);
         }
 
-        private void OnBlockChangeEvent(BlockChangeEventArgs bcea)
-        {
-            BlockChangeHandler handler = BlockChangedEvent;
+        //private void OnBlockChangeEvent(BlockChangeEventArgs bcea)
+        //{
+        //    BlockChangeHandler handler = BlockChangedEvent;
 
-            if (handler != null)
-            {
+        //    if (handler != null)
+        //    {
 
-                handler(this, bcea);
-            }
-        }
+        //        handler(this, bcea);
+        //    }
+        //}
 
         #region events
-        public delegate void BlockChangeHandler(object sender, BlockChangeEventArgs blockArgs);
-        // an instance of the delegate
-        public event BlockChangeHandler BlockChangedEvent;
+        //public delegate void BlockChangeHandler(object sender, BlockChangeEventArgs blockArgs);
+        //// an instance of the delegate
+        //public event BlockChangeHandler BlockChangedEvent;
 
 
         #endregion
 
-        private void UnSubscribe(object sender, RoutedEventArgs e)
-        {
-            colRed.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colRed1.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colRed2.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colRed3.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colGrey.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colGreen.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colBlack.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colGrey1.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colGrey2.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colGrey3.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colWhite.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colBlack1.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colBlack2.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colBlack3.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colGreen1.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colGreen2.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colGreen3.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colWhite1.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colWhite2.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colWhite3.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colYellow.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colYellow1.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colYellow2.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colYellow3.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-            colCustom.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
-        }
+        //private void UnSubscribe(object sender, RoutedEventArgs e)
+        //{
+        //    colRed.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colRed1.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colRed2.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colRed3.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colGrey.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colGreen.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colBlack.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colGrey1.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colGrey2.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colGrey3.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colWhite.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colBlack1.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colBlack2.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colBlack3.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colGreen1.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colGreen2.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colGreen3.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colWhite1.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colWhite2.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colWhite3.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colYellow.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colYellow1.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colYellow2.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colYellow3.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //    colCustom.ColourChangedEvent -= new ColourSampleSelection.ColourChangeHandler(UpdateColValue);
+        //}
 
     }
 }

@@ -9,7 +9,7 @@
     xmlns:fileTab="clr-namespace:SoloProjects.Dudhit.SpaceEngineers.SEBP.View"
         xmlns:blockTab="clr-namespace:SoloProjects.Dudhit.SpaceEngineers.SEBP.View"
         Title="Circle Blueprint Generator (for Space Engineers)" 
-               Closing="MainClose" Loaded="ControllerSubscribe"
+               Closing="MainClose" 
     MaxWidth="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenWidthKey}}"
     MaxHeight="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}" SizeToContent="WidthAndHeight"    >
     <DockPanel >

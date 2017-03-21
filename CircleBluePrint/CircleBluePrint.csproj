@@ -139,11 +139,17 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CircleEvaluationCalculations.cs" />
+    <Compile Include="CommandLineHandler.cs" />
+    <Compile Include="model\ColourStructs.cs" />
+    <Compile Include="DataValidator.cs" />
     <Compile Include="Data\PointContainer.cs" />
     <Compile Include="Data\UserSettings.cs" />
     <Compile Include="EventHandlers\ChangeEventArgs.cs" />
     <Compile Include="FileTab.cs" />
+    <Compile Include="model\BlueprintModel.cs" />
+    <Compile Include="model\CheckStartArguments.cs" />
     <Compile Include="model\SEBluePrintController.cs" />
+    <Compile Include="model\PathValidator.cs" />
     <Compile Include="View\BlockTabView.xaml.cs">
       <DependentUpon>BlockTabView.xaml</DependentUpon>
     </Compile>

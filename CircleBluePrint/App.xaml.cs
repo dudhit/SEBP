@@ -1,11 +1,14 @@
-﻿using System;
+﻿using SoloProjects.Dudhit.SpaceEngineers.SEBP.View;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 {
@@ -15,22 +18,18 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     public partial class App : Application
     {
       private  BlueprintModel bpm;
- 
+      
         private void BeginSEPB(object sender, StartupEventArgs e)
       {
         if(e.Args!=null&&e.Args.Length>0)
         {
-          Console.WriteLine("SEBP commandline interface.\n type \"-help\" for detailed instructions");
+
           CommandLineHandler clh = new CommandLineHandler(e.Args);
 
-          //need to look for help arg before processing
-
-
-          Console.ReadKey();
-          //     controller = new SEBluePrintController();
         }
         else
         {
+
           MainWindow SEbpUI = new MainWindow();
           SEbpUI.ShowDialog();
         }

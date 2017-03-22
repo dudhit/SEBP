@@ -152,6 +152,9 @@
     <Compile Include="View\BlockTabView.xaml.cs">
       <DependentUpon>BlockTabView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\ConsoleOutputs.xaml.cs">
+      <DependentUpon>ConsoleOutputs.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\FileTabView.xaml.cs">
       <DependentUpon>FileTabView.xaml</DependentUpon>
     </Compile>
@@ -160,6 +163,10 @@
       <DependentUpon>ShapeTabView.xaml</DependentUpon>
     </Compile>
     <Page Include="View\BlockTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ConsoleOutputs.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -267,6 +274,9 @@
       <Project>{daee5610-a37f-46e4-8716-d639f7898e3b}</Project>
       <Name>TextSliderCombo</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="sebp_arg_help.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

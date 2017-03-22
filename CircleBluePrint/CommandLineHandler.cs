@@ -1,19 +1,29 @@
-﻿using System;
+﻿using SoloProjects.Dudhit.SpaceEngineers.SEBP.View;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 {
-public  class CommandLineHandler
+  public class CommandLineHandler
   {
+    private ConsoleOutputs cmdOut;
     private string[] myStartingArgs;
     private CheckStartArguments myDictionaryOfArgs;
-    private int argsIn;
+       private Style lookLikeConsoleText;
     public CommandLineHandler(string[] args)
     {
+      lookLikeConsoleText = Application.Current.FindResource("ConsoleText") as Style;
+      cmdOut = new ConsoleOutputs();
+      cmdOut.InitializeComponent();
+      Initialize();
+      cmdOut.Show();
       this.myStartingArgs=args;
       if(ArgumentPreProcessing())
       {
@@ -23,12 +33,17 @@ public  class CommandLineHandler
       }
 
 
-      else
-      {
-        Console.WriteLine("no args to process-will use UI");
-      }
+      //else
+      //{
+      //  cmdOut.addedContent.Children.Add(new Label() { Content="Please check help for argument usage", Style=lookLikeConsoleText });
+      //}
     }
-    
+
+    private void Initialize()
+    {
+      cmdOut.addedContent.Children.Add(new Label() { Content="SEBP commandline interface.\n type \"-help\" for detailed instructions", Style=lookLikeConsoleText });
+    }
+
     private bool ArgumentPreProcessing()
     {
       if(myStartingArgs[0].ToLower()=="/?"||myStartingArgs[0].ToLower()=="-help"||myStartingArgs[0].ToLower()=="--help")
@@ -43,63 +58,47 @@ public  class CommandLineHandler
     }
     private void ShowHelp()
     {
-
-      string pathToHelp =  "E:\\lifeDocs\\computing\\cSharp\\calcMod\\testmaths\\testmaths\\sebp_arg_help.txt";
+      string pathToHelp =  "..\\..\\..\\sebp_arg_help.txt";
       try
       {
         using(StreamReader helpFile = new StreamReader(pathToHelp))
         {
           while(helpFile.Peek() != -1)
           {
-
-            Console.WriteLine(helpFile.ReadLine());
+            cmdOut.addedContent.Children.Add(new Label() { Content=helpFile.ReadLine(), Style=lookLikeConsoleText });
           }
-
           helpFile.Close();
         }
       }
-      catch(FileNotFoundException FNF) { Console.WriteLine(FNF.Message); }
-      catch(UnauthorizedAccessException UAE) { Console.WriteLine(UAE.Message); }
-      catch(Exception ae) { Console.WriteLine(ae.Message); }
-
+      catch(FileNotFoundException FNF) { MessageBox.Show(FNF.Message); }
+      catch(UnauthorizedAccessException UAE) { MessageBox.Show(UAE.Message); }
+      catch(Exception ae) { MessageBox.Show(ae.Message); }
     }
     private void ProcessArguments()
     {
-      argsIn=0;
-      myDictionaryOfArgs = new CheckStartArguments();
+          myDictionaryOfArgs = new CheckStartArguments();
       ShowDictionary();
-      Console.WriteLine("Processing input...");
-   //   bpm =new BlueprintModel();
+      cmdOut.addedContent.Children.Add(new Label() { Content="Processing input...", Style=lookLikeConsoleText });
       foreach(string s in myStartingArgs)
       {
-        Console.WriteLine("argument: {0}", s);
+   //     cmdOut.addedContent.Children.Add(new Label() { Content="argument: "+s, Style=lookLikeConsoleText });
         if(s.Contains("="))
         {
           string[] result =   KeyValueExtraction(s, '=');
           if(myDictionaryOfArgs.ContainsKey(result[0]))
           {
             myDictionaryOfArgs[result[0]]=result[1];
-
-            //    Binding x = new Binding(result[0]);
-            // x.Source=bpm.BlueprintFilePath
-            //      x.ElementName=result[0];
-            argsIn++;
+            cmdOut.addedContent.Children.Add(new Label() { Content=result[0]+" set to: "+result[1], Style=lookLikeConsoleText });
           }
           else
-            Console.WriteLine("invalid argument");
+            cmdOut.addedContent.Children.Add(new Label() { Content="unknown argument:"+result[0], Style=lookLikeConsoleText });
         }
         else
-          Console.WriteLine("invalid assignment of value");
+          cmdOut.addedContent.Children.Add(new Label() { Content="invalid usage or asignment of:"+s, Style=lookLikeConsoleText });
       }
-
-      //if(args[0]=="-f"||args[0]=="/f")
-      //{
-      //  string argfile =File.Exists(args[1])?args[1]:string.Empty;
-      //  Console.WriteLine(argfile);
       ShowDictionary();
       myStartingArgs=null;
-      Console.WriteLine(argsIn);
-      //}
+  
     }
 
     private void ShowDictionary()
@@ -120,8 +119,8 @@ public  class CommandLineHandler
 
       keyValue[0] =theString.Substring(0, equalPositon).ToLower();
       keyValue[1] =theString.Substring(equalPositon+1, theString.Length-(equalPositon+1));
-      Console.WriteLine(keyValue[0]);
-      Console.WriteLine(keyValue[1]);
+      //cmdOut.addedContent.Children.Add(new Label() { Content=keyValue[0], Style=lookLikeConsoleText });
+      //cmdOut.addedContent.Children.Add(new Label() { Content=keyValue[1], Style=lookLikeConsoleText });
       return keyValue;
     }
 

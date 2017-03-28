@@ -164,6 +164,7 @@
     <Compile Include="View\ShapeTabView.xaml.cs">
       <DependentUpon>ShapeTabView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FileSystemAdministrativeTools.cs" />
     <Page Include="View\BlockTabView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

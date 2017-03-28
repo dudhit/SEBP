@@ -18,19 +18,5 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
   
     }
 
-    public class WorkingArgs
-    {
-        public double xRadius;
-        public double yRadius;
-        public double zRadius;
-        public string shapeSelected;
-
-        public WorkingArgs(double x, double y, double z,  string shape)
-        {
-            this.xRadius = x;
-            this.yRadius = y;
-            this.zRadius = z;
-            this.shapeSelected = shape;
-        }
-    }
+  
 }

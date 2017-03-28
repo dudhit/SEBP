@@ -57,7 +57,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
             ///FillColor = "";
             //   PathHandler();
             //get steam user name and install path
-            //GetSteamRegistryData();
+            //RegistryHasSteamData();
             //shapeSettingChanged = true;
             //blockSettingChanged = true;
 

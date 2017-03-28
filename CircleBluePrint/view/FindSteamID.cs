@@ -19,11 +19,15 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
 
         public FindSteamID(string steamPath, string steamName)
         {
+    
             this.steamPath = steamPath;
             this.steamName = steamName;
-            if (ReadSteamLoginFile()) SearchForUserName();
+            if (ReadSteamLoginFile()) GetSteamIDLinkedToUserName();
         }
-
+      /// <summary>
+      /// read the steam login file and if found stores in a list 
+      /// </summary>
+      /// <returns>true if successful read</returns>
         private bool ReadSteamLoginFile()
         {
             bool noErrors = false;
@@ -49,7 +53,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
             return noErrors;
         }
 
-        private void SearchForUserName()
+        private void GetSteamIDLinkedToUserName()
         {
             int indexToGet;
             string accName = string.Format("AccountName\t\t{0}", steamName);
@@ -69,26 +73,28 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
         }
         private void ManualSelection()
         {
-            Window tempView = new Window();
-            tempView.Width = System.Windows.SystemParameters.MaximizedPrimaryScreenWidth / 2;
-            tempView.Height = System.Windows.SystemParameters.MaximizedPrimaryScreenHeight / 2;
+            Window steamIdSelectionWindow = new Window();
+            steamIdSelectionWindow.Width = System.Windows.SystemParameters.MaximizedPrimaryScreenWidth / 2;
+            steamIdSelectionWindow.Height = System.Windows.SystemParameters.MaximizedPrimaryScreenHeight / 2;
 
-            tempView.Title = "Steam login date";// openFile;
-            System.Windows.Controls.StackPanel sp = new System.Windows.Controls.StackPanel();
-            System.Windows.Controls.Label instructions = new System.Windows.Controls.Label();
-            instructions.Content = "select the ID above the chosen user name, then close this window.";
-            instructions.Content += "\nNo refunds for wrong choices";
-            instructions.HorizontalAlignment = HorizontalAlignment.Center;
-            System.Windows.Controls.ListBox lb = new System.Windows.Controls.ListBox();
-            foreach (string s in fileContents)
-            { lb.Items.Add(s); }
-            sp.Children.Add(instructions);
-            sp.Children.Add(lb);
-            tempView.Content = sp;
+            steamIdSelectionWindow.Title = "Steam login data";// openFile;
+            System.Windows.Controls.ScrollViewer scrollViewController = new System.Windows.Controls.ScrollViewer();
+            System.Windows.Controls.StackPanel stackPanelController = new System.Windows.Controls.StackPanel() ;
+            System.Windows.Controls.Label instructionsLabel = new System.Windows.Controls.Label() {
+              Content="The current Steam name DOES NOT match any users known to this system\n select the ID above the chosen user name, then close this window.\nNo refunds for wrong choices", FontSize=20 };
+          
+            instructionsLabel.HorizontalAlignment = HorizontalAlignment.Center;
+            System.Windows.Controls.ListBox contentListBoxControl = new System.Windows.Controls.ListBox();
+            foreach (string lineFromFile in fileContents)
+            { contentListBoxControl.Items.Add(lineFromFile); }
+            stackPanelController.Children.Add(instructionsLabel);
+            stackPanelController.Children.Add(contentListBoxControl);
+            scrollViewController.Content=stackPanelController;
+            steamIdSelectionWindow.Content = scrollViewController;
 
-            if (tempView.ShowDialog() == false)
+            if (steamIdSelectionWindow.ShowDialog() == false)
             {
-                steamID = (lb.SelectedIndex != -1) ? lb.SelectedValue.ToString() : "2468 You Love To Masterbate";
+                steamID = (contentListBoxControl.SelectedIndex != -1) ? contentListBoxControl.SelectedValue.ToString() : "0";
             }
     
 

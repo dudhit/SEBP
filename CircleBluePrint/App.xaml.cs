@@ -37,7 +37,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
         private void HandleUnpredictedErrors(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-           string myError= string.Format("So sorry, I didn't expect things such as\n{0}\nto happen",e.Exception.ToString());
+           string myError= string.Format("So sorry, I didn't expect this stuff below to happen... \n{0}",e.Exception.ToString());
             MessageBox.Show(myError,"TOTALLY DIDN'T PLAN FOR THIS",MessageBoxButton.OK,MessageBoxImage.Error);
         }
 

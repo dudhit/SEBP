@@ -72,15 +72,21 @@
 ╠════════════════════════╦════════════════════════════════════════════════════╣
 ║                        ║                                                    ║
 ║     shape=<string>     ║                 shape to generate                  ║
-║                        ║    quartercircle|quarterellipse|quartersphere|     ║
-║                        ║      quarterellipsoid|semicircle|semiellipse|      ║
-║                        ║  semisphere|semiellipsoid|fullcircle|fullellipse   ║
-║                        ║     fullsphere|fullellipsoid                       ║
+║                        ║           circle|ellipse|sphere|ellipsoid          ║
 ║                        ║                                                    ║
 ╠════════════════════════╩════════════════════════════════════════════════════╣
 ║ example usage                                                               ║
-║ shape="quartersphere"                                                       ║
-║ <Default> quartercircle                                                     ║
+║ shape="sphere"                                                              ║
+║ <Default> circle                                                            ║
+╠════════════════════════╦════════════════════════════════════════════════════╣
+║                        ║                                                    ║
+║ shape_fraction=<string>║                portion of the shape                ║
+║                        ║                 quarter|semi|full                  ║
+║                        ║                                                    ║
+╠════════════════════════╩════════════════════════════════════════════════════╣
+║ example usage                                                               ║
+║ shape_fraction="semi"                                                       ║
+║ <Default> quarter                                                           ║
 ╠════════════════════════╦════════════════════════════════════════════════════╣
 ║                        ║                                                    ║
 ║    armour=<string>     ║             block armour heavy|normal              ║

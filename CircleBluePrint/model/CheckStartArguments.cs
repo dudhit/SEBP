@@ -8,6 +8,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 {
   public class CheckStartArguments : Dictionary<string, string>//Dictionary<>
   {
+    public BlueprintModel MyBlueprintModel { get; set; }
+  //  private BlueprintModel myBlueprintModel;
     public CheckStartArguments()
       : base()
     {

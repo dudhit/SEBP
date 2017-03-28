@@ -16,7 +16,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     private ConsoleOutputs cmdOut;
     private string[] myStartingArgs;
     private CheckStartArguments myDictionaryOfArgs;
-       private Style lookLikeConsoleText;
+    private Style lookLikeConsoleText;
+    private BlueprintModel myBlueprint;
     public CommandLineHandler(string[] args)
     {
       lookLikeConsoleText = Application.Current.FindResource("ConsoleText") as Style;
@@ -27,6 +28,11 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       this.myStartingArgs=args;
       if(ArgumentPreProcessing())
       {
+        myDictionaryOfArgs.SetEmptyWithDefaultValues();
+       
+         myBlueprint = new BlueprintModel();
+         myDictionaryOfArgs.MyBlueprintModel=this.myBlueprint;
+ myDictionaryOfArgs.SetModel();
         //populate bpclass
         //process shape
         //output bp
@@ -52,7 +58,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       {
         ProcessArguments();
         //if(argsIn!=AcceptableNumberOfArguments)
-        //{ Console.WriteLine("incorrect number of args received"); }{ return true; }
+        //{ Console.WriteLine("incorrect number of args received"); }{ 
+        return true; //}
       }
       return false;
     }
@@ -74,14 +81,17 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       catch(UnauthorizedAccessException UAE) { MessageBox.Show(UAE.Message); }
       catch(Exception ae) { MessageBox.Show(ae.Message); }
     }
+
     private void ProcessArguments()
     {
-          myDictionaryOfArgs = new CheckStartArguments();
+      myDictionaryOfArgs = new CheckStartArguments();
+#if DEBUG
       ShowDictionary();
+#endif
       cmdOut.addedContent.Children.Add(new Label() { Content="Processing input...", Style=lookLikeConsoleText });
       foreach(string s in myStartingArgs)
       {
-   //     cmdOut.addedContent.Children.Add(new Label() { Content="argument: "+s, Style=lookLikeConsoleText });
+        //     cmdOut.addedContent.Children.Add(new Label() { Content="argument: "+lineFromFile, Style=lookLikeConsoleText });
         if(s.Contains("="))
         {
           string[] result =   KeyValueExtraction(s, '=');
@@ -96,10 +106,13 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
         else
           cmdOut.addedContent.Children.Add(new Label() { Content="invalid usage or asignment of:"+s, Style=lookLikeConsoleText });
       }
+#if DEBUG
       ShowDictionary();
+#endif
       myStartingArgs=null;
-  
+
     }
+#if DEBUG
 
     private void ShowDictionary()
     {
@@ -112,6 +125,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       }
     }
 
+#endif
     private string[] KeyValueExtraction(string theString, char splitChar)
     {
       string[] keyValue= new string[2];
@@ -119,10 +133,15 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
       keyValue[0] =theString.Substring(0, equalPositon).ToLower();
       keyValue[1] =theString.Substring(equalPositon+1, theString.Length-(equalPositon+1));
-      //cmdOut.addedContent.Children.Add(new Label() { Content=keyValue[0], Style=lookLikeConsoleText });
-      //cmdOut.addedContent.Children.Add(new Label() { Content=keyValue[1], Style=lookLikeConsoleText });
+#if DEBUG
+      cmdOut.addedContent.Children.Add(new Label() { Content=keyValue[0], Style=lookLikeConsoleText });
+      cmdOut.addedContent.Children.Add(new Label() { Content=keyValue[1], Style=lookLikeConsoleText });
+#endif
       return keyValue;
     }
+
+
+
 
   }
 }

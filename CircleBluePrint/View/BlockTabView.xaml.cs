@@ -5,6 +5,7 @@ using SoloProjects.Dudhit.UserInterfaces.EventArguments;
 //using SoloProjects.Dudhit.SpaceEngineers.SEBP.EventArguments;
 using SoloProjects.Dudhit.UserInterfaces;
 using System.Windows.Media.Media3D;
+using SoloProjects.Dudhit.Utilites;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
 {
@@ -17,7 +18,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
         private Color fillColour;
         private string gridSize;
         private string armourType;
-        private Point3D hsv;
+        private SeHSV hsv;
         public Color FillColour { get { return this.fillColour; } set { this.fillColour = value; } }
 
         public BlockTabView()
@@ -85,16 +86,16 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
 
         public void UpdateColValue(object sender, ColourBoxEventArgs x)
         {
-         //   System.Diagnostics.Trace.WriteLine(x.hexColour);
+         //   System.Diagnostics.Trace.WriteLine(individualFolders.hexColour);
             //check if alpha not 255// ff and adjust accordingly
-          FillColour = (Color)SoloProjects.Dudhit.Utilites.ColourConverters.MakeAColourFromString(x.hexColour);
-            if (FillColour.A != 255) fillColour.A = 255;
-            //convert to HSV 
-            Point3D temp;
-            hsv = SoloProjects.Dudhit.Utilites.ColourConverters.ConvertRgbToHsv(fillColour.R, fillColour.G, fillColour.B);
-            temp = SoloProjects.Dudhit.Utilites.ColourConverters.ConvertStandardHSVtoSEFormat((float)hsv.X, (float)hsv.Y, (float)hsv.Z);
-            hsv = SoloProjects.Dudhit.Utilites.ColourConverters.ConvertSEFormatHSVtoBluePrintFormat((float)temp.X, (float)temp.Y, (float)temp.Z);
-            NotifyBlockChange();
+          //FillColour = (Color)SoloProjects.Dudhit.Utilites.ColourConverters.MakeAColourFromString(x.hexColour);
+          //  if (FillColour.A != 255) fillColour.A = 255;
+          //  //convert to HSV 
+          //  SeHSV temp;
+          //  hsv = SoloProjects.Dudhit.Utilites.ColourConverters.ConvertRgbToHsv(fillColour.R, fillColour.G, fillColour.B);
+          //  temp = SoloProjects.Dudhit.Utilites.ColourConverters.ConvertStandardHSVtoSEFormat((float)hsv.H, (float)hsv.S, (float)hsv.V);
+          //  BlueprintHSV x = SoloProjects.Dudhit.Utilites.ColourConverters.ConvertSEFormatHSVtoBluePrintFormat((float)temp.H, (float)temp.S, (float)temp.V);
+          //  NotifyBlockChange();
         }
 
         private void NotifyBlockChange()

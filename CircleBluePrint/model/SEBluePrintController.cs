@@ -28,7 +28,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       haveBlockData = false;
       haveShapeData = false;
       haveFileData = false;
-      isWorking = false;
+      this.isWorking = false;
     }
 
     public void SubscribeToOthers()
@@ -43,19 +43,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
     }
 
-    public void GetSteamId()
-    {
-      if(GetSteamRegistryData())
-      {
-        using(SoloProjects.Dudhit.SpaceEngineers.SEBP.View.FindSteamID fsID =
-           new SoloProjects.Dudhit.SpaceEngineers.SEBP.View.FindSteamID(SteamPath, SteamUserName)) { SteamUserId = fsID.SteamID; }
-      }
-      else
-      {
-        MessageBox.Show("Windows could not return the location of your Steam installation\n manual entry required", "Unknown Steam Installation location", MessageBoxButton.OK, MessageBoxImage.Warning);
 
-      }
-    }
 
     //public void UpdateFileData(FileChangeEventArgs data)
     //{
@@ -72,7 +60,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
     //}
 
-  
+
     private void StartTheCogs(string steamUserId)
     {
 
@@ -92,19 +80,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     }
 
 
-    private bool GetSteamRegistryData()
-    {
-      RegistryKey regKey = Registry.CurrentUser;
-      regKey = regKey.OpenSubKey(@"Software\Valve\Steam");
 
-      if(regKey != null)
-      {
-        SteamPath = regKey.GetValue("SteamPath").ToString();
-        SteamUserName = regKey.GetValue("LastGameNameUsed").ToString();
-        return true;
-      }
-      return false;
-    }
 
 
     private void ResetToLoaded()

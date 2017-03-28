@@ -10,12 +10,12 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
     /// </summary>
     public partial class FileTabView : UserControl
     {
-        private string userApp;
+        //private string userApp;
         private string saveRootLocation;
         public string SteamName;
         public string SteamUserId;
         private string blueprintName;
-        private int doNotNotify;
+        //private int doNotNotify;
         public FileTabView()
         {
             InitializeComponent();
@@ -31,33 +31,14 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
             SteamUserId = string.Empty;
         }
 
-        private void AutoPopulateSaveLocation(object sender, RoutedEventArgs e)
-        {
-            userApp = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            saveRootLocation = userApp + "\\SpaceEngineers";
-            UpdateSavePath();
-        }
+        //private void AutoPopulateSaveLocation(object sender, RoutedEventArgs e)
+        //{
+        //    userApp = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        //    saveRootLocation = userApp + "\\SpaceEngineers";
+        //    UpdateSavePath();
+        //}
 
-        private void Find_Path(object sender, RoutedEventArgs e)
-        {
-            Microsoft.Win32.OpenFileDialog findFolder = new Microsoft.Win32.OpenFileDialog();
-            findFolder.Filter = "All files (*.*)|*.*";
-            if (findFolder.ShowDialog() == true)
-            {
-                saveRootLocation = null;
-                //split path into individual folders
-                char[] kill = new char[] { '\\' };
-                int j = findFolder.FileName.Length;
-                string[] x = findFolder.FileName.Split(kill);
-                //rejoin excluding the file selected
-                for (int i = 0; i < x.Length - 1; i++)
-                {
-                    saveRootLocation += x[i] + "\\";
-                }
-                findFolder = null;
-                UpdateSavePath();
-            }
-        }
+
 
         private void UpdateSavePath()
         {
@@ -84,7 +65,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
         {
             // call find steamid class
 
-            //((App)Application.Current).controller.GetSteamId();
+            //((App)Application.Current).controller.GetSteamData();
             //SteamUserId = ((App)Application.Current).controller.SteamUserId;
             //SteamName = ((App)Application.Current).controller.SteamUserName;
          

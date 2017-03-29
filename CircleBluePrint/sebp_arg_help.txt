@@ -167,4 +167,4 @@
 ║ b=30                                                                        ║
 ║ <Default> 0                                                                 ║
 ╚═════════════════════════════════════════════════════════════════════════════╝
-path="C:\Users\dudhit\AppData\Roaming\SpaceEngineers" id="0123456789" owner="noob" bpname="blueprint from SEBP" x=40 y=20 z=10 shape="quarterellipsoid" armour="normal" size="large" colour="hsv" h=200 s=50 v=20            
+path="C:\Users\dudhit\AppData\Roaming\SpaceEngineers" id="0123456789" owner="noob" bpname="blueprint from SEBP" x=40 y=20 z=10 shape="ellipsoid"  shape_fraction="quarter" armour="normal" size="large" colour="hsv" h=200 s=50 v=20            

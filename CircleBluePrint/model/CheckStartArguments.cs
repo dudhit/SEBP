@@ -73,12 +73,12 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     }
     public void SetEmptyWithDefaultValues()
     {
-      FileSystemAdministrativeTools fsat;
+      FileSystemAdministrativeTools fileSystemAdministrativeTools;
 
-      fsat = new FileSystemAdministrativeTools(this["owner"], IsNeedingDefault("id"));
-      if(IsNeedingDefault("owner")) { this["owner"]=fsat.SteamUserName; }
-      if(IsNeedingDefault("id")) { this["id"]=fsat.SteamUserId; }
-      if(IsNeedingDefault("path")) { this["path"]=fsat.GetGameDataSaveLocation(); }
+      fileSystemAdministrativeTools = new FileSystemAdministrativeTools(this["owner"], IsNeedingDefault("id"));
+      if(IsNeedingDefault("owner")) { this["owner"]=fileSystemAdministrativeTools.SteamUserName; }
+      if(IsNeedingDefault("id")) { this["id"]=fileSystemAdministrativeTools.SteamUserId; }
+      if(IsNeedingDefault("path")) { this["path"]=fileSystemAdministrativeTools.GetGameDataSaveLocation(); }
       if(IsNeedingDefault("bpname")) { this["bpname"]= "SEBP"; }
       if(IsNeedingDefault("x")) { this["x"]= "10"; }
       if(IsNeedingDefault("y")) { this["y"]= "10"; }
@@ -160,7 +160,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       #region setZ
      MyBlueprintModel.ZAxis=int.Parse(this["z"]);
       #endregion
-   //   System.Diagnostics.Trace.WriteLine( myBlueprintModel.IsComplete.ToString());
+   //   System.Diagnostics.Trace.WriteLine( myBlueprintModel.HasUsableData.ToString());
      // MyBlueprintModel=myBlueprintModel;
     }
   }

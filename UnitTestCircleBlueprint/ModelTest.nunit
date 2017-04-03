@@ -1,0 +1,9 @@
+﻿<NUnitProject>
+  <Settings activeconfig="Debug" />
+  <Config name="Debug" binpathtype="Auto">
+    <assembly path="bin\Debug\UnitTestCircleBlueprint.dll" />
+  </Config>
+  <Config name="Release" binpathtype="Auto" runtimeFramework="any">
+    <assembly path="bin\x64\Release\UnitTestCircleBlueprint.dll" />
+  </Config>
+</NUnitProject>

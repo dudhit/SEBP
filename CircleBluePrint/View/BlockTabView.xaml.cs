@@ -18,7 +18,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
         private Color fillColour;
         private string gridSize;
         private string armourType;
-        private SeHSV hsv;
+      //  private SeHSV hsv;
         public Color FillColour { get { return this.fillColour; } set { this.fillColour = value; } }
 
         public BlockTabView()

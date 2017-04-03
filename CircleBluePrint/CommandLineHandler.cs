@@ -26,13 +26,18 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       Initialize();
       cmdOut.Show();
       this.myStartingArgs=args;
+    }
+
+    public void Start()
+    {
+
       if(ArgumentPreProcessing())
       {
         myDictionaryOfArgs.SetEmptyWithDefaultValues();
-       
-         myBlueprint = new BlueprintModel();
-         myDictionaryOfArgs.MyBlueprintModel=this.myBlueprint;
- myDictionaryOfArgs.SetModel();
+
+        myBlueprint = new BlueprintModel();
+        myDictionaryOfArgs.MyBlueprintModel=this.myBlueprint;
+        myDictionaryOfArgs.SetModel();
         //populate bpclass
         //process shape
         //output bp
@@ -47,12 +52,12 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
     private void Initialize()
     {
-      cmdOut.addedContent.Children.Add(new Label() { Content="SEBP commandline interface.\n type \"-help\" for detailed instructions", Style=lookLikeConsoleText });
+      cmdOut.addedContent.Children.Add(new Label() { Content="SEBP commandline interface.\n type \"--help\" for detailed instructions", Style=lookLikeConsoleText });
     }
 
     private bool ArgumentPreProcessing()
     {
-      if(myStartingArgs[0].ToLower()=="/?"||myStartingArgs[0].ToLower()=="-help"||myStartingArgs[0].ToLower()=="--help")
+      if(myStartingArgs[0].ToLower()=="/?"||myStartingArgs[0].ToLower()=="-h"||myStartingArgs[0].ToLower()=="--help")
         ShowHelp();
       else
       {

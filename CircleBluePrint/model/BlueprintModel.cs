@@ -1,13 +1,17 @@
 ﻿using SoloProjects.Dudhit.Utilites;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 {
-  public class BlueprintModel : INotifyPropertyChanged, IDataErrorInfo
+  public class BlueprintModel : INotifyPropertyChanged//, IDataErrorInfo
   {
-    [Flags]private enum ShapeCombinations {nil=0,circle=1<<0,ellipse=1<<1,sphere=1<<2,ellipsiod=1<<3,quarter=1<<4,semi=1<<5,full=1<<6 }
+    [Flags]
+    private enum Shapes { not_defined=0, circle=1<<0, ellipse=1<<1, sphere=1<<2, ellipsiod=1<<3 }
+    [Flags]
+    private enum Segments { not_defined=0,  quarter=1<<0, semi=1<<1, full=1<<2 }
     [Flags]
     private enum ModelState
     { nil=0, hasBlueprintFilePath=1<<0, hasSteamId=1<<1, hasSteamName=1<<2, hasBlueprintName=1<<3, hasXAxis=1<<4, hasYAxis=1<<5, hasZAxis=1<<6, hasShape=1<<7, hasFraction=1<<8, hasBlockArmour=1<<9, hasBlockSize=1<<10, hasBlockColour=1<<11, all= hasBlueprintFilePath|hasSteamId|hasSteamName|hasBlueprintName|hasXAxis| hasYAxis| hasZAxis| hasShape| hasFraction|hasBlockArmour| hasBlockSize| hasBlockColour }
@@ -25,10 +29,27 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     private string blockSize;
     private SeHSV blockColour;
     private int modelState;
-
     public BlueprintModel()
     {
+      Initialize();
+    }
+
+    private void Initialize()
+    {
       modelState=0;
+      blueprintFilePath=string.Empty;
+      steamId=string.Empty;
+      steamName=string.Empty;
+      blueprintName=string.Empty;
+      xAxis=0;
+      yAxis=0;
+      zAxis=0;
+      shape="not_defined";
+      shapeFraction="not_defined";
+      finalShape=0;
+      blockArmour=string.Empty;
+      blockSize=string.Empty;
+      blockColour =new SeHSV();
     }
     #region properties
 
@@ -38,7 +59,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       get { return this.blueprintFilePath; }
       set
       {
-        ResetSetFlag( (int)ModelState.hasBlueprintFilePath);
+        ResetSetFlag((int)ModelState.hasBlueprintFilePath);
         if(NoEmptyString(value))
         {
           this.blueprintFilePath = value;
@@ -47,8 +68,6 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
         }
       }
     }
-
-
     public string SteamId
     {
       get { return this.steamId; }
@@ -144,54 +163,49 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     }
     public string Shape
     {
-      get { return Enum.Parse(typeof(ShapeCombinations), this.shape).ToString(); }
+      get { return Enum.Parse(typeof(Shapes), this.shape).ToString(); }
       set
       {
         ResetSetFlag((int)ModelState.hasShape);
-        if(Enum.IsDefined(typeof(ShapeCombinations), value))
+        if(Enum.IsDefined(typeof(Shapes), value))
         {
-          this.shape =  Enum.Parse(typeof(ShapeCombinations), value).ToString();
+          this.shape =  Enum.Parse(typeof(Shapes), value).ToString();
           this.modelState+=(int)ModelState.hasShape;
           RaisePropertyChanged("Shape");
-          RaisePropertyChanged("FinalShape");
+          MakeFinalShape();
         }
       }
     }
     public string ShapeFraction
     {
-      get { return Enum.Parse(typeof(ShapeCombinations), this.shapeFraction).ToString(); }
+      get { return Enum.Parse(typeof(Segments), this.shapeFraction).ToString(); }
       set
       {
-     
+
         ResetSetFlag((int)ModelState.hasFraction);
-        if(Enum.IsDefined(typeof(ShapeCombinations), value))
+        if(Enum.IsDefined(typeof(Segments), value))
         {
-          this.shapeFraction =Enum.Parse(typeof(ShapeCombinations), value).ToString();
+          this.shapeFraction =Enum.Parse(typeof(Segments), value).ToString();
           this.modelState+=(int)ModelState.hasFraction;
           RaisePropertyChanged("ShapeFraction");
-          RaisePropertyChanged("FinalShape");
+          MakeFinalShape();
         }
       }
     }
     public int FinalShape
-    { 
-      get 
     {
-      return this.finalShape;
-    } 
-      set
-    {
-        int join=(int)ModelState.hasShape|(int)ModelState.hasFraction;
-      if(IsFlagSet(this.modelState,join)==join)
+      get
       {
-        JoinShapeCombinationsEnumStings(this.shape, this.shapeFraction);
-    }
-    } 
-    }
-
-    private int JoinShapeCombinationsEnumStings(  string value1,string value2)
-    {
-      return this.finalShape=(int)Enum.Parse(typeof(ShapeCombinations), value1)+(int)Enum.Parse(typeof(ShapeCombinations), value2);
+        return this.finalShape;
+      }
+      //set
+      //{
+      //  int join=(int)ModelState.hasShape|(int)ModelState.hasFraction;
+      //  if(IsFlagSet(this.modelState, join)==join)
+      //  {
+      //    this.finalShape=          JoinShapeCombinationsEnumStings(this.shape, this.shapeFraction);
+      //  }
+      //}
     }
     public string BlockArmour
     {
@@ -241,18 +255,33 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
 
 
-    public bool IsComplete { get { return this.modelState==(int)ModelState.all; } }
+    public bool HasUsableData { get { return this.modelState==(int)ModelState.all; } }
     #endregion
-
-    private void ResetSetFlag( int flag)
+    #region enumHandling
+    private int JoinShapeCombinationsEnumStings(string value1, string value2)
+    {
+      return (int)Enum.Parse(typeof(Segments), value2)+(int)Enum.Parse(typeof(Shapes), value1);
+    }
+    private void MakeFinalShape()
+    {
+      int join=(int)ModelState.hasShape|(int)ModelState.hasFraction;
+      if(IsFlagSet(this.modelState, join)==join)
+      {
+        this.finalShape=JoinShapeCombinationsEnumStings(this.shape, this.shapeFraction);
+      }
+    }
+    private void ResetSetFlag(int flag)
     {
       if(IsFlagSet(this.modelState, flag)==flag) { this.modelState-=flag; }
     }
-
     private int IsFlagSet(int flagTotal, int singleFlag)
     {
       return flagTotal&singleFlag;
     }
+    #endregion
+
+
+
     #region INotifyPropertyChanged Members
 
     public event PropertyChangedEventHandler PropertyChanged;
@@ -278,19 +307,20 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     }
     #endregion
 
-    #region IDataErrorInfo Members
+    //#region IDataErrorInfo Members
 
-    public string Error
-    {
-      get { throw new NotImplementedException(); }
-    }
+    //public string Error
+    //{
+    //  get { throw new NotImplementedException(); }
+    //}
 
-    public string this[string columnName]
-    {
-      get { throw new NotImplementedException(); }
-    }
+    //public string this[string columnName]
+    //{
+    //  get { throw new NotImplementedException(); }
+    //}
 
-    #endregion
+    //#endregion
+
 
   }
 

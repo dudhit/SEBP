@@ -13,14 +13,14 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     public string SteamPath { get; set; }
     public string SteamUserName { get; set; }
     public string SteamUserId { get; set; }
-    private string compareUser;
+    private string providedName;
     private bool getSteamId;
     public FileSystemAdministrativeTools(string user) : this(user, true) { }
 
     public FileSystemAdministrativeTools() : this(null) { }
     public FileSystemAdministrativeTools(string user, bool getId)
     {
-      this.compareUser=user;
+      this.providedName=user;
       this.getSteamId=getId;
       GetSteamData();
     }
@@ -63,8 +63,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       {
         SteamPath = regKey.GetValue("SteamPath").ToString();
         SteamUserName = regKey.GetValue("LastGameNameUsed").ToString();
-        if(string.IsNullOrEmpty(compareUser))
-          compareUser=SteamUserName;
+        if(string.IsNullOrEmpty(providedName))
+          providedName=SteamUserName;
         return true;
       }
       return false;
@@ -74,10 +74,10 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     {
       if(RegistryHasSteamData())
       {
-        if(getSteamId)
+        if(getSteamId)//ignore all this if an id was given
         {
-          if(!(compareUser.Equals(SteamUserName)))
-          { SteamUserName=compareUser; }
+          if(!(providedName.Equals(SteamUserName)))
+          { SteamUserName=providedName; }
           using(SoloProjects.Dudhit.SpaceEngineers.SEBP.View.FindSteamID fsID =
            new SoloProjects.Dudhit.SpaceEngineers.SEBP.View.FindSteamID(SteamPath, SteamUserName)) { SteamUserId = fsID.SteamID; }
         }

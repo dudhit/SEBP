@@ -12,24 +12,24 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     public string SteamUserName { get; private set; }
     public string SteamUserId { get; private set; }
     private BackgroundWorker worker;
-    private bool haveBlockData;
-    private bool haveShapeData;
-    private bool haveFileData;
-    private bool isWorking;
+  //  private bool haveBlockData;
+ //   private bool haveShapeData;
+ //   private bool haveFileData;
+//    private bool isWorking;
 
     public SEBluePrintController()
     {
       worker = new BackgroundWorker();
-      Reset2();
+ //     Reset2();
     }
 
-    private void Reset2()
-    {
-      haveBlockData = false;
-      haveShapeData = false;
-      haveFileData = false;
-      this.isWorking = false;
-    }
+    //private void Reset2()
+    //{
+    //  this.haveBlockData = false;
+    // this. haveShapeData = false;
+    // this. haveFileData = false;
+    //  this.isWorking = false;
+    //}
 
     public void SubscribeToOthers()
     {

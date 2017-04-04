@@ -2,6 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CircleBluePrint", "CircleBluePrint\CircleBluePrint.csproj", "{2A5CD39F-07F6-4B2F-B684-24ED66F9E940}"
+	ProjectSection(ProjectDependencies) = postProject
+		{325893FE-11FA-447F-8CF2-BBBF85B8ECDF} = {325893FE-11FA-447F-8CF2-BBBF85B8ECDF}
+	EndProjectSection
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Installer", "Installer\Installer.wixproj", "{DFB9533B-79E8-42E6-99DB-2DFC582CC31A}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -17,6 +20,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColourConverters", "..\..\ColourConverters\ColourConverters.csproj", "{AD5C4738-C54B-4AD6-BD15-16EBB5D45487}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestCircleBlueprint", "UnitTestCircleBlueprint\UnitTestCircleBlueprint.csproj", "{E3A8FB52-C4EE-4987-AF7D-A940E7353EB3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShapingPoints", "ShapingPoints\ShapingPoints.csproj", "{325893FE-11FA-447F-8CF2-BBBF85B8ECDF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UntiTestShapingPoint", "ShapingPointTester\UntiTestShapingPoint.csproj", "{CE6E11F4-C65B-4E12-A3BB-37D8008155FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -118,6 +125,30 @@ Global
 		{E3A8FB52-C4EE-4987-AF7D-A940E7353EB3}.Release|x64.ActiveCfg = Release|x64
 		{E3A8FB52-C4EE-4987-AF7D-A940E7353EB3}.Release|x64.Build.0 = Release|x64
 		{E3A8FB52-C4EE-4987-AF7D-A940E7353EB3}.Release|x86.ActiveCfg = Release|Any CPU
+		{325893FE-11FA-447F-8CF2-BBBF85B8ECDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{325893FE-11FA-447F-8CF2-BBBF85B8ECDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{325893FE-11FA-447F-8CF2-BBBF85B8ECDF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{325893FE-11FA-447F-8CF2-BBBF85B8ECDF}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{325893FE-11FA-447F-8CF2-BBBF85B8ECDF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{325893FE-11FA-447F-8CF2-BBBF85B8ECDF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{325893FE-11FA-447F-8CF2-BBBF85B8ECDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{325893FE-11FA-447F-8CF2-BBBF85B8ECDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{325893FE-11FA-447F-8CF2-BBBF85B8ECDF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{325893FE-11FA-447F-8CF2-BBBF85B8ECDF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{325893FE-11FA-447F-8CF2-BBBF85B8ECDF}.Release|x64.ActiveCfg = Release|Any CPU
+		{325893FE-11FA-447F-8CF2-BBBF85B8ECDF}.Release|x86.ActiveCfg = Release|Any CPU
+		{CE6E11F4-C65B-4E12-A3BB-37D8008155FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE6E11F4-C65B-4E12-A3BB-37D8008155FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE6E11F4-C65B-4E12-A3BB-37D8008155FF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{CE6E11F4-C65B-4E12-A3BB-37D8008155FF}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{CE6E11F4-C65B-4E12-A3BB-37D8008155FF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CE6E11F4-C65B-4E12-A3BB-37D8008155FF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CE6E11F4-C65B-4E12-A3BB-37D8008155FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE6E11F4-C65B-4E12-A3BB-37D8008155FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE6E11F4-C65B-4E12-A3BB-37D8008155FF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{CE6E11F4-C65B-4E12-A3BB-37D8008155FF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{CE6E11F4-C65B-4E12-A3BB-37D8008155FF}.Release|x64.ActiveCfg = Release|Any CPU
+		{CE6E11F4-C65B-4E12-A3BB-37D8008155FF}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

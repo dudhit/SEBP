@@ -6,7 +6,7 @@ using SoloProjects.Dudhit.Utilites;
 using System.Reflection;
 using System.Linq.Expressions;
 
-namespace Dudhit.UnitTestCircleBlueprint
+namespace SoloProjects.Dudhit.Utilities.UnitTestCircleBlueprint
 {
   [TestFixture]
   public class BlueprintModelTester

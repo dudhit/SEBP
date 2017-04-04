@@ -138,8 +138,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BresenhamCircularCurve.cs" />
-    <Compile Include="BresenhamEllipticalCurve.cs" />
     <Compile Include="CircleEvaluationCalculations.cs" />
     <Compile Include="CommandLineHandler.cs" />
     <Compile Include="DataValidator.cs" />

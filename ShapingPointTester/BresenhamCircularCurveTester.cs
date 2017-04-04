@@ -1,9 +1,8 @@
 ﻿using NUnit.Framework;
-using SoloProjects.Dudhit.Utilities;
 using System.Collections.Generic;
 using System.Windows;
 
-namespace Dudhit.UnitTestCircleBlueprint
+namespace SoloProjects.Dudhit.Utilities.UnitTestCircleBlueprint
 {
   [TestFixture]
   class BresenhamCircularCurveTester

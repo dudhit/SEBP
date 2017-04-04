@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using SoloProjects.Dudhit.SpaceEngineers.SEBP;
 
-namespace Dudhit.UnitTestCircleBlueprint
+namespace SoloProjects.Dudhit.Utilities.UnitTestCircleBlueprint
 {
   [TestFixture]
   class StartArgCheckerTester

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 
-namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
+namespace SoloProjects.Dudhit.Utilities
 {
-  class BresenhamEllipticalCurve
+  public class BresenhamEllipticalCurve
   {
   
     private long xAxis, yAxis, xChange, yChange, ellipseError, aSquare, bSquare, twoASquare, twoBSquare, stoppingX, stoppingY;

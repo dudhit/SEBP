@@ -11,7 +11,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     [Flags]
     private enum Shapes { not_defined=0, circle=1<<0, ellipse=1<<1, sphere=1<<2, ellipsiod=1<<3 }
     [Flags]
-    private enum Segments { not_defined=0,  quarter=1<<0, semi=1<<1, full=1<<2 }
+    private enum Segments { not_defined=0,  quarter=1<<4, semi=1<<5, full=1<<6 }
     [Flags]
     private enum ModelState
     { nil=0, hasBlueprintFilePath=1<<0, hasSteamId=1<<1, hasSteamName=1<<2, hasBlueprintName=1<<3, hasXAxis=1<<4, hasYAxis=1<<5, hasZAxis=1<<6, hasShape=1<<7, hasFraction=1<<8, hasBlockArmour=1<<9, hasBlockSize=1<<10, hasBlockColour=1<<11, all= hasBlueprintFilePath|hasSteamId|hasSteamName|hasBlueprintName|hasXAxis| hasYAxis| hasZAxis| hasShape| hasFraction|hasBlockArmour| hasBlockSize| hasBlockColour }
@@ -219,7 +219,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
           {
             this.blockArmour = value;
             this.modelState+=(int)ModelState.hasBlockArmour;
-            RaisePropertyChanged("BloakArmour");
+         
           }
         }
       }
@@ -258,22 +258,27 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     public bool HasUsableData { get { return this.modelState==(int)ModelState.all; } }
     #endregion
     #region enumHandling
-    private int JoinShapeCombinationsEnumStings(string value1, string value2)
-    {
-      return (int)Enum.Parse(typeof(Segments), value2)+(int)Enum.Parse(typeof(Shapes), value1);
-    }
     private void MakeFinalShape()
     {
       int join=(int)ModelState.hasShape|(int)ModelState.hasFraction;
       if(IsFlagSet(this.modelState, join)==join)
       {
         this.finalShape=JoinShapeCombinationsEnumStings(this.shape, this.shapeFraction);
+        RaisePropertyChanged("FinalShape");
       }
     }
+    
+
+    private int JoinShapeCombinationsEnumStings(string value1, string value2)
+    {
+      return (int)Enum.Parse(typeof(Segments), value2)+(int)Enum.Parse(typeof(Shapes), value1);
+    }
+
     private void ResetSetFlag(int flag)
     {
       if(IsFlagSet(this.modelState, flag)==flag) { this.modelState-=flag; }
     }
+
     private int IsFlagSet(int flagTotal, int singleFlag)
     {
       return flagTotal&singleFlag;

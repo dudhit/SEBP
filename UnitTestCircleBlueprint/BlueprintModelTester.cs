@@ -9,7 +9,7 @@ using System.Linq.Expressions;
 namespace Dudhit.UnitTestCircleBlueprint
 {
   [TestFixture]
-  public class CircleBlueprintTester
+  public class BlueprintModelTester
   {
     private BlueprintModel bpm;
     private string validPath ="C:\\Users\\dudhit\\AppData\\Roaming\\SpaceEngineers";
@@ -39,9 +39,9 @@ namespace Dudhit.UnitTestCircleBlueprint
 
 
     [Test]
-    public void TestClass01Defaults()
+    public void TestClassInstanciationDefaults()
     {
-   
+
       //act
       //assert
       VerboseInformation("class can be used:", bpm.HasUsableData.ToString());
@@ -82,40 +82,119 @@ namespace Dudhit.UnitTestCircleBlueprint
     public void TestClass02AddBadValues()
     {
       AddValidData();
+      VerboseInformation("change shape to:", "sqare");
       bpm.Shape="sqare";
-      Assert.IsNotEmpty(bpm.Shape);
+      Assert.AreEqual(bpm.Shape, validShape);
+      VerboseInformation("change BlockArmour to:", "yes");
       bpm.BlockArmour="yes";
-      Assert.IsNotEmpty(bpm.BlockArmour);
+      Assert.AreEqual(bpm.BlockArmour, validarmour);
+      VerboseInformation("change BlockColour to:", "300,200,200");
       bpm.BlockColour=new SeHSV(300, 200, 200);
-      Assert.IsInstanceOf<SeHSV>(bpm.BlockColour);
+      Assert.AreEqual(300, bpm.BlockColour.H);
+      Assert.Zero(bpm.BlockColour.S);
+      Assert.Zero(bpm.BlockColour.V);
+      VerboseInformation("change BlockSize to:", "big");
       bpm.BlockSize="big";
-      Assert.IsNotEmpty(bpm.BlockSize);
+      Assert.AreEqual(bpm.BlockSize, validSize);
+      VerboseInformation("change BlueprintFilePath to:", "..\\");
       bpm.BlueprintFilePath="..\\";
       Assert.IsNotEmpty(bpm.BlueprintFilePath);
+      VerboseInformation("change BlueprintName to:", "nothing");
       bpm.BlueprintName="";
       Assert.IsNotEmpty(bpm.BlueprintName);
+      VerboseInformation("change SteamId to:", "nothing");
       bpm.SteamId="";
       Assert.IsNotEmpty(bpm.SteamId);
+      VerboseInformation("change SteamName to:", "nothing");
       bpm.SteamName="";
       Assert.IsNotEmpty(bpm.SteamName);
+      VerboseInformation("change XAxis to:", "3");
       bpm.XAxis=3;
       Assert.AreEqual(validXaxis, bpm.XAxis);
+      VerboseInformation("change YAxis to:", "1");
       bpm.YAxis=1;
       Assert.AreEqual(validYaxis, bpm.YAxis);
+      VerboseInformation("change ZAxis to:", "-40");
       bpm.ZAxis=-40;
       Assert.AreEqual(validZaxis, bpm.ZAxis);
 
-   
+
     }
 
-  
-
-    //private void BadDataRejectionTest(string existingGoodValue,string replacement)
-    //{
-    //  bpm.ShapeFraction="third";
-    //  string changedValue=bpm.ShapeFraction;
-    //  Assert.AreEqual(existingGoodValue, changedValue);
-    //}
+    [Test]
+    public void TestFinalShapeCombos()
+    {
+      VerboseInformation("Shape", bpm.Shape.ToString());
+      VerboseInformation("fraction", bpm.ShapeFraction.ToString());
+      bpm.Shape="circle";
+      VerboseInformation("Shape", bpm.Shape.ToString());
+      VerboseInformation("fraction", bpm.ShapeFraction.ToString());
+      VerboseInformation("Finalshape ", bpm.FinalShape.ToString());
+      Assert.AreEqual(0,bpm.FinalShape);
+      bpm.ShapeFraction="quarter";
+      VerboseInformation("Shape", bpm.Shape.ToString());
+      VerboseInformation("fraction", bpm.ShapeFraction.ToString());
+      VerboseInformation("Finalshape ", bpm.FinalShape.ToString());
+      Assert.AreEqual(1+16,bpm.FinalShape);
+      bpm.ShapeFraction="semi";
+      VerboseInformation("Shape", bpm.Shape.ToString());
+      VerboseInformation("fraction", bpm.ShapeFraction.ToString());
+      VerboseInformation("Finalshape ", bpm.FinalShape.ToString());
+      Assert.AreEqual(1+32,bpm.FinalShape);
+      bpm.ShapeFraction="full";
+      VerboseInformation("Shape", bpm.Shape.ToString());
+      VerboseInformation("fraction", bpm.ShapeFraction.ToString());
+      VerboseInformation("Finalshape ", bpm.FinalShape.ToString());
+      Assert.AreEqual(1+64,bpm.FinalShape);
+      bpm.Shape="ellipse";
+      bpm.ShapeFraction="quarter";
+      VerboseInformation("Shape", bpm.Shape.ToString());
+      VerboseInformation("fraction", bpm.ShapeFraction.ToString());
+      VerboseInformation("Finalshape ", bpm.FinalShape.ToString());
+      Assert.AreEqual(2+16,bpm.FinalShape);
+      bpm.ShapeFraction="semi";
+      VerboseInformation("Shape", bpm.Shape.ToString());
+      VerboseInformation("fraction", bpm.ShapeFraction.ToString());
+      VerboseInformation("Finalshape ", bpm.FinalShape.ToString());
+      Assert.AreEqual(2+32,bpm.FinalShape);
+      bpm.ShapeFraction="full";
+      VerboseInformation("Shape", bpm.Shape.ToString());
+      VerboseInformation("fraction", bpm.ShapeFraction.ToString());
+      VerboseInformation("Finalshape ", bpm.FinalShape.ToString());
+      Assert.AreEqual(2+64,bpm.FinalShape);
+      bpm.Shape="sphere";
+      bpm.ShapeFraction="quarter";
+      VerboseInformation("Shape", bpm.Shape.ToString());
+      VerboseInformation("fraction", bpm.ShapeFraction.ToString());
+      VerboseInformation("Finalshape ", bpm.FinalShape.ToString());
+      Assert.AreEqual(4+16,bpm.FinalShape);
+      bpm.ShapeFraction="semi";
+      VerboseInformation("Shape", bpm.Shape.ToString());
+      VerboseInformation("fraction", bpm.ShapeFraction.ToString());
+      VerboseInformation("Finalshape ", bpm.FinalShape.ToString());
+      Assert.AreEqual(4+32,bpm.FinalShape);
+      bpm.ShapeFraction="full";
+      VerboseInformation("Shape", bpm.Shape.ToString());
+      VerboseInformation("fraction", bpm.ShapeFraction.ToString());
+      VerboseInformation("Finalshape ", bpm.FinalShape.ToString());
+      Assert.AreEqual(4+64,bpm.FinalShape);
+      bpm.Shape="ellipsiod";
+      bpm.ShapeFraction="quarter";
+      VerboseInformation("Shape", bpm.Shape.ToString());
+      VerboseInformation("fraction", bpm.ShapeFraction.ToString());
+      VerboseInformation("Finalshape ", bpm.FinalShape.ToString());
+      Assert.AreEqual(8+16,bpm.FinalShape);
+      bpm.ShapeFraction="semi";
+      VerboseInformation("Shape", bpm.Shape.ToString());
+      VerboseInformation("fraction", bpm.ShapeFraction.ToString());
+      VerboseInformation("Finalshape ", bpm.FinalShape.ToString());
+      Assert.AreEqual(8+32,bpm.FinalShape);
+      bpm.ShapeFraction="full";
+      VerboseInformation("Shape", bpm.Shape.ToString());
+      VerboseInformation("fraction", bpm.ShapeFraction.ToString());
+      VerboseInformation("Finalshape ", bpm.FinalShape.ToString());
+      Assert.AreEqual(8+64,bpm.FinalShape);
+    }
 
     [Test]
     public void TestClass03AddValues()
@@ -136,6 +215,8 @@ namespace Dudhit.UnitTestCircleBlueprint
       Assert.IsNotEmpty(bpm.ShapeFraction);
       Assert.IsNotEmpty(bpm.BlockArmour);
       Assert.IsInstanceOf<SeHSV>(bpm.BlockColour);
+
+      VerboseInformation("Data ready:", bpm.HasUsableData.ToString());
       Assert.IsTrue(bpm.HasUsableData);
     }
 

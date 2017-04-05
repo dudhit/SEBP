@@ -1,14 +1,4 @@
-﻿using SoloProjects.Dudhit.SpaceEngineers.SEBP.View;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 {
@@ -17,15 +7,17 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     /// </summary>
     public partial class App : Application
     {
-      private  BlueprintModel bpm;
+      private BlueprintModel masterBlueprint;
       
         private void BeginSEPB(object sender, StartupEventArgs e)
-      {
+      {  masterBlueprint = new BlueprintModel();
         if(e.Args!=null&&e.Args.Length>0)
         {
-
-          CommandLineHandler clh = new CommandLineHandler(e.Args);
-
+        
+                   CommandLineHandler commandLineHandler = new CommandLineHandler(e.Args);
+                   commandLineHandler.MyBlueprint=masterBlueprint;
+            commandLineHandler.Start();
+           
         }
         else
         {

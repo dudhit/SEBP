@@ -9,5 +9,13 @@
         <Setter Property="Padding" Value="0"></Setter>
 
     </Style>
- 
+    <Style x:Key="ConsoleButton" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="Black"></Setter>
+        <Setter Property="Foreground" Value="White"></Setter>
+        <Setter Property="FontFamily" Value="Consolas"></Setter>
+        <Setter Property="FontSize" Value="14"></Setter>
+        <Setter Property="Margin" Value="20"></Setter>
+        <Setter Property="Padding" Value="0"></Setter>
+
+    </Style>
 </ResourceDictionary>

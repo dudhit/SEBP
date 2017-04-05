@@ -17,7 +17,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     private string[] myStartingArgs;
     private CheckStartArguments myDictionaryOfArgs;
     private Style lookLikeConsoleText;
-    private BlueprintModel myBlueprint;
+    public BlueprintModel MyBlueprint { get; set; }
+    private Button killBtn;
     public CommandLineHandler(string[] args)
     {
       lookLikeConsoleText = Application.Current.FindResource("ConsoleText") as Style;
@@ -30,24 +31,45 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
     public void Start()
     {
-
-      if(ArgumentPreProcessing())
+   
+      if(ArgumentPreProcessing()&&MyBlueprint!=null)
       {
+      
         myDictionaryOfArgs.SetEmptyWithDefaultValues();
 
-        myBlueprint = new BlueprintModel();
-        myDictionaryOfArgs.MyBlueprintModel=this.myBlueprint;
+        myDictionaryOfArgs.MyBlueprintModel=MyBlueprint;
         myDictionaryOfArgs.SetModel();
-        //populate bpclass
-        //process shape
-        //output bp
+        if(myDictionaryOfArgs.MyBlueprintModel.HasUsableData)
+        {
+          MyBlueprint=myDictionaryOfArgs.MyBlueprintModel;
+          cmdOut.addedContent.Children.Add(new Label() { Content="Data accepted", Style=lookLikeConsoleText });
+                //process shape
+        //output bp 
+        }
+        else
+        {
+          cmdOut.addedContent.Children.Add(new Label() { Content="The were errors with data assigned to :"+myDictionaryOfArgs.MyBlueprintModel.ModelStateError(), Style=lookLikeConsoleText }); 
+        }
+     
       }
+        
+      else
+      {
+        cmdOut.addedContent.Children.Add(new Label() { Content="Please check help for argument usage", Style=lookLikeConsoleText });
+      }
+     Style buttonStyle = Application.Current.FindResource("ConsoleButton") as Style;
+      cmdOut.addedContent.Children.Add(killBtn=new Button { Content="Close", Height=40, Width=80, Style=buttonStyle });
+      killBtn.Click+=EndItAll;
+    }
 
-
-      //else
-      //{
-      //  cmdOut.addedContent.Children.Add(new Label() { Content="Please check help for argument usage", Style=lookLikeConsoleText });
-      //}
+    private void EndItAll(object sender, RoutedEventArgs e)
+    {
+      killBtn.Click-=EndItAll;
+      cmdOut.Hide();
+            cmdOut.Close();
+   //   myDictionaryOfArgs.MyBlueprintModel=null;
+            myDictionaryOfArgs.Clear();
+   //   myDictionaryOfArgs=null;
     }
 
     private void Initialize()
@@ -91,7 +113,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     {
       myDictionaryOfArgs = new CheckStartArguments();
 #if DEBUG
-      ShowDictionary();
+    //  ShowDictionary();
 #endif
       cmdOut.addedContent.Children.Add(new Label() { Content="Processing input...", Style=lookLikeConsoleText });
       foreach(string s in myStartingArgs)
@@ -112,7 +134,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
           cmdOut.addedContent.Children.Add(new Label() { Content="invalid usage or asignment of:"+s, Style=lookLikeConsoleText });
       }
 #if DEBUG
-      ShowDictionary();
+   //   ShowDictionary();
 #endif
       myStartingArgs=null;
 
@@ -139,8 +161,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       keyValue[0] =theString.Substring(0, equalPositon).ToLower();
       keyValue[1] =theString.Substring(equalPositon+1, theString.Length-(equalPositon+1));
 #if DEBUG
-      cmdOut.addedContent.Children.Add(new Label() { Content=keyValue[0], Style=lookLikeConsoleText });
-      cmdOut.addedContent.Children.Add(new Label() { Content=keyValue[1], Style=lookLikeConsoleText });
+  //    cmdOut.addedContent.Children.Add(new Label() { Content=keyValue[0], Style=lookLikeConsoleText });
+  //    cmdOut.addedContent.Children.Add(new Label() { Content=keyValue[1], Style=lookLikeConsoleText });
 #endif
       return keyValue;
     }

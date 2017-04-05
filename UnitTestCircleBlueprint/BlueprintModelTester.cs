@@ -220,6 +220,19 @@ namespace SoloProjects.Dudhit.Utilities.UnitTestCircleBlueprint
       Assert.IsTrue(bpm.HasUsableData);
     }
 
+    [Test]
+    public void TestNoDataErrors()
+    {
+      AddValidData();
+      VerboseInformation("error is with:", bpm.ModelStateError());
+      Assert.IsEmpty(bpm.ModelStateError());
+    }
+    [Test]
+    public void TesthasDataErrors()
+    {
+      VerboseInformation("error is with:", bpm.ModelStateError());
+      Assert.IsNotEmpty(bpm.ModelStateError());
+    }
     private void AddValidData()
     {
 

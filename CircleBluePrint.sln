@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestCircleBlueprint", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShapingPoints", "ShapingPoints\ShapingPoints.csproj", "{325893FE-11FA-447F-8CF2-BBBF85B8ECDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UntiTestShapingPoint", "ShapingPointTester\UntiTestShapingPoint.csproj", "{CE6E11F4-C65B-4E12-A3BB-37D8008155FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestShapingPoint", "ShapingPointTester\UnitTestShapingPoint.csproj", "{CE6E11F4-C65B-4E12-A3BB-37D8008155FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

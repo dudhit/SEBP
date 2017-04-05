@@ -9,7 +9,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
   public class BlueprintModel : INotifyPropertyChanged//, IDataErrorInfo
   {
     [Flags]
-    private enum Shapes { not_defined=0, circle=1<<0, ellipse=1<<1, sphere=1<<2, ellipsiod=1<<3 }
+    private enum Shapes { not_defined=0, circle=1<<0, ellipse=1<<1, sphere=1<<2, ellipsoid=1<<3 }
     [Flags]
     private enum Segments { not_defined=0,  quarter=1<<4, semi=1<<5, full=1<<6 }
     [Flags]
@@ -282,6 +282,22 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     private int IsFlagSet(int flagTotal, int singleFlag)
     {
       return flagTotal&singleFlag;
+    }
+
+    public string ModelStateError()
+    {
+        string error=string.Empty;
+            foreach(string name in Enum.GetNames(typeof(ModelState)))
+      {
+      //  System.Diagnostics.Trace.WriteLine( name);
+        // System.Diagnostics.Trace.WriteLine(IsFlagSet(modelState, (int)Enum.Parse(typeof(ModelState), name)));
+        if(IsFlagSet(this.modelState, (int)Enum.Parse(typeof(ModelState), name))==0)
+        {
+          error+=name.Substring(3)+" ";
+       //   System.Diagnostics.Trace.WriteLine(error);
+        }
+     }
+      return error.TrimEnd();
     }
     #endregion
 

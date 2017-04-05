@@ -7,7 +7,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
   {
     public BlueprintModel MyBlueprintModel { get; set; }
   //  private BlueprintModel myBlueprintModel;
-    private bool hasDefaults;
+ 
     public CheckStartArguments()
       : base()
     {
@@ -35,7 +35,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       //shape
       this.Add("shape", "");
       //shape_fraction
-      this.Add("shape_fraction", "");
+      this.Add("fraction", "");
       //block_armour
       this.Add("armour", "");
       //block_size
@@ -84,7 +84,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       if(IsNeedingDefault("y")) { this["y"]= "10"; }
       if(IsNeedingDefault("z")) { this["z"]= "10"; }
       if(IsNeedingDefault("shape")) { this["shape"]= "circle"; }
-      if(IsNeedingDefault("shape_fraction")) { this["shape_fraction"]= "quarter"; }
+      if(IsNeedingDefault("fraction")) { this["fraction"]= "quarter"; }
       if(IsNeedingDefault("armour")) { this["armour"]= "Normal"; }
       if(IsNeedingDefault("size")) { this["size"]= "Large"; }
       if(IsNeedingDefault("colour"))
@@ -106,6 +106,12 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     
     }
 
+    private string CapitaliseFirstLetter(string value)
+    {
+   //  System.Diagnostics.Trace.WriteLine( value.Substring(0, 1).ToUpper()+value.Substring(1, value.Length-1).ToLower());
+     return  value.Substring(0, 1).ToUpper()+value.Substring(1, value.Length-1).ToLower();
+      
+    }
 
     public void SetModel()
     {
@@ -126,12 +132,12 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       }
       #endregion
       #region setArmour
-      MyBlueprintModel.BlockArmour=this["armour"];
+      MyBlueprintModel.BlockArmour=CapitaliseFirstLetter(this["armour"]);
 
       #endregion
       #region BlockSize
 
-      MyBlueprintModel.BlockSize= this["size"];
+      MyBlueprintModel.BlockSize= CapitaliseFirstLetter( this["size"]);
       #endregion
       #region BlueprintName
      MyBlueprintModel.BlueprintName=this["bpname"];
@@ -140,10 +146,10 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       MyBlueprintModel.BlueprintFilePath=this["path"];
       #endregion
       #region Shape
-      MyBlueprintModel.Shape=this["shape"];
+      MyBlueprintModel.Shape=this["shape"].ToLower();
       #endregion
       #region Shape_fraction
-      MyBlueprintModel.ShapeFraction=this["shape_fraction"];
+      MyBlueprintModel.ShapeFraction=this["fraction"].ToLower();
       #endregion
       #region SteamId
       MyBlueprintModel.SteamId=this["id"];

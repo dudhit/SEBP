@@ -21,9 +21,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColourConverters", "..\..\C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestCircleBlueprint", "UnitTestCircleBlueprint\UnitTestCircleBlueprint.csproj", "{E3A8FB52-C4EE-4987-AF7D-A940E7353EB3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShapingPoints", "ShapingPoints\ShapingPoints.csproj", "{325893FE-11FA-447F-8CF2-BBBF85B8ECDF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PointsToShapeCalculator", "ShapingPoints\PointsToShapeCalculator.csproj", "{325893FE-11FA-447F-8CF2-BBBF85B8ECDF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestShapingPoint", "ShapingPointTester\UnitTestShapingPoint.csproj", "{CE6E11F4-C65B-4E12-A3BB-37D8008155FF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SeqDiagrams", "SeqDiagrams", "{BBB1FD0C-5EFE-4297-906C-7BFA58BA4C3D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CircleBlueprint", "CircleBlueprint", "{80C3869C-1816-4562-971F-87E4473C89B8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CommandLineLauncher", "CommandLineLauncher", "{FF7FDAB1-BDB7-4573-85F2-6D2D469F4716}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -152,5 +158,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{80C3869C-1816-4562-971F-87E4473C89B8} = {BBB1FD0C-5EFE-4297-906C-7BFA58BA4C3D}
+		{FF7FDAB1-BDB7-4573-85F2-6D2D469F4716} = {BBB1FD0C-5EFE-4297-906C-7BFA58BA4C3D}
 	EndGlobalSection
 EndGlobal

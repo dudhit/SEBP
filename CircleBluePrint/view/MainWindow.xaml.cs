@@ -179,6 +179,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
                 actionGenerate.Content = "Cancel Blueprint";
                 progressBarOne.Visibility = Visibility.Visible;
                 //start working
+              //    call class to handle point and blueprint output
             }
             else
             {

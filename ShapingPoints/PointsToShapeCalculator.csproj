@@ -40,7 +40,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ShapingPoints.cs" />
+    <Compile Include="PointToShape.cs" />
     <Compile Include="CoreCalculators\BresenhamCircularCurve.cs" />
     <Compile Include="CoreCalculators\BresenhamEllipticalCurve.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

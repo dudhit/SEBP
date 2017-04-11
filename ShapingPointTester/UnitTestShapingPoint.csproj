@@ -55,9 +55,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ShapingPoints\ShapingPoints.csproj">
+    <ProjectReference Include="..\ShapingPoints\PointsToShapeCalculator.csproj">
       <Project>{325893fe-11fa-447f-8cf2-bbbf85b8ecdf}</Project>
-      <Name>ShapingPoints</Name>
+      <Name>PointsToShapeCalculator</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

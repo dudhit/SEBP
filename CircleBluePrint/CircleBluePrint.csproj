@@ -262,6 +262,10 @@
       <Project>{daee5610-a37f-46e4-8716-d639f7898e3b}</Project>
       <Name>TextSliderCombo</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ShapingPoints\PointsToShapeCalculator.csproj">
+      <Project>{325893fe-11fa-447f-8cf2-bbbf85b8ecdf}</Project>
+      <Name>PointsToShapeCalculator</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="sebp_arg_help.txt" />

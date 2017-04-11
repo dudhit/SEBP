@@ -1,9 +1,10 @@
 ﻿using SoloProjects.Dudhit.Utilites;
+using System;
 using System.Collections.Generic;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 {
-  public class CheckStartArguments : Dictionary<string, string>//Dictionary<>
+  public class CheckStartArguments : Dictionary<string, string>,IDisposable//Dictionary<>,
   {
     public BlueprintModel MyBlueprintModel { get; set; }
   //  private BlueprintModel myBlueprintModel;
@@ -169,5 +170,33 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
    //   System.Diagnostics.Trace.WriteLine( myBlueprintModel.HasUsableData.ToString());
      // MyBlueprintModel=myBlueprintModel;
     }
+            #region disposal
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~CheckStartArguments()
+        {
+            Dispose(false);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // free managed resources  
+              if(MyBlueprintModel != null)
+              {
+                MyBlueprintModel.Dispose();
+                MyBlueprintModel = null;
+              }
+            }
+
+        }
+        #endregion
+
   }
 }

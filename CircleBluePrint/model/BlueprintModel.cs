@@ -6,12 +6,12 @@ using System.ComponentModel;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 {
-  public class BlueprintModel : INotifyPropertyChanged//, IDataErrorInfo
+  public class BlueprintModel : INotifyPropertyChanged,IDisposable//, IDataErrorInfo
   {
     [Flags]
     private enum Shapes { not_defined=0, circle=1<<0, ellipse=1<<1, sphere=1<<2, ellipsoid=1<<3 }
     [Flags]
-    private enum Segments { not_defined=0,  quarter=1<<4, semi=1<<5, full=1<<6 }
+    private enum Segments { not_defined=0, quarter=1<<4, semi=1<<5, full=1<<6 }
     [Flags]
     private enum ModelState
     { nil=0, hasBlueprintFilePath=1<<0, hasSteamId=1<<1, hasSteamName=1<<2, hasBlueprintName=1<<3, hasXAxis=1<<4, hasYAxis=1<<5, hasZAxis=1<<6, hasShape=1<<7, hasFraction=1<<8, hasBlockArmour=1<<9, hasBlockSize=1<<10, hasBlockColour=1<<11, all= hasBlueprintFilePath|hasSteamId|hasSteamName|hasBlueprintName|hasXAxis| hasYAxis| hasZAxis| hasShape| hasFraction|hasBlockArmour| hasBlockSize| hasBlockColour }
@@ -342,6 +342,29 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
     //#endregion
 
+                #region disposal
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~BlueprintModel()
+        {
+            Dispose(false);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // free managed resources  
+       
+            }
+
+        }
+        #endregion
 
   }
 

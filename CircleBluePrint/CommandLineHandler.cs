@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,7 +12,7 @@ using System.Windows.Media;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 {
-  public class CommandLineHandler
+  public class CommandLineHandler : IDisposable
   {
     private ConsoleOutputs cmdOut;
     private string[] myStartingArgs;
@@ -19,22 +20,31 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     private Style lookLikeConsoleText;
     public BlueprintModel MyBlueprint { get; set; }
     private Button killBtn;
+    public bool CanClose { get; private set; }
     public CommandLineHandler(string[] args)
     {
       lookLikeConsoleText = Application.Current.FindResource("ConsoleText") as Style;
       cmdOut = new ConsoleOutputs();
       cmdOut.InitializeComponent();
-      Initialize();
       cmdOut.Show();
+      DisplayHeaderMessage();
       this.myStartingArgs=args;
+      CanClose=false;
+    }
+
+    private void DisplayHeaderMessage()
+    {
+      cmdOut.addedContent.Children.Add(new Label() { Content="SEBP commandline interface.\n type \"--help\" for detailed instructions", Style=lookLikeConsoleText });
+
     }
 
     public void Start()
     {
-   
+
       if(ArgumentPreProcessing()&&MyBlueprint!=null)
       {
-      
+        ProcessArguments();
+
         myDictionaryOfArgs.SetEmptyWithDefaultValues();
 
         myDictionaryOfArgs.MyBlueprintModel=MyBlueprint;
@@ -42,54 +52,80 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
         if(myDictionaryOfArgs.MyBlueprintModel.HasUsableData)
         {
           MyBlueprint=myDictionaryOfArgs.MyBlueprintModel;
-          cmdOut.addedContent.Children.Add(new Label() { Content="Data accepted", Style=lookLikeConsoleText });
-                //process shape
-        //output bp 
+          CloseChildren();
         }
         else
         {
-          cmdOut.addedContent.Children.Add(new Label() { Content="The were errors with data assigned to :"+myDictionaryOfArgs.MyBlueprintModel.ModelStateError(), Style=lookLikeConsoleText }); 
-        }
-     
-      }
-        
+          cmdOut.addedContent.Children.Add(new Label() { Content="The were errors with data assigned to :"+myDictionaryOfArgs.MyBlueprintModel.ModelStateError(), Style=lookLikeConsoleText });
+           }
+           }
+
       else
       {
         cmdOut.addedContent.Children.Add(new Label() { Content="Please check help for argument usage", Style=lookLikeConsoleText });
       }
-     Style buttonStyle = Application.Current.FindResource("ConsoleButton") as Style;
-      cmdOut.addedContent.Children.Add(killBtn=new Button { Content="Close", Height=40, Width=80, Style=buttonStyle });
+      DisplayButton();
+    }
+
+    private void AddToOutput(string verbose, string labelName)
+    {
+      cmdOut.addedContent.Children.Add(new Label() { Content=verbose, Style=lookLikeConsoleText, Name=labelName });
+    }
+    /// <summary>
+    /// todo
+    /// </summary>
+    /// <param name="verbose"></param>
+    /// <param name="labelName"></param>
+    private void UpdateExistingOutputContent(string verbose, string labelName)
+    {
+      //cmdOut.addedContent.Children.Contains(;
+
+    }
+    /// <summary>
+    /// todo
+    /// </summary>
+    /// <param name="anElement"></param>
+    private void RemoveOutputText(UIElement anElement)
+    {
+
+    }
+
+    private void DisplayButton()
+    {
+      Style buttonStyle = Application.Current.FindResource("ConsoleButton") as Style;
+      cmdOut.addedContent.Children.Add(killBtn=new Button { Content="Close Application", Height=40, Style=buttonStyle });
       killBtn.Click+=EndItAll;
+    }
+
+    private void CloseChildren()
+    {
+      CanClose=true;
+      cmdOut.Hide();
+      cmdOut.Close();
+      if(myDictionaryOfArgs!=null)
+      {
+        myDictionaryOfArgs.Clear();
+        myDictionaryOfArgs.Dispose();
+      }
     }
 
     private void EndItAll(object sender, RoutedEventArgs e)
     {
       killBtn.Click-=EndItAll;
-      cmdOut.Hide();
-            cmdOut.Close();
-   //   myDictionaryOfArgs.MyBlueprintModel=null;
-            myDictionaryOfArgs.Clear();
-   //   myDictionaryOfArgs=null;
-    }
-
-    private void Initialize()
-    {
-      cmdOut.addedContent.Children.Add(new Label() { Content="SEBP commandline interface.\n type \"--help\" for detailed instructions", Style=lookLikeConsoleText });
+      CloseChildren();
     }
 
     private bool ArgumentPreProcessing()
     {
       if(myStartingArgs[0].ToLower()=="/?"||myStartingArgs[0].ToLower()=="-h"||myStartingArgs[0].ToLower()=="--help")
-        ShowHelp();
+      { ShowHelp(); }
       else
       {
-        ProcessArguments();
-        //if(argsIn!=AcceptableNumberOfArguments)
-        //{ Console.WriteLine("incorrect number of args received"); }{ 
-        return true; //}
+        return true;
       }
       return false;
     }
+
     private void ShowHelp()
     {
       string pathToHelp =  "..\\..\\..\\sebp_arg_help.txt";
@@ -113,7 +149,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     {
       myDictionaryOfArgs = new CheckStartArguments();
 #if DEBUG
-    //  ShowDictionary();
+      //  ShowDictionary();
 #endif
       cmdOut.addedContent.Children.Add(new Label() { Content="Processing input...", Style=lookLikeConsoleText });
       foreach(string s in myStartingArgs)
@@ -132,9 +168,10 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
         }
         else
           cmdOut.addedContent.Children.Add(new Label() { Content="invalid usage or asignment of:"+s, Style=lookLikeConsoleText });
+        //Thread.Sleep(500);
       }
 #if DEBUG
-   //   ShowDictionary();
+      //   ShowDictionary();
 #endif
       myStartingArgs=null;
 
@@ -161,13 +198,39 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       keyValue[0] =theString.Substring(0, equalPositon).ToLower();
       keyValue[1] =theString.Substring(equalPositon+1, theString.Length-(equalPositon+1));
 #if DEBUG
-  //    cmdOut.addedContent.Children.Add(new Label() { Content=keyValue[0], Style=lookLikeConsoleText });
-  //    cmdOut.addedContent.Children.Add(new Label() { Content=keyValue[1], Style=lookLikeConsoleText });
+      //    cmdOut.addedContent.Children.Add(new Label() { Content=keyValue[0], Style=lookLikeConsoleText });
+      //    cmdOut.addedContent.Children.Add(new Label() { Content=keyValue[1], Style=lookLikeConsoleText });
 #endif
       return keyValue;
     }
 
+    #region disposal
 
+    public void Dispose()
+    {
+      Dispose(true);
+      GC.SuppressFinalize(this);
+    }
+
+    ~CommandLineHandler()
+    {
+      Dispose(false);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+      if(disposing)
+      {
+        // free managed resources  
+        //if (Encoding != null)
+        //{
+        //    Encoding.Dispose();
+        //    Encoding = null;
+        //}
+      }
+
+    }
+    #endregion
 
 
   }

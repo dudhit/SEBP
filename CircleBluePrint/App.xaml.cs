@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using SoloProjects.Dudhit.Utilities;
+using System.Windows;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 {
@@ -13,11 +14,18 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       {  masterBlueprint = new BlueprintModel();
         if(e.Args!=null&&e.Args.Length>0)
         {
-        
-                   CommandLineHandler commandLineHandler = new CommandLineHandler(e.Args);
-                   commandLineHandler.MyBlueprint=masterBlueprint;
-            commandLineHandler.Start();
-           
+          using(CommandLineHandler commandLineHandler = new CommandLineHandler(e.Args)) {  
+            commandLineHandler.MyBlueprint=masterBlueprint;
+          commandLineHandler.Start();
+          if(commandLineHandler.MyBlueprint.HasUsableData)
+            masterBlueprint=commandLineHandler.MyBlueprint;
+          commandLineHandler.Dispose();
+       //    call class to handle point and blueprint output
+            using (PointsToShape pointsToShape = new PointsToShape() )
+            {
+
+            }
+          }  
         }
         else
         {

@@ -1,28 +1,61 @@
 ﻿using Microsoft.Win32;
+using SoloProjects.Dudhit.Utilities;
+using System;
 //using SoloProjects.Dudhit.SpaceEngineers.SEBP.EventArguments;
 using System.ComponentModel;
 using System.Windows;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 {
-  public class SEBluePrintController
+  public class SEBluePrintController : IDisposable
   {
-    //private string bpName;
-    public string SteamPath { get; private set; }
-    public string SteamUserName { get; private set; }
-    public string SteamUserId { get; private set; }
+    private BlueprintModel masterBlueprint;
+    private CommandLineHandler commandLineHandler;
     private BackgroundWorker worker;
-  //  private bool haveBlockData;
- //   private bool haveShapeData;
- //   private bool haveFileData;
-//    private bool isWorking;
+    //  private bool haveBlockData;
+    //   private bool haveShapeData;
+    //   private bool haveFileData;
+    //    private bool isWorking;
+
+
 
     public SEBluePrintController()
     {
-      worker = new BackgroundWorker();
- //     Reset2();
+      Initialise();
+
     }
 
+    private void Initialise()
+    {
+      masterBlueprint = new BlueprintModel();
+    }
+
+    public static void PlotShapeData()
+    {
+      using(PointsToShape pointsToShape = new PointsToShape())
+      {
+
+      }
+    }
+
+
+    public static void StartUserInterface()
+    {
+      MainWindow SEbpUI = new MainWindow();
+      SEbpUI.ShowDialog();
+    }
+
+    public void HandleCommandLineArguments(string[] runTimeArguments)
+    {
+      using(commandLineHandler = new CommandLineHandler(runTimeArguments))
+      {
+        commandLineHandler.MyBlueprint=masterBlueprint;
+        commandLineHandler.Start();
+        if(commandLineHandler.MyBlueprint.HasUsableData)
+          masterBlueprint=commandLineHandler.MyBlueprint;
+        commandLineHandler.Dispose();
+      }
+    }
     //private void Reset2()
     //{
     //  this.haveBlockData = false;
@@ -31,34 +64,12 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     //  this.isWorking = false;
     //}
 
-    public void SubscribeToOthers()
-    {
-      //((App)Application.Current).Windows[0].//
-
-    }
-
-
-    public void UnSubscribeFromOthers()
-    {
-
-    }
 
 
 
-    //public void UpdateFileData(FileChangeEventArgs data)
-    //{
-    //  this.fileData = data;
-    //  haveFileData = true;
-    //  //validate data
-    //  string errorMessage = "";
 
-    //  if(string.IsNullOrWhiteSpace(fileData.pathToSEfolder)) { errorMessage += "The blueprint requires the location of the Space Engineers save folder\n"; haveFileData = false; }
-    //  if(string.IsNullOrWhiteSpace(fileData.steamName)) { errorMessage += "The blueprint requires a user name\n"; haveFileData = false; }
-    //  if(string.IsNullOrWhiteSpace(fileData.steamId)) { errorMessage += "The blueprint requires a user steam id or something like it\n"; haveFileData = false; }
-    //  if(string.IsNullOrWhiteSpace(fileData.bluePrintName)) { errorMessage += "This was your chance to not have a generic name\n like Large Grid 4231 and you blew it\n"; haveFileData = false; }
-    //  if(!haveFileData) { MessageBox.Show(errorMessage, "Critical Data Missing", MessageBoxButton.OK, MessageBoxImage.Exclamation); }
 
-    //}
+
 
 
     private void StartTheCogs(string steamUserId)
@@ -82,197 +93,11 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
 
 
-
-    private void ResetToLoaded()
-    {
-      //saveRootLocation = null;
-      //S_E_B_P = null;
-      //localBP = null;
-      //FirstLoad();
-    }
     #region file handling
     //save user paths - radio buttons - colours -everything
-    private void SaveUserSettings()
-    {
-      /*
-                  if (!File.Exists(CONFIG_FILE))
-                  {
-                      try
-                      {
-                          using (System.IO.File.Create(CONFIG_FILE)) { }
-                      }
-                      catch (UnauthorizedAccessException UAE) { MessageBox.Show(UAE.Message, "Cannot Save user data due to missing Access rights", MessageBoxButton.OK, MessageBoxImage.Information); }
-                  }
-
-                  try
-                  {
-
-                      UserSettings<string, string> us = new UserSettings<string, string>();
-                      //tab1      
-                      us.Add("SaveVersion", "1");
-                      us.Add("S_E_B_P", S_E_B_P);
-                      us.Add("saveRootLocation", saveRootLocation);
-                      us.Add(dataNames.Name, dataNames.Text);
-                      us.Add(dataSteamId.Name, dataSteamId.Text);
-                      us.Add("localBP", localBP);
-                      us.Add("steamUserName", steamUserName);
-
-                      us.Add("window.Height", window.Height.ToString());
-                      us.Add("window.Width", window.Width.ToString());
-                      us.Add("window.Left", window.Left.ToString());
-                      us.Add("window.Top", window.Top.ToString());
-                      us.Add("window.WindowState", window.WindowState.ToString());
-
-                      //tab2     
-                      //us.Add(uppertoleranceSlide.Name, uppertoleranceSlide.Value.ToString());
-                      //us.Add(lowertoleranceSlide.Name, lowertoleranceSlide.Value.ToString());
-                      //us.Add(radOneSlide.Name, radOneSlide.Value.ToString());
-                      //us.Add(radTwoSlide.Name, radTwoSlide.Value.ToString());
-                      //us.Add(radThreeSlide.Name, radThreeSlide.Value.ToString());
-                      //us.Add(makeCircle.Name, makeCircle.IsChecked.ToString());
-                      //us.Add(makeellipse.Name, makeellipse.IsChecked.ToString());
-                      //us.Add(makeSphere.Name, makeSphere.IsChecked.ToString());
-                      //us.Add(makeellipsoid.Name, makeellipsoid.IsChecked.ToString());
-                      //us.Add(makeQuater.Name, makeQuater.IsChecked.ToString());
-                      //us.Add(makeSemi.Name, makeSemi.IsChecked.ToString());
-                      //us.Add(makeFull.Name, makeFull.IsChecked.ToString());
-                      ////tab3         
-
-                      us.Add("FillColor", FillColor.ToString());
-                      us.Add(blockHeavy.Name, blockHeavy.IsChecked.ToString());
-                      us.Add(blockLarge.Name, blockLarge.IsChecked.ToString());
-                      us.Add(blockNormal.Name, blockNormal.IsChecked.ToString());
-                      us.Add(blockSmall.Name, blockSmall.IsChecked.ToString());
-                      us.Add(colCustom.Name, colCustom.IsChecked.ToString());
-                      us.Add(colBlack.Name, colBlack.IsChecked.ToString());
-                      us.Add(colBlack1.Name, colBlack1.IsChecked.ToString());
-                      us.Add(colBlue.Name, colBlue.IsChecked.ToString());
-                      us.Add(colBlue1.Name, colBlue1.IsChecked.ToString());
-                      us.Add(colGreen.Name, colGreen.IsChecked.ToString());
-                      us.Add(colGreen1.Name, colGreen1.IsChecked.ToString());
-                      us.Add(colGrey.Name, colGrey.IsChecked.ToString());
-                      us.Add(colGrey1.Name, colGrey1.IsChecked.ToString());
-                      us.Add(colRed.Name, colRed.IsChecked.ToString());
-                      us.Add(colRed1.Name, colRed1.IsChecked.ToString());
-                      us.Add(colWhite.Name, colWhite.IsChecked.ToString());
-                      us.Add(colWhite1.Name, colWhite1.IsChecked.ToString());
-                      us.Add(colYellow.Name, colYellow.IsChecked.ToString());
-                      us.Add(colYellow1.Name, colYellow1.IsChecked.ToString());
-
-                      using (StreamWriter appUserData = new StreamWriter(CONFIG_FILE))
-                      {
-                          //System.Xml.XmlWriter writer = new System.Xml.XmlWriter();
-                          System.Xml.Serialization.XmlSerializer settingsToXML = new System.Xml.Serialization.XmlSerializer(us.GetType());
-                          settingsToXML.Serialize(appUserData, us);
-
-                          //foreach (KeyValuePair<string, string> kvp in us)
-                          //              {
-                          //                  appUserData.WriteLine(kvp);
-                          //              }
-                          //   appUserData.Close();
-                      }
-                  }
-                  catch (FileNotFoundException FNF) { MessageBox.Show(FNF.Message, "Saving user data", MessageBoxButton.OK, MessageBoxImage.Information); }
-                  catch (UnauthorizedAccessException UAE) { MessageBox.Show(UAE.Message, "Saving user data", MessageBoxButton.OK, MessageBoxImage.Information); }
-                  catch (NullReferenceException nre) { MessageBox.Show(nre.Message, "Saving user data", MessageBoxButton.OK, MessageBoxImage.Information); }
-                  catch (Exception ae) { MessageBox.Show(ae.Message, "Saving user data", MessageBoxButton.OK, MessageBoxImage.Information); }
 
 
-                  */
-    }
 
-    private void LoadUserSettings()
-    {
-      //UserSettings<string, string> settings = new UserSettings<string, string>();
-      //try
-      //{
-      //    using (StreamReader appUserData = new StreamReader(CONFIG_FILE))
-      //    {
-      //        while (appUserData.Peek() != -1)
-      //        {
-      //////////////                        //  settings.Add(new KeyValuePair<appUserData.ReadLine()>);
-      //////////////                        /*<UserControl ...>
-      //////////////    <TextBlock BlockChangeEventArgs:Name="myTextBlock" />
-      //////////////</UserControl>
-
-      //////////////In the code-behind file, you could write:
-
-      //////////////var myTextBlock = (TextBlock)this.FindName("myTextBlock");
-
-      //////////////                         var enumerator = d.GetEnumerator();
-      //////////////    while (enumerator.MoveNext())
-      //////////////    {
-      //////////////    var pair = enumerator.Current;
-      //////////////    b += pair.Value;
-      //////////////    }
-      //////////////                         */
-      //            appUserData.ReadLine();
-      //        }
-
-      //        //    appUserData.Close();
-      //    }
-      //}
-      //catch (FileNotFoundException FNF) { MessageBox.Show(FNF.Message, "Loading settings", MessageBoxButton.OK, MessageBoxImage.Information); }
-      //catch (UnauthorizedAccessException UAE) { MessageBox.Show(UAE.Message, "Loading settings", MessageBoxButton.OK, MessageBoxImage.Information); }
-      //catch (Exception ae) { MessageBox.Show(ae.Message, "Loading settings", MessageBoxButton.OK, MessageBoxImage.Information); }
-      /*
-      window.Width = double.Parse(settings[0]);
-      window.Height = double.Parse(settings[1]);
-      window.Left = double.Parse(settings[2]);
-      window.Top = double.Parse(settings[3]);
-
-      //tab1
-      saveRootLocation = settings[4];
-      dataSE_Path.Text = settings[5];
-      dataSteamId.Text = settings[6];
-      dataNames.Text = settings[7];
-      //tab2
-      if (settings[8] == "True") makeCircle.IsChecked = true;
-      if (settings[9] == "True") makeellipse.IsChecked = true;
-      if (settings[10] == "True") makeSphere.IsChecked = true;
-      if (settings[11] == "True") makeellipsoid.IsChecked = true;
-      if (settings[12] == "True") makeQuater.IsChecked = true;
-      if (settings[13] == "True") makeSemi.IsChecked = true;
-      if (settings[14] == "True") makeFull.IsChecked = true;
-      lowertoleranceSlide.Value = double.Parse(settings[17]);
-      uppertoleranceSlide.Value = double.Parse(settings[18]);
-      radOneSlide.Value = double.Parse(settings[19]);
-      radTwoSlide.Value = double.Parse(settings[20]);
-      radThreeSlide.Value = double.Parse(settings[21]);
-      //tab3                   
-      if (settings[22] == "True") blockNormal.IsChecked = true;
-      if (settings[23] == "True") blockHeavy.IsChecked = true;
-      if (settings[24] == "True") blockLarge.IsChecked = true;
-      if (settings[25] == "True") blockSmall.IsChecked = true;
-      if (settings[26] == "True") colBlack.IsChecked = true;
-      if (settings[27] == "True") colBlack1.IsChecked = true;
-      if (settings[28] == "True") colBlue.IsChecked = true;
-      if (settings[29] == "True") colBlue1.IsChecked = true;
-      if (settings[30] == "True") colRed.IsChecked = true;
-      if (settings[31] == "True") colRed1.IsChecked = true;
-      if (settings[32] == "True") colGreen.IsChecked = true;
-      if (settings[33] == "True") colGreen1.IsChecked = true;
-      if (settings[34] == "True") colYellow.IsChecked = true;
-      if (settings[35] == "True") colYellow1.IsChecked = true;
-      if (settings[36] == "True") colWhite.IsChecked = true;
-      if (settings[37] == "True") colWhite1.IsChecked = true;
-      if (settings[38] == "True") colGrey.IsChecked = true;
-      if (settings[39] == "True") colGrey1.IsChecked = true;
-      if (settings[40] == "True") colCustom.IsChecked = true;
-      FillColor = Color.FromArgb(StripToIndvidualHex(settings[41], 'a'), StripToIndvidualHex(settings[41], 'r'), StripToIndvidualHex(settings[41], 'g'), StripToIndvidualHex(settings[41], 'b'));
-
-      S_E_B_P = settings[42];
-      localBP = settings[43];*/
-    }
-
-    private void ReloadSettings()
-    {
-      //if (!File.Exists(CONFIG_FILE))
-      //{
-      //    MessageBox.Show("There are no setting to load.\n either they have never been saved or the file has been removed.", "info", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
-      //}
-      //else { LoadUserSettings(); }
-    }
 
 
     private void PathHandler()
@@ -342,10 +167,6 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
 
 
-
-
-
-
     private void BluePrintToFile()
     {
       //try
@@ -404,14 +225,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
     }
 
-    private bool ValidateBPPathAndCustoms()
-    {
-      bool proceed = true;
-      string errorMessage = "";
-      if(errorMessage != "") { MessageBox.Show(errorMessage, "Critical Data Missing", MessageBoxButton.OK, MessageBoxImage.Exclamation); }
 
-      return proceed;
-    }
 
     #region background worker
 
@@ -481,6 +295,34 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       //    ////////      ps.Close();
       //    ////////       ps = null;
       //}
+    }
+    #endregion
+
+    #region disposal
+
+    public void Dispose()
+    {
+      Dispose(true);
+      GC.SuppressFinalize(this);
+    }
+
+    ~SEBluePrintController()
+    {
+      Dispose(false);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+      if(disposing)
+      {
+        if(masterBlueprint!=null)
+        {
+          masterBlueprint.Dispose();
+          masterBlueprint=null;
+        }
+
+      }
+
     }
     #endregion
   }

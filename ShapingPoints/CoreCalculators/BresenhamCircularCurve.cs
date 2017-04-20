@@ -7,14 +7,13 @@ namespace SoloProjects.Dudhit.Utilities
   {
 
     private long xAxis, yAxis, xChange, yChange, radiusError;
-    private List<Point> storePoints;
-
+    private HashSet<Point> storePoints;
     public BresenhamCircularCurve(int radius)
     {
 
       if(radius <= 0)
         throw new System.ArgumentException("Radius must be an integer greater then 0", "radius");
-      storePoints = new List<Point>();
+      storePoints = new HashSet<Point>();
       this.xAxis = radius;
       this.yAxis = 0;
       this.xChange = 1 - (2 * radius);
@@ -51,7 +50,7 @@ namespace SoloProjects.Dudhit.Utilities
       }
     }
 
-    public List<Point> GetCurve()
+    public HashSet<Point> GetCurve()
     {
       return this.storePoints;
     }

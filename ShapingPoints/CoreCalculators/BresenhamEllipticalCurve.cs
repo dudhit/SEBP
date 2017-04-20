@@ -8,13 +8,13 @@ namespace SoloProjects.Dudhit.Utilities
   
     private long xAxis, yAxis, xChange, yChange, ellipseError, aSquare, bSquare, twoASquare, twoBSquare, stoppingX, stoppingY;
     private int xRadius, yRadius;
-    private List<Point> storePoints;
+    private HashSet<Point> storePoints;
 
     public BresenhamEllipticalCurve(int xR, int yR)
     {
 
       if(xR <= 0 || yR <= 0) { throw new System.ArgumentException(string.Format("Each ellipse radius {0} & {1} must be greater than 0", xR, yR), "xRadius"); }
-      storePoints = new List<Point>();
+      storePoints = new HashSet<Point>();
       this.xRadius = xR;
       this.yRadius = yR;
       aSquare = xRadius * xRadius;
@@ -96,7 +96,7 @@ namespace SoloProjects.Dudhit.Utilities
 
     }
 
-    public List<Point> GetCurve()
+    public HashSet<Point> GetCurve()
     {
       return this.storePoints;
     }

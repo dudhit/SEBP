@@ -8,12 +8,12 @@ namespace SoloProjects.Dudhit.Utilities.UnitTestCircleBlueprint
   class BresenhamEllipticalCurveTester
   {
     private BresenhamEllipticalCurve curve;
-    private List<Point> data;
+    private HashSet<Point> data;
     [SetUp]
     public void init()
     {
       curve = new BresenhamEllipticalCurve(20,10);
-      data = new List<Point>();
+      data = new HashSet<Point>();
       System.Diagnostics.Trace.WriteLine("setep complete");
     }
 

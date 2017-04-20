@@ -8,17 +8,17 @@ namespace SoloProjects.Dudhit.Utilities.UnitTestCircleBlueprint
   class BresenhamCircularCurveTester
   {
     private BresenhamCircularCurve curve;
-    private List<Point> data;
+    private HashSet<Point> data;
     [SetUp]
     public void init()
     {
       curve = new BresenhamCircularCurve(60);
-      data = new List<Point>();
+      data = new HashSet<Point>();
       System.Diagnostics.Trace.WriteLine("setep complete");
     }
 
     [Test]
-    public void Rungenerator()
+    public void RunGenerator()
     { curve.BeginCalculations();
     data=curve.GetCurve();
     foreach(Point p in data)

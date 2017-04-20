@@ -30,31 +30,36 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       masterBlueprint = new BlueprintModel();
     }
 
-    public static void PlotShapeData()
+    public void PlotShapeData()
     {
-      using(PointsToShape pointsToShape = new PointsToShape())
-      {
+      //using(PointsToShape pointsToShape = new PointsToShape())
+      //{
 
-      }
+      //}
     }
 
 
-    public static void StartUserInterface()
+    public  void StartUserInterface()
     {
       MainWindow SEbpUI = new MainWindow();
       SEbpUI.ShowDialog();
     }
 
-    public void HandleCommandLineArguments(string[] runTimeArguments)
+    public bool HandleCommandLineArguments(string[] runTimeArguments)
     {
+      bool success =false;
       using(commandLineHandler = new CommandLineHandler(runTimeArguments))
       {
         commandLineHandler.MyBlueprint=masterBlueprint;
         commandLineHandler.Start();
         if(commandLineHandler.MyBlueprint.HasUsableData)
+        {
           masterBlueprint=commandLineHandler.MyBlueprint;
+          success=true;
+        }
         commandLineHandler.Dispose();
-      }
+              }
+      return success;
     }
     //private void Reset2()
     //{

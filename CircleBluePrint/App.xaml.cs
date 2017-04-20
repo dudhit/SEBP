@@ -1,5 +1,7 @@
 ﻿using SoloProjects.Dudhit.Utilities;
+using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Media.Media3D;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 {
@@ -9,7 +11,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     public partial class App : Application
     {
       private BlueprintModel masterBlueprint;
-      
+      private HashSet<Point3D> blueprintData;
         private void BeginSEPB(object sender, StartupEventArgs e)
       {  masterBlueprint = new BlueprintModel();
         if(e.Args!=null&&e.Args.Length>0)
@@ -21,10 +23,10 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
             masterBlueprint=commandLineHandler.MyBlueprint;
           commandLineHandler.Dispose();
        //    call class to handle point and blueprint output
-            using (PointsToShape pointsToShape = new PointsToShape() )
-            {
+            //using (PointsToShape pointsToShape = new PointsToShape(masterBlueprint.XAxis,masterBlueprint.YAxis,masterBlueprint.ZAxis,masterBlueprint.FinalShape) )
+            //{
 
-            }
+            //}
           }  
         }
         else

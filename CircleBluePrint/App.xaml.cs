@@ -23,10 +23,10 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
             masterBlueprint=commandLineHandler.MyBlueprint;
           commandLineHandler.Dispose();
        //    call class to handle point and blueprint output
-            //using (PointsToShape pointsToShape = new PointsToShape(masterBlueprint.XAxis,masterBlueprint.YAxis,masterBlueprint.ZAxis,masterBlueprint.FinalShape) )
-            //{
-
-            //}
+          using(PointsToShape pointsToShape = new PointsToShape(masterBlueprint.XAxis, masterBlueprint.YAxis, masterBlueprint.ZAxis, masterBlueprint.FinalShape,masterBlueprint.Solid))
+          {
+            blueprintData=pointsToShape.GlobalCurveSet;
+          }
           }  
         }
         else

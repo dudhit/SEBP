@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 using System.Xml.Linq;
+using System.Collections.Generic;
+using SoloProjects.Dudhit.Utilites;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 {
@@ -47,11 +49,12 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     }
 
     [Serializable]
-    class BluePrintXml : XDocument, IDisposable
+  public  class BluePrintXml : XDocument, IDisposable
     {
         //public Delegate Point3D GetPointAtIndex(int i);
         //public Delegate int GetTotalPoints();
-
+      private BlueprintModel basicData;
+      private HashSet<Point3D> allPoints;
         private string XSD = "xsd";
         private string XSI = "xsi";
 
@@ -59,25 +62,27 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
         private XNamespace xmlSchema = "http://www.w3.org/2001/XMLSchema";
         [NonSerialized]
         private XNamespace xmlSchemaI = "http://www.w3.org/2001/XMLSchema-instance";
-        public string Path { get; set; }
-        public string SteamUserName { get; set; }
-        public string SteamUserId { get; set; }
-        public string BlockType { get; set; }
-        public Point3D BlockColour { get; set; }
-        public string GridSizeEnum { get; set; }
-        public string BluePrintName { get; set; }
+        private BlueprintHSV compressedValues;
         private long entityTracked;
         //    private List<Point3D> GridData { get; set; }
         //public Point3D PopulateGrid { set { GridData.Add(value); } }
-        public BluePrintXml()
+        public BluePrintXml(BlueprintModel bp, HashSet<Point3D> data)
         {
+          this.basicData=bp;
+          this.allPoints=data;
             entityTracked = EntityGenerator(18);
             //      GridData = new List<Point3D>();
         }
 
+        private void ConvertModelColoursForThis() 
+        
+        {
+          compressedValues=ColourConverters.ConvertSEFormatHSVtoBluePrintFormat(basicData.BlockColour.H, basicData.BlockColour.S, basicData.BlockColour.V);
+        }
+
         public void BluePrintFileHandling()
         {
-            using (StreamWriter sw = new StreamWriter(Path))
+            using (StreamWriter sw = new StreamWriter(basicData.BlueprintFilePath))
             {
                 using (StringWriter msw = new MyFileHandler())
                 {
@@ -103,11 +108,11 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
             XElement lv1 = new XElement("ShipBlueprints");
             XElement lv2 = new XElement("ShipBlueprint", new XAttribute(xmlSchemaI + "type", "MyObjectBuilder_ShipBlueprintDefinition"));
-            XElement lv3a = new XElement("Id", new XAttribute("Type", "MyObjectBuilder_ShipBlueprintDefinition"), new XAttribute("Subtype", BluePrintName));
-            XElement lv3b = new XElement("DisplayName", SteamUserName);
+            XElement lv3a = new XElement("Id", new XAttribute("Type", "MyObjectBuilder_ShipBlueprintDefinition"), new XAttribute("Subtype", basicData.BlueprintName));
+            XElement lv3b = new XElement("DisplayName",basicData.SteamName);
             XElement lv3c = new XElement("CubeGrids", makeCubeGrid());
             XElement lv3d = new XElement("WorkshopId", 0);
-            XElement lv3e = new XElement("OwnerSteamId", SteamUserId);
+            XElement lv3e = new XElement("OwnerSteamId", basicData.SteamId);
             XElement lv3f = new XElement("Points", 0);
             root.Add(lv1);
             lv1.Add(lv2);
@@ -120,7 +125,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
             // foreach (XElement e in result)
             // { e.Add ( new XElement("ShipBlueprint",new XAttribute("xms:type","MyObjectBuilder_ShipBlueprintDefinition"))); }
-            BluePrintFileHandling();
+          //  BluePrintFileHandling();
         }
 
         private XElement makeCubeGrid()
@@ -129,8 +134,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
             XElement sType = new XElement("SubtypeName");
             XElement entity = new XElement("EntityId", entityTracked);
             XElement pFlags = new XElement("PersistentFlags", "CastShadows InScene");
-            XElement gridSize = new XElement("GridSizeEnum", GridSizeEnum);
-            XElement displayName = new XElement("DisplayName", BluePrintName);
+            XElement gridSize = new XElement("GridSizeEnum", basicData.BlockSize);
+            XElement displayName = new XElement("DisplayName", basicData.BlueprintName);
             XElement destructable = new XElement("DestructibleBlocks", "true");
             XElement physics = new XElement("CreatePhysics", "false");
             XElement connections = new XElement("EnableSmallToLargeConnections", "false");
@@ -155,9 +160,9 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
         private XElement Positioning()
         {
             XElement locations = new XElement("PositionAndOrientation");
-            XElement pos = new XElement("Position", new XAttribute("BlockChangeEventArgs", "0"), new XAttribute("y", "0"), new XAttribute("z", "0"));
-            XElement fwd = new XElement("Forward", new XAttribute("BlockChangeEventArgs", "0"), new XAttribute("y", "0"), new XAttribute("z", "-1"));
-            XElement up = new XElement("Up", new XAttribute("BlockChangeEventArgs", "0"), new XAttribute("y", "1"), new XAttribute("z", "0"));
+            XElement pos = new XElement("Position", new XAttribute("x", "0"), new XAttribute("y", "0"), new XAttribute("z", "0"));
+            XElement fwd = new XElement("Forward", new XAttribute("x", "0"), new XAttribute("y", "0"), new XAttribute("z", "-1"));
+            XElement up = new XElement("Up", new XAttribute("x", "0"), new XAttribute("y", "1"), new XAttribute("z", "0"));
             XElement ori = new XElement("Orientation");
             locations.Add(pos);
             locations.Add(fwd);
@@ -190,17 +195,18 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
         private XElement CubeBlocks()
         {
-            Object writeLock = new Object();
+          ConvertModelColoursForThis();
+         //   Object writeLock = new Object();
             XElement setCubeBlocks = new XElement("CubeBlocks");
-            //Parallel.ForEach(PointContainer, p =>
+           Parallel.ForEach(allPoints, p =>
             //     Parallel.For(0, PointContainer.Count() + 1, i =>
-            for (int i = 0; i < PointContainer.Count(); i++)
+       //  for (int i = 0; i < PointContainer.Count(); i++)
             {
-                Point3D p = PointContainer.Item(i);
+       
                 XElement builder = new XElement("MyObjectBuilder_CubeBlock", new XAttribute(xmlSchemaI + "type", "MyObjectBuilder_CubeBlock"));
-                XElement sub = new XElement("SubtypeName", BlockType);
-                XElement min = new XElement("Min", new XAttribute("BlockChangeEventArgs", p.X), new XAttribute("y", p.Y), new XAttribute("z", p.Z));
-                XElement colour = new XElement("ColorMaskHSV", new XAttribute("BlockChangeEventArgs", BlockColour.X), new XAttribute("y", BlockColour.Y), new XAttribute("z", BlockColour.Z));
+                XElement sub = new XElement("SubtypeName", basicData.BlockArmour);
+                XElement min = new XElement("Min", new XAttribute("x", p.X), new XAttribute("y", p.Y), new XAttribute("z", p.Z));
+                XElement colour = new XElement("ColorMaskHSV", new XAttribute("x", compressedValues.H), new XAttribute("y", compressedValues.S), new XAttribute("z", compressedValues.V));
                 builder.Add(sub);
                 builder.Add(min);
                 builder.Add(colour);
@@ -208,7 +214,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
                 //    {
                 setCubeBlocks.Add(builder);
                 //     }
-            }//);
+            });
             return setCubeBlocks;
         }
 

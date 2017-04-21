@@ -16,7 +16,6 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     private string providedName;
     private bool getSteamId;
     public FileSystemAdministrativeTools(string user) : this(user, true) { }
-
     public FileSystemAdministrativeTools() : this(null) { }
     public FileSystemAdministrativeTools(string user, bool getId)
     {
@@ -25,14 +24,12 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       GetSteamData();
     }
 
-
     public string GetGameDataSaveLocation()
     {
       string userApp = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
       return userApp + "\\SpaceEngineers\\Blueprints\\local";
-
-
     }
+
     public string ManuallySelectSaveFolder()
     {
       string filePath=string.Empty;

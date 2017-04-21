@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace testmaths
+namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 {
  public class DataValidator : ValidationRule
   {

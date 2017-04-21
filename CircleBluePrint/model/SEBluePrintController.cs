@@ -10,8 +10,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
   public class SEBluePrintController : IDisposable
   {
     private BlueprintModel masterBlueprint;
-    private CommandLineHandler commandLineHandler;
-    private BackgroundWorker worker;
+  //  private CommandLineHandler commandLineHandler;
+    //private BackgroundWorker worker;
     //  private bool haveBlockData;
     //   private bool haveShapeData;
     //   private bool haveFileData;
@@ -30,37 +30,37 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       masterBlueprint = new BlueprintModel();
     }
 
-    public void PlotShapeData()
-    {
-      //using(PointsToShape pointsToShape = new PointsToShape())
-      //{
+    //public void PlotShapeData()
+    //{
+    //  //using(PointsToShape pointsToShape = new PointsToShape())
+    //  //{
 
-      //}
-    }
+    //  //}
+    //}
 
 
-    public  void StartUserInterface()
-    {
-      MainWindow SEbpUI = new MainWindow();
-      SEbpUI.ShowDialog();
-    }
+    //public  void StartUserInterface()
+    //{
+    //  MainWindow SEbpUI = new MainWindow();
+    //  SEbpUI.ShowDialog();
+    //}
 
-    public bool HandleCommandLineArguments(string[] runTimeArguments)
-    {
-      bool success =false;
-      using(commandLineHandler = new CommandLineHandler(runTimeArguments))
-      {
-        commandLineHandler.MyBlueprint=masterBlueprint;
-        commandLineHandler.Start();
-        if(commandLineHandler.MyBlueprint.HasUsableData)
-        {
-          masterBlueprint=commandLineHandler.MyBlueprint;
-          success=true;
-        }
-        commandLineHandler.Dispose();
-              }
-      return success;
-    }
+    //public bool HandleCommandLineArguments(string[] runTimeArguments)
+    //{
+    //  bool success =false;
+    //  using(commandLineHandler = new CommandLineHandler(runTimeArguments))
+    //  {
+    //    commandLineHandler.MyBlueprint=masterBlueprint;
+    //    commandLineHandler.Start();
+    //    if(commandLineHandler.MyBlueprint.HasUsableData)
+    //    {
+    //      masterBlueprint=commandLineHandler.MyBlueprint;
+    //      success=true;
+    //    }
+    //    commandLineHandler.Dispose();
+    //          }
+    //  return success;
+    //}
     //private void Reset2()
     //{
     //  this.haveBlockData = false;
@@ -77,23 +77,23 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
 
 
-    private void StartTheCogs(string steamUserId)
-    {
+    //private void StartTheCogs(string steamUserId)
+    //{
 
-      //SteamUserId = dataSteamId.Text;
-      //bpName = dataNames.Text;
-      //PathHandler();
+    //  //SteamUserId = dataSteamId.Text;
+    //  //bpName = dataNames.Text;
+    //  //PathHandler();
 
-      //bpFolder = localBP + "\\" + bpName;
-      //try
-      //{
-      //    Directory.CreateDirectory(bpFolder);
-      //}
-      //catch (UnauthorizedAccessException UAE)
-      //{
-      //    MessageBox.Show(UAE.Message, "info", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
-      //}
-    }
+    //  //bpFolder = localBP + "\\" + bpName;
+    //  //try
+    //  //{
+    //  //    Directory.CreateDirectory(bpFolder);
+    //  //}
+    //  //catch (UnauthorizedAccessException UAE)
+    //  //{
+    //  //    MessageBox.Show(UAE.Message, "info", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+    //  //}
+    //}
 
 
 
@@ -105,37 +105,37 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
 
 
-    private void PathHandler()
-    {
+    //private void PathHandler()
+    //{
 
 
-      //    if (S_E_B_P == null)
-      //    { S_E_B_P = saveRootLocation + "\\Blueprints"; }
-      //    if (localBP == null)
-      //    {
-      //        localBP = S_E_B_P + "\\local";
-      //    }
+    //  //    if (S_E_B_P == null)
+    //  //    { S_E_B_P = saveRootLocation + "\\Blueprints"; }
+    //  //    if (localBP == null)
+    //  //    {
+    //  //        localBP = S_E_B_P + "\\local";
+    //  //    }
 
 
-      //    if (!Directory.Exists(saveRootLocation))
-      //    {
-      //        string message = string.Format("Space Engineers save folder: {0} \ndoes not exist.\n Do you want to create it?\n\nNote: this is the expected location, If you have moved it select No, and use the browse feature to locate and set it. ", saveRootLocation);
-      //        MessageBoxResult result = MessageBox.Show(message, "Path location error", MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No, MessageBoxOptions.DefaultDesktopOnly);
-      //        if (result == MessageBoxResult.Yes)
-      //        {
-      //            try
-      //            {
-      //                Directory.CreateDirectory(saveRootLocation);
-      //                Directory.CreateDirectory(S_E_B_P);
-      //                Directory.CreateDirectory(localBP);
-      //            }
-      //            catch (UnauthorizedAccessException UAE)
-      //            {
-      //                MessageBox.Show(UAE.Message, "info", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
-      //            }
-      //        }
-      //    }
-    }
+    //  //    if (!Directory.Exists(saveRootLocation))
+    //  //    {
+    //  //        string message = string.Format("Space Engineers save folder: {0} \ndoes not exist.\n Do you want to create it?\n\nNote: this is the expected location, If you have moved it select No, and use the browse feature to locate and set it. ", saveRootLocation);
+    //  //        MessageBoxResult result = MessageBox.Show(message, "Path location error", MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No, MessageBoxOptions.DefaultDesktopOnly);
+    //  //        if (result == MessageBoxResult.Yes)
+    //  //        {
+    //  //            try
+    //  //            {
+    //  //                Directory.CreateDirectory(saveRootLocation);
+    //  //                Directory.CreateDirectory(S_E_B_P);
+    //  //                Directory.CreateDirectory(localBP);
+    //  //            }
+    //  //            catch (UnauthorizedAccessException UAE)
+    //  //            {
+    //  //                MessageBox.Show(UAE.Message, "info", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+    //  //            }
+    //  //        }
+    //  //    }
+    //}
 
 
 
@@ -198,37 +198,37 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     #endregion
 
 
-    private void PlottingProcess()
-    {
+    //private void PlottingProcess()
+    //{
 
 
-      //    PointContainer.Clear();
+    //  //    PointContainer.Clear();
 
-      //    //instantiate point list
+    //  //    //instantiate point list
 
-      //    //get bulk points
-      //    //     ps = new ProgressStatus();
+    //  //    //get bulk points
+    //  //    //     ps = new ProgressStatus();
 
-      //    //       ps.BarMaximum=(Math.Abs((shapeSettings.xRadius - 1) * (shapeSettings.yRadius - 1) * (shapeSettings.zRadius - 1)));
-      //    //     ps.BarMinimum = 0;
-
-
-      //    worker.WorkerSupportsCancellation = true;
-      //    worker.WorkerReportsProgress = true;
-      //    worker.DoWork += worker_DoWork;
-      //    worker.ProgressChanged += worker_ProgressChanged;
-      //    worker.RunWorkerCompleted += worker_RunWorkerCompleted;
-      //    //ps.Show();
-
-      //    //  worker.RunWorkerAsync(10000);//send arguments and kick it off
-      //    worker.RunWorkerAsync(shapeSettings);
+    //  //    //       ps.BarMaximum=(Math.Abs((shapeSettings.xRadius - 1) * (shapeSettings.yRadius - 1) * (shapeSettings.zRadius - 1)));
+    //  //    //     ps.BarMinimum = 0;
 
 
+    //  //    worker.WorkerSupportsCancellation = true;
+    //  //    worker.WorkerReportsProgress = true;
+    //  //    worker.DoWork += worker_DoWork;
+    //  //    worker.ProgressChanged += worker_ProgressChanged;
+    //  //    worker.RunWorkerCompleted += worker_RunWorkerCompleted;
+    //  //    //ps.Show();
 
-      //    //   ps.progressBar.Minimum = 100;
+    //  //    //  worker.RunWorkerAsync(10000);//send arguments and kick it off
+    //  //    worker.RunWorkerAsync(shapeSettings);
 
 
-    }
+
+    //  //    //   ps.progressBar.Minimum = 100;
+
+
+    //}
 
 
 
@@ -236,71 +236,71 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
 
 
-    void worker_DoWork(object sender, DoWorkEventArgs e)
-    {
-      //WorkingArgs parameters = e.Argument as WorkingArgs;
-      //CircleEvaluationCalculations seperateThread = new CircleEvaluationCalculations();
+    //void worker_DoWork(object sender, DoWorkEventArgs e)
+    //{
+    //  //WorkingArgs parameters = e.Argument as WorkingArgs;
+    //  //CircleEvaluationCalculations seperateThread = new CircleEvaluationCalculations();
 
-      ////////  ps.SubscribeToPointContainer();
-      //seperateThread.RadiusInXPlane = parameters.xRadius;
-      //seperateThread.RadiusInYPlane = parameters.yRadius;
-      //seperateThread.RadiusInZPlane = parameters.zRadius;
-      //seperateThread.LowToleranceEvaluation = parameters.lowTol;
-      //seperateThread.HighToleranceEvaluation = parameters.highTol;
-      //seperateThread.ShapeSelected = parameters.shapeSelected;
-      //seperateThread.BeginPointChecking();
-      //////////for (int BlockChangeEventArgs = 0; BlockChangeEventArgs < parameters.xRadius; BlockChangeEventArgs++) { 
-      //////////    int progressPercentage = Convert.ToInt32((BlockChangeEventArgs / parameters.xRadius) * 100);
-      //////////    (sender as BackgroundWorker).ReportProgress(progressPercentage);
-      ////////// System.Threading.Thread.Sleep(1);
-      //////////}
-      //////////  
-      ////////// 
-      //////////        result++;
-      ////////// 
-      //////////    else{
-      //////////        (sender as BackgroundWorker).ReportProgress(progressPercentage);
-      //////////   
+    //  ////////  ps.SubscribeToPointContainer();
+    //  //seperateThread.RadiusInXPlane = parameters.xRadius;
+    //  //seperateThread.RadiusInYPlane = parameters.yRadius;
+    //  //seperateThread.RadiusInZPlane = parameters.zRadius;
+    //  //seperateThread.LowToleranceEvaluation = parameters.lowTol;
+    //  //seperateThread.HighToleranceEvaluation = parameters.highTol;
+    //  //seperateThread.ShapeSelected = parameters.shapeSelected;
+    //  //seperateThread.BeginPointChecking();
+    //  //////////for (int BlockChangeEventArgs = 0; BlockChangeEventArgs < parameters.xRadius; BlockChangeEventArgs++) { 
+    //  //////////    int progressPercentage = Convert.ToInt32((BlockChangeEventArgs / parameters.xRadius) * 100);
+    //  //////////    (sender as BackgroundWorker).ReportProgress(progressPercentage);
+    //  ////////// System.Threading.Thread.Sleep(1);
+    //  //////////}
+    //  //////////  
+    //  ////////// 
+    //  //////////        result++;
+    //  ////////// 
+    //  //////////    else{
+    //  //////////        (sender as BackgroundWorker).ReportProgress(progressPercentage);
+    //  //////////   
 
-      //////////}
-      //e.Result = string.Format("blocks calculated:{0}", PointContainer.Count());
+    //  //////////}
+    //  //e.Result = string.Format("blocks calculated:{0}", PointContainer.Count());
 
-    }
+    //}
 
-    void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-    {
-      //    ps.BarMinimum=  e.ProgressPercentage;
-      /*     if (e.UserState != null)
-               lbResults.Items.Add(e.UserState);
-    */
-    }
+    //void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+    //{
+    //  //    ps.BarMinimum=  e.ProgressPercentage;
+    //  /*     if (e.UserState != null)
+    //           lbResults.Items.Add(e.UserState);
+    //*/
+    //}
 
-    void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-    {
-      //if (e.Cancelled)
-      //{
-      //    MessageBox.Show("Canceled", "Calculating", MessageBoxButton.OK);
-      //    ////////    actionGenerate.Content = "Generate Blueprint";
-      //    ////////    progressBarOne.Visibility = Visibility.Collapsed;
-      //    ////////     IsCalculating = false;
-      //    ////////   ps.Close();
+    //void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+    //{
+    //  //if (e.Cancelled)
+    //  //{
+    //  //    MessageBox.Show("Canceled", "Calculating", MessageBoxButton.OK);
+    //  //    ////////    actionGenerate.Content = "Generate Blueprint";
+    //  //    ////////    progressBarOne.Visibility = Visibility.Collapsed;
+    //  //    ////////     IsCalculating = false;
+    //  //    ////////   ps.Close();
 
-      //}
-      //else
-      //{
-      //    MessageBox.Show(e.Result.ToString(), "Complete", MessageBoxButton.OK);
-      //    actionGenerate.Content = "Generate Blueprint";
-      //    progressBarOne.Visibility = Visibility.Collapsed;
-      //    IsCalculating = false;
-      //    ////////   MessageBox.Show("Complete", "Calculating", MessageBoxButton.OK);
-      //    ////////write to file
+    //  //}
+    //  //else
+    //  //{
+    //  //    MessageBox.Show(e.Result.ToString(), "Complete", MessageBoxButton.OK);
+    //  //    actionGenerate.Content = "Generate Blueprint";
+    //  //    progressBarOne.Visibility = Visibility.Collapsed;
+    //  //    IsCalculating = false;
+    //  //    ////////   MessageBox.Show("Complete", "Calculating", MessageBoxButton.OK);
+    //  //    ////////write to file
 
-      //    BluePrintToFile();
-      //    ////////     System.Diagnostics.Trace.WriteLine (ps.WindowState.ToString()) ;
-      //    ////////      ps.Close();
-      //    ////////       ps = null;
-      //}
-    }
+    //  //    BluePrintToFile();
+    //  //    ////////     System.Diagnostics.Trace.WriteLine (ps.WindowState.ToString()) ;
+    //  //    ////////      ps.Close();
+    //  //    ////////       ps = null;
+    //  //}
+    //}
     #endregion
 
     #region disposal

@@ -17,7 +17,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     {
 
         #region main window flow and menu
-        private bool IsWorking;
+        private bool isWorking;
         public MainWindow()
         {
             this.DataContext = this;
@@ -174,7 +174,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
         private void StartStopCalculating(object sender, RoutedEventArgs e)
         {
-            if (!IsWorking)
+            if (!isWorking)
             {
                 actionGenerate.Content = "Cancel Blueprint";
                 progressBarOne.Visibility = Visibility.Visible;

@@ -55,6 +55,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       this.Add("b", "");
       //specify colour model
       this.Add("colour", "");
+      //specify Solid or hollow
+      this.Add("solid", "");
     }
 
 
@@ -88,6 +90,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       if(IsNeedingDefault("fraction")) { this["fraction"]= "quarter"; }
       if(IsNeedingDefault("armour")) { this["armour"]= "Normal"; }
       if(IsNeedingDefault("size")) { this["size"]= "Large"; }
+      if(IsNeedingDefault("solid")) { this["solid"]= "false"; }
       if(IsNeedingDefault("colour"))
       {
         this["colour"]= "hsv";
@@ -139,6 +142,10 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       #region BlockSize
 
       MyBlueprintModel.BlockSize= CapitaliseFirstLetter( this["size"]);
+      #endregion  
+      #region HollowObject
+
+      MyBlueprintModel.Solid= bool.Parse( this["solid"]);
       #endregion
       #region BlueprintName
      MyBlueprintModel.BlueprintName=this["bpname"];

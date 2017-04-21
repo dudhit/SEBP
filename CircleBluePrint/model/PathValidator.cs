@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 using System.IO;
-namespace testmaths
+namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 {
   class PathValidator : ValidationRule
   {

@@ -29,6 +29,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     private string blockSize;
     private SeHSV blockColour;
     private int modelState;
+    private bool solid;
     public BlueprintModel()
     {
       Initialize();
@@ -50,6 +51,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       blockArmour=string.Empty;
       blockSize=string.Empty;
       blockColour =new SeHSV();
+      solid=false;
     }
     #region properties
 
@@ -241,6 +243,22 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
         }
       }
     }
+    public bool Solid
+    {
+      get { return this.solid; }
+      set
+      {
+     //   ResetSetFlag((int)ModelState.hasBlockSize);
+        if(ValidBool(value))
+        {
+                     this.solid = value;
+     //       this.modelState+=(int)ModelState.hasBlockSize;
+            RaisePropertyChanged("Solid");
+                 }
+      }
+    }
+
+
     public SeHSV BlockColour
     {
       get { return this.blockColour; }
@@ -325,6 +343,10 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     private static bool ValidDouble(double value)
     {
       return (value>=10&&value<=500);
+    }
+    private static bool ValidBool(bool value)
+    {
+      return (value==true||value==false);
     }
     #endregion
 

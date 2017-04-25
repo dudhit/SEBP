@@ -71,6 +71,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
           this.basicData=bp;
           this.allPoints=data;
             entityTracked = EntityGenerator(18);
+
             //      GridData = new List<Point3D>();
         }
 

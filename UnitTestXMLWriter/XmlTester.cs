@@ -3,6 +3,7 @@ using NUnit.Framework;
 using SoloProjects.Dudhit.SpaceEngineers.SEBP;
 using System.Collections.Generic;
 using System.Windows.Media.Media3D;
+using System.IO;
 
 namespace SoloProjects.Dudhit.Utilities.UnitTestCircleBlueprint
 {
@@ -35,7 +36,16 @@ namespace SoloProjects.Dudhit.Utilities.UnitTestCircleBlueprint
       if(myBLueprintModel.HasUsableData)
       {
         testData =new HashSet<Point3D>();
-        BluePrintXml mfh = new BluePrintXml(myBLueprintModel,testData);
+        testData.Add(new Point3D(0,0,0));
+        testData.Add(new Point3D(1,0,0));
+        testData.Add(new Point3D(2,0,0));
+        testData.Add(new Point3D(0,1,0));
+        Assert.Greater(testData.Count, 0);
+                BluePrintXml mfh = new BluePrintXml(myBLueprintModel,testData);
+                mfh.MakeBaseStructure();        
+        mfh.BluePrintFileHandling();
+        string fullpath = myBLueprintModel.BlueprintFilePath+"\\"+myBLueprintModel.BlueprintName;
+        Assert.IsTrue(Directory.Exists(fullpath));
       }
     }
   }

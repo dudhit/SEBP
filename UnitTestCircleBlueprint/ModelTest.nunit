@@ -3,6 +3,7 @@
   <Config name="Debug" binpathtype="Auto">
     <assembly path="bin\Debug\UnitTestCircleBlueprint.dll" />
     <assembly path="..\ShapingPointTester\bin\Debug\ShapingPointTester.dll" />
+    <assembly path="..\UnitTestXMLWriter\bin\Debug\UnitTestXMLWriter.dll" />
   </Config>
   <Config name="Release" binpathtype="Auto" runtimeFramework="any">
     <assembly path="bin\x64\Release\UnitTestCircleBlueprint.dll" />

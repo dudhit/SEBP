@@ -7,6 +7,7 @@ using System.Windows.Media.Media3D;
 using System.Xml.Linq;
 using System.Collections.Generic;
 using SoloProjects.Dudhit.Utilites;
+using System.Windows;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 {
@@ -50,7 +51,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
     [Serializable]
   public  class BluePrintXml : XDocument, IDisposable
-    {
+  {
+      private const string  GENERIC_NAME="bp.sbc";
         //public Delegate Point3D GetPointAtIndex(int i);
         //public Delegate int GetTotalPoints();
       private BlueprintModel basicData;
@@ -83,14 +85,21 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
         public void BluePrintFileHandling()
         {
-            using (StreamWriter sw = new StreamWriter(basicData.BlueprintFilePath))
+        string fileAndFullPath = basicData.BlueprintFilePath+"\\"+basicData.BlueprintName+"\\"+GENERIC_NAME;
+          try
+          {
+            using(StreamWriter sw = new StreamWriter(fileAndFullPath))
             {
-                using (StringWriter msw = new MyFileHandler())
-                {
-                    this.Save(msw);
-                    sw.WriteLine(msw);
-                }
+              using(StringWriter msw = new MyFileHandler())
+              {
+                this.Save(msw);
+                sw.WriteLine(msw);
+              }
             }
+          }
+          catch(UnauthorizedAccessException UAE) { MessageBox.Show(UAE.Message, "Write blueprint file", MessageBoxButton.OK, MessageBoxImage.Information); }
+          catch(Exception ae) { MessageBox.Show(ae.Message, "Write blueprint file", MessageBoxButton.OK, MessageBoxImage.Information); }
+          
         }
 
         public void MakeBaseStructure()

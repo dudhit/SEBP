@@ -178,7 +178,7 @@ namespace SoloProjects.Dudhit.Utilities.UnitTestCircleBlueprint
       VerboseInformation("fraction", bpm.ShapeFraction.ToString());
       VerboseInformation("Finalshape ", bpm.FinalShape.ToString());
       Assert.AreEqual(4+64,bpm.FinalShape);
-      bpm.Shape="ellipsiod";
+      bpm.Shape="ellipsoid";
       bpm.ShapeFraction="quarter";
       VerboseInformation("Shape", bpm.Shape.ToString());
       VerboseInformation("fraction", bpm.ShapeFraction.ToString());

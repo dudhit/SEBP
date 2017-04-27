@@ -65,7 +65,13 @@
       <HintPath>..\packages\NUnit.3.6.1\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -76,10 +82,14 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="BlueprintModelTester.cs" />
-    <Compile Include="FilesSysAdminTesting.cs" />
+    <Compile Include="01PreCalculationTests\BlueprintModelTester.cs" />
+    <Compile Include="02CalculationTests\BresenhamCircularCurveTester.cs" />
+    <Compile Include="02CalculationTests\BresenhamEllipticalCurveTester.cs" />
+    <Compile Include="01PreCalculationTests\FilesSysAdminTesting.cs" />
+    <Compile Include="02CalculationTests\PointsToShapeTester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StartArgCheckerTester.cs" />
+    <Compile Include="01PreCalculationTests\StartArgCheckerTester.cs" />
+    <Compile Include="03OuputTests\XmlTester.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\ColourConverters\ColourConverters.csproj">
@@ -89,6 +99,18 @@
     <ProjectReference Include="..\CircleBluePrint\CircleBluePrint.csproj">
       <Project>{2a5cd39f-07f6-4b2f-b684-24ed66f9e940}</Project>
       <Name>CircleBluePrint</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FileAccessor\FileAccessor.csproj">
+      <Project>{ec02280a-37db-483f-bf71-30f5be393d59}</Project>
+      <Name>FileAccessor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ShapingPoints\PointsToShapeCalculator.csproj">
+      <Project>{325893fe-11fa-447f-8cf2-bbbf85b8ecdf}</Project>
+      <Name>PointsToShapeCalculator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SteamConfigReader\SteamConfigReader.csproj">
+      <Project>{70b7a935-7d71-48b3-8970-767f1a9558cc}</Project>
+      <Name>SteamConfigReader</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

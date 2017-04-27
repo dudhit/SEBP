@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SoloProjects.Dudhit.Utilities.UnitTestCircleBlueprint")]
+[assembly: AssemblyTitle("FileAccessor")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SoloProjects.Dudhit.Utilities.UnitTestCircleBlueprint")]
+[assembly: AssemblyProduct("FileAccessor")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("adf50e50-e3ec-43ca-b073-6651808576a2")]
+[assembly: Guid("4e3f215a-f547-4bac-bfd0-cf62f0edac3b")]
 
 // Version information for an assembly consists of the following four values:
 //

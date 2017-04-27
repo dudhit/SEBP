@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,10 +25,13 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       GetSteamData();
     }
 
-    public string GetGameDataSaveLocation()
+    public static string GetGameDataSaveLocation()
     {
       string userApp = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-      return userApp + "\\SpaceEngineers\\Blueprints\\local";
+      //    System.Diagnostics.Trace.WriteLine(userApp);
+      string bpPath= userApp + "\\SpaceEngineers\\Blueprints\\local";
+      //   System.Diagnostics.Trace.WriteLine(bpPath);
+      return bpPath;
     }
 
     public string ManuallySelectSaveFolder()
@@ -75,8 +79,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
         {
           if(!(providedName.Equals(SteamUserName)))
           { SteamUserName=providedName; }
-          using(SoloProjects.Dudhit.SpaceEngineers.SEBP.View.FindSteamID fsID =
-           new SoloProjects.Dudhit.SpaceEngineers.SEBP.View.FindSteamID(SteamPath, SteamUserName)) { SteamUserId = fsID.SteamID; }
+          using(SoloProjects.Dudhit.SpaceEngineers.SEBP.SteamConfigReader.FindSteamID fsID =
+           new SoloProjects.Dudhit.SpaceEngineers.SEBP.SteamConfigReader.FindSteamID(SteamPath, SteamUserName)) { SteamUserId = fsID.SteamID; }
         }
       }
       else
@@ -84,6 +88,23 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
         MessageBox.Show("Windows could not return the location of your Steam installation\n manual entry required", "Unknown Steam Installation location", MessageBoxButton.OK, MessageBoxImage.Warning);
 
       }
+    }
+    public static bool FolderVerificationCreation(string path)
+    {
+      try
+      {
+        if(!Directory.Exists(path))
+        {
+          Directory.CreateDirectory(path);
+          return true;
+        }
+      }
+      catch(UnauthorizedAccessException UAE)
+      {
+        MessageBox.Show(UAE.Message, "info", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+        return false;
+      }
+      return false;
     }
   }
 }

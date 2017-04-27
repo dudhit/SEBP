@@ -81,7 +81,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       fileSystemAdministrativeTools = new FileSystemAdministrativeTools(this["owner"], IsNeedingDefault("id"));
       if(IsNeedingDefault("owner")) { this["owner"]=fileSystemAdministrativeTools.SteamUserName; }
       if(IsNeedingDefault("id")) { this["id"]=fileSystemAdministrativeTools.SteamUserId; }
-      if(IsNeedingDefault("path")) { this["path"]=fileSystemAdministrativeTools.GetGameDataSaveLocation(); }
+      if(IsNeedingDefault("path")) { this["path"]=FileSystemAdministrativeTools.GetGameDataSaveLocation(); }
       if(IsNeedingDefault("bpname")) { this["bpname"]= "SEBP"; }
       if(IsNeedingDefault("x")) { this["x"]= "10"; }
       if(IsNeedingDefault("y")) { this["y"]= "10"; }

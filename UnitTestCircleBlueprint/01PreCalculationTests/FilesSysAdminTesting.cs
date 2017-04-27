@@ -11,6 +11,7 @@ namespace SoloProjects.Dudhit.Utilities.UnitTestCircleBlueprint
   [TestFixture]
   class FilesSysAdminTesting
   {
+    private FileSystemAdministrativeTools fsat;
     private string steamPath;
     private string steamUserName;
     private string steamUserId;
@@ -20,7 +21,7 @@ namespace SoloProjects.Dudhit.Utilities.UnitTestCircleBlueprint
     [Test]
     public void DefaultInstanciation()
     {
-      FileSystemAdministrativeTools fsat = new FileSystemAdministrativeTools();
+       fsat = new FileSystemAdministrativeTools();
       ConstructorOutputs(fsat);
       fsat=null;
     }
@@ -43,7 +44,7 @@ namespace SoloProjects.Dudhit.Utilities.UnitTestCircleBlueprint
     public void NameOnlyInstanciation()
     {
       this.providedName = "mel";
-      FileSystemAdministrativeTools fsat = new FileSystemAdministrativeTools(providedName);
+       fsat = new FileSystemAdministrativeTools(providedName);
       ConstructorOutputs(fsat);
       fsat=null;
     }
@@ -51,8 +52,22 @@ namespace SoloProjects.Dudhit.Utilities.UnitTestCircleBlueprint
     [Test]
     public void ManualFolder()
     {
-      FileSystemAdministrativeTools fsat= new FileSystemAdministrativeTools();
-     this.steamPath= fsat.ManuallySelectSaveFolder();
+       fsat= new FileSystemAdministrativeTools();
+       this.steamPath= fsat.ManuallySelectSaveFolder();
+       fsat=null;
+    }
+    [Test]
+    public void ShowBlueprintPath()
+    {
+    //   fsat=new FileSystemAdministrativeTools();
+       DirectoryAssert.Exists(FileSystemAdministrativeTools.GetGameDataSaveLocation());
+    //   fsat=null;
+    }
+
+    [Test]
+    public void FolderMaking()
+    {
+      Assert.IsTrue(FileSystemAdministrativeTools.FolderVerificationCreation(FileSystemAdministrativeTools.GetGameDataSaveLocation()));
     }
   }
 }

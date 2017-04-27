@@ -148,11 +148,9 @@
     <Compile Include="View\FileTabView.xaml.cs">
       <DependentUpon>FileTabView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\FindSteamID.cs" />
     <Compile Include="View\ShapeTabView.xaml.cs">
       <DependentUpon>ShapeTabView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FileSystemAdministrativeTools.cs" />
     <Page Include="View\BlockTabView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -201,12 +199,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="CommandLineHandler_Start.sequencediagram.layout">
+      <DependentUpon>CommandLineHandler_Start.sequencediagram</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="antiTamperKey.pfx" />
     <None Include="app.manifest" />
+    <None Include="CommandLineHandler_Start.sequencediagram" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -265,9 +267,17 @@
       <Project>{daee5610-a37f-46e4-8716-d639f7898e3b}</Project>
       <Name>TextSliderCombo</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FileAccessor\FileAccessor.csproj">
+      <Project>{ec02280a-37db-483f-bf71-30f5be393d59}</Project>
+      <Name>FileAccessor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ShapingPoints\PointsToShapeCalculator.csproj">
       <Project>{325893fe-11fa-447f-8cf2-bbbf85b8ecdf}</Project>
       <Name>PointsToShapeCalculator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SteamConfigReader\SteamConfigReader.csproj">
+      <Project>{70b7a935-7d71-48b3-8970-767f1a9558cc}</Project>
+      <Name>SteamConfigReader</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

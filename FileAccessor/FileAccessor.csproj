@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CE6E11F4-C65B-4E12-A3BB-37D8008155FF}</ProjectGuid>
+    <ProjectGuid>{EC02280A-37DB-483F-BF71-30F5BE393D59}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SoloProjects.Dudhit.Utilities.UnitTestCircleBlueprint</RootNamespace>
-    <AssemblyName>ShapingPointTester</AssemblyName>
+    <RootNamespace>SoloProjects.Dudhit.SpaceEngineers.SEBP</RootNamespace>
+    <AssemblyName>FileAccessor</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -36,32 +36,29 @@
     <AssemblyOriginatorKeyFile>antiTamperKey.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=3.6.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.6.1\lib\net45\nunit.framework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Windows" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BresenhamCircularCurveTester.cs" />
-    <Compile Include="BresenhamEllipticalCurveTester.cs" />
-    <Compile Include="PointsToShapeTester.cs" />
+    <Compile Include="FileSystemAdministrativeTools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="antiTamperKey.pfx" />
-    <None Include="packages.config" />
+    <ProjectReference Include="..\SteamConfigReader\SteamConfigReader.csproj">
+      <Project>{70b7a935-7d71-48b3-8970-767f1a9558cc}</Project>
+      <Name>SteamConfigReader</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ShapingPoints\PointsToShapeCalculator.csproj">
-      <Project>{325893fe-11fa-447f-8cf2-bbbf85b8ecdf}</Project>
-      <Name>PointsToShapeCalculator</Name>
-    </ProjectReference>
+    <None Include="antiTamperKey.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

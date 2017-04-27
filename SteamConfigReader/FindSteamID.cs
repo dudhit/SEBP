@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
+namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.SteamConfigReader
 {
-    class FindSteamID : IDisposable
+ public   class FindSteamID : IDisposable
     {
         private string steamPath;
         private string steamID;

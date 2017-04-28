@@ -59,15 +59,16 @@ namespace SoloProjects.Dudhit.Utilities.UnitTestCircleBlueprint
     [Test]
     public void ShowBlueprintPath()
     {
-    //   fsat=new FileSystemAdministrativeTools();
-       DirectoryAssert.Exists(FileSystemAdministrativeTools.GetGameDataSaveLocation());
-    //   fsat=null;
+     fsat=new FileSystemAdministrativeTools();
+       DirectoryAssert.Exists(fsat.GetGameDataSaveLocation());
+       fsat=null;
     }
 
     [Test]
     public void FolderMaking()
     {
-      Assert.IsTrue(FileSystemAdministrativeTools.FolderVerificationCreation(FileSystemAdministrativeTools.GetGameDataSaveLocation()));
-    }
+      fsat=new FileSystemAdministrativeTools();
+      Assert.IsTrue(fsat.FolderVerification(fsat.GetGameDataSaveLocation()));
+     fsat=null; }
   }
 }

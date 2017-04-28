@@ -82,6 +82,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="01bHelpers\FolderFindingTester.cs" />
     <Compile Include="01PreCalculationTests\BlueprintModelTester.cs" />
     <Compile Include="02CalculationTests\BresenhamCircularCurveTester.cs" />
     <Compile Include="02CalculationTests\BresenhamEllipticalCurveTester.cs" />
@@ -104,6 +105,10 @@
       <Project>{ec02280a-37db-483f-bf71-30f5be393d59}</Project>
       <Name>FileAccessor</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FolderHandling\FolderHandling.csproj">
+      <Project>{ff631724-b3be-4b6e-bb31-7f09dfa1f6ea}</Project>
+      <Name>FolderHandling</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ShapingPoints\PointsToShapeCalculator.csproj">
       <Project>{325893fe-11fa-447f-8cf2-bbbf85b8ecdf}</Project>
       <Name>PointsToShapeCalculator</Name>
@@ -111,6 +116,10 @@
     <ProjectReference Include="..\SteamConfigReader\SteamConfigReader.csproj">
       <Project>{70b7a935-7d71-48b3-8970-767f1a9558cc}</Project>
       <Name>SteamConfigReader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WindowsRegistryUtilities\WindowsRegistryUtilities.csproj">
+      <Project>{af0a77ba-b771-44e5-920f-9149bafdafa0}</Project>
+      <Name>WindowsRegistryUtilities</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

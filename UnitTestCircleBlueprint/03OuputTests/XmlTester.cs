@@ -22,8 +22,8 @@ namespace SoloProjects.Dudhit.Utilities.UnitTestCircleBlueprint
       myBLueprintModel.BlockSize="Large";
       myBLueprintModel.BlockArmour="Normal";
       myBLueprintModel.BlueprintName="testclassbp";
-      myBLueprintModel.BlueprintFilePath=FileSystemAdministrativeTools.GetGameDataSaveLocation();
-      myBLueprintModel.BlockColour=new Utilites.SeHSV(0, -100, -90);
+      myBLueprintModel.BlueprintFilePath=fsat.GetGameDataSaveLocation();
+      myBLueprintModel.BlockColour=new Utilities.SeHSV(0, -100, -90);
       myBLueprintModel.Shape="circle";
       myBLueprintModel.ShapeFraction="quarter";
       myBLueprintModel.Solid=false;

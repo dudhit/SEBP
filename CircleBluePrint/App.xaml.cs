@@ -26,11 +26,11 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
           if(commandLineHandler.MyBlueprint.HasUsableData)
             masterBlueprint=commandLineHandler.MyBlueprint;
           commandLineHandler.Dispose();
-          if(FileSystemAdministrativeTools.FolderVerificationCreation(masterBlueprint.BlueprintFilePath))
-          {
+       //   if(FileSystemAdministrativeTools.FolderVerificationCreation(masterBlueprint.BlueprintFilePath))
+          
             string fullPath=masterBlueprint.BlueprintFilePath+"\\"+masterBlueprint.BlueprintName;
-            if(FileSystemAdministrativeTools.FolderVerificationCreation(fullPath))
-            {
+          //  if(FileSystemAdministrativeTools.FolderVerificationCreation(fullPath))
+            
 
 
 
@@ -39,8 +39,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
               {
                 blueprintData=pointsToShape.GlobalCurveSet;
               }
-            }
-          }
+            
+          
         }
       }
       else

@@ -15,6 +15,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     public string SteamUserName { get; set; }
     public string SteamUserId { get; set; }
     private string providedName;
+    private const string SPACE_ENGINEERS_PATH =  "\\SpaceEngineers\\Blueprints\\local";
     private bool getSteamId;
     public FileSystemAdministrativeTools(string user) : this(user, true) { }
     public FileSystemAdministrativeTools() : this(null) { }
@@ -25,12 +26,10 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       GetSteamData();
     }
 
-    public static string GetGameDataSaveLocation()
+    public string GetGameDataSaveLocation()
     {
       string userApp = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-      //    System.Diagnostics.Trace.WriteLine(userApp);
-      string bpPath= userApp + "\\SpaceEngineers\\Blueprints\\local";
-      //   System.Diagnostics.Trace.WriteLine(bpPath);
+      string bpPath= userApp + SPACE_ENGINEERS_PATH;
       return bpPath;
     }
 
@@ -89,22 +88,6 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
       }
     }
-    public static bool FolderVerificationCreation(string path)
-    {
-      try
-      {
-        if(!Directory.Exists(path))
-        {
-          Directory.CreateDirectory(path);
-          return true;
-        }
-      }
-      catch(UnauthorizedAccessException UAE)
-      {
-        MessageBox.Show(UAE.Message, "info", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
-        return false;
-      }
-      return false;
-    }
-  }
+   
+ }
 }

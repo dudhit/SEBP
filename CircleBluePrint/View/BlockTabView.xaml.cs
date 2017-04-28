@@ -5,7 +5,7 @@ using SoloProjects.Dudhit.UserInterfaces.EventArguments;
 //using SoloProjects.Dudhit.SpaceEngineers.SEBP.EventArguments;
 using SoloProjects.Dudhit.UserInterfaces;
 using System.Windows.Media.Media3D;
-using SoloProjects.Dudhit.Utilites;
+using SoloProjects.Dudhit.Utilities;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
 {
@@ -40,7 +40,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
         private void SetFill(object sender, RoutedEventArgs e)
         {
             colCustom.IsChecked = false;
-            Color tempCol = SoloProjects.Dudhit.Utilites.ColourConverters.MakeAColourFromString(colCustom.BoxColour);
+            Color tempCol = SoloProjects.Dudhit.Utilities.ColourConverters.MakeAColourFromString(colCustom.BoxColour);
             ccp = new SoloProjects.Dudhit.UserInterfaces.CrudeColorPicker.CrudePicker(tempCol);
 
             bool? dialogResult = ccp.ShowDialog();

@@ -1,4 +1,4 @@
-﻿using SoloProjects.Dudhit.Utilites;
+﻿using SoloProjects.Dudhit.Utilities;
 using System;
 using System.Collections.Generic;
 

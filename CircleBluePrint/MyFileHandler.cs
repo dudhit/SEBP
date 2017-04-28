@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 using System.Xml.Linq;
 using System.Collections.Generic;
-using SoloProjects.Dudhit.Utilites;
+using SoloProjects.Dudhit.Utilities;
 using System.Windows;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.SEBP

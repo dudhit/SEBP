@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using SoloProjects.Dudhit.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+
 
 namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 {
@@ -54,26 +56,18 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       return filePath;
     }
 
-    private bool RegistryHasSteamData()
-    {
-      RegistryKey regKey = Registry.CurrentUser;
-      regKey = regKey.OpenSubKey(@"Software\Valve\Steam");
 
-      if(regKey != null)
-      {
-        SteamPath = regKey.GetValue("SteamPath").ToString();
-        SteamUserName = regKey.GetValue("LastGameNameUsed").ToString();
-        if(string.IsNullOrEmpty(providedName))
-          providedName=SteamUserName;
-        return true;
-      }
-      return false;
-    }
 
     private void GetSteamData()
     {
-      if(RegistryHasSteamData())
+      if(WindowsRegistryStuff.KeyHasSubkey("currentuser", @"Software\Valve\Steam"))
       {
+        SteamPath=WindowsRegistryStuff.RegistryGetValue("currentuser", @"Software\Valve\Steam", "SteamPath");
+        SteamUserName=WindowsRegistryStuff.RegistryGetValue("currentuser", @"Software\Valve\Steam", "LastGameNameUsed");
+        if(string.IsNullOrEmpty(providedName))
+        {
+          providedName=SteamUserName;
+        }
         if(getSteamId)//ignore all this if an id was given
         {
           if(!(providedName.Equals(SteamUserName)))
@@ -88,6 +82,6 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
       }
     }
-   
- }
+
+  }
 }

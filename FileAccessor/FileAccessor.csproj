@@ -56,6 +56,10 @@
       <Project>{70b7a935-7d71-48b3-8970-767f1a9558cc}</Project>
       <Name>SteamConfigReader</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WindowsRegistryUtilities\WindowsRegistryUtilities.csproj">
+      <Project>{af0a77ba-b771-44e5-920f-9149bafdafa0}</Project>
+      <Name>WindowsRegistryUtilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="antiTamperKey.pfx" />

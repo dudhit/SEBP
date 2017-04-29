@@ -8,13 +8,13 @@ using System.Windows;
 
 namespace SoloProjects.Dudhit.Utilities
 {
-  class FileSystemHelper
+ public class FileSystemHelper
   {
     public static bool FolderCreation(string path)
     {
       try
       {
-        if(!Directory.Exists(@path))
+        if(!Directory.Exists(path))
         {
           Directory.CreateDirectory(path);
           return true;
@@ -32,7 +32,7 @@ namespace SoloProjects.Dudhit.Utilities
     {
       try
       {
-        if(Directory.Exists(@path))
+        if(Directory.Exists(path))
         {
           return true;
         }

@@ -64,11 +64,11 @@ namespace SoloProjects.Dudhit.Utilities.UnitTestCircleBlueprint
        fsat=null;
     }
 
-    [Test]
-    public void FolderMaking()
-    {
-      fsat=new FileSystemAdministrativeTools();
-      Assert.IsTrue(fsat.FolderVerification(fsat.GetGameDataSaveLocation()));
-     fsat=null; }
+    //[Test]
+    //public void FolderMaking()
+    //{
+    //  fsat=new FileSystemAdministrativeTools();
+    //  Assert.IsTrue(fsat.FolderVerification(fsat.GetGameDataSaveLocation()));
+    // fsat=null; }
   }
 }

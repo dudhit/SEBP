@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
 using SoloProjects.Dudhit.SpaceEngineers.SEBP;
-using SoloProjects.Dudhit.Utilites;
+using SoloProjects.Dudhit.Utilities;
 using System.Reflection;
 using System.Linq.Expressions;
 

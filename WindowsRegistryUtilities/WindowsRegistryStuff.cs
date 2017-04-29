@@ -27,24 +27,24 @@ namespace SoloProjects.Dudhit.Utilities
       RegistryKey regKey=null;
       switch(mainKey.ToLower())
       {
-        case "users":
-          regKey = Registry.Users.OpenSubKey(@subkey);
-          break;
-        case "performancedata":
-          regKey = Registry.PerformanceData.OpenSubKey(@subkey);
-          break;
-        case "localmachine":
-          regKey = Registry.LocalMachine.OpenSubKey(@subkey);
-          break;
-        case "currentconfig":
-          regKey = Registry.CurrentConfig.OpenSubKey(@subkey);
-          break;
         case "classesroot":
           regKey = Registry.ClassesRoot.OpenSubKey(@subkey);
           break;
         case "currentuser":
           regKey = Registry.CurrentUser.OpenSubKey(@subkey);
           break;
+        case "localmachine":
+          regKey = Registry.LocalMachine.OpenSubKey(@subkey);
+          break;
+        case "users":
+          regKey = Registry.Users.OpenSubKey(@subkey);
+          break;
+        case "currentconfig":
+          regKey = Registry.CurrentConfig.OpenSubKey(@subkey);
+          break;
+        //case "performancedata":
+        //  regKey = Registry.PerformanceData.OpenSubKey(@subkey);
+        //  break;
       }
       return regKey;
     }
@@ -62,9 +62,19 @@ namespace SoloProjects.Dudhit.Utilities
       if(KeyHasSubkey(mainKey, subkey))
       {
         RegistryKey lookUp= RegistryMainKeySetter(mainKey, subkey);
-        return lookUp.GetValue(valueKey).ToString();
+        if(lookUp.GetValueNames().Contains(valueKey))
+        {
+          return lookUp.GetValue(valueKey).ToString();
+        }
       }
       return value;
+    }
+
+    public static string[] ValueNamesOfKey(RegistryKey lookUp)
+    {
+      string[] names;
+      return names = lookUp.GetValueNames();
+      //    if(names.Contains<string>(valueKey)) { }
     }
   }
 }

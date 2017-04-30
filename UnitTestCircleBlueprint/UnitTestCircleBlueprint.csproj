@@ -98,6 +98,14 @@
       <Project>{ad5c4738-c54b-4ad6-bd15-16ebb5d45487}</Project>
       <Name>ColourConverters</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BlueprintModelLib\BlueprintModelLib.csproj">
+      <Project>{a7b07c89-1c11-4779-9788-48961b47a1eb}</Project>
+      <Name>BlueprintModelLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueprintWriterLib\BlueprintWriterLib.csproj">
+      <Project>{34f0e33d-a23f-477f-a6c9-2d755ac6de13}</Project>
+      <Name>BlueprintWriterLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CircleBluePrint\CircleBluePrint.csproj">
       <Project>{2a5cd39f-07f6-4b2f-b684-24ed66f9e940}</Project>
       <Name>CircleBluePrint</Name>

@@ -56,7 +56,7 @@ namespace SoloProjects.Dudhit.Utilities
     /// <param name="subkey">path from root</param>
     /// <param name="valueKey">key you want the value for</param>
     /// <returns>string</returns>
-    public static string RegistryGetValue(string mainKey, string subkey, string valueKey)
+    public static object RegistryGetValue(string mainKey, string subkey, string valueKey)
     {
       string value=string.Empty;
       if(KeyHasSubkey(mainKey, subkey))
@@ -64,7 +64,7 @@ namespace SoloProjects.Dudhit.Utilities
         RegistryKey lookUp= RegistryMainKeySetter(mainKey, subkey);
         if(lookUp.GetValueNames().Contains(valueKey))
         {
-          return lookUp.GetValue(valueKey).ToString();
+          return lookUp.GetValue(valueKey);//.ToString();
         }
       }
       return value;
@@ -72,9 +72,10 @@ namespace SoloProjects.Dudhit.Utilities
 
     public static string[] ValueNamesOfKey(RegistryKey lookUp)
     {
+      //todo error logic to ensure key exists
+      System.Diagnostics.Trace.WriteLine(lookUp.ToString());
       string[] names;
       return names = lookUp.GetValueNames();
-      //    if(names.Contains<string>(valueKey)) { }
     }
   }
 }

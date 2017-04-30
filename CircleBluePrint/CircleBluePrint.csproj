@@ -132,12 +132,9 @@
     </ApplicationDefinition>
     <Compile Include="CommandLineHandler.cs" />
     <Compile Include="DataValidator.cs" />
-    <Compile Include="Data\PointContainer.cs" />
-    <Compile Include="Data\UserSettings.cs" />
     <Compile Include="FileTab.cs" />
-    <Compile Include="model\BlueprintModel.cs" />
     <Compile Include="model\CheckStartArguments.cs" />
-    <Compile Include="model\SEBluePrintController.cs" />
+    <Compile Include="Controller\SEBluePrintController.cs" />
     <Compile Include="model\PathValidator.cs" />
     <Compile Include="View\BlockTabView.xaml.cs">
       <DependentUpon>BlockTabView.xaml</DependentUpon>
@@ -185,7 +182,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MyFileHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -262,6 +258,10 @@
     <ProjectReference Include="..\..\..\UserControls\TextSliderCombo\TextSliderCombo.csproj">
       <Project>{daee5610-a37f-46e4-8716-d639f7898e3b}</Project>
       <Name>TextSliderCombo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueprintModelLib\BlueprintModelLib.csproj">
+      <Project>{a7b07c89-1c11-4779-9788-48961b47a1eb}</Project>
+      <Name>BlueprintModelLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\FileAccessor\FileAccessor.csproj">
       <Project>{ec02280a-37db-483f-bf71-30f5be393d59}</Project>

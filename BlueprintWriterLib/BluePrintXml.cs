@@ -1,53 +1,15 @@
-﻿using SoloProjects.Dudhit.SpaceEngineers.SEBP.Collection;
+﻿using SoloProjects.Dudhit.SpaceEngineers.SEBP.Model;
+using SoloProjects.Dudhit.Utilities;
 using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media.Media3D;
 using System.Xml.Linq;
-using System.Collections.Generic;
-using SoloProjects.Dudhit.Utilities;
-using System.Windows;
-
-namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
+namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.BlueprintWriterLib
 {
-    //used to prevent encoding attributes being generated in XML file
-    public class MyFileHandler : StringWriter, IDisposable
-    {
-        bool disposed = false;
-        public override Encoding Encoding
-        {
-            get
-            {
-                return null;
-            }
-        }
-        #region disposal
 
-        ~MyFileHandler()
-        {
-
-            Dispose(false);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposed)
-                return;
-
-            if (disposing)
-            {
-                disposed = true;
-
-      // Call the base class implementation.
-      base.Dispose(disposing);
-                }
-            
-
-        }
-        #endregion
-
-    }
 
     [Serializable]
   public  class BluePrintXml : XDocument, IDisposable
@@ -90,7 +52,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
           {
             using(StreamWriter sw = new StreamWriter(fileAndFullPath))
             {
-              using(StringWriter msw = new MyFileHandler())
+              using(StringWriter msw = new EncodingStringWriter())
               {
                 this.Save(msw);
                 sw.WriteLine(msw);

@@ -1,10 +1,7 @@
 ﻿using SoloProjects.Dudhit.Utilities;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
-
-namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
+namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.Model
 {
   public class BlueprintModel : INotifyPropertyChanged,IDisposable//, IDataErrorInfo
   {
@@ -257,8 +254,6 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
                  }
       }
     }
-
-
     public SeHSV BlockColour
     {
       get { return this.blockColour; }
@@ -270,8 +265,6 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
         RaisePropertyChanged("BlockColour");
       }
     }
-
-
 
     public bool HasUsableData { get { return this.modelState==(int)ModelState.all; } }
     #endregion

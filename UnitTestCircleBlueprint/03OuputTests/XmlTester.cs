@@ -1,9 +1,12 @@
 ﻿using System;
 using NUnit.Framework;
 using SoloProjects.Dudhit.SpaceEngineers.SEBP;
+using SoloProjects.Dudhit.Utilities;
 using System.Collections.Generic;
 using System.Windows.Media.Media3D;
 using System.IO;
+using SoloProjects.Dudhit.SpaceEngineers.SEBP.Model;
+using SoloProjects.Dudhit.SpaceEngineers.SEBP.BlueprintWriterLib;
 
 namespace SoloProjects.Dudhit.Utilities.UnitTestCircleBlueprint
 {

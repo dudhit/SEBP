@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Microsoft.Win32;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,9 @@ namespace SoloProjects.Dudhit.Utilities.UnitTestCircleBlueprint._01bHelpers
   [TestFixture]
   class ProbeRegistryTester
   {
-
+    /* ** */
+/*THESE TESTS ARE MACHINE / LOGON SPECIFIC AND MAY NEED TAILORING */
+    /* ** */
     [Test]
     public void KnownClassesRootKeysExist()
     {
@@ -51,7 +54,6 @@ namespace SoloProjects.Dudhit.Utilities.UnitTestCircleBlueprint._01bHelpers
       Assert.IsFalse(WindowsRegistryStuff.KeyHasSubkey("currentconfig", "Softwaree"));
       Assert.IsFalse(WindowsRegistryStuff.KeyHasSubkey("currentconfig", @"System\CurrentControlSet\SERVICES\TSDDDD"));
     }
-/*THESE TESTS ARE MACHINE / LOGON SPECIFIC AND MAY NEED TAILORING */
     [Test]
     public void GetKnownKeyValueB()
     {
@@ -86,6 +88,14 @@ namespace SoloProjects.Dudhit.Utilities.UnitTestCircleBlueprint._01bHelpers
       Assert.AreEqual(expected, result);
       System.Diagnostics.Trace.WriteLine(string.Format("expected:{0} result:{1}", expected, result));
 
+    }
+    [Test]
+    public void ShowNamesInKey()
+    {
+      RegistryKey myTest= Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Internet Explorer\AboutURL");
+     string[] results = WindowsRegistryStuff.ValueNamesOfKey(myTest);
+     foreach(string s in results)
+     { System.Diagnostics.Trace.WriteLine(s); }
     }
   }
 }

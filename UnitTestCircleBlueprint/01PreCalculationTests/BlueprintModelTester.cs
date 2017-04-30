@@ -5,6 +5,7 @@ using SoloProjects.Dudhit.SpaceEngineers.SEBP;
 using SoloProjects.Dudhit.Utilities;
 using System.Reflection;
 using System.Linq.Expressions;
+using SoloProjects.Dudhit.SpaceEngineers.SEBP.Model;
 
 namespace SoloProjects.Dudhit.Utilities.UnitTestCircleBlueprint
 {

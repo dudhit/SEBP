@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EC02280A-37DB-483F-BF71-30F5BE393D59}</ProjectGuid>
+    <ProjectGuid>{34F0E33D-A23F-477F-A6C9-2D755AC6DE13}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SoloProjects.Dudhit.SpaceEngineers.SEBP</RootNamespace>
-    <AssemblyName>FileAccessor</AssemblyName>
+    <RootNamespace>SoloProjects.Dudhit.SpaceEngineers.SEBP.BlueprintWriterLib</RootNamespace>
+    <AssemblyName>BlueprintWriterLib</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -36,25 +36,27 @@
     <AssemblyOriginatorKeyFile>antiTamperKey.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="WindowsBase" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="FileSystemAdministrativeTools.cs" />
+    <Compile Include="EncodingStringWriter.cs" />
+    <Compile Include="BluePrintXml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SteamConfigReader\SteamConfigReader.csproj">
-      <Project>{70b7a935-7d71-48b3-8970-767f1a9558cc}</Project>
-      <Name>SteamConfigReader</Name>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\ColourConverters\ColourConverters.csproj">
+      <Project>{ad5c4738-c54b-4ad6-bd15-16ebb5d45487}</Project>
+      <Name>ColourConverters</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WindowsRegistryUtilities\WindowsRegistryUtilities.csproj">
-      <Project>{af0a77ba-b771-44e5-920f-9149bafdafa0}</Project>
-      <Name>WindowsRegistryUtilities</Name>
+    <ProjectReference Include="..\BlueprintModelLib\BlueprintModelLib.csproj">
+      <Project>{a7b07c89-1c11-4779-9788-48961b47a1eb}</Project>
+      <Name>BlueprintModelLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

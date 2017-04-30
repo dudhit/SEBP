@@ -28,6 +28,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PointsToShapeCalculator", "ShapingPoints\PointsToShapeCalculator.csproj", "{325893FE-11FA-447F-8CF2-BBBF85B8ECDF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SeqDiagrams", "SeqDiagrams", "{BBB1FD0C-5EFE-4297-906C-7BFA58BA4C3D}"
+	ProjectSection(SolutionItems) = preProject
+		MasterDendancies.dgml = MasterDendancies.dgml
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CircleBlueprint", "CircleBlueprint", "{80C3869C-1816-4562-971F-87E4473C89B8}"
 EndProject
@@ -40,6 +43,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FolderHandling", "FolderHandling\FolderHandling.csproj", "{FF631724-B3BE-4B6E-BB31-7F09DFA1F6EA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsRegistryUtilities", "WindowsRegistryUtilities\WindowsRegistryUtilities.csproj", "{AF0A77BA-B771-44E5-920F-9149BAFDAFA0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueprintModelLib", "BlueprintModelLib\BlueprintModelLib.csproj", "{A7B07C89-1C11-4779-9788-48961B47A1EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueprintWriterLib", "BlueprintWriterLib\BlueprintWriterLib.csproj", "{34F0E33D-A23F-477F-A6C9-2D755AC6DE13}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -201,6 +208,30 @@ Global
 		{AF0A77BA-B771-44E5-920F-9149BAFDAFA0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{AF0A77BA-B771-44E5-920F-9149BAFDAFA0}.Release|x64.ActiveCfg = Release|Any CPU
 		{AF0A77BA-B771-44E5-920F-9149BAFDAFA0}.Release|x86.ActiveCfg = Release|Any CPU
+		{A7B07C89-1C11-4779-9788-48961B47A1EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7B07C89-1C11-4779-9788-48961B47A1EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7B07C89-1C11-4779-9788-48961B47A1EB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A7B07C89-1C11-4779-9788-48961B47A1EB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A7B07C89-1C11-4779-9788-48961B47A1EB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A7B07C89-1C11-4779-9788-48961B47A1EB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A7B07C89-1C11-4779-9788-48961B47A1EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7B07C89-1C11-4779-9788-48961B47A1EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7B07C89-1C11-4779-9788-48961B47A1EB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A7B07C89-1C11-4779-9788-48961B47A1EB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A7B07C89-1C11-4779-9788-48961B47A1EB}.Release|x64.ActiveCfg = Release|Any CPU
+		{A7B07C89-1C11-4779-9788-48961B47A1EB}.Release|x86.ActiveCfg = Release|Any CPU
+		{34F0E33D-A23F-477F-A6C9-2D755AC6DE13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34F0E33D-A23F-477F-A6C9-2D755AC6DE13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34F0E33D-A23F-477F-A6C9-2D755AC6DE13}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{34F0E33D-A23F-477F-A6C9-2D755AC6DE13}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{34F0E33D-A23F-477F-A6C9-2D755AC6DE13}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{34F0E33D-A23F-477F-A6C9-2D755AC6DE13}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{34F0E33D-A23F-477F-A6C9-2D755AC6DE13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34F0E33D-A23F-477F-A6C9-2D755AC6DE13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34F0E33D-A23F-477F-A6C9-2D755AC6DE13}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{34F0E33D-A23F-477F-A6C9-2D755AC6DE13}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{34F0E33D-A23F-477F-A6C9-2D755AC6DE13}.Release|x64.ActiveCfg = Release|Any CPU
+		{34F0E33D-A23F-477F-A6C9-2D755AC6DE13}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

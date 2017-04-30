@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using SoloProjects.Dudhit.SpaceEngineers.SEBP;
+using SoloProjects.Dudhit.SpaceEngineers.SEBP.Model;
 
 namespace SoloProjects.Dudhit.Utilities.UnitTestCircleBlueprint
 {

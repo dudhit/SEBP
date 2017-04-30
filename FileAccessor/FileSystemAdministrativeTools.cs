@@ -38,21 +38,27 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     public string ManuallySelectSaveFolder()
     {
       string filePath=string.Empty;
-      Microsoft.Win32.OpenFileDialog findFolder = new Microsoft.Win32.OpenFileDialog();
-      findFolder.Filter = "All files (*.*)|*.*";
-      if(findFolder.ShowDialog() == true)
+      try
       {
-        //split path into individual folders
-        char[] delimiter = new char[] { '\\' };
-        int fileNameLength = findFolder.FileName.Length;
-        string[] individualFolders = findFolder.FileName.Split(delimiter);
-        //rejoin excluding the file selected
-        for(int i = 0;i < individualFolders.Length - 1;i++)
+        Microsoft.Win32.OpenFileDialog findFolder = new Microsoft.Win32.OpenFileDialog();
+
+        findFolder.Filter = "All files (*.*)|*.*";
+        if(findFolder.ShowDialog() == true)
         {
-          filePath += individualFolders[i] + "\\";
+          //split path into individual folders
+          char[] delimiter = new char[] { '\\' };
+          int fileNameLength = findFolder.FileName.Length;
+          string[] individualFolders = findFolder.FileName.Split(delimiter);
+          //rejoin excluding the file selected
+          for(int i = 0;i < individualFolders.Length - 1;i++)
+          {
+            filePath += individualFolders[i] + "\\";
+          }
+
         }
-        findFolder = null;
+        findFolder=null;
       }
+      catch(Exception e) { System.Diagnostics.Trace.WriteLine(e); }
       return filePath;
     }
 
@@ -62,8 +68,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     {
       if(WindowsRegistryStuff.KeyHasSubkey("currentuser", @"Software\Valve\Steam"))
       {
-        SteamPath=WindowsRegistryStuff.RegistryGetValue("currentuser", @"Software\Valve\Steam", "SteamPath");
-        SteamUserName=WindowsRegistryStuff.RegistryGetValue("currentuser", @"Software\Valve\Steam", "LastGameNameUsed");
+        SteamPath=(string)WindowsRegistryStuff.RegistryGetValue("currentuser", @"Software\Valve\Steam", "SteamPath");
+        SteamUserName=(string)WindowsRegistryStuff.RegistryGetValue("currentuser", @"Software\Valve\Steam", "LastGameNameUsed");
         if(string.IsNullOrEmpty(providedName))
         {
           providedName=SteamUserName;

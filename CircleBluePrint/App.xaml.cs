@@ -27,22 +27,26 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
           if(commandLineHandler.MyBlueprint.HasUsableData)
           {
             masterBlueprint=commandLineHandler.MyBlueprint;
-          }else{
+          }
+          else
+          {
             //terminate with msg
           }
           commandLineHandler.Dispose();
-          //    call class to handle point and blueprint output
-          using(PointsToShape pointsToShape = new PointsToShape(masterBlueprint.XAxis, masterBlueprint.YAxis, masterBlueprint.ZAxis, masterBlueprint.FinalShape, masterBlueprint.Solid))
-          {
-            blueprintData=pointsToShape.GlobalCurveSet;
-          }
         }
       }
       else
       {
-
         MainWindow SEbpUI = new MainWindow();
         SEbpUI.ShowDialog();
+      }
+      if(masterBlueprint!=null&&masterBlueprint.HasUsableData)
+      {
+        //    call class to handle point and blueprint output
+        using(PointsToShape pointsToShape = new PointsToShape(masterBlueprint.XAxis, masterBlueprint.YAxis, masterBlueprint.ZAxis, masterBlueprint.FinalShape, masterBlueprint.Solid))
+        {
+          blueprintData=pointsToShape.GlobalCurveSet;
+        }
       }
     }
 

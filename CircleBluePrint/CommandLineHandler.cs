@@ -54,12 +54,10 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
         if(myDictionaryOfArgs.MyBlueprintModel.HasUsableData)
         {
-          MyBlueprint=myDictionaryOfArgs.MyBlueprintModel;
-
           //validate path is writable before wasting time/resources with other modules
-
           if(ProceedWithWriteableFolder(Path.Combine(MyBlueprint.BlueprintFilePath, MyBlueprint.BlueprintName)))
           {
+            MyBlueprint=myDictionaryOfArgs.MyBlueprintModel;
             SelfTermination();
           }
           else

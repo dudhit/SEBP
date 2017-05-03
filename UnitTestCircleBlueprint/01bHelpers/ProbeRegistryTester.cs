@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SoloProjects.Dudhit.Utilities.UnitTestCircleBlueprint._01bHelpers
+namespace SoloProjects.Dudhit.Utilities.UnitTestCircleBlueprint
 {
   [TestFixture]
   class ProbeRegistryTester

@@ -1,5 +1,6 @@
 ﻿using SoloProjects.Dudhit.SpaceEngineers.SEBP.Model;
 using SoloProjects.Dudhit.SpaceEngineers.SEBP.View;
+using SoloProjects.Dudhit.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,7 +36,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
     private void DisplayHeaderMessage()
     {
-      cmdOut.addedContent.Children.Add(new Label() { Content="SEBP commandline interface.\n type \"--help\" for detailed instructions", Style=lookLikeConsoleText });
+      cmdOut.addedContent.Children.Add(new Label() { Content="SEBP commandline interface.\n use \"--help\" for detailed instructions", Style=lookLikeConsoleText });
 
     }
 
@@ -50,22 +51,55 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
         myDictionaryOfArgs.MyBlueprintModel=MyBlueprint;
         myDictionaryOfArgs.SetModel();
+
         if(myDictionaryOfArgs.MyBlueprintModel.HasUsableData)
         {
           MyBlueprint=myDictionaryOfArgs.MyBlueprintModel;
-          CloseChildren();
+
+          //validate path is writable before wasting time/resources with other modules
+
+          if(ProceedWithWriteableFolder(Path.Combine(MyBlueprint.BlueprintFilePath, MyBlueprint.BlueprintName)))
+          {
+            SelfTermination();
+          }
+          else
+          {
+            cmdOut.addedContent.Children.Add(new Label() { Content="Could not access folder, check your file access levels OR a correct path was given", Style=lookLikeConsoleText });
+            InteractiveTermination();
+          }
         }
         else
         {
-          cmdOut.addedContent.Children.Add(new Label() { Content="The were errors with data assigned to :"+myDictionaryOfArgs.MyBlueprintModel.ModelStateError(), Style=lookLikeConsoleText });
-           }
-           }
-
+          cmdOut.addedContent.Children.Add(new Label() { Content="Provided Data was missing or erroneous.", Style=lookLikeConsoleText });
+          cmdOut.addedContent.Children.Add(new Label() { Content="Dampners on. thrusters on.", Style=lookLikeConsoleText });
+          InteractiveTermination();
+        }
+      }
       else
       {
-        cmdOut.addedContent.Children.Add(new Label() { Content="Please check help for argument usage", Style=lookLikeConsoleText });
+        ShowHelp();
+        InteractiveTermination();
       }
-      DisplayButton();
+    }
+
+    private bool ProceedWithWriteableFolder(string testPath)
+    {
+
+      if(FileSystemHelper.FolderVerification(testPath))
+      {
+        return WriteThumbToFolder(testPath);
+      }
+      if(FileSystemHelper.FolderCreation(testPath))
+      {
+        return WriteThumbToFolder(testPath);
+      }
+      return false;
+    }
+
+    private static bool WriteThumbToFolder(string testPath)
+    {
+      string imageResource = Path.Combine(Directory.GetCurrentDirectory(), "images\\thumb.png");
+      return FileSystemHelper.CopyFile(imageResource, Path.Combine(testPath, "thumb.png"));
     }
 
     private void AddToOutput(string verbose, string labelName)
@@ -91,14 +125,14 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
     }
 
-    private void DisplayButton()
+    private void InteractiveTermination()
     {
       Style buttonStyle = Application.Current.FindResource("ConsoleButton") as Style;
       cmdOut.addedContent.Children.Add(killBtn=new Button { Content="Close Application", Height=40, Style=buttonStyle });
       killBtn.Click+=EndItAll;
     }
 
-    private void CloseChildren()
+    private void SelfTermination()
     {
       CanClose=true;
       cmdOut.Hide();
@@ -113,18 +147,19 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     private void EndItAll(object sender, RoutedEventArgs e)
     {
       killBtn.Click-=EndItAll;
-      CloseChildren();
+      SelfTermination();
     }
 
     private bool ArgumentPreProcessing()
     {
       if(myStartingArgs[0].ToLower()=="/?"||myStartingArgs[0].ToLower()=="-h"||myStartingArgs[0].ToLower()=="--help")
-      { ShowHelp(); }
+      {
+        return false;
+      }
       else
       {
         return true;
       }
-      return false;
     }
 
     private void ShowHelp()

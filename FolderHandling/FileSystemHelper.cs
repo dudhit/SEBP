@@ -44,6 +44,18 @@ namespace SoloProjects.Dudhit.Utilities
       }
       return false;
     }
- 
+    public static bool CopyFile(string sourcePath, string destinationPath)
+    {
+      try
+      {
+        File.Copy(sourcePath, destinationPath,true);
+        return true;
+      }
+      catch(UnauthorizedAccessException UAE)
+      {
+        MessageBox.Show(UAE.Message, "info", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+        return false;
+      }
+      }
   }
 }

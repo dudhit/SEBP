@@ -99,8 +99,7 @@
     <ManifestKeyFile>CircleBluePrint_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>SEBP.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -195,12 +194,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="App_BeginSEPB.sequencediagram.layout">
+      <DependentUpon>App_BeginSEPB.sequencediagram</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="antiTamperKey.pfx" />
     <None Include="app.manifest" />
+    <None Include="App_BeginSEPB.sequencediagram" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -263,9 +266,17 @@
       <Project>{a7b07c89-1c11-4779-9788-48961b47a1eb}</Project>
       <Name>BlueprintModelLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BlueprintWriterLib\BlueprintWriterLib.csproj">
+      <Project>{34f0e33d-a23f-477f-a6c9-2d755ac6de13}</Project>
+      <Name>BlueprintWriterLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FileAccessor\FileAccessor.csproj">
       <Project>{ec02280a-37db-483f-bf71-30f5be393d59}</Project>
       <Name>FileAccessor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FolderHandling\FolderHandling.csproj">
+      <Project>{ff631724-b3be-4b6e-bb31-7f09dfa1f6ea}</Project>
+      <Name>FolderHandling</Name>
     </ProjectReference>
     <ProjectReference Include="..\ShapingPoints\PointsToShapeCalculator.csproj">
       <Project>{325893fe-11fa-447f-8cf2-bbbf85b8ecdf}</Project>
@@ -278,6 +289,14 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="sebp_arg_help.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="images\thumb.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="SEBP.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

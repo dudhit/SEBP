@@ -25,23 +25,17 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
           commandLineHandler.MyBlueprint=masterBlueprint;
           commandLineHandler.Start();
           if(commandLineHandler.MyBlueprint.HasUsableData)
+          {
             masterBlueprint=commandLineHandler.MyBlueprint;
+          }else{
+            //terminate with msg
+          }
           commandLineHandler.Dispose();
-       //   if(FileSystemAdministrativeTools.FolderVerificationCreation(masterBlueprint.BlueprintFilePath))
-          
-            string fullPath=masterBlueprint.BlueprintFilePath+"\\"+masterBlueprint.BlueprintName;
-          //  if(FileSystemAdministrativeTools.FolderVerificationCreation(fullPath))
-            
-
-
-
-              //    call class to handle point and blueprint output
-              using(PointsToShape pointsToShape = new PointsToShape(masterBlueprint.XAxis, masterBlueprint.YAxis, masterBlueprint.ZAxis, masterBlueprint.FinalShape, masterBlueprint.Solid))
-              {
-                blueprintData=pointsToShape.GlobalCurveSet;
-              }
-            
-          
+          //    call class to handle point and blueprint output
+          using(PointsToShape pointsToShape = new PointsToShape(masterBlueprint.XAxis, masterBlueprint.YAxis, masterBlueprint.ZAxis, masterBlueprint.FinalShape, masterBlueprint.Solid))
+          {
+            blueprintData=pointsToShape.GlobalCurveSet;
+          }
         }
       }
       else

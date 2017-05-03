@@ -63,7 +63,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
     private bool IsNeedingDefault(string key)
     {
-      return string.IsNullOrEmpty(GetDictionaryValue(key))&&KeyExists(key);
+      return string.IsNullOrEmpty(GetDictionaryValue(key));//&&KeyExists(key);
     }
 
     private bool KeyExists(string key)
@@ -138,14 +138,12 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       #endregion
       #region setArmour
       MyBlueprintModel.BlockArmour=CapitaliseFirstLetter(this["armour"]);
-
       #endregion
       #region BlockSize
 
       MyBlueprintModel.BlockSize= CapitaliseFirstLetter( this["size"]);
       #endregion  
       #region HollowObject
-
       MyBlueprintModel.Solid= bool.Parse( this["solid"]);
       #endregion
       #region BlueprintName

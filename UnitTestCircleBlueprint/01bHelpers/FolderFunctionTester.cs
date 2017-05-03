@@ -44,5 +44,14 @@ namespace SoloProjects.Dudhit.Utilities.UnitTestCircleBlueprint
       Assert.IsTrue(FileSystemHelper.FolderCreation(folder));
       DirectoryAssert.Exists(folder);
     }
+    [Test]
+    public void CopyFileFromAtoB()
+    {
+      string source =@"C:\temp\a.txt";
+      string destination = @"cheapcopy.txt";
+   //   FileAssert.DoesNotExist(destination);
+      Assert.IsTrue(FileSystemHelper.CopyFile(source,destination));
+      FileAssert.Exists(destination);
+    }
   }
 }

@@ -304,26 +304,45 @@ namespace SoloProjects.Dudhit.Utilities
     /// <param name="axis"></param>
     private void MirrorGlobalSetByAxis(string axis)
     {
+      Object sillyLock = new Object();
       HashSet<Point3D> tempSet= new HashSet<Point3D>();
       switch(axis)
       {
         case "x":
           {
             Parallel.ForEach(GlobalCurveSet, ppp =>
-                         /* foreach(Point3D ppp in GlobalCurveSet)*/ { tempSet.Add(new Point3D(-ppp.X, ppp.Y, ppp.Z)); });
+            {
+              lock (sillyLock)
+              { 
+                tempSet.Add(new Point3D(-1*ppp.X, ppp.Y, ppp.Z));
+              }
+            }
+            );
 
             break;
           }
         case "y":
           {
             Parallel.ForEach(GlobalCurveSet, ppp =>
-                           /* foreach(Point3D ppp in GlobalCurveSet)*/ { tempSet.Add(new Point3D(ppp.X, -ppp.Y, ppp.Z)); });
+            {
+              lock (sillyLock) 
+              { 
+                tempSet.Add(new Point3D(ppp.X, -1*ppp.Y, ppp.Z));
+              }
+            }
+              );
             break;
           }
         case "z":
           {
             Parallel.ForEach(GlobalCurveSet, ppp =>
-                        /*  foreach(Point3D ppp in GlobalCurveSet)*/ { tempSet.Add(new Point3D(ppp.X, ppp.Y, -ppp.Z)); });
+            {
+              lock(sillyLock)
+              {
+                tempSet.Add(new Point3D(ppp.X, ppp.Y, -1*ppp.Z));
+              }
+            }
+            );
             break;
           }
       }
@@ -336,10 +355,14 @@ namespace SoloProjects.Dudhit.Utilities
     /// <param name="anotherTempSet"></param>
     private void AddSetToGlobalSet(HashSet<Point3D> anotherTempSet)
     {
+      Object sillyLock =new Object();
       Parallel.ForEach(anotherTempSet, ptd =>
        //foreach(Point3D ptd in anotherTempSet)
-       {
-         AddNewPointToGlobalSet(ptd);
+      {
+        lock(sillyLock)
+        {
+          AddNewPointToGlobalSet(ptd);
+        }
        });
     }
 
@@ -350,10 +373,10 @@ namespace SoloProjects.Dudhit.Utilities
     /// <param name="plane"></param>
     /// <param name="fixedPlaneValue"></param>
     /// <returns></returns>
-    private HashSet<Point3D> TwoDIntoThreeDPoint(HashSet<Point> twoDPointCollection, string plane, int fixedPlaneValue)
+    private  HashSet<Point3D> TwoDIntoThreeDPoint(HashSet<Point> twoDPointCollection, string plane, int fixedPlaneValue)
     {
-      //if(xSign!=1||xSign!=-1||ySign!=1||ySign!=-1||zSign!=1||zSign!=-1)
-      //  return null;
+
+      Object sillyLock = new Object();
       HashSet<Point3D> temporaryCollection = new HashSet<Point3D>();
       switch(plane)
       {
@@ -361,8 +384,11 @@ namespace SoloProjects.Dudhit.Utilities
           {
             Parallel.ForEach(twoDPointCollection, twoDPoint =>
           // foreach(Point twoDPoint in twoDPointCollection)
-          {
-            temporaryCollection.Add(new Point3D(twoDPoint.X, twoDPoint.Y, fixedPlaneValue));
+            {
+              lock(sillyLock)
+              {
+                temporaryCollection.Add(new Point3D(twoDPoint.X, twoDPoint.Y, fixedPlaneValue));
+              }
           });
             break;
           }
@@ -370,8 +396,11 @@ namespace SoloProjects.Dudhit.Utilities
           {
             Parallel.ForEach(twoDPointCollection, twoDPoint =>
              //  foreach(Point twoDPoint in twoDPointCollection)
-             {
-               temporaryCollection.Add(new Point3D(twoDPoint.X, fixedPlaneValue, twoDPoint.Y));
+            {
+              lock(sillyLock)
+              { 
+                temporaryCollection.Add(new Point3D(twoDPoint.X, fixedPlaneValue, twoDPoint.Y));
+              }
              });
             break;
           }
@@ -379,8 +408,11 @@ namespace SoloProjects.Dudhit.Utilities
           {
             Parallel.ForEach(twoDPointCollection, twoDPoint =>
               //   foreach(Point twoDPoint in twoDPointCollection)
+            {
+              lock(sillyLock)
               {
                 temporaryCollection.Add(new Point3D(fixedPlaneValue, twoDPoint.X, twoDPoint.Y));
+              }
               });
             break;
           }

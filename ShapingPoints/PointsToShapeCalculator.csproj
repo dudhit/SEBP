@@ -67,6 +67,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="antiTamperKey.pfx" />
+    <None Include="PointsToShape_TwoDIntoThreeDPoint.sequencediagram" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="PointsToShape_TwoDIntoThreeDPoint.sequencediagram.layout">
+      <DependentUpon>PointsToShape_TwoDIntoThreeDPoint.sequencediagram</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

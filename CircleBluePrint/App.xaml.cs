@@ -13,41 +13,10 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
   /// </summary>
   public partial class App : Application
   {
-    private BlueprintModel masterBlueprint;
-    private HashSet<Point3D> blueprintData;
-    private void BeginSEPB(object sender, StartupEventArgs e)
+   private void BeginSEPB(object sender, StartupEventArgs e)
     {
-      masterBlueprint = new BlueprintModel();
-      if(e.Args!=null&&e.Args.Length>0)
-      {
-        using(CommandLineHandler commandLineHandler = new CommandLineHandler(e.Args))
-        {
-          commandLineHandler.MyBlueprint=masterBlueprint;
-          commandLineHandler.Start();
-          if(commandLineHandler.MyBlueprint.HasUsableData)
-          {
-            masterBlueprint=commandLineHandler.MyBlueprint;
-          }
-          else
-          {
-            //terminate with msg
-          }
-          commandLineHandler.Dispose();
-        }
-      }
-      else
-      {
-        MainWindow SEbpUI = new MainWindow();
-        SEbpUI.ShowDialog();
-      }
-      if(masterBlueprint!=null&&masterBlueprint.HasUsableData)
-      {
-        //    call class to handle point and blueprint output
-        using(PointsToShape pointsToShape = new PointsToShape(masterBlueprint.XAxis, masterBlueprint.YAxis, masterBlueprint.ZAxis, masterBlueprint.FinalShape, masterBlueprint.Solid))
-        {
-          blueprintData=pointsToShape.GlobalCurveSet;
-        }
-      }
+      SEBluePrintController appController= new SEBluePrintController(e);
+      appController.BeginSEPB();
     }
 
 

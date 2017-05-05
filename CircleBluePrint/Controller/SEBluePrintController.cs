@@ -1,29 +1,25 @@
 ﻿using Microsoft.Win32;
+using SoloProjects.Dudhit.SpaceEngineers.SEBP.BlueprintWriterLib;
 using SoloProjects.Dudhit.SpaceEngineers.SEBP.Model;
 using SoloProjects.Dudhit.Utilities;
 using System;
+using System.Collections.Generic;
 //using SoloProjects.Dudhit.SpaceEngineers.SEBP.EventArguments;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Media.Media3D;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 {
   public class SEBluePrintController : IDisposable
   {
     private BlueprintModel masterBlueprint;
-  //  private CommandLineHandler commandLineHandler;
-    //private BackgroundWorker worker;
-    //  private bool haveBlockData;
-    //   private bool haveShapeData;
-    //   private bool haveFileData;
-    //    private bool isWorking;
-
-
-
-    public SEBluePrintController()
+    private HashSet<Point3D> blueprintData;
+    private string[] commandLineArguments;
+    public SEBluePrintController(StartupEventArgs e)
     {
+      this.commandLineArguments = e.Args;
       Initialise();
-
     }
 
     private void Initialise()
@@ -31,115 +27,83 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       masterBlueprint = new BlueprintModel();
     }
 
-    //public void PlotShapeData()
-    //{
-    //  //using(PointsToShape pointsToShape = new PointsToShape())
-    //  //{
 
-    //  //}
-    //}
+    public void BeginSEPB()
+    {
+      masterBlueprint = new BlueprintModel();
+      if(commandLineArguments!=null&&commandLineArguments.Length>0)
+      {
+        NonUIControl();
+      }
+      else
+      {
+        UIControl();
+      }
+ 
+    }
+
+    private void UIControl()
+    {
+      MainWindow SEbpUI = new MainWindow();
+      SEbpUI.ShowDialog();
+    }
+
+    private void NonUIControl()
+    {
+      using(CommandLineHandler commandLineHandler = new CommandLineHandler(commandLineArguments))
+      {
+        commandLineHandler.MyBlueprint=masterBlueprint;
+        commandLineHandler.Start();
+        if(commandLineHandler.MyBlueprint.HasUsableData)
+        {
+          masterBlueprint=commandLineHandler.MyBlueprint;
+          if(GetPointData())
+          {
+            MessageBox.Show("calcs done..ready to output", "info...", MessageBoxButton.OK, MessageBoxImage.Information);
+            //access writer
+            BluePrintXml writeBlueprint =new BluePrintXml(masterBlueprint, blueprintData);
+          }
+        }
+        else
+        {
+          string terminationMessage= string.Format("Data...is..bad. ugrh \n");
+          MessageBox.Show(terminationMessage, "SEBP Stopping...", MessageBoxButton.OK, MessageBoxImage.Error);
+  
+        }
+        commandLineHandler.Dispose();
+      }
+      MessageBox.Show("output done.", "Finished.", MessageBoxButton.OK, MessageBoxImage.Information);
+        
+    }
+
+    public bool GetPointData()
+    {
+      if(masterBlueprint!=null&&masterBlueprint.HasUsableData)
+      {
+        //    call class to handle point and blueprint output
+        using(PointsToShape pointsToShape = new PointsToShape(masterBlueprint.XAxis, masterBlueprint.YAxis, masterBlueprint.ZAxis, masterBlueprint.FinalShape, masterBlueprint.Solid))
+        {
+          blueprintData=pointsToShape.GlobalCurveSet;
+        }
+        if(blueprintData.Count>1)
+          return true;
+      }
+      return false;
+    }
 
 
-    //public  void StartUserInterface()
-    //{
-    //  MainWindow SEbpUI = new MainWindow();
-    //  SEbpUI.ShowDialog();
-    //}
-
-    //public bool HandleCommandLineArguments(string[] runTimeArguments)
-    //{
-    //  bool success =false;
-    //  using(commandLineHandler = new CommandLineHandler(runTimeArguments))
-    //  {
-    //    commandLineHandler.MyBlueprint=masterBlueprint;
-    //    commandLineHandler.Start();
-    //    if(commandLineHandler.MyBlueprint.HasUsableData)
-    //    {
-    //      masterBlueprint=commandLineHandler.MyBlueprint;
-    //      success=true;
-    //    }
-    //    commandLineHandler.Dispose();
-    //          }
-    //  return success;
-    //}
-    //private void Reset2()
-    //{
-    //  this.haveBlockData = false;
-    // this. haveShapeData = false;
-    // this. haveFileData = false;
-    //  this.isWorking = false;
-    //}
 
 
-
-
-
-
-
-
-
-    //private void StartTheCogs(string steamUserId)
-    //{
-
-    //  //SteamUserId = dataSteamId.Text;
-    //  //bpName = dataNames.Text;
-    //  //PathHandler();
-
-    //  //bpFolder = localBP + "\\" + bpName;
-    //  //try
-    //  //{
-    //  //    Directory.CreateDirectory(bpFolder);
-    //  //}
-    //  //catch (UnauthorizedAccessException UAE)
-    //  //{
-    //  //    MessageBox.Show(UAE.Message, "info", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
-    //  //}
-    //}
 
 
 
 
     #region file handling
-    //save user paths - radio buttons - colours -everything
 
 
 
 
-
-    //private void PathHandler()
-    //{
-
-
-    //  //    if (S_E_B_P == null)
-    //  //    { S_E_B_P = saveRootLocation + "\\Blueprints"; }
-    //  //    if (localBP == null)
-    //  //    {
-    //  //        localBP = S_E_B_P + "\\local";
-    //  //    }
-
-
-    //  //    if (!Directory.Exists(saveRootLocation))
-    //  //    {
-    //  //        string message = string.Format("Space Engineers save folder: {0} \ndoes not exist.\n Do you want to create it?\n\nNote: this is the expected location, If you have moved it select No, and use the browse feature to locate and set it. ", saveRootLocation);
-    //  //        MessageBoxResult result = MessageBox.Show(message, "Path location error", MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No, MessageBoxOptions.DefaultDesktopOnly);
-    //  //        if (result == MessageBoxResult.Yes)
-    //  //        {
-    //  //            try
-    //  //            {
-    //  //                Directory.CreateDirectory(saveRootLocation);
-    //  //                Directory.CreateDirectory(S_E_B_P);
-    //  //                Directory.CreateDirectory(localBP);
-    //  //            }
-    //  //            catch (UnauthorizedAccessException UAE)
-    //  //            {
-    //  //                MessageBox.Show(UAE.Message, "info", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
-    //  //            }
-    //  //        }
-    //  //    }
-    //}
-
-
-
+    #region UI_BUTTON_TOGGLE
     //private void ActionRefreshView(object sender, RoutedEventArgs e)
     //{
     //    if (!IsGeneratingPreview)
@@ -167,10 +131,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     //        //cancel preview
     //        refreshPreviewBut.Content = "show preview";
     //    }
-
-
     //}
-
+    #endregion
 
 
     private void BluePrintToFile()

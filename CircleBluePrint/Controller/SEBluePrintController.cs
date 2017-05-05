@@ -62,6 +62,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
             MessageBox.Show("calcs done..ready to output", "info...", MessageBoxButton.OK, MessageBoxImage.Information);
             //access writer
             BluePrintXml writeBlueprint =new BluePrintXml(masterBlueprint, blueprintData);
+            writeBlueprint.MakeBaseStructure();
+            writeBlueprint.BluePrintFileHandling();
           }
         }
         else

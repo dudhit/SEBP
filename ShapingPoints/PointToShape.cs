@@ -53,7 +53,7 @@ namespace SoloProjects.Dudhit.Utilities
     /// 
     /// </summary>
     /// <returns></returns>
-    private bool DetermineProcessingPaths()
+    private  void DetermineProcessingPaths()
     {
       switch(this.shape)
       {//  quartercircle 17 x
@@ -164,9 +164,7 @@ namespace SoloProjects.Dudhit.Utilities
           }
 
       }
-      return false;
-
-    }
+       }
     /// <summary>
     /// 
     /// </summary>
@@ -278,6 +276,7 @@ namespace SoloProjects.Dudhit.Utilities
         xyCurve=null;
       }
     }
+ 
     /// <summary>
     /// 
     /// </summary>
@@ -298,6 +297,7 @@ namespace SoloProjects.Dudhit.Utilities
         xyCurve=null;
       }
     }
+  
     /// <summary>
     /// 
     /// </summary>
@@ -349,6 +349,7 @@ namespace SoloProjects.Dudhit.Utilities
       AddSetToGlobalSet(tempSet);
       tempSet=null;
     }
+ 
     /// <summary>
     /// 
     /// </summary>
@@ -419,6 +420,7 @@ namespace SoloProjects.Dudhit.Utilities
       }
       return temporaryCollection;
     }
+  
     /// <summary>
     /// 
     /// </summary>
@@ -429,6 +431,7 @@ namespace SoloProjects.Dudhit.Utilities
       { GlobalCurveSet.Add(summonThirdDimension); }
 
     }
+  
     /// <summary>
     /// 
     /// </summary>

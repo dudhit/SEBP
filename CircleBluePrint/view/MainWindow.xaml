@@ -15,8 +15,7 @@
     <DockPanel >
         <Menu DockPanel.Dock="Top"   >
             <MenuItem Header="_File">
-                <MenuItem Header="Re_load User Settings"  Click="ReloadSettings" ToolTip="Remembers location of blueprints, shape and Steam ID" IsEnabled="False"/>
-                <MenuItem Header="Sa_ve User Settings"  Click="SaveUserSettings" ToolTip="Remembers location of blueprints, shape and Steam ID" IsEnabled="False"/>
+       
                 <MenuItem Header="E_xit"  Click="MenuExit" />
             </MenuItem>
             <MenuItem Header="O_ptions">

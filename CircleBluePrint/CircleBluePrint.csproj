@@ -113,6 +113,15 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ColourConverters">
+      <HintPath>..\..\..\UtilityLibraries\ColourConverters\bin\Release\ColourConverters.dll</HintPath>
+    </Reference>
+    <Reference Include="FolderHandling">
+      <HintPath>..\..\..\UtilityLibraries\FolderHandling\bin\Release\FolderHandling.dll</HintPath>
+    </Reference>
+    <Reference Include="ShapingPoints">
+      <HintPath>..\..\..\UtilityLibraries\ShapingPoints\bin\Release\ShapingPoints.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -130,11 +139,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CommandLineHandler.cs" />
+    <Compile Include="model\ConsoleViewModel.cs" />
     <Compile Include="DataValidator.cs" />
     <Compile Include="FileTab.cs" />
     <Compile Include="model\CheckStartArguments.cs" />
     <Compile Include="Controller\SEBluePrintController.cs" />
     <Compile Include="model\PathValidator.cs" />
+    <Compile Include="model\MyTaskProgressReport.cs" />
     <Compile Include="View\BlockTabView.xaml.cs">
       <DependentUpon>BlockTabView.xaml</DependentUpon>
     </Compile>
@@ -246,10 +257,6 @@
     <Resource Include="images\SEBP.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\ColourConverters\ColourConverters.csproj">
-      <Project>{ad5c4738-c54b-4ad6-bd15-16ebb5d45487}</Project>
-      <Name>ColourConverters</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\UserControls\ColourSampleSelection\ColourSampleSelection.csproj">
       <Project>{7fd3177e-f184-46a4-963e-5ae330bbf93e}</Project>
       <Name>ColourSampleSelection</Name>
@@ -273,14 +280,6 @@
     <ProjectReference Include="..\FileAccessor\FileAccessor.csproj">
       <Project>{ec02280a-37db-483f-bf71-30f5be393d59}</Project>
       <Name>FileAccessor</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FolderHandling\FolderHandling.csproj">
-      <Project>{ff631724-b3be-4b6e-bb31-7f09dfa1f6ea}</Project>
-      <Name>FolderHandling</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ShapingPoints\PointsToShapeCalculator.csproj">
-      <Project>{325893fe-11fa-447f-8cf2-bbbf85b8ecdf}</Project>
-      <Name>PointsToShapeCalculator</Name>
     </ProjectReference>
     <ProjectReference Include="..\SteamConfigReader\SteamConfigReader.csproj">
       <Project>{70b7a935-7d71-48b3-8970-767f1a9558cc}</Project>

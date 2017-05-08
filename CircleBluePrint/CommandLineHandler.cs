@@ -16,66 +16,63 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 {
   public class CommandLineHandler : IDisposable
   {
-    private ConsoleOutputs cmdOut;
     private string[] myStartingArgs;
     private CheckStartArguments myDictionaryOfArgs;
-    private Style lookLikeConsoleText;
     public BlueprintModel MyBlueprint { get; set; }
     private Button killBtn;
     public bool CanClose { get; private set; }
+    Progress<MyTaskProgressReport> progressIndicator;
     public CommandLineHandler(string[] args)
     {
-      lookLikeConsoleText = Application.Current.FindResource("ConsoleText") as Style;
-      cmdOut = new ConsoleOutputs();
-      cmdOut.InitializeComponent();
-      cmdOut.Show();
-      DisplayHeaderMessage();
       this.myStartingArgs=args;
       CanClose=false;
+      progressIndicator = new Progress<MyTaskProgressReport>(ReportProgress);
     }
 
-    private void DisplayHeaderMessage()
+
+
+    public async Task Start()
     {
-      cmdOut.addedContent.Children.Add(new Label() { Content="SEBP commandline interface.\n use \"--help\" for detailed instructions", Style=lookLikeConsoleText });
-
-    }
-
-    public void Start()
-    {
-
-      if(ArgumentPreProcessing()&&MyBlueprint!=null)
+      if(await ArgumentPreProcessingAsync()&&MyBlueprint!=null)
       {
-        ProcessArguments();
-
+        await ProcessArgumentsAsync();
         myDictionaryOfArgs.SetEmptyWithDefaultValues();
-
         myDictionaryOfArgs.MyBlueprintModel=MyBlueprint;
         myDictionaryOfArgs.SetModel();
-
-        if(myDictionaryOfArgs.MyBlueprintModel.HasUsableData)
-        {
-          //validate path is writable before wasting time/resources with other modules
-          if(ProceedWithWriteableFolder(Path.Combine(MyBlueprint.BlueprintFilePath, MyBlueprint.BlueprintName)))
-          {
-            MyBlueprint=myDictionaryOfArgs.MyBlueprintModel;
-            SelfTermination();
-          }
-          else
-          {
-            cmdOut.addedContent.Children.Add(new Label() { Content="Could not access folder, check your file access levels OR a correct path was given", Style=lookLikeConsoleText });
-            InteractiveTermination();
-          }
-        }
-        else
-        {
-          cmdOut.addedContent.Children.Add(new Label() { Content="Provided Data was missing or erroneous.", Style=lookLikeConsoleText });
-          cmdOut.addedContent.Children.Add(new Label() { Content="Dampners on. thrusters on.", Style=lookLikeConsoleText });
-          InteractiveTermination();
-        }
+        CheckBpData();
       }
       else
       {
         ShowHelp();
+        InteractiveTermination();
+      }
+    }
+
+    private void CheckBpData()
+    {
+      if(myDictionaryOfArgs.MyBlueprintModel.HasUsableData)
+      {
+        //validate path is writable before wasting time/resources with other modules
+        FolderTestAndFinish();
+      }
+      else
+      {
+        //       cmdOut.addedContent.Children.Add(new Label() { Content="Provided Data was missing or erroneous.", Style=lookLikeConsoleText });
+        //        cmdOut.addedContent.Children.Add(new Label() { Content="Dampners on. thrusters on.", Style=lookLikeConsoleText });
+        InteractiveTermination();
+      }
+    }
+
+    private void FolderTestAndFinish()
+    {
+      if(ProceedWithWriteableFolder(Path.Combine(MyBlueprint.BlueprintFilePath, MyBlueprint.BlueprintName)))
+      {
+        MyBlueprint=myDictionaryOfArgs.MyBlueprintModel;
+        SelfTermination();
+      }
+      else
+      {
+        //        cmdOut.addedContent.Children.Add(new Label() { Content="Could not access folder, check your file access levels OR a correct path was given", Style=lookLikeConsoleText });
         InteractiveTermination();
       }
     }
@@ -100,41 +97,20 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       return FileSystemHelper.CopyFile(imageResource, Path.Combine(testPath, "thumb.png"));
     }
 
-    private void AddToOutput(string verbose, string labelName)
-    {
-      cmdOut.addedContent.Children.Add(new Label() { Content=verbose, Style=lookLikeConsoleText, Name=labelName });
-    }
-    /// <summary>
-    /// todo
-    /// </summary>
-    /// <param name="verbose"></param>
-    /// <param name="labelName"></param>
-    private void UpdateExistingOutputContent(string verbose, string labelName)
-    {
-      //cmdOut.addedContent.Children.Contains(;
 
-    }
-    /// <summary>
-    /// todo
-    /// </summary>
-    /// <param name="anElement"></param>
-    private void RemoveOutputText(UIElement anElement)
-    {
-
-    }
 
     private void InteractiveTermination()
     {
-      Style buttonStyle = Application.Current.FindResource("ConsoleButton") as Style;
-      cmdOut.addedContent.Children.Add(killBtn=new Button { Content="Close Application", Height=40, Style=buttonStyle });
-      killBtn.Click+=EndItAll;
+      //   Style buttonStyle = Application.Current.FindResource("ConsoleButton") as Style;
+      //   cmdOut.addedContent.Children.Add(killBtn=new Button { Content="Close Application", Height=40, Style=buttonStyle });
+      //   killBtn.Click+=EndItAll;
     }
 
     private void SelfTermination()
     {
       CanClose=true;
-      cmdOut.Hide();
-      cmdOut.Close();
+      //   cmdOut.Hide();
+      //cmdOut.Close();
       if(myDictionaryOfArgs!=null)
       {
         myDictionaryOfArgs.Clear();
@@ -148,7 +124,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       SelfTermination();
     }
 
-    private bool ArgumentPreProcessing()
+    private async Task<bool> ArgumentPreProcessingAsync()
     {
       if(myStartingArgs[0].ToLower()=="/?"||myStartingArgs[0].ToLower()=="-h"||myStartingArgs[0].ToLower()=="--help")
       {
@@ -169,7 +145,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
         {
           while(helpFile.Peek() != -1)
           {
-            cmdOut.addedContent.Children.Add(new Label() { Content=helpFile.ReadLine(), Style=lookLikeConsoleText });
+            //msg    helpFile.ReadLine();
           }
           helpFile.Close();
         }
@@ -179,30 +155,34 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       catch(Exception ae) { MessageBox.Show(ae.Message); }
     }
 
-    private void ProcessArguments()
+    private async Task ProcessArgumentsAsync()
     {
       myDictionaryOfArgs = new CheckStartArguments();
 #if DEBUG
       //  ShowDictionary();
 #endif
-      cmdOut.addedContent.Children.Add(new Label() { Content="Processing input...", Style=lookLikeConsoleText });
+      //msg "Processing input..." ;
+
       foreach(string s in myStartingArgs)
       {
-        //     cmdOut.addedContent.Children.Add(new Label() { Content="argument: "+lineFromFile, Style=lookLikeConsoleText });
+        //msg "argument: "+s ;
         if(s.Contains("="))
         {
           string[] result =   KeyValueExtraction(s, '=');
           if(myDictionaryOfArgs.ContainsKey(result[0]))
           {
             myDictionaryOfArgs[result[0]]=result[1];
-            cmdOut.addedContent.Children.Add(new Label() { Content=result[0]+" set to: "+result[1], Style=lookLikeConsoleText });
+            //msg ProgressMessage = result[0]+" set to: "+result[1] ;
           }
           else
-            cmdOut.addedContent.Children.Add(new Label() { Content="unknown argument:"+result[0], Style=lookLikeConsoleText });
+          {
+            //msg "unknown argument:"+result[0] ;
+          }
         }
         else
-          cmdOut.addedContent.Children.Add(new Label() { Content="invalid usage or asignment of:"+s, Style=lookLikeConsoleText });
-        //Thread.Sleep(500);
+        {
+          //msg "invalid usage or asignment of:"+s ;
+        }
       }
 #if DEBUG
       //   ShowDictionary();
@@ -237,6 +217,9 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 #endif
       return keyValue;
     }
+
+  
+
 
     #region disposal
 

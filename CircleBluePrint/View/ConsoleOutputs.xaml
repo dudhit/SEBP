@@ -2,8 +2,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:System="clr-namespace:System;assembly=mscorlib"
         x:Class="SoloProjects.Dudhit.SpaceEngineers.SEBP.View.ConsoleOutputs" Title="SEBP command line " Height="600"
         Width="800" >
- 
-            <ScrollViewer >
-    <StackPanel  x:Name="addedContent" Background="Black" />
+
+    <ScrollViewer>
+        <StackPanel Background="Black">
+            <ItemsControl ItemsSource="{Binding ObjectCollection}">
+            </ItemsControl>
+        </StackPanel>
     </ScrollViewer>
 </Window>

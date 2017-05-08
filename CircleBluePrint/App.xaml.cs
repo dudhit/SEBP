@@ -13,10 +13,11 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
   /// </summary>
   public partial class App : Application
   {
-   private void BeginSEPB(object sender, StartupEventArgs e)
+   private  void BeginSEPB(object sender, StartupEventArgs e)
     {
       SEBluePrintController appController= new SEBluePrintController(e);
-      appController.BeginSEPB();
+       appController.BeginSEPB();
+    appController.Dispose();
     }
 
 

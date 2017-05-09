@@ -14,7 +14,7 @@ using System.Windows.Media;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 {
-  public class CommandLineHandler : IDisposable
+  public class CommandLineHandler : IDisposable, INotifyPropertyChanged
   {
     private string[] myStartingArgs;
     private CheckStartArguments myDictionaryOfArgs;
@@ -22,6 +22,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     private Button killBtn;
     public bool CanClose { get; private set; }
     Progress<MyTaskProgressReport> progressIndicator;
+    private string myProgress;
+    public string MyProgress { get { return this.myProgress; } set { value=this.myProgress; RaisePropertyChanged("MyProgress"); } }
     public CommandLineHandler(string[] args)
     {
       this.myStartingArgs=args;
@@ -219,6 +221,17 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     }
 
   
+    #region INotifyPropertyChanged Members
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    private void RaisePropertyChanged(string prop)
+    {
+      PropertyChangedEventHandler handler =  PropertyChanged;
+      if(handler != null)
+        handler(this, new PropertyChangedEventArgs(prop));
+    }
+    #endregion
 
 
     #region disposal

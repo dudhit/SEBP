@@ -22,6 +22,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
     public ConsoleOutputs()
     {
       InitializeComponent();
+
     }
   }
 }

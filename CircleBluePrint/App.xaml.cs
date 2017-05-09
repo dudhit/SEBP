@@ -3,6 +3,7 @@ using SoloProjects.Dudhit.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Media3D;
 
@@ -15,9 +16,10 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
   {
    private  void BeginSEPB(object sender, StartupEventArgs e)
     {
-      SEBluePrintController appController= new SEBluePrintController(e);
-       appController.BeginSEPB();
-    appController.Dispose();
+           SEBluePrintController appController= new SEBluePrintController(e);
+ appController.BeginSEPB();
+   System.Diagnostics.Trace.Write("done");
+  //  appController.Dispose();
     }
 
 

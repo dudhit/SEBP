@@ -22,28 +22,30 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     private HashSet<Point3D> blueprintData;
     private string[] commandLineArguments;
     private ConsoleViewModel outputController;
-
+    private Progress<MyTaskProgressReporter> progressIndicator;
     public SEBluePrintController(StartupEventArgs e)
     {
       this.commandLineArguments = e.Args;
       Initialise();
 
-
+    
     }
 
     private void SetupOutputWindow()
     {
       lookLikeConsoleText = Application.Current.FindResource("ConsoleText") as Style;
       cmdOut = new ConsoleOutputs();
-      cmdOut.InitializeComponent();
-      cmdOut.Show();
+   //   cmdOut.InitializeComponent();
+            cmdOut.Show();
       outputController = new ConsoleViewModel(cmdOut);
       DisplayHeaderMessage();
+   
     }
 
     private void Initialise()
     {
       masterBlueprint = new BlueprintModel();
+      progressIndicator = new Progress<MyTaskProgressReporter>(ReportProgress);
     }
 
     private void DisplayHeaderMessage()
@@ -51,19 +53,23 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       outputController.AddTextToCollection("SEBP commandline interface.\n use \"--help\" for detailed instructions");
 
     }
-    public void BeginSEPB()
+    public  void BeginSEPB()
     {
-      //   masterBlueprint = new BlueprintModel();
-      if(commandLineArguments!=null&&commandLineArguments.Length>0)
-      {
-      SetupOutputWindow();
-        NonUIControl();
-      }
-      else
-      {
-        UIControl();
-      }
 
+      masterBlueprint = new BlueprintModel();
+        if(commandLineArguments!=null&&commandLineArguments.Length>0)
+        {
+          SetupOutputWindow();
+
+          NonUIControl();
+          outputController.AddTextToCollection("You can safely close this window");
+        }
+        else
+        {
+          UIControl();
+        }
+   
+    
     }
 
     private void UIControl()
@@ -72,12 +78,12 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       SEbpUI.ShowDialog();
     }
 
-    private async void NonUIControl()
+    private void NonUIControl()
     {
       using(CommandLineHandler commandLineHandler = new CommandLineHandler(commandLineArguments))
       {
         commandLineHandler.MyBlueprint=masterBlueprint;
-       await commandLineHandler.Start();
+        commandLineHandler.Start();
         if(commandLineHandler.MyBlueprint.HasUsableData)
         {
           masterBlueprint=commandLineHandler.MyBlueprint;
@@ -92,8 +98,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
         }
         else
         {
-       //"Data...is..bad. ugrh \n" msg
-          
+          //"Data...is..bad. ugrh \n" msg
+
         }
         commandLineHandler.Dispose();
       }
@@ -117,7 +123,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     }
 
 
-    private void ReportProgress(MyTaskProgressReport progress)
+    private void ReportProgress(MyTaskProgressReporter progress)
     {
       string s   = progress.ProgressMessage;
     }
@@ -168,13 +174,13 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     #endregion
 
 
-  
+
     //  //    //     ps = new ProgressStatus();
-        //  //    //       ps.BarMaximum=(Math.Abs((shapeSettings.xRadius - 1) * (shapeSettings.yRadius - 1) * (shapeSettings.zRadius - 1)));
+    //  //    //       ps.BarMaximum=(Math.Abs((shapeSettings.xRadius - 1) * (shapeSettings.yRadius - 1) * (shapeSettings.zRadius - 1)));
     //  //    //     ps.BarMinimum = 0;
-        //  //    //ps.Show();
-        //  //    //   ps.progressBar.Minimum = 100;
-        
+    //  //    //ps.Show();
+    //  //    //   ps.progressBar.Minimum = 100;
+
 
 
     #region disposal

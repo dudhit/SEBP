@@ -5,8 +5,10 @@
 
     <ScrollViewer>
         <StackPanel Background="Black">
-            <ItemsControl ItemsSource="{Binding ObjectCollection}">
-            </ItemsControl>
+            <ProgressBar Visibility="{Binding ProgressBarVisibility}"  Height="20" Margin="2"
+                    Value="{Binding ProgressBarPercentComplete}" IsIndeterminate="{Binding ProgressBarIsIndeterminate}" Foreground="Yellow"
+                    BorderBrush="{x:Null}" Background="{x:Null}" />
+            <ItemsControl ItemsSource="{Binding ControlCollection}"  />
         </StackPanel>
     </ScrollViewer>
 </Window>

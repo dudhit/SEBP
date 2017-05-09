@@ -3,6 +3,7 @@ using SoloProjects.Dudhit.SpaceEngineers.SEBP.View;
 using SoloProjects.Dudhit.Utilities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -21,23 +22,23 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     public BlueprintModel MyBlueprint { get; set; }
     private Button killBtn;
     public bool CanClose { get; private set; }
-    Progress<MyTaskProgressReport> progressIndicator;
+    Progress<MyTaskProgressReporter> progressIndicator;
     private string myProgress;
     public string MyProgress { get { return this.myProgress; } set { value=this.myProgress; RaisePropertyChanged("MyProgress"); } }
     public CommandLineHandler(string[] args)
     {
       this.myStartingArgs=args;
       CanClose=false;
-      progressIndicator = new Progress<MyTaskProgressReport>(ReportProgress);
+   
     }
 
 
 
-    public async Task Start()
+    public void Start()
     {
-      if(await ArgumentPreProcessingAsync()&&MyBlueprint!=null)
+      if(ArgumentPreProcessing()&&MyBlueprint!=null)
       {
-        await ProcessArgumentsAsync();
+        ProcessArguments();
         myDictionaryOfArgs.SetEmptyWithDefaultValues();
         myDictionaryOfArgs.MyBlueprintModel=MyBlueprint;
         myDictionaryOfArgs.SetModel();
@@ -126,7 +127,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       SelfTermination();
     }
 
-    private async Task<bool> ArgumentPreProcessingAsync()
+    private  bool ArgumentPreProcessing()
     {
       if(myStartingArgs[0].ToLower()=="/?"||myStartingArgs[0].ToLower()=="-h"||myStartingArgs[0].ToLower()=="--help")
       {
@@ -157,7 +158,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       catch(Exception ae) { MessageBox.Show(ae.Message); }
     }
 
-    private async Task ProcessArgumentsAsync()
+    private void ProcessArguments()
     {
       myDictionaryOfArgs = new CheckStartArguments();
 #if DEBUG

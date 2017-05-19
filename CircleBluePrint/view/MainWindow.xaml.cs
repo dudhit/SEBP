@@ -19,9 +19,10 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
         #region main window flow and menu
         private bool isWorking;
         public MainWindow()
-        {
+        {  
             this.DataContext = this;
             InitializeComponent();
+       
             // subscribe to 3 tab events
             //SubscribeToTabEvents();
             actionGenerate.IsEnabled = false;

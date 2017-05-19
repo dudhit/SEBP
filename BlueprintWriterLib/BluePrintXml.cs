@@ -21,7 +21,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.BlueprintWriterLib
     private HashSet<Point3D> allPoints;
     private string XSD = "xsd";
     private string XSI = "xsi";
-
+    private int blockCount;
     [NonSerialized]
     private XNamespace xmlSchema = "http://www.w3.org/2001/XMLSchema";
     [NonSerialized]
@@ -29,14 +29,18 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.BlueprintWriterLib
     private BlueprintHSV compressedValues;
     private string blockSubType;
     private long entityTracked;
+    private IProgress<MyTaskProgressReporter> myProgress;
     //    private List<Point3D> GridData { get; set; }
     //public Point3D PopulateGrid { set { GridData.Add(value); } }
-    public BluePrintXml(BlueprintModel bp, HashSet<Point3D> data)
+    public BluePrintXml(BlueprintModel bp, HashSet<Point3D> data,IProgress<MyTaskProgressReporter> progress)
         {
           this.basicData=bp;
           this.allPoints=data;
+          this.blockCount=0;
+          this.myProgress=progress;
             entityTracked = EntityGenerator(18);
             SetBlockSubTypes();
+      ConvertModelColoursForThis();
       }
 
     private void SetBlockSubTypes()
@@ -97,7 +101,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.BlueprintWriterLib
     public void MakeBaseStructure()
     {
       //todo put all attributes into a dictionary
-
+      
       this.Declaration = new XDeclaration("1.0", null, null);
 
       /* var result = from el in this.Root.Elements("Definitions")
@@ -205,9 +209,9 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.BlueprintWriterLib
 
     private XElement CubeBlocks()
     {
-      ConvertModelColoursForThis();
       Object writeLock = new Object();
       XElement setCubeBlocks = new XElement("CubeBlocks");
+      int totalProcessing = allPoints.Count;
       Parallel.ForEach(allPoints, p =>
        //     Parallel.For(0, PointContainer.Count() + 1, i =>
        //  for (int i = 0; i < PointContainer.Count(); i++)
@@ -222,8 +226,11 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.BlueprintWriterLib
          builder.Add(colour);
          lock(writeLock)
          {
+           blockCount++;
            setCubeBlocks.Add(builder);
          }
+         if(myProgress!=null)
+           myProgress.Report(new MyTaskProgressReporter() { ProgressCounter=((int)(blockCount/totalProcessing)*100),ProgressMessage=string.Format("{0}/{1}",blockCount,totalProcessing) });
        });
       return setCubeBlocks;
     }

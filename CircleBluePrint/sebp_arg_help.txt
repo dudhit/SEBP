@@ -1,12 +1,14 @@
+
 ╔═════════════════════════════════════════════════════════════════════════════╗
 ║                                                                             ║
-║  [path] [id] [owner] [bpname] [x] [y]=20 [z] [shape] [armour] [size]        ║
-║ [colour] [[h] [s] [v][ [[r] [g] [b]]                                        ║
+║ Availale parameters                                                         ║
+║  [path] [id] [owner] [bpname] [x] [y]=20 [z] [shape] [fraction]             ║
+║   [armour] [size] [colour] [[h] [s] [v][ [[r] [g] [b]] [solid]              ║
 ║                                                                             ║
 ╚═════════════════════════════════════════════════════════════════════════════╝
 ╔═════════════════════════════════════════════════════════════════════════════╗
 ║                                                                             ║
-║             The critical data required to generate a blueprint              ║
+║         Usage of each parameter. Note the defaults if none specified        ║
 ║                                                                             ║
 ╚═════════════════════════════════════════════════════════════════════════════╝
 ╔════════════════════════╦════════════════════════════════════════════════════╗
@@ -103,6 +105,14 @@
 ║ example usage                                                               ║
 ║ size="large"                                                                ║
 ║ <Default> large                                                             ║
+╠════════════════════════╦════════════════════════════════════════════════════╣
+║                        ║                                                    ║
+║ solid=<bool>           ║   Is shape a hollow frame or filled true|false     ║
+║                        ║                                                    ║
+╠════════════════════════╩════════════════════════════════════════════════════╣
+║ example usage                                                               ║
+║ solid="false"                                                               ║
+║ <Default> false                                                             ║
 ╠════════════════════════╦════════════════════════════════════════════════════╣
 ║                        ║                                                    ║
 ║                        ║ colour model to use to provide colour details      ║

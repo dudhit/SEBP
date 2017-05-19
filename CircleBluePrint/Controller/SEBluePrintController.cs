@@ -16,124 +16,93 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 {
   public class SEBluePrintController : IDisposable
   {
-    private ConsoleOutputs cmdOut;
-    private Style lookLikeConsoleText;
-    private BlueprintModel masterBlueprint;
-    private HashSet<Point3D> blueprintData;
-    private string[] commandLineArguments;
-    private ConsoleViewModel outputController;
-    private Progress<MyTaskProgressReporter> progressIndicator;
-    public SEBluePrintController(StartupEventArgs e)
-    {
-      this.commandLineArguments = e.Args;
-      Initialise();
+    //private ConsoleOutputs cmdOut;
+    //private BlueprintModel masterBlueprint;
+    //private HashSet<Point3D> blueprintData;
+    //private string[] commandLineArguments;
+    //public string[] CommandLineArguments { get; set; }
+    //private ConsoleViewModel outputController;
+    //public ConsoleViewModel OutputController { get; set; }
+    //// private Progress<MyTaskProgressReporter> progressIndicator;
 
+    public SEBluePrintController()
+    {
+    }
+    //public async void BeginSEPBAsync()
+    //{
+    //  try
+    //  {
+        //    masterBlueprint =new BlueprintModel();
+    //    if(commandLineArguments!=null&&commandLineArguments.Length>0)
+    //    {
+    //   //   Task<bool> firstLevel=  BulkProcessingLogic();
+    // //     bool ready = await firstLevel;
+    //    //  Task<int> workResult =   SomeNumberWorkAsync(null);
+    // //     System.Diagnostics.Trace.WriteLine(" SomeNumberWorkAsync should have fired off");
+    ////      int result  = await workResult;
+    //    //  SetupOutputWindow();
+    //    //  //construct Progress<T>, passing ReportProgress as the Action<T> 
+    //    //  Progress<MyTaskProgressReporter> progressIndicator = new Progress<MyTaskProgressReporter>(ReportProgress);
+    //    //  //call async method
+    //    //  MyTaskProgressReporter stayInformed= await NonUIControl(progressIndicator);
+    //    //  ReportProgress(stayInformed);
+    //    }
     
-    }
+    //  }
+    //  catch(Exception ex)
+    //  { MessageBox.Show(ex.ToString()); }
 
-    private void SetupOutputWindow()
-    {
-      lookLikeConsoleText = Application.Current.FindResource("ConsoleText") as Style;
-      cmdOut = new ConsoleOutputs();
-   //   cmdOut.InitializeComponent();
-            cmdOut.Show();
-      outputController = new ConsoleViewModel(cmdOut);
-      DisplayHeaderMessage();
-   
-    }
-
-    private void Initialise()
-    {
-      masterBlueprint = new BlueprintModel();
-      progressIndicator = new Progress<MyTaskProgressReporter>(ReportProgress);
-    }
-
-    private void DisplayHeaderMessage()
-    {
-      outputController.AddTextToCollection("SEBP commandline interface.\n use \"--help\" for detailed instructions");
-
-    }
-    public  void BeginSEPB()
-    {
-
-      masterBlueprint = new BlueprintModel();
-        if(commandLineArguments!=null&&commandLineArguments.Length>0)
-        {
-          SetupOutputWindow();
-
-          NonUIControl();
-          outputController.AddTextToCollection("You can safely close this window");
-        }
-        else
-        {
-          UIControl();
-        }
-   
-    
-    }
-
-    private void UIControl()
-    {
-      MainWindow SEbpUI =  new MainWindow();
-      SEbpUI.ShowDialog();
-    }
-
-    private void NonUIControl()
-    {
-      using(CommandLineHandler commandLineHandler = new CommandLineHandler(commandLineArguments))
-      {
-        commandLineHandler.MyBlueprint=masterBlueprint;
-        commandLineHandler.Start();
-        if(commandLineHandler.MyBlueprint.HasUsableData)
-        {
-          masterBlueprint=commandLineHandler.MyBlueprint;
-          if(GetPointData())
-          {
-            MessageBox.Show("calcs done..ready to output", "info...", MessageBoxButton.OK, MessageBoxImage.Information);
-            //access writer
-            BluePrintXml writeBlueprint =new BluePrintXml(masterBlueprint, blueprintData);
-            writeBlueprint.MakeBaseStructure();
-            writeBlueprint.BluePrintFileHandling();
-          }
-        }
-        else
-        {
-          //"Data...is..bad. ugrh \n" msg
-
-        }
-        commandLineHandler.Dispose();
-      }
-      MessageBox.Show("output done.", "Finished.", MessageBoxButton.OK, MessageBoxImage.Information);
-
-    }
-
-    public bool GetPointData()
-    {
-      if(masterBlueprint!=null&&masterBlueprint.HasUsableData)
-      {
-        //    call class to handle point and blueprint output
-        using(PointsToShape pointsToShape = new PointsToShape(masterBlueprint.XAxis, masterBlueprint.YAxis, masterBlueprint.ZAxis, masterBlueprint.FinalShape, masterBlueprint.Solid))
-        {
-          blueprintData=pointsToShape.GlobalCurveSet;
-        }
-        if(blueprintData.Count>1)
-          return true;
-      }
-      return false;
-    }
-
-
-    private void ReportProgress(MyTaskProgressReporter progress)
-    {
-      string s   = progress.ProgressMessage;
-    }
+    //}
+  
 
 
 
+ 
+//    private async void BulkProcessingLogic()
+//    {
+//      using(CommandLineHandler commandLineHandler = new CommandLineHandler(commandLineArguments))
+//      {
+//        commandLineHandler.MyBlueprint=masterBlueprint;
+//// await commandLineHandler.Start();
+//        if(commandLineHandler.MyBlueprint.HasUsableData)
+//        {
+//          masterBlueprint=commandLineHandler.MyBlueprint;
+//          if(GetPointData())
+//          {
+//            //.ProgressMessage="Calculations complete. Writing file...";
+//            //access writer
+//            BluePrintXml writeBlueprint =new BluePrintXml(masterBlueprint, blueprintData);
+//            writeBlueprint.MakeBaseStructure();
+//            writeBlueprint.BluePrintFileHandling();
+//          }
+//        }
+//        else
+//        {
+//          //.ProgressMessage="Data...is..bad. ugrh \n";
+     
+//        }
+//        commandLineHandler.Dispose();
+//      } 
+//       }
+
+    //public bool GetPointData()
+    //{
+    //  if(masterBlueprint!=null&&masterBlueprint.HasUsableData)
+    //  {
+    //    //    call class to handle point and blueprint output
+    //    using(PointsToShape pointsToShape = new PointsToShape(masterBlueprint.XAxis, masterBlueprint.YAxis, masterBlueprint.ZAxis, masterBlueprint.FinalShape, masterBlueprint.Solid))
+    //    {
+    //      blueprintData=pointsToShape.GlobalCurveSet;
+    //    }
+    //    if(blueprintData.Count>1)
+    //      return true;
+    //  }
+    //  return false;
+    //}
 
 
-    #region file handling
 
+ 
 
 
 
@@ -171,17 +140,6 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
 
 
-    #endregion
-
-
-
-    //  //    //     ps = new ProgressStatus();
-    //  //    //       ps.BarMaximum=(Math.Abs((shapeSettings.xRadius - 1) * (shapeSettings.yRadius - 1) * (shapeSettings.zRadius - 1)));
-    //  //    //     ps.BarMinimum = 0;
-    //  //    //ps.Show();
-    //  //    //   ps.progressBar.Minimum = 100;
-
-
 
     #region disposal
 
@@ -200,11 +158,11 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     {
       if(disposing)
       {
-        if(masterBlueprint!=null)
-        {
-          masterBlueprint.Dispose();
-          masterBlueprint=null;
-        }
+        //if(masterBlueprint!=null)
+        //{
+        //  masterBlueprint.Dispose();
+        //  masterBlueprint=null;
+        //}
 
       }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SoloProjects.Dudhit.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,10 +20,18 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.View
   /// </summary>
   public partial class ConsoleOutputs : Window
   {
+    private ConsoleViewModel viewModel;
     public ConsoleOutputs()
     {
       InitializeComponent();
-
+     
     }
+    public void Start(string[] args)
+    {
+      viewModel = new ConsoleViewModel(this, args);
+    }
+
+
+ 
   }
 }

@@ -122,8 +122,9 @@
     </Reference>
     <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="ReachFramework" />
-    <Reference Include="ShapingPoints">
-      <HintPath>..\..\..\UtilityLibraries\ShapingPoints\bin\Release\ShapingPoints.dll</HintPath>
+    <Reference Include="ShapingPoints, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0e4e64a5e5a6bb10, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\UtilityLibraries\ShapingPoints\bin\Debug\ShapingPoints.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -153,7 +154,6 @@
     <Compile Include="model\CheckStartArguments.cs" />
     <Compile Include="Controller\SEBluePrintController.cs" />
     <Compile Include="model\PathValidator.cs" />
-    <Compile Include="model\MyTaskProgressReporter.cs" />
     <Compile Include="View\BlockTabView.xaml.cs">
       <DependentUpon>BlockTabView.xaml</DependentUpon>
     </Compile>
@@ -213,16 +213,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="App_BeginSEPB.sequencediagram.layout">
-      <DependentUpon>App_BeginSEPB.sequencediagram</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="antiTamperKey.pfx" />
     <None Include="app.manifest" />
-    <None Include="App_BeginSEPB.sequencediagram" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -289,13 +285,19 @@
       <Project>{ec02280a-37db-483f-bf71-30f5be393d59}</Project>
       <Name>FileAccessor</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MyProgressRepoter\MyTaskProgressReporter.csproj">
+      <Project>{d2c171b7-7540-4fa8-a735-60a0a32392e1}</Project>
+      <Name>MyTaskProgressReporter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SteamConfigReader\SteamConfigReader.csproj">
       <Project>{70b7a935-7d71-48b3-8970-767f1a9558cc}</Project>
       <Name>SteamConfigReader</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="sebp_arg_help.txt" />
+    <Content Include="sebp_arg_help.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="images\thumb.png">

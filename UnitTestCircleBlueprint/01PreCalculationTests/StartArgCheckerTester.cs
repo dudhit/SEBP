@@ -13,7 +13,7 @@ namespace SoloProjects.Dudhit.Utilities.UnitTestCircleBlueprint
     {
       csa = new CheckStartArguments();
       csa.MyBlueprintModel=new BlueprintModel();
-      System.Diagnostics.Trace.WriteLine("setep complete");
+      System.Diagnostics.Trace.WriteLine("setup complete");
     }
 
     [TearDown]
@@ -35,8 +35,9 @@ namespace SoloProjects.Dudhit.Utilities.UnitTestCircleBlueprint
     Assert.AreEqual(csa["size"], "Large");
     Assert.AreEqual(csa["colour"], "hsv");
      Assert.AreEqual(csa["h"], "0"); 
-       Assert.AreEqual(csa["s"], "-100"); 
-      Assert.AreEqual(csa["v"], "-90"); 
+       Assert.AreEqual(csa["s"], "-100");
+       Assert.AreEqual(csa["v"], "-90");
+       Assert.AreEqual(csa["solid"], "false"); 
   }
 
     [Test]
@@ -54,7 +55,8 @@ namespace SoloProjects.Dudhit.Utilities.UnitTestCircleBlueprint
       Assert.AreEqual(csa.MyBlueprintModel.BlockSize, "Large");
       Assert.AreEqual(csa.MyBlueprintModel.BlockColour.H,0);
       Assert.AreEqual(csa.MyBlueprintModel.BlockColour.S,-100);
-      Assert.AreEqual(csa.MyBlueprintModel.BlockColour.V, -90); 
+      Assert.AreEqual(csa.MyBlueprintModel.BlockColour.V, -90);
+      Assert.AreEqual(csa.MyBlueprintModel.Solid, false); 
     }
   }
 }

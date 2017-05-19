@@ -75,6 +75,10 @@
       <Project>{a7b07c89-1c11-4779-9788-48961b47a1eb}</Project>
       <Name>BlueprintModelLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MyProgressRepoter\MyTaskProgressReporter.csproj">
+      <Project>{d2c171b7-7540-4fa8-a735-60a0a32392e1}</Project>
+      <Name>MyTaskProgressReporter</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="antiTamperKey.pfx" />

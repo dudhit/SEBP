@@ -110,13 +110,8 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="01bHelpers\FolderFunctionTester.cs" />
-    <Compile Include="01bHelpers\ProbeRegistryTester.cs" />
     <Compile Include="01PreCalculationTests\BlueprintModelTester.cs" />
-    <Compile Include="02CalculationTests\BresenhamCircularCurveTester.cs" />
-    <Compile Include="02CalculationTests\BresenhamEllipticalCurveTester.cs" />
     <Compile Include="01bHelpers\FilesSysAdminTesting.cs" />
-    <Compile Include="02CalculationTests\PointsToShapeTester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="01PreCalculationTests\StartArgCheckerTester.cs" />
     <Compile Include="03OuputTests\XmlTester.cs" />

@@ -20,36 +20,82 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     private string[] myStartingArgs;
     private CheckStartArguments myDictionaryOfArgs;
     public BlueprintModel MyBlueprint { get; set; }
-    private Button killBtn;
-    public bool CanClose { get; private set; }
-    Progress<MyTaskProgressReporter> progressIndicator;
-    private string myProgress;
-    public string MyProgress { get { return this.myProgress; } set { value=this.myProgress; RaisePropertyChanged("MyProgress"); } }
+    private IProgress<MyTaskProgressReporter> progressIndicator;
     public CommandLineHandler(string[] args)
     {
       this.myStartingArgs=args;
-      CanClose=false;
-   
+
     }
 
-
-
-    public void Start()
+    public async Task<int> StartAsync(IProgress<MyTaskProgressReporter> progress)
     {
-      if(ArgumentPreProcessing()&&MyBlueprint!=null)
+      this.progressIndicator=progress;
+      if(ArgumentAsksForHelp())
       {
-        ProcessArguments();
+return 0;
+      }
+      if(!ArgumentAsksForHelp()&&MyBlueprint!=null)
+      {
+        await Task.Run(() => { ProcessArguments(); });
+        return 1;
+      }
+      return -1;
+    }
+
+    private bool ArgumentAsksForHelp()
+    {
+      if(myStartingArgs[0].ToLower()=="/?"||myStartingArgs[0].ToLower()=="-h"||myStartingArgs[0].ToLower()=="--help")
+      {
+        return true;
+      }
+   return false;  
+    }
+
+    private void ProcessArguments()
+    {
+      using(myDictionaryOfArgs = new CheckStartArguments())
+      {
+        double status=0;
+
+        if(progressIndicator!=null)
+          progressIndicator.Report(new MyTaskProgressReporter() { ProgressCounter=-1, ProgressMessage="Processing inputs..." });
+        foreach(string s in myStartingArgs)
+        {
+          if(progressIndicator!=null)
+            progressIndicator.Report(new MyTaskProgressReporter() { ProgressCounter=((status/ myStartingArgs.Length)*100), ProgressMessage=string.Format("\targument: {0}", s) });
+          if(s.Contains("="))
+          {
+            string[] result =   KeyValueExtraction(s, '=');
+            if(myDictionaryOfArgs.ContainsKey(result[0]))
+            {
+              myDictionaryOfArgs[result[0]]=result[1];
+              if(progressIndicator!=null)
+                progressIndicator.Report(new MyTaskProgressReporter() { ProgressCounter=-1, ProgressMessage=string.Format("\t\t{0} set to: {1}", result[0], result[1]) });
+            }
+            else
+            {
+              if(progressIndicator!=null)
+                progressIndicator.Report(new MyTaskProgressReporter() { ProgressCounter=-1, ProgressMessage=string.Format("\t\tunknown argument: {0} ", result[0]) });
+            }
+          }
+          else
+          {
+            if(progressIndicator!=null)
+              progressIndicator.Report(new MyTaskProgressReporter() { ProgressCounter=-1, ProgressMessage=string.Format("\t\tinvalid usage or asignment of: {0} ", s) });
+          }
+          status++;
+        }
+        myStartingArgs=null;
+        if(progressIndicator!=null)
+          progressIndicator.Report(new MyTaskProgressReporter() { ProgressCounter=-1, ProgressMessage=string.Format("setting unspecified data...") });
         myDictionaryOfArgs.SetEmptyWithDefaultValues();
         myDictionaryOfArgs.MyBlueprintModel=MyBlueprint;
         myDictionaryOfArgs.SetModel();
         CheckBpData();
       }
-      else
-      {
-        ShowHelp();
-        InteractiveTermination();
-      }
+
     }
+
 
     private void CheckBpData()
     {
@@ -60,24 +106,25 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       }
       else
       {
-        //       cmdOut.addedContent.Children.Add(new Label() { Content="Provided Data was missing or erroneous.", Style=lookLikeConsoleText });
-        //        cmdOut.addedContent.Children.Add(new Label() { Content="Dampners on. thrusters on.", Style=lookLikeConsoleText });
-        InteractiveTermination();
+        if(progressIndicator!=null)
+          progressIndicator.Report(new MyTaskProgressReporter() { ProgressMessage="Provided Data was missing or erroneous." });
       }
     }
 
     private void FolderTestAndFinish()
     {
-      if(ProceedWithWriteableFolder(Path.Combine(MyBlueprint.BlueprintFilePath, MyBlueprint.BlueprintName)))
+      string savePath=Path.Combine(MyBlueprint.BlueprintFilePath, MyBlueprint.BlueprintName);
+      if(ProceedWithWriteableFolder(savePath))
       {
         MyBlueprint=myDictionaryOfArgs.MyBlueprintModel;
-        SelfTermination();
+     if(progressIndicator!=null)   progressIndicator.Report(new MyTaskProgressReporter() { ProgressMessage="Preparing blueprint file space" });
       }
       else
       {
-        //        cmdOut.addedContent.Children.Add(new Label() { Content="Could not access folder, check your file access levels OR a correct path was given", Style=lookLikeConsoleText });
-        InteractiveTermination();
+        if(progressIndicator!=null)
+          progressIndicator.Report(new MyTaskProgressReporter() { ProgressMessage=string.Format("Could not access blueprint folder {0}, check your file access levels OR a correct path was given", savePath) });
       }
+
     }
 
     private bool ProceedWithWriteableFolder(string testPath)
@@ -102,111 +149,20 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
 
 
-    private void InteractiveTermination()
-    {
-      //   Style buttonStyle = Application.Current.FindResource("ConsoleButton") as Style;
-      //   cmdOut.addedContent.Children.Add(killBtn=new Button { Content="Close Application", Height=40, Style=buttonStyle });
-      //   killBtn.Click+=EndItAll;
-    }
+    //#if DEBUG
 
-    private void SelfTermination()
-    {
-      CanClose=true;
-      //   cmdOut.Hide();
-      //cmdOut.Close();
-      if(myDictionaryOfArgs!=null)
-      {
-        myDictionaryOfArgs.Clear();
-        myDictionaryOfArgs.Dispose();
-      }
-    }
+    //    private void ShowDictionary()
+    //    {
+    //      foreach(var entry in myDictionaryOfArgs)
+    //      {
+    //        System.Diagnostics.Trace.Write("KEY:");
+    //        System.Diagnostics.Trace.Write(entry.Key.ToString());
+    //        System.Diagnostics.Trace.Write(" VALUE:");
+    //        System.Diagnostics.Trace.WriteLine(entry.Value.ToString());
+    //      }
+    //    }
 
-    private void EndItAll(object sender, RoutedEventArgs e)
-    {
-      killBtn.Click-=EndItAll;
-      SelfTermination();
-    }
-
-    private  bool ArgumentPreProcessing()
-    {
-      if(myStartingArgs[0].ToLower()=="/?"||myStartingArgs[0].ToLower()=="-h"||myStartingArgs[0].ToLower()=="--help")
-      {
-        return false;
-      }
-      else
-      {
-        return true;
-      }
-    }
-
-    private void ShowHelp()
-    {
-      string pathToHelp =  "..\\..\\..\\sebp_arg_help.txt";
-      try
-      {
-        using(StreamReader helpFile = new StreamReader(pathToHelp))
-        {
-          while(helpFile.Peek() != -1)
-          {
-            //msg    helpFile.ReadLine();
-          }
-          helpFile.Close();
-        }
-      }
-      catch(FileNotFoundException FNF) { MessageBox.Show(FNF.Message); }
-      catch(UnauthorizedAccessException UAE) { MessageBox.Show(UAE.Message); }
-      catch(Exception ae) { MessageBox.Show(ae.Message); }
-    }
-
-    private void ProcessArguments()
-    {
-      myDictionaryOfArgs = new CheckStartArguments();
-#if DEBUG
-      //  ShowDictionary();
-#endif
-      //msg "Processing input..." ;
-
-      foreach(string s in myStartingArgs)
-      {
-        //msg "argument: "+s ;
-        if(s.Contains("="))
-        {
-          string[] result =   KeyValueExtraction(s, '=');
-          if(myDictionaryOfArgs.ContainsKey(result[0]))
-          {
-            myDictionaryOfArgs[result[0]]=result[1];
-            //msg ProgressMessage = result[0]+" set to: "+result[1] ;
-          }
-          else
-          {
-            //msg "unknown argument:"+result[0] ;
-          }
-        }
-        else
-        {
-          //msg "invalid usage or asignment of:"+s ;
-        }
-      }
-#if DEBUG
-      //   ShowDictionary();
-#endif
-      myStartingArgs=null;
-
-    }
-#if DEBUG
-
-    private void ShowDictionary()
-    {
-      foreach(var entry in myDictionaryOfArgs)
-      {
-        System.Diagnostics.Trace.Write("KEY:");
-        System.Diagnostics.Trace.Write(entry.Key.ToString());
-        System.Diagnostics.Trace.Write(" VALUE:");
-        System.Diagnostics.Trace.WriteLine(entry.Value.ToString());
-      }
-    }
-
-#endif
+    //#endif
     private string[] KeyValueExtraction(string theString, char splitChar)
     {
       string[] keyValue= new string[2];
@@ -215,13 +171,13 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       keyValue[0] =theString.Substring(0, equalPositon).ToLower();
       keyValue[1] =theString.Substring(equalPositon+1, theString.Length-(equalPositon+1));
 #if DEBUG
-      //    cmdOut.addedContent.Children.Add(new Label() { Content=keyValue[0], Style=lookLikeConsoleText });
-      //    cmdOut.addedContent.Children.Add(new Label() { Content=keyValue[1], Style=lookLikeConsoleText });
+      //    System.Diagnostics.Trace.Write(keyValue[0]);
+      //    System.Diagnostics.Trace.Write(keyValue[1]);
 #endif
       return keyValue;
     }
 
-  
+
     #region INotifyPropertyChanged Members
 
     public event PropertyChangedEventHandler PropertyChanged;

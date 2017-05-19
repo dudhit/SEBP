@@ -8,12 +8,12 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
   public class CheckStartArguments : Dictionary<string, string>,IDisposable//Dictionary<>,
   {
     public BlueprintModel MyBlueprintModel { get; set; }
-  //  private BlueprintModel myBlueprintModel;
  
     public CheckStartArguments()
       : base()
     {
       LoadOptions();
+   //   SetEmptyWithDefaultValues();
     }
     /// <summary>
     /// expected runtime arguments
@@ -59,8 +59,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       //specify Solid or hollow
       this.Add("solid", "");
     }
-
-
+    
     private bool IsNeedingDefault(string key)
     {
       return string.IsNullOrEmpty(GetDictionaryValue(key));//&&KeyExists(key);
@@ -75,39 +74,43 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
         return this[key].ToString();
       return null;
     }
+   
     public void SetEmptyWithDefaultValues()
     {
-      FileSystemAdministrativeTools fileSystemAdministrativeTools;
-
-      fileSystemAdministrativeTools = new FileSystemAdministrativeTools(this["owner"], IsNeedingDefault("id"));
-      if(IsNeedingDefault("owner")) { this["owner"]=fileSystemAdministrativeTools.SteamUserName; }
-      if(IsNeedingDefault("id")) { this["id"]=fileSystemAdministrativeTools.SteamUserId; }
-      if(IsNeedingDefault("path")) { this["path"]=fileSystemAdministrativeTools.GetGameDataSaveLocation(); }
-      if(IsNeedingDefault("bpname")) { this["bpname"]= "SEBP"; }
-      if(IsNeedingDefault("x")) { this["x"]= "10"; }
-      if(IsNeedingDefault("y")) { this["y"]= "10"; }
-      if(IsNeedingDefault("z")) { this["z"]= "10"; }
-      if(IsNeedingDefault("shape")) { this["shape"]= "circle"; }
-      if(IsNeedingDefault("fraction")) { this["fraction"]= "quarter"; }
-      if(IsNeedingDefault("armour")) { this["armour"]= "Normal"; }
-      if(IsNeedingDefault("size")) { this["size"]= "Large"; }
-      if(IsNeedingDefault("solid")) { this["solid"]= "false"; }
-      if(IsNeedingDefault("colour"))
+      try
       {
-        this["colour"]= "hsv";
-        if(IsNeedingDefault("h")) { this["h"]= "0"; }
-        if(IsNeedingDefault("s")) { this["s"]= "-100"; }
-        if(IsNeedingDefault("v")) { this["v"]= "-90"; }
-      }
-      else
-      {
-        if(this["colour"]!="rgb")
-          return;
-        if(IsNeedingDefault("r")) { this["r"]= "0"; }
-        if(IsNeedingDefault("g")) { this["g"]= "0"; }
-        if(IsNeedingDefault("b")) { this["b"]= "0"; }
-      }
+        FileSystemAdministrativeTools fileSystemAdministrativeTools;
 
+        fileSystemAdministrativeTools = new FileSystemAdministrativeTools(this["owner"], IsNeedingDefault("id"));
+        if(IsNeedingDefault("owner")) { this["owner"]=fileSystemAdministrativeTools.SteamUserName; }
+        if(IsNeedingDefault("id")) { this["id"]=fileSystemAdministrativeTools.SteamUserId; }
+        if(IsNeedingDefault("path")) { this["path"]=fileSystemAdministrativeTools.GetGameDataSaveLocation(); }
+        if(IsNeedingDefault("bpname")) { this["bpname"]= "SEBP"; }
+        if(IsNeedingDefault("x")) { this["x"]= "10"; }
+        if(IsNeedingDefault("y")) { this["y"]= "10"; }
+        if(IsNeedingDefault("z")) { this["z"]= "10"; }
+        if(IsNeedingDefault("shape")) { this["shape"]= "circle"; }
+        if(IsNeedingDefault("fraction")) { this["fraction"]= "quarter"; }
+        if(IsNeedingDefault("armour")) { this["armour"]= "Normal"; }
+        if(IsNeedingDefault("size")) { this["size"]= "Large"; }
+        if(IsNeedingDefault("solid")) { this["solid"]= "false"; }
+        if(IsNeedingDefault("colour"))
+        {
+          this["colour"]= "hsv";
+          if(IsNeedingDefault("h")) { this["h"]= "0"; }
+          if(IsNeedingDefault("s")) { this["s"]= "-100"; }
+          if(IsNeedingDefault("v")) { this["v"]= "-90"; }
+        }
+        else
+        {
+          if(this["colour"]!="rgb")
+            return;
+          if(IsNeedingDefault("r")) { this["r"]= "0"; }
+          if(IsNeedingDefault("g")) { this["g"]= "0"; }
+          if(IsNeedingDefault("b")) { this["b"]= "0"; }
+        }
+      }
+      catch(Exception ex) { throw new Exception("automatic data setting failed", ex); }
     
     }
 
@@ -120,62 +123,67 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 
     public void SetModel()
     {
-      //myBlueprintModel = new BlueprintModel();
-      #region setColour
-      switch(this["colour"])
+      try
       {
-        case "hsv":
-          {
-            MyBlueprintModel.BlockColour= new SeHSV(float.Parse(this["h"]), float.Parse(this["s"]), float.Parse(this["v"]));
-            break;
-          }
-        case "rgb":
-          {
-            ColourConverters.ConvertRgbToHsv(int.Parse(this["r"]), int.Parse(this["g"]), int.Parse(this["b"]));
-            break;
-          }
-      }
-      #endregion
-      #region setArmour
-      MyBlueprintModel.BlockArmour=CapitaliseFirstLetter(this["armour"]);
-      #endregion
-      #region BlockSize
+        //myBlueprintModel = new BlueprintModel();
+        #region setColour
+        switch(this["colour"])
+        {
+          case "hsv":
+            {
+              MyBlueprintModel.BlockColour= new SeHSV(float.Parse(this["h"]), float.Parse(this["s"]), float.Parse(this["v"]));
+              break;
+            }
+          case "rgb":
+            {
+              ColourConverters.ConvertRgbToHsv(int.Parse(this["r"]), int.Parse(this["g"]), int.Parse(this["b"]));
+              break;
+            }
+        }
+        #endregion
+        #region setArmour
+        MyBlueprintModel.BlockArmour=CapitaliseFirstLetter(this["armour"]);
+        #endregion
+        #region BlockSize
 
-      MyBlueprintModel.BlockSize= CapitaliseFirstLetter( this["size"]);
-      #endregion  
-      #region HollowObject
-      MyBlueprintModel.Solid= bool.Parse( this["solid"]);
-      #endregion
-      #region BlueprintName
-     MyBlueprintModel.BlueprintName=this["bpname"];
-      #endregion
-      #region BlueprintFilePath
-      MyBlueprintModel.BlueprintFilePath=this["path"];
-      #endregion
-      #region Shape
-      MyBlueprintModel.Shape=this["shape"].ToLower();
-      #endregion
-      #region Shape_fraction
-      MyBlueprintModel.ShapeFraction=this["fraction"].ToLower();
-      #endregion
-      #region SteamId
-      MyBlueprintModel.SteamId=this["id"];
-      #endregion
-      #region SteamName
-     MyBlueprintModel.SteamName= this["owner"];
-      #endregion
-      #region setX
-     MyBlueprintModel.XAxis=int.Parse(this["x"]);
-      #endregion
-      #region setY
-     MyBlueprintModel.YAxis=int.Parse(this["y"]);
-      #endregion
-      #region setZ
-     MyBlueprintModel.ZAxis=int.Parse(this["z"]);
-      #endregion
-   //   System.Diagnostics.Trace.WriteLine( myBlueprintModel.HasUsableData.ToString());
-     // MyBlueprintModel=myBlueprintModel;
+        MyBlueprintModel.BlockSize= CapitaliseFirstLetter(this["size"]);
+        #endregion
+        #region HollowObject
+        MyBlueprintModel.Solid= bool.Parse(this["solid"]);
+        #endregion
+        #region BlueprintName
+        MyBlueprintModel.BlueprintName=this["bpname"];
+        #endregion
+        #region BlueprintFilePath
+        MyBlueprintModel.BlueprintFilePath=this["path"];
+        #endregion
+        #region Shape
+        MyBlueprintModel.Shape=this["shape"].ToLower();
+        #endregion
+        #region Shape_fraction
+        MyBlueprintModel.ShapeFraction=this["fraction"].ToLower();
+        #endregion
+        #region SteamId
+        MyBlueprintModel.SteamId=this["id"];
+        #endregion
+        #region SteamName
+        MyBlueprintModel.SteamName= this["owner"];
+        #endregion
+        #region setX
+        MyBlueprintModel.XAxis=int.Parse(this["x"]);
+        #endregion
+        #region setY
+        MyBlueprintModel.YAxis=int.Parse(this["y"]);
+        #endregion
+        #region setZ
+        MyBlueprintModel.ZAxis=int.Parse(this["z"]);
+        #endregion
+        //   System.Diagnostics.Trace.WriteLine( myBlueprintModel.HasUsableData.ToString());
+        // MyBlueprintModel=myBlueprintModel;
+      }
+      catch(Exception ex) { throw new Exception("set model Failure",ex); }
     }
+
             #region disposal
 
         public void Dispose()

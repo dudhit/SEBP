@@ -104,10 +104,10 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
         case 1:
           {
             AddTextToCollection("Beginning shape calculations...");
-            await Task.Run(() => { GetPointData(myFeedback); });// Task<bool> shapeCraftTask = GetPointDataAsync();
-            // blueprintData=await myData;  // shapesSuccessfullyCalculated = await shapeCraftTask;
+        blueprintData =await GetPointData(myFeedback); // Task<bool> shapeCraftTask = GetPointDataAsync();
+         //    blueprintData=await myData;  // shapesSuccessfullyCalculated = await shapeCraftTask;
        
-            AddTextToCollection(string.Format("a whole {0} blocks have been generated", blueprintData.Count));
+            AddTextToCollection(string.Format("a whole {0} blocks have been generated",-1));// blueprintData.Count));
             break;
           }
       }
@@ -145,16 +145,19 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       }
     }
 
-    public void GetPointData(IProgress<MyTaskProgressReporter>  myFeedback)
+    public async Task<HashSet<Point3D>> GetPointData(IProgress<MyTaskProgressReporter>  myFeedback)
     {
       if(masterBlueprint!=null&&masterBlueprint.HasUsableData)
       {
         //    call class to handle point and blueprint output
         using(PointsToShape pointsToShape = new PointsToShape(masterBlueprint.XAxis, masterBlueprint.YAxis, masterBlueprint.ZAxis, masterBlueprint.FinalShape, masterBlueprint.Solid, myFeedback))
         {
-          blueprintData= pointsToShape.GlobalCurveSet;
+          await Task.Run(() => { pointsToShape.ProcessingShapeAsync(); });
+          return pointsToShape.GlobalCurveSet;
+       //   blueprintData= pointsToShape.GlobalCurveSet;
         }
       }
+      return null;
     }
 
 

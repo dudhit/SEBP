@@ -120,6 +120,10 @@
     <Reference Include="FolderHandling">
       <HintPath>..\..\..\UtilityLibraries\FolderHandling\bin\Release\FolderHandling.dll</HintPath>
     </Reference>
+    <Reference Include="MyTaskProgressRepoter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0e4e64a5e5a6bb10, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\UtilityLibraries\MyProgressRepoter\bin\Release\MyTaskProgressRepoter.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="ReachFramework" />
     <Reference Include="ShapingPoints, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0e4e64a5e5a6bb10, processorArchitecture=MSIL">
@@ -284,10 +288,6 @@
     <ProjectReference Include="..\FileAccessor\FileAccessor.csproj">
       <Project>{ec02280a-37db-483f-bf71-30f5be393d59}</Project>
       <Name>FileAccessor</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MyProgressRepoter\MyTaskProgressReporter.csproj">
-      <Project>{d2c171b7-7540-4fa8-a735-60a0a32392e1}</Project>
-      <Name>MyTaskProgressReporter</Name>
     </ProjectReference>
     <ProjectReference Include="..\SteamConfigReader\SteamConfigReader.csproj">
       <Project>{70b7a935-7d71-48b3-8970-767f1a9558cc}</Project>

@@ -151,13 +151,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BoilerPlate\BindingBase.cs" />
     <Compile Include="CommandLineHandler.cs" />
     <Compile Include="Controller\ConsoleViewModel.cs" />
+    <Compile Include="Controller\TextBoxSliderViewModel.cs" />
     <Compile Include="DataValidator.cs" />
     <Compile Include="FileTab.cs" />
     <Compile Include="model\CheckStartArguments.cs" />
     <Compile Include="Controller\SEBluePrintController.cs" />
+    <Compile Include="model\MyRadioRectangleModel.cs" />
     <Compile Include="model\PathValidator.cs" />
+    <Compile Include="Controller\RadioWithColouredBoxViewModel.cs" />
+    <Compile Include="model\TextBoxSliderModel.cs" />
     <Compile Include="View\BlockTabView.xaml.cs">
       <DependentUpon>BlockTabView.xaml</DependentUpon>
     </Compile>
@@ -167,8 +172,14 @@
     <Compile Include="View\FileTabView.xaml.cs">
       <DependentUpon>FileTabView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\RadioWithColouredBox.xaml.cs">
+      <DependentUpon>RadioWithColouredBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ShapeTabView.xaml.cs">
       <DependentUpon>ShapeTabView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TextBoxSlider.xaml.cs">
+      <DependentUpon>TextBoxSlider.xaml</DependentUpon>
     </Compile>
     <Page Include="View\BlockTabView.xaml">
       <SubType>Designer</SubType>
@@ -198,7 +209,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\RadioWithColouredBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\ShapeTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TextBoxSlider.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

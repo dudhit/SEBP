@@ -17,7 +17,7 @@ using System.Windows.Media.Media3D;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 {
-  public class ConsoleViewModel : INotifyPropertyChanged
+  public class ConsoleViewModel :BindingBase 
   {
     private HashSet<Point3D> blueprintData;
     private string[] startingArguments;
@@ -32,7 +32,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     public ObservableCollection<Control> ControlCollection { get; set; }
     private BlueprintModel masterBlueprint;
     private int argumentsSuccessfullyProcessed;
-       public ConsoleViewModel(ConsoleOutputs view, string[] arguments)
+       public ConsoleViewModel(ConsoleOutputs view, string[] arguments):base()
     {
       view.DataContext=this;
       lookLikeConsoleText = Application.Current.FindResource("ConsoleTextBox") as Style;
@@ -219,16 +219,6 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       RaisePropertyChanged("ProgressBarIsIndeterminate");
       RaisePropertyChanged("ProgressBarPercentComplete");
     }
-    #region INotifyPropertyChanged Members
 
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    private void RaisePropertyChanged(string prop)
-    {
-      PropertyChangedEventHandler handler =  PropertyChanged;
-      if(handler != null)
-        handler(this, new PropertyChangedEventArgs(prop));
-    }
-    #endregion
   }
 }

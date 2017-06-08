@@ -1,0 +1,42 @@
+﻿<UserControl x:Name="userControl" x:Class="SoloProjects.Dudhit.SpaceEngineers.SEBP.View.TextBoxSlider"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="mySlider">
+    <Grid >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30*" />
+            <ColumnDefinition Width="40*" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+
+            <Label x:Name="label1" TabIndex="-1" Margin="10,2" Content="{Binding Identifier}" />
+            <TextBox x:Name="textBox1" TabIndex="10"
+                    Text="{Binding TextValue,  Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" />
+
+        </StackPanel>
+        <Slider x:Name="slider1" TickFrequency="10" TickPlacement="TopLeft" IsMoveToPointEnabled="True"
+                AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1" IsDirectionReversed="True" MaxWidth="35"
+                MinWidth="35" Maximum="{Binding SliderMax}" Minimum="{Binding SliderMin}" Orientation="Vertical"
+                SmallChange="1" LargeChange="10" TabIndex="20"
+                Value="{Binding SliderValue,Mode=TwoWay,NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                         Height="{Binding SliderHeight}" MinHeight="100" Grid.Column="1" />
+    </Grid>
+   </DataTemplate>
+    </UserControl.Resources>
+            <ItemsControl ItemsSource="{Binding SliderCollection,  IsAsync=True,  NotifyOnSourceUpdated=True}"
+                    ItemTemplate="{DynamicResource mySlider}"  VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <UniformGrid Columns="{Binding NumberItems}"></UniformGrid>
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+    </ItemsControl>
+     
+
+</UserControl>
+<!--  <StackPanel Orientation="Horizontal"></StackPanel>-->

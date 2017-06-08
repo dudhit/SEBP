@@ -1,9 +1,16 @@
 ﻿<Application x:Class="SoloProjects.Dudhit.SpaceEngineers.SEBP.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             StartupUri="view/MainWindow.xaml" ShutdownMode="OnMainWindowClose">
-    <Application.Resources>
-         
-    </Application.Resources>
+             DispatcherUnhandledException="HandleUnpredictedErrors"
+              Startup="BeginSEPB"
+             ShutdownMode="OnMainWindowClose">
+    <!--StartupUri="view/MainWindow.xaml"-->
  
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/ResourcesContols.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
 </Application>

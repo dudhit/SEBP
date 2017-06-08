@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="SoloProjects.Dudhit.SpaceEngineers.SEBP.View.FileTabView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="600">
+    <DockPanel >
+        <StackPanel DockPanel.Dock="Left">
+            <Label Content="Details needed to generate a blueprint "  Margin="10,2,10,10"  TabIndex="-1" FontSize="14" />
+            <GroupBox Header="Space Engineers User save data location">
+                <StackPanel>
+                    <WrapPanel  >
+                        <Button x:Name="actionAutofolder"  HorizontalAlignment="Left" Margin="10,2,0,10" VerticalAlignment="Top"  TabIndex="10" ToolTip="Use this to auto locate where Space Engineers saves your local content">AutoFind</Button>
+                        <Button x:Name="actioManualfolder"  HorizontalAlignment="Left" Margin="10,2,10,10" VerticalAlignment="Top"  TabIndex="11" Content="Browse other" >
+                            <Button.ToolTip >
+                                <StackPanel>
+                                    <TextBlock>Use this if you have somehow moved your Space Engineers local saves location.</TextBlock>
+                                    <TextBlock>Select any file from the root of the folder but DO NOT go into blueprints folder.</TextBlock>
+                                </StackPanel>
+                            </Button.ToolTip>
+                        </Button>
+                    </WrapPanel>
+                    <TextBox x:Name="dataSE_Path" HorizontalAlignment="Left" Height="23" Margin="10,2,10,10"  Text="" VerticalAlignment="Top"   TabIndex="9" MinWidth="30" MinHeight="18" MaxWidth="1000" MaxHeight="18"  >
+                        <TextBox.ToolTip>
+                            <StackPanel>
+                                <Label Content=  "drive:\Users\(userName)\AppData\Roaming\SpaceEngineers"/>
+                                <Label Content=  "example:"/>
+                                <Label Content=  "C:\Users\guest\AppData\Roaming\SpaceEngineers" FontStyle="Italic"/>
+                            </StackPanel>
+                        </TextBox.ToolTip>
+                    </TextBox>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="Blueprint Ownership">
+                <StackPanel>
+                    <Button x:Name="actionOpenSteamConfig"  Margin="10,2,10,10">Find your Steam details</Button>
+                    <Label Content="Steam Name:" TabIndex="-1" Margin="10,2,10,10"/>
+                    <TextBox x:Name="dataSteamName" TabIndex="200" MaxWidth="200" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="200" MinHeight="18" MaxHeight="18" Margin="10,2,10,10"  />
+                    <Label Content=  "Steam ID" TabIndex="-1" ToolTip="The blueprint needs a unique identifying number. Your descretion if you use your actual ID" Margin="10,2,10,10"/>
+                    <TextBox x:Name="dataSteamId" TabIndex="20" MaxWidth="200" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="200" MinHeight="18" MaxHeight="18" Margin="10,2,10,10" />
+                </StackPanel>
+            </GroupBox>
+            <Label Content=  "Name for blueprint" TabIndex="-1" Margin="10,2,10,10"/>
+            <TextBox x:Name="dataNames" TabIndex="30" MinHeight="18" MaxHeight="18" MaxWidth="300" MinWidth="300" HorizontalAlignment="Left" Margin="10,2,10,10" />
+        
+          
+        </StackPanel>
+    </DockPanel>
+</UserControl>

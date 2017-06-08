@@ -1,0 +1,58 @@
+﻿<UserControl x:Class="SoloProjects.Dudhit.SpaceEngineers.SEBP.View.ShapeTabView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                     xmlns:customSlider="clr-namespace:SoloProjects.Dudhit.UserInterfaces;assembly=TextSliderCombo"
+             mc:Ignorable="d">
+    <DockPanel  >
+        <WrapPanel DockPanel.Dock="Top" HorizontalAlignment="Center">
+            <GroupBox Header="Shape"  Margin="10"  TabIndex="-1"  Padding="5">
+                <StackPanel>
+                    <StackPanel.ToolTip>
+                        <StackPanel>
+                            <TextBlock><Run Text="Flat circle or ellipse."/></TextBlock>
+                            <TextBlock><Run Text="Sphere or elisiod."/></TextBlock>
+                            <TextBlock><Run Text="Flat shapes calculate faster."/></TextBlock>
+                        </StackPanel>
+                    </StackPanel.ToolTip>
+                    <RadioButton x:Name="makeCircle" Content="Circle" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="shape1" TabIndex="60" Checked="WantsCircle"  />
+                    <RadioButton x:Name="makeEllipse" Content="Ellipse" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="shape1" TabIndex="62" Checked="WantsEllipse"  />
+                    <RadioButton x:Name="makeSphere" Content="Sphere" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="shape1"  TabIndex="64" Checked="WantsSphere"  />
+                    <RadioButton x:Name="makeEllipsoid" Content="Ellipsoid" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="shape1" TabIndex="66" Checked="WantsEllipsoid"  />
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="Fraction" HorizontalAlignment="Left" TabIndex="-1" Margin="10" Padding="10">
+                <StackPanel>
+                    <StackPanel.ToolTip>
+                        <StackPanel>
+                            <TextBlock><Run Text="Less is more."/></TextBlock>
+                            <TextBlock><Run Text="or at least faster"/></TextBlock>
+                        </StackPanel>
+                    </StackPanel.ToolTip>
+                    <RadioButton x:Name="makeQuater" Content="1/4" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="frac"  TabIndex="68" Checked="WantsQuarter"  />
+                    <RadioButton x:Name="makeSemi" Content="1/2" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="frac" TabIndex="70" Checked="WantsHalf" />
+                    <RadioButton x:Name="makeFull" Content="1" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" GroupName="frac" TabIndex="72" Checked="WantsWhole"  />
+                </StackPanel>
+            </GroupBox>
+        </WrapPanel>
+        <GroupBox x:Name="axisGrp" Header="Radius"  TabIndex="-1"     >
+            <StackPanel Orientation="Horizontal" >
+                <StackPanel.ToolTip>
+                    <StackPanel>
+                        <TextBlock><Run Text="The radius in blocks."/></TextBlock>
+                        <TextBlock><Run Text="500 IS THE LIMIT!"/></TextBlock>
+                        <TextBlock><Run Text="for now"/></TextBlock>
+                    </StackPanel>
+                </StackPanel.ToolTip>
+                <customSlider:TextSliderCombo x:Name="xAxisCombo" ComboTabIndex="20" TextHeight="30" TextWidth="40" LabelContent ="X" SliderLargeChange ="10" SliderSmallChange ="1" SliderMinimumValue ="10" SliderMaximumValue ="500" SliderHeight="200" SliderMaxHeight="600" SliderMinHeight="150" TextValue="10"/>
+                <customSlider:TextSliderCombo x:Name="yAxisCombo" ComboTabIndex="30" TextHeight="30" TextWidth="40" LabelContent ="Y" SliderLargeChange ="10" SliderSmallChange ="1" SliderMinimumValue ="10" SliderMaximumValue ="500" SliderHeight="200" SliderMaxHeight="600" SliderMinHeight="150" TextValue="10"/>
+                <customSlider:TextSliderCombo x:Name="zAxisCombo" ComboTabIndex="40" TextHeight="30" TextWidth="40" LabelContent ="Z" SliderLargeChange ="10" SliderSmallChange ="1" SliderMinimumValue ="10" SliderMaximumValue ="500" SliderHeight="200" SliderMaxHeight="600" SliderMinHeight="150" TextValue="10"/>
+
+                <Button x:Name="refreshPreviewBut" Click="ActionRefreshView" ToolTip="a basic preview of what your shape will look like" Content="show preview" Margin="10" />
+            </StackPanel>
+        </GroupBox>
+
+
+    </DockPanel>
+</UserControl>

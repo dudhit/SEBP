@@ -99,8 +99,7 @@
     <ManifestKeyFile>CircleBluePrint_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>SEBP.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -109,21 +108,30 @@
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>antiTamperKey.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility" />
+    <Reference Include="ColourConverters">
+      <HintPath>..\..\..\UtilityLibraries\ColourConverters\bin\Release\ColourConverters.dll</HintPath>
+    </Reference>
+    <Reference Include="FolderHandling">
+      <HintPath>..\..\..\UtilityLibraries\FolderHandling\bin\Release\FolderHandling.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="ReachFramework" />
+    <Reference Include="ShapingPoints">
+      <HintPath>..\..\..\UtilityLibraries\ShapingPoints\bin\Release\ShapingPoints.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Printing" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -138,25 +146,35 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CircleEvaluationCalculations.cs" />
-    <Compile Include="Data\PropertyHandlersInstanceVariables.cs" />
-    <Compile Include="Data\PointContainer.cs" />
-    <Compile Include="Data\UserSettings.cs" />
+    <Compile Include="CommandLineHandler.cs" />
+    <Compile Include="Controller\ConsoleViewModel.cs" />
+    <Compile Include="DataValidator.cs" />
     <Compile Include="FileTab.cs" />
-    <Compile Include="View\FindSteamID.cs" />
-    <Compile Include="View\ModelViewer.xaml.cs">
-      <DependentUpon>ModelViewer.xaml</DependentUpon>
+    <Compile Include="model\CheckStartArguments.cs" />
+    <Compile Include="Controller\SEBluePrintController.cs" />
+    <Compile Include="model\PathValidator.cs" />
+    <Compile Include="model\MyTaskProgressReporter.cs" />
+    <Compile Include="View\BlockTabView.xaml.cs">
+      <DependentUpon>BlockTabView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ProgressStatus.xaml.cs">
-      <DependentUpon>ProgressStatus.xaml</DependentUpon>
+    <Compile Include="View\ConsoleOutputs.xaml.cs">
+      <DependentUpon>ConsoleOutputs.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TabThree.cs" />
-    <Compile Include="TabTwo.cs" />
-    <Page Include="View\ModelViewer.xaml">
+    <Compile Include="View\FileTabView.xaml.cs">
+      <DependentUpon>FileTabView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ShapeTabView.xaml.cs">
+      <DependentUpon>ShapeTabView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="View\BlockTabView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ProgressStatus.xaml">
+    <Page Include="View\ConsoleOutputs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FileTabView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -176,10 +194,12 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\ShapeTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MyFileHandler.cs" />
-    <Compile Include="View\PreviewThreeD.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -193,12 +213,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="App_BeginSEPB.sequencediagram.layout">
+      <DependentUpon>App_BeginSEPB.sequencediagram</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="antiTamperKey.pfx" />
     <None Include="app.manifest" />
+    <None Include="App_BeginSEPB.sequencediagram" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -212,7 +236,7 @@
     <None Include="WorkingNotes.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="model\" />
+    <Folder Include="EventHandlers\" />
     <Folder Include="Templates\" />
   </ItemGroup>
   <ItemGroup>
@@ -253,6 +277,33 @@
       <Project>{daee5610-a37f-46e4-8716-d639f7898e3b}</Project>
       <Name>TextSliderCombo</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BlueprintModelLib\BlueprintModelLib.csproj">
+      <Project>{a7b07c89-1c11-4779-9788-48961b47a1eb}</Project>
+      <Name>BlueprintModelLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueprintWriterLib\BlueprintWriterLib.csproj">
+      <Project>{34f0e33d-a23f-477f-a6c9-2d755ac6de13}</Project>
+      <Name>BlueprintWriterLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FileAccessor\FileAccessor.csproj">
+      <Project>{ec02280a-37db-483f-bf71-30f5be393d59}</Project>
+      <Name>FileAccessor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SteamConfigReader\SteamConfigReader.csproj">
+      <Project>{70b7a935-7d71-48b3-8970-767f1a9558cc}</Project>
+      <Name>SteamConfigReader</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="sebp_arg_help.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="images\thumb.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="SEBP.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

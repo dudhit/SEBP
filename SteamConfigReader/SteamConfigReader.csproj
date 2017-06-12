@@ -67,24 +67,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="antiTamperKey.pfx" />
-    <None Include="FindSteamID_FindSteamID.sequencediagram" />
-    <None Include="FindSteamID_GetSteamIDLinkedToUserName.sequencediagram" />
-    <None Include="FindSteamID_ManualSelection.sequencediagram" />
-    <None Include="FindSteamID_ReadSteamLoginFile.sequencediagram" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="FindSteamID_FindSteamID.sequencediagram.layout">
-      <DependentUpon>FindSteamID_FindSteamID.sequencediagram</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FindSteamID_GetSteamIDLinkedToUserName.sequencediagram.layout">
-      <DependentUpon>FindSteamID_GetSteamIDLinkedToUserName.sequencediagram</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FindSteamID_ManualSelection.sequencediagram.layout">
-      <DependentUpon>FindSteamID_ManualSelection.sequencediagram</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FindSteamID_ReadSteamLoginFile.sequencediagram.layout">
-      <DependentUpon>FindSteamID_ReadSteamLoginFile.sequencediagram</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

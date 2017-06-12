@@ -24,6 +24,7 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="debugInstall.wxi" />
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
@@ -52,6 +53,7 @@
     <Content Include="ControlPanel.wxi" />
     <Content Include="FolderStructure.wxi" />
     <Content Include="Icons.wxi" />
+    <Content Include="releaseInstall.wxi" />
     <None Include="refLinks.txt" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />

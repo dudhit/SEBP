@@ -281,7 +281,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\SEBP.ico" />
+    <EmbeddedResource Include="images\SEBP.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\UserControls\ColourSampleSelection\ColourSampleSelection.csproj">
@@ -319,9 +319,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="images\thumb.png">
+    <EmbeddedResource Include="images\thumb.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="SEBP.ico" />

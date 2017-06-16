@@ -31,74 +31,79 @@
       <![CDATA[Installed OR NETFRAMEWORK45]]>
     </Condition>
 
-    <?include ControlPanel.wxi ?>
-    <Media Id="1" Cabinet="$(var.SkuName).cab" EmbedCab="yes"/>
-    <?include FolderStructure.wxi ?>
+    <!--<?include ControlPanel.wxi ?>-->
+    <Property Id="ARPCOMMENTS" Value="Dudhit Solo" />
+    <Property Id="ARPCONTACT" Value="Dudhit" />
+    <Property Id="ARPPRODUCTICON" Value="MainIcon.ico" />
+    <Property Id="ARPHELPLINK" Value="https://github.com/dudhit/SEBP/wiki" />
+    <Property Id="ARPREADME" Value="https://github.com/dudhit/SEBP" />
+    <Property Id="ARPURLINFOABOUT" Value="null" />
+    <Property Id="ARPURLUPDATEINFO" Value="https://github.com/dudhit/SEBP/archive/Binaries.zip" />
+    <Property Id="ARPAUTHORIZEDCDFPREFIX" Value="URL of the update channel for the application" />
+    <Property Id="ARPSIZE" Value="430" />
 
-    <!--<?include debugInstall.wxi ?>-->
+
+    <!--<Property Id='ARPNOMODIFY" Value="0″ />"
+  <Property Id="ARPNOREPAIR" Value="0″ />"
+  <Property Id="ARPNOREMOVE" Value="0″ />"
+  <Property Id="ARPSYSTEMCOMPONENT" Value="0" />-->
+
+
+
+    <!--Set up ARPINSTALLLOCATION property-->
+    <CustomAction Id="SetARPINSTALLLOCATION" Property="ARPINSTALLLOCATION" Value="[INSTALLDIR]" />
+
+    <!--Sequences-->
+    <InstallExecuteSequence>
+      <Custom Action="SetARPINSTALLLOCATION" After="InstallValidate"></Custom>
+    </InstallExecuteSequence>
+    <Media Id="1" Cabinet="$(var.SkuName).cab" EmbedCab="yes"/>
+    <!--<?include FolderStructure.wxi ?>-->
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="DudProjects" Name="DudProjects">
+        <Directory Id="INSTALLDIR" Name="SE_Blueprinter">
+          <Directory Id="Images" Name="Images"></Directory>
+        </Directory>
+      </Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="SEBPShort" Name="Space Engineers Blueprinter"></Directory>
+      </Directory>
+    </Directory>
+
     <DirectoryRef Id="INSTALLDIR">
       <Component Id="BlueprintModelLibdll" Guid="{D7FE880A-602B-464F-B61F-5D3F5D87FDAA}">
-        <File Id="BlueprintModelLibdll" Name="BlueprintModelLib" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\BlueprintModelLib.dll" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
+        <File Id="BlueprintModelLibdll" Name="BlueprintModelLib" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\BlueprintModelLib.dll" Checksum="yes" DiskId="1" KeyPath="yes"  Vital="yes" AssemblyApplication="BlueprintModelLib.dll" AssemblyManifest="BlueprintModelLib.dll" Assembly=".net"/>
       </Component>
-      <Component Id="BlueprintModelLibpdb" Guid="{6E538888-FBE6-4FF5-A9FB-266E4EB75F2E}">
-        <File Id="BlueprintModelLibpdb" Name="BlueprintModelLib" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\BlueprintModelLib.pdb" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
-      </Component>
+
       <Component Id="BlueprintWriterLibdll" Guid="{57FBDB94-4F1C-4055-B62E-66B9A07765A6}">
         <File Id="BlueprintWriterLibdll" Name="BlueprintWriterLib.dll" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\BlueprintWriterLib.dll" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
-      </Component>
-      <Component Id="BlueprintWriterLibpdb" Guid="{18437737-5E48-45DC-98CF-BAD8B25E44B6}">
-        <File Id="BlueprintWriterLibpdb" Name="BlueprintWriterLib.pdb" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\BlueprintWriterLib.pdb" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
       </Component>
       <Component Id="ColourConvertersdll" Guid="{B00F170E-E238-4801-A91D-337C7273BF0C}">
         <File Id="ColourConvertersdll" Name="ColourConverters.dll" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\ColourConverters.dll" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
       </Component>
-      <Component Id="ColourConverterspdb" Guid="{9E305372-F076-4365-8E94-E6A75C3C3934}">
-        <File Id="ColourConverterspdb" Name="ColourConverters.pdb" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\ColourConverters.pdb" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
-      </Component>
       <Component Id="ColourSampleSelectiondll" Guid="{CCB0B351-BE34-4DB8-8D0F-1888E2555018}">
         <File Id="ColourSampleSelectiondll" Name="ColourSampleSelection.dll" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\ColourSampleSelection.dll" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
-      </Component>
-      <Component Id="ColourSampleSelectionpdb" Guid="{FEE80B29-DE96-4593-A703-C5DE3755FB4C}">
-        <File Id="ColourSampleSelectionpdb" Name="ColourSampleSelection.pdb" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\ColourSampleSelection.pdb" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
       </Component>
       <Component Id="CrudeColorPickerexe" Guid="{65A2ECA4-2311-4FE1-B429-4C5F7A612E7D}">
         <File Id="CrudeColorPickerexe" Name="CrudeColorPicker.exe" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\CrudeColorPicker.exe" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
       </Component>
-      <Component Id="CrudeColorPickerpdb" Guid="{087B179A-8647-44C7-9E45-73ACD6F87A57}">
-        <File Id="CrudeColorPickerpdb" Name="CrudeColorPicker.pdb" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\CrudeColorPicker.pdb" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
-      </Component>
       <Component Id="FileAccessordll" Guid="{5D7AB2B1-F244-4F50-BA23-238A9681C179}">
         <File Id="FileAccessordll" Name="FileAccessor.dll" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\FileAccessor.dll" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
-      </Component>
-      <Component Id="FileAccessorpdb" Guid="{BF30FE57-C648-47C4-9AB2-CBC27A9133DD}">
-        <File Id="FileAccessorpdb" Name="FileAccessor.pdb" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\FileAccessor.pdb" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
       </Component>
       <Component Id="FolderHandlingdll" Guid="{CB394829-6AFB-4D33-895E-AD397A6C3D34}">
         <File Id="FolderHandlingdll" Name="FolderHandling.dll" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\FolderHandling.dll" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
       </Component>
-      <Component Id="FolderHandlingpdb" Guid="{767AC286-78B8-464F-8CC6-5F71A67FB5FB}">
-        <File Id="FolderHandlingpdb" Name="FolderHandling.pdb" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\FolderHandling.pdb" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
-      </Component>
       <Component Id="GeometryCalculatorsdll" Guid="{AAC56645-7150-4B7F-A96A-8F543880D92E}">
         <File Id="GeometryCalculatorsdll" Name="GeometryCalculators.dll" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\GeometryCalculators.dll" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
       </Component>
-      <Component Id="GeometryCalculatorspdb" Guid="{363F6354-2A13-4B21-852E-E91BA5BD5F37}">
-        <File Id="GeometryCalculatorspdb" Name="GeometryCalculators.pdb" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\GeometryCalculators.pdb" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
-      </Component>
       <Component Id="MyTaskProgressRepoterdll" Guid="{8EE8290A-299D-4A3A-89D2-6B5D39969851}">
         <File Id="MyTaskProgressRepoterdll" Name="MyTaskProgressRepoter.dll" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\MyTaskProgressRepoter.dll" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
-      </Component>
-      <Component Id="MyTaskProgressRepoterpdb" Guid="{CC8110A2-BBB4-4935-83E3-DD91EA8EEC70}">
-        <File Id="MyTaskProgressRepoterpdb" Name="MyTaskProgressRepoter.pdb" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\MyTaskProgressRepoter.pdb" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
       </Component>
       <Component Id="SEBPexe" Guid="{F829DA9C-4B09-45E4-AD5E-0EA4EDA0F3E5}">
         <File Id="SEBPexe" Name="SEBP.exe" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\SEBP.exe" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
       </Component>
       <Component Id="SEBPexeconfig" Guid="{8339356E-4A6B-4007-A9DF-A762BFF8C8D8}">
         <File Id="SEBPexeconfig" Name="SEBP.exe.config" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\SEBP.exe.config" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
-      </Component>
-      <Component Id="SEBPpdb" Guid="{F8A412CE-569C-4571-8374-D07E3F34FC92}">
-        <File Id="SEBPpdb" Name="SEBP.pdb" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\SEBP.pdb" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
       </Component>
       <Component Id="SEBPvshostexe" Guid="{E8633081-B4BC-423D-A4F8-E93C8812FC3C}">
         <File Id="SEBPvshostexe" Name="SEBP.vshost.exe" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\SEBP.vshost.exe" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
@@ -115,27 +120,18 @@
       <Component Id="ShapingPointsdll" Guid="{63010C0B-8B5E-499D-8411-B251402A407F}">
         <File Id="ShapingPointsdll" Name="ShapingPoints.dll" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\ShapingPoints.dll" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
       </Component>
-      <Component Id="ShapingPointspdb" Guid="{24DB9FE2-E791-4943-99B9-6250C096569A}">
-        <File Id="ShapingPointspdb" Name="ShapingPoints.pdb" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\ShapingPoints.pdb" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
-      </Component>
       <Component Id="SteamConfigReaderdll" Guid="{39B93192-EB8E-4809-AC0E-C66ADF8B2450}">
         <File Id="SteamConfigReaderdll" Name="SteamConfigReader.dll" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\SteamConfigReader.dll" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
       </Component>
-      <Component Id="SteamConfigReaderpdb" Guid="{3AAA86DC-F720-485D-A7B1-762EC2761C66}">
-        <File Id="SteamConfigReaderpdb" Name="SteamConfigReader.pdb" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\SteamConfigReader.pdb" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
-      </Component>
+
       <Component Id="TextSliderCombodll" Guid="{B980DF98-A8B3-427D-8748-5683ADF7C2A9}">
         <File Id="TextSliderCombodll" Name="TextSliderCombo.dll" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\TextSliderCombo.dll" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
       </Component>
-      <Component Id="TextSliderCombopdb" Guid="{5F89C2EF-A764-49DC-8332-4A78B84D15F9}">
-        <File Id="TextSliderCombopdb" Name="TextSliderCombo.pdb" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\TextSliderCombo.pdb" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
-      </Component>
+
       <Component Id="WindowsRegistryUtilitiesdll" Guid="{C9C626C7-CFF1-455A-AA0B-4E20AFA31A01}">
         <File Id="WindowsRegistryUtilitiesdll" Name="WindowsRegistryUtilities.dll" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\WindowsRegistryUtilities.dll" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
       </Component>
-      <Component Id="WindowsRegistryUtilitiespdb" Guid="{1912469A-2B99-4718-8007-ADD8E3CC0A80}">
-        <File Id="WindowsRegistryUtilitiespdb" Name="WindowsRegistryUtilities.pdb" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\WindowsRegistryUtilities.pdb" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
-      </Component>
+
     </DirectoryRef>
     <DirectoryRef Id="Images">
       <Component Id="thumbpng" Guid="{568F5779-0418-445D-A98F-A3BA2B6B3D85}">
@@ -149,7 +145,7 @@
         <Shortcut Id="ApplicationStartMenuShortcut"
                   Name="SE Blueprinter"
                   Description="Make a blueprint of a curved shape"
-                  Target="[INSTALLDIR]/CircleBluePrintExe"
+                  Target="[INSTALLDIR]/SEBPexe"
                   WorkingDirectory="INSTALLDIR"
                   Icon="MainIcon.ico"
                   />
@@ -169,14 +165,32 @@
       </Component>
     </DirectoryRef>
 
-    <Feature Id="MainTree" Title="Space Engineers Blueprinter" Description="Full Package"
-
-         ConfigurableDirectory="INSTALLDIR">
+    <Feature Id="MainTree" Title="Space Engineers Blueprinter" Description="Full Package" ConfigurableDirectory="INSTALLDIR">
       <Feature Id="Files" Title="Space Engineers Blueprinter" Description="Full Package"  Level="1">
-        <ComponentRef Id="CircleBluePrintExe"/>
-
+        <ComponentRef Id="SEBPexe"/>
+        <ComponentRef Id="BlueprintModelLibdll"/>
+        <ComponentRef Id="BlueprintWriterLibdll"/>
+        <ComponentRef Id="ColourConvertersdll"/>
+        <ComponentRef Id="ColourSampleSelectiondll"/>
+        <ComponentRef Id="CrudeColorPickerexe"/>
+        <ComponentRef Id="FileAccessordll"/>
+        <ComponentRef Id="FolderHandlingdll"/>
+        <ComponentRef Id="GeometryCalculatorsdll"/>
+        <ComponentRef Id="MyTaskProgressRepoterdll"/>
+        <ComponentRef Id="SEBPexeconfig"/>
+        <ComponentRef Id="SEBPvshostexe"/>
+        <ComponentRef Id="SEBPvshostexeconfig"/>
+        <ComponentRef Id="SEBPvshostexemanifest"/>
+        <ComponentRef Id="sebp_arg_helptxt"/>
+        <ComponentRef Id="ShapingPointsdll"/>
+        <ComponentRef Id="SteamConfigReaderdll"/>
+        <ComponentRef Id="TextSliderCombodll"/>
+        <ComponentRef Id="WindowsRegistryUtilitiesdll"/>
         <ComponentRef Id="ApplicationShortcut"/>
         <ComponentRef Id="RemoveAppShortcut"/>
+      </Feature>
+      <Feature Id="FilesAdditional" Title="Resources" Description="Full Package"  Level="1">
+        <ComponentRef Id="thumbpng"/>
       </Feature>
     </Feature>
 

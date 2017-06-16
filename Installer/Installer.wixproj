@@ -6,8 +6,8 @@
     <ProductVersion>3.10</ProductVersion>
     <ProjectGuid>dfb9533b-79e8-42e6-99db-2dfc582cc31a</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>Installer</OutputName>
-    <OutputType>Package</OutputType>
+    <OutputName>SEBPInstaller</OutputName>
+    <OutputType>Bundle</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
   </PropertyGroup>
@@ -24,7 +24,6 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="debugInstall.wxi" />
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
@@ -50,10 +49,9 @@
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ControlPanel.wxi" />
-    <Content Include="FolderStructure.wxi" />
+    <Content Include="ControlPanelwxi.txt" />
+    <Content Include="FolderStructurewxi.txt" />
     <Content Include="Icons.wxi" />
-    <Content Include="releaseInstall.wxi" />
     <None Include="refLinks.txt" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />

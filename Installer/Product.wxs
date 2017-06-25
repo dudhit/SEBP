@@ -71,9 +71,9 @@
     </Directory>
 
     <DirectoryRef Id="INSTALLDIR">
-      <Component Id="BlueprintModelLibdll" Guid="{D7FE880A-602B-464F-B61F-5D3F5D87FDAA}">
+      <!--<Component Id="BlueprintModelLibdll" Guid="{D7FE880A-602B-464F-B61F-5D3F5D87FDAA}">
         <File Id="BlueprintModelLibdll" Name="BlueprintModelLib" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\BlueprintModelLib.dll" Checksum="yes" DiskId="1" KeyPath="yes"  Vital="yes" AssemblyApplication="BlueprintModelLib.dll" AssemblyManifest="BlueprintModelLib.dll" Assembly=".net"/>
-      </Component>
+      </Component>-->
 
       <Component Id="BlueprintWriterLibdll" Guid="{57FBDB94-4F1C-4055-B62E-66B9A07765A6}">
         <File Id="BlueprintWriterLibdll" Name="BlueprintWriterLib.dll" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\BlueprintWriterLib.dll" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
@@ -102,21 +102,21 @@
       <Component Id="SEBPexe" Guid="{F829DA9C-4B09-45E4-AD5E-0EA4EDA0F3E5}">
         <File Id="SEBPexe" Name="SEBP.exe" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\SEBP.exe" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
       </Component>
-      <Component Id="SEBPexeconfig" Guid="{8339356E-4A6B-4007-A9DF-A762BFF8C8D8}">
+      <!--<Component Id="SEBPexeconfig" Guid="{8339356E-4A6B-4007-A9DF-A762BFF8C8D8}">
         <File Id="SEBPexeconfig" Name="SEBP.exe.config" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\SEBP.exe.config" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
-      </Component>
-      <Component Id="SEBPvshostexe" Guid="{E8633081-B4BC-423D-A4F8-E93C8812FC3C}">
+      </Component>-->
+      <!--<Component Id="SEBPvshostexe" Guid="{E8633081-B4BC-423D-A4F8-E93C8812FC3C}">
         <File Id="SEBPvshostexe" Name="SEBP.vshost.exe" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\SEBP.vshost.exe" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
-      </Component>
-      <Component Id="SEBPvshostexeconfig" Guid="{D3707CA8-6838-45CA-A0D3-F2FCAF2BAEA7}">
+      </Component>-->
+      <!--<Component Id="SEBPvshostexeconfig" Guid="{D3707CA8-6838-45CA-A0D3-F2FCAF2BAEA7}">
         <File Id="SEBPvshostexeconfig" Name="SEBP.vshostexe.config" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\SEBP.vshost.exe.config" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
-      </Component>
-      <Component Id="SEBPvshostexemanifest" Guid="{FB2568C6-6159-43E3-8571-7687FEEAD739}">
+      </Component>-->
+      <!--<Component Id="SEBPvshostexemanifest" Guid="{FB2568C6-6159-43E3-8571-7687FEEAD739}">
         <File Id="SEBPvshostexemanifest" Name="SEBP.vshost.exe.manifest" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\SEBP.vshost.exe.manifest" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
-      </Component>
-      <Component Id="sebp_arg_helptxt" Guid="{FD172DB4-36DE-4DD6-AC20-C20C37EC4131}">
+      </Component>-->
+      <!--<Component Id="sebp_arg_helptxt" Guid="{FD172DB4-36DE-4DD6-AC20-C20C37EC4131}">
         <File Id="sebp_arg_helptxt" Name="sebp_arg_help.txt" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\sebp_arg_help.txt" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
-      </Component>
+      </Component>-->
       <Component Id="ShapingPointsdll" Guid="{63010C0B-8B5E-499D-8411-B251402A407F}">
         <File Id="ShapingPointsdll" Name="ShapingPoints.dll" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\ShapingPoints.dll" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
       </Component>
@@ -133,11 +133,11 @@
       </Component>
 
     </DirectoryRef>
-    <DirectoryRef Id="Images">
+    <!--<DirectoryRef Id="Images">
       <Component Id="thumbpng" Guid="{568F5779-0418-445D-A98F-A3BA2B6B3D85}">
         <File Id="thumbpng" Name="thumb.png" Source="E:\lifeDocs\computing\cSharp\SE\CircleBluePrint\CircleBluePrint\bin\Debug\images\thumb.png" Checksum="yes" DiskId="1" KeyPath="yes" Assembly=".net" Vital="yes"/>
       </Component>
-    </DirectoryRef>
+    </DirectoryRef>-->
 
 
     <DirectoryRef Id="SEBPShort">
@@ -168,7 +168,7 @@
     <Feature Id="MainTree" Title="Space Engineers Blueprinter" Description="Full Package" ConfigurableDirectory="INSTALLDIR">
       <Feature Id="Files" Title="Space Engineers Blueprinter" Description="Full Package"  Level="1">
         <ComponentRef Id="SEBPexe"/>
-        <ComponentRef Id="BlueprintModelLibdll"/>
+        <!--<ComponentRef Id="BlueprintModelLibdll"/>-->
         <ComponentRef Id="BlueprintWriterLibdll"/>
         <ComponentRef Id="ColourConvertersdll"/>
         <ComponentRef Id="ColourSampleSelectiondll"/>
@@ -177,11 +177,11 @@
         <ComponentRef Id="FolderHandlingdll"/>
         <ComponentRef Id="GeometryCalculatorsdll"/>
         <ComponentRef Id="MyTaskProgressRepoterdll"/>
-        <ComponentRef Id="SEBPexeconfig"/>
-        <ComponentRef Id="SEBPvshostexe"/>
-        <ComponentRef Id="SEBPvshostexeconfig"/>
-        <ComponentRef Id="SEBPvshostexemanifest"/>
-        <ComponentRef Id="sebp_arg_helptxt"/>
+        <!--<ComponentRef Id="SEBPexeconfig"/>-->
+        <!--<ComponentRef Id="SEBPvshostexe"/>-->
+        <!--<ComponentRef Id="SEBPvshostexeconfig"/>-->
+        <!--<ComponentRef Id="SEBPvshostexemanifest"/>-->
+        <!--<ComponentRef Id="sebp_arg_helptxt"/>-->
         <ComponentRef Id="ShapingPointsdll"/>
         <ComponentRef Id="SteamConfigReaderdll"/>
         <ComponentRef Id="TextSliderCombodll"/>
@@ -189,9 +189,9 @@
         <ComponentRef Id="ApplicationShortcut"/>
         <ComponentRef Id="RemoveAppShortcut"/>
       </Feature>
-      <Feature Id="FilesAdditional" Title="Resources" Description="Full Package"  Level="1">
+      <!--<Feature Id="FilesAdditional" Title="Resources" Description="Full Package"  Level="1">
         <ComponentRef Id="thumbpng"/>
-      </Feature>
+      </Feature>-->
     </Feature>
 
     <UIRef Id="WixUI_InstallDir" />

@@ -23,9 +23,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestCircleBlueprint", "
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SeqDiagrams", "SeqDiagrams", "{BBB1FD0C-5EFE-4297-906C-7BFA58BA4C3D}"
-	ProjectSection(SolutionItems) = preProject
-		MasterDendancies.dgml = MasterDendancies.dgml
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CircleBlueprint", "CircleBlueprint", "{80C3869C-1816-4562-971F-87E4473C89B8}"
 EndProject

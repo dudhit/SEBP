@@ -150,9 +150,10 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       if(masterBlueprint!=null&&masterBlueprint.HasUsableData)
       {
         //    call class to handle point and blueprint output
-        using(PointsToShape pointsToShape = new PointsToShape(masterBlueprint.XAxis, masterBlueprint.YAxis, masterBlueprint.ZAxis, masterBlueprint.FinalShape, masterBlueprint.Solid, myFeedback))
+        using(PointsTakeShape pointsToShape = new PointsTakeShape(masterBlueprint.XAxis, masterBlueprint.YAxis, masterBlueprint.ZAxis, masterBlueprint.FinalShape, masterBlueprint.Thick))//, myFeedback))
         {
-          await Task.Run(() => { pointsToShape.ProcessingShapeAsync(); });
+        //  await Task.Run(() => { pointsToShape.ProcessingShapeAsync(); });
+          await Task.Run(() => { pointsToShape.ProcessingShape(); });
           return pointsToShape.GlobalCurveSet;
        //   blueprintData= pointsToShape.GlobalCurveSet;
         }

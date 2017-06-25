@@ -57,9 +57,10 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       //specify colour model
       this.Add("colour", "");
       //specify Solid or hollow
-      this.Add("solid", "");
+      this.Add("thick", "");
     }
-    
+ 
+    #region dictionaryChecks
     private bool IsNeedingDefault(string key)
     {
       return string.IsNullOrEmpty(GetDictionaryValue(key));//&&KeyExists(key);
@@ -74,7 +75,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
         return this[key].ToString();
       return null;
     }
-   
+    #endregion
+  
     public void SetEmptyWithDefaultValues()
     {
       try
@@ -93,7 +95,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
         if(IsNeedingDefault("fraction")) { this["fraction"]= "quarter"; }
         if(IsNeedingDefault("armour")) { this["armour"]= "Normal"; }
         if(IsNeedingDefault("size")) { this["size"]= "Large"; }
-        if(IsNeedingDefault("solid")) { this["solid"]= "false"; }
+        if(IsNeedingDefault("thick")) { this["thick"]= "0"; }
         if(IsNeedingDefault("colour"))
         {
           this["colour"]= "hsv";
@@ -149,7 +151,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
         MyBlueprintModel.BlockSize= CapitaliseFirstLetter(this["size"]);
         #endregion
         #region HollowObject
-        MyBlueprintModel.Solid= bool.Parse(this["solid"]);
+        MyBlueprintModel.Thick= int.Parse(this["thick"]);
         #endregion
         #region BlueprintName
         MyBlueprintModel.BlueprintName=this["bpname"];

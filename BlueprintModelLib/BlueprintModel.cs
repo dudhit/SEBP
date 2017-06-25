@@ -3,7 +3,7 @@ using System;
 using System.ComponentModel;
 namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.Model
 {
-  public class BlueprintModel : INotifyPropertyChanged,IDisposable//, IDataErrorInfo
+  public class BlueprintModel : INotifyPropertyChanged, IDisposable//, IDataErrorInfo
   {
     [Flags]
     private enum Shapes { not_defined=0, circle=1<<0, ellipse=1<<1, sphere=1<<2, ellipsoid=1<<3 }
@@ -26,7 +26,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.Model
     private string blockSize;
     private SeHSV blockColour;
     private int modelState;
-    private bool solid;
+    private int thick;
     public BlueprintModel()
     {
       Initialize();
@@ -48,7 +48,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.Model
       blockArmour=string.Empty;
       blockSize=string.Empty;
       blockColour =new SeHSV();
-      solid=false;
+      thick=0;
     }
     #region properties
 
@@ -218,7 +218,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.Model
           {
             this.blockArmour = value;
             this.modelState+=(int)ModelState.hasBlockArmour;
-         
+
           }
         }
       }
@@ -240,18 +240,16 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.Model
         }
       }
     }
-    public bool Solid
+    public int Thick
     {
-      get { return this.solid; }
+      get { return this.thick; }
       set
       {
-     //   ResetSetFlag((int)ModelState.hasBlockSize);
-        if(ValidBool(value))
+        if(ValidInt(value))
         {
-                     this.solid = value;
-     //       this.modelState+=(int)ModelState.hasBlockSize;
-            RaisePropertyChanged("Solid");
-                 }
+          this.thick = value;
+          RaisePropertyChanged("Thick");
+        }
       }
     }
     public SeHSV BlockColour
@@ -278,7 +276,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.Model
         RaisePropertyChanged("FinalShape");
       }
     }
-    
+
 
     private int JoinShapeCombinationsEnumStings(string value1, string value2)
     {
@@ -297,17 +295,17 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.Model
 
     public string ModelStateError()
     {
-        string error=string.Empty;
-            foreach(string name in Enum.GetNames(typeof(ModelState)))
+      string error=string.Empty;
+      foreach(string name in Enum.GetNames(typeof(ModelState)))
       {
-      //  System.Diagnostics.Trace.WriteLine( name);
+        //  System.Diagnostics.Trace.WriteLine( name);
         // System.Diagnostics.Trace.WriteLine(IsFlagSet(modelState, (int)Enum.Parse(typeof(ModelState), name)));
         if(IsFlagSet(this.modelState, (int)Enum.Parse(typeof(ModelState), name))==0)
         {
           error+=name.Substring(3)+" ";
-       //   System.Diagnostics.Trace.WriteLine(error);
+          //   System.Diagnostics.Trace.WriteLine(error);
         }
-     }
+      }
       return error.TrimEnd();
     }
     #endregion
@@ -341,6 +339,10 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.Model
     {
       return (value==true||value==false);
     }
+    private static bool ValidInt(int value)
+    {
+      return value>=0;
+    }
     #endregion
 
     //#region IDataErrorInfo Members
@@ -357,29 +359,29 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP.Model
 
     //#endregion
 
-                #region disposal
+    #region disposal
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+    public void Dispose()
+    {
+      Dispose(true);
+      GC.SuppressFinalize(this);
+    }
 
-        ~BlueprintModel()
-        {
-            Dispose(false);
-        }
+    ~BlueprintModel()
+    {
+      Dispose(false);
+    }
 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                // free managed resources  
-       
-            }
+    protected virtual void Dispose(bool disposing)
+    {
+      if(disposing)
+      {
+        // free managed resources  
 
-        }
-        #endregion
+      }
+
+    }
+    #endregion
 
   }
 

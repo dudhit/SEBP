@@ -3,7 +3,7 @@
 ║                                                                             ║
 ║ Availale parameters                                                         ║
 ║  [path] [id] [owner] [bpname] [x] [y]=20 [z] [shape] [fraction]             ║
-║   [armour] [size] [colour] [[h] [s] [v][ [[r] [g] [b]] [solid]              ║
+║   [armour] [size] [colour] [[h] [s] [v][ [[r] [g] [b]] [thick]              ║
 ║                                                                             ║
 ╚═════════════════════════════════════════════════════════════════════════════╝
 ╔═════════════════════════════════════════════════════════════════════════════╗
@@ -74,7 +74,8 @@
 ╠════════════════════════╦════════════════════════════════════════════════════╣
 ║                        ║                                                    ║
 ║     shape=<string>     ║                 shape to generate                  ║
-║                        ║           circle|ellipse|sphere|ellipsoid          ║
+║                        ║                 2D  circle|ellipse                 ║
+║                        ║                3D  sphere|ellipsoid                ║
 ║                        ║                                                    ║
 ╠════════════════════════╩════════════════════════════════════════════════════╣
 ║ example usage                                                               ║
@@ -83,7 +84,16 @@
 ╠════════════════════════╦════════════════════════════════════════════════════╣
 ║                        ║                                                    ║
 ║   fraction=<string>    ║                portion of the shape                ║
-║                        ║                 quarter|semi|full                  ║
+║                        ║              quarter/eighth|semi|full              ║
+║                        ║                                                    ║
+║                        ║    2D shapes start as quarter of the whole and     ║
+║                        ║  mirrored around each axis to give semi and full   ║
+║                        ║     3D shapes start as an eighth of the whole      ║
+║                        ║       with mirroring providing semi and full       ║
+║                        ║                                                    ║
+║                        ║ It is highly reccomended to generate the smallest  ║
+║                        ║ fraction of a 3D shape and use Space Engineers     ║
+║                        ║ to build it into the desired full size             ║
 ║                        ║                                                    ║
 ╠════════════════════════╩════════════════════════════════════════════════════╣
 ║ example usage                                                               ║
@@ -107,12 +117,13 @@
 ║ <Default> large                                                             ║
 ╠════════════════════════╦════════════════════════════════════════════════════╣
 ║                        ║                                                    ║
-║ solid=<bool>           ║   Is shape a hollow frame or filled true|false     ║
+║ thick=<int>            ║     the wall thickness from the outer shell to     ║
+║                        ║                     the center                     ║
 ║                        ║                                                    ║
 ╠════════════════════════╩════════════════════════════════════════════════════╣
 ║ example usage                                                               ║
-║ solid="false"                                                               ║
-║ <Default> false                                                             ║
+║ thick="4"                                                                   ║
+║ <Default> 0                                                                 ║
 ╠════════════════════════╦════════════════════════════════════════════════════╣
 ║                        ║                                                    ║
 ║                        ║ colour model to use to provide colour details      ║

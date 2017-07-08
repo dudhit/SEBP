@@ -17,7 +17,7 @@ using System.Windows.Media.Media3D;
 
 namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
 {
-  public class ConsoleViewModel :BindingBase 
+  public class ConsoleViewModel : BindingBase
   {
     private HashSet<Point3D> blueprintData;
     private string[] startingArguments;
@@ -32,7 +32,8 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     public ObservableCollection<Control> ControlCollection { get; set; }
     private BlueprintModel masterBlueprint;
     private int argumentsSuccessfullyProcessed;
-       public ConsoleViewModel(ConsoleOutputs view, string[] arguments):base()
+    public ConsoleViewModel(ConsoleOutputs view, string[] arguments)
+      : base()
     {
       view.DataContext=this;
       lookLikeConsoleText = Application.Current.FindResource("ConsoleTextBox") as Style;
@@ -86,7 +87,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       Progress<MyTaskProgressReporter> myFeedback = new Progress<MyTaskProgressReporter>(ShowFeedback);
       RefreshUI();
 
-      Task<int> argumentHandlingTask =   SetupUsableData(myFeedback);
+      Task<int> argumentHandlingTask =   SetupUsableData();
       AddTextToCollection("Checking supplied data..");
       argumentsSuccessfullyProcessed  =await argumentHandlingTask;
       switch(argumentsSuccessfullyProcessed)
@@ -104,28 +105,34 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
         case 1:
           {
             AddTextToCollection("Beginning shape calculations...");
-        blueprintData =await GetPointData(myFeedback); // Task<bool> shapeCraftTask = GetPointDataAsync();
-         //    blueprintData=await myData;  // shapesSuccessfullyCalculated = await shapeCraftTask;
-       
-            AddTextToCollection(string.Format("a whole {0} blocks have been generated",-1));// blueprintData.Count));
+          bool calcsPassed   =await GetPointData(myFeedback); // Task<bool> shapeCraftTask = GetPointDataAsync();
+            //    blueprintData=await myData;  // shapesSuccessfullyCalculated = await shapeCraftTask;
+
+            AddTextToCollection(string.Format("a whole {0} blocks have been generated", -1));// blueprintData.Count));
             break;
           }
       }
       if(blueprintData.Count>0) //  if(shapesSuccessfullyCalculated)
       {
-        ClearCollection();
-        AddTextToCollection(string.Format("Generating blueprint {0}", masterBlueprint.BlueprintName));
-        //access writer
-        using(BluePrintXml writeBlueprint =new BluePrintXml(masterBlueprint, blueprintData, myFeedback))
-        {
-          await Task.Run(() => { writeBlueprint.MakeBaseStructure(); });
-          AddTextToCollection("making your blueprint");
-          await Task.Run(() => { writeBlueprint.BluePrintFileHandling(); });
-        }
-        UpdateProgressBar(100);
+        await UseBlueprintClass();
       }
-  
-      AddTextToCollection(string.Format("*****************************\nThis window can now be closed\r*****************************")); 
+
+      AddTextToCollection(string.Format("*****************************\nThis window can now be closed\r*****************************"));
+    }
+
+    private async Task UseBlueprintClass()
+    {
+      Progress<MyTaskProgressReporter> myFeedback = new Progress<MyTaskProgressReporter>(ShowFeedback);
+      ClearCollection();
+      AddTextToCollection(string.Format("Generating blueprint {0}", masterBlueprint.BlueprintName));
+      //access writer
+      using(BluePrintXml writeBlueprint =new BluePrintXml(masterBlueprint, blueprintData, myFeedback))
+      {
+        await Task.Run(() => { writeBlueprint.MakeBaseStructure(); });
+        AddTextToCollection("making your blueprint");
+        await Task.Run(() => { writeBlueprint.BluePrintFileHandling(); });
+      }
+      UpdateProgressBar(100);
     }
 
     private void RefreshUI()
@@ -133,32 +140,67 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
       ClearCollection();
       AddTextToCollection("SEBP commandline interface.\n use \"--help\" or /? for usage instructions");
     }
-    private async Task<int> SetupUsableData(IProgress<MyTaskProgressReporter> progress)
+    private async Task<int> SetupUsableData()
     {
+      Progress<MyTaskProgressReporter> myFeedback = new Progress<MyTaskProgressReporter>(ShowFeedback);
+
       using(CommandLineHandler commandLineHandler = new CommandLineHandler(startingArguments))
       {
         commandLineHandler.MyBlueprint=masterBlueprint;
-        int cmdLineHandlerResult = await commandLineHandler.StartAsync(progress);
+        int cmdLineHandlerResult = await commandLineHandler.StartAsync(myFeedback);
         if(commandLineHandler.MyBlueprint.HasUsableData&&cmdLineHandlerResult==1)
           masterBlueprint=commandLineHandler.MyBlueprint;
         return cmdLineHandlerResult;
       }
     }
 
-    public async Task<HashSet<Point3D>> GetPointData(IProgress<MyTaskProgressReporter>  myFeedback)
+    public async Task<bool> GetPointData(IProgress<MyTaskProgressReporter> myFeedback)
     {
+
       if(masterBlueprint!=null&&masterBlueprint.HasUsableData)
       {
         //    call class to handle point and blueprint output
         using(PointsTakeShape pointsToShape = new PointsTakeShape(masterBlueprint.XAxis, masterBlueprint.YAxis, masterBlueprint.ZAxis, masterBlueprint.FinalShape, masterBlueprint.Thick))//, myFeedback))
         {
-        //  await Task.Run(() => { pointsToShape.ProcessingShapeAsync(); });
+          //  await Task.Run(() => { pointsToShape.ProcessingShapeAsync(); });
           await Task.Run(() => { pointsToShape.ProcessingShape(); });
-          return pointsToShape.GlobalCurveSet;
-       //   blueprintData= pointsToShape.GlobalCurveSet;
+          myFeedback.Report(new MyTaskProgressReporter() { ProgressCounter=100, ProgressMessage="Calculations complete. Preparing blueprint..." });
+          blueprintData= new HashSet<Point3D>();
+          ProcessWorkingFiles();
+        }
+        return true;
+      }
+      return false;
+    }
+
+    private void ProcessWorkingFiles()
+    {
+      List<string> OUTPUTNAMES =new List<string>() { "framePxPyPz.dat", "skinPxPyPz.dat", "frameNxPyPz.dat", "skinNxPyPz.dat", "framePNxNyPz.dat", "skinPNxNyPz.dat", "framePNxPNyNz.dat", "skinPNxPNyNz.dat" };
+      string mainPath=Path.Combine(FileSystemHelper.FetchCurrentUserFolder(), "SEPB_data");
+      foreach(string name in OUTPUTNAMES)
+      {
+        string file =Path.Combine(mainPath, name);
+        if(FileSystemHelper.FileExists(file))
+        {
+          using(StreamReader sr = new StreamReader(file))
+          {
+            ReconvertTextFilesBackIntoCollectionAndDeduplicate(sr);
+          }
         }
       }
-      return null;
+    }
+
+    private void ReconvertTextFilesBackIntoCollectionAndDeduplicate( StreamReader sr)
+    {
+      while(sr.Peek()!=-1)
+      {
+        string[] textInt=   sr.ReadLine().Split(',');
+        Point3D tempPoint = new Point3D(-1*int.Parse(textInt[0]), int.Parse(textInt[1]), int.Parse(textInt[2]));
+        if(!blueprintData.Contains(tempPoint))
+        {
+          blueprintData.Add(tempPoint);
+        }
+      }
     }
 
 

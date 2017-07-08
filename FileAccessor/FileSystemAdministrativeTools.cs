@@ -31,7 +31,7 @@ namespace SoloProjects.Dudhit.SpaceEngineers.SEBP
     public string GetGameDataSaveLocation()
     {
       string userApp = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-      string bpPath= userApp + SPACE_ENGINEERS_PATH;
+      string bpPath=Path.Combine( userApp , SPACE_ENGINEERS_PATH);
       return bpPath;
     }
 
